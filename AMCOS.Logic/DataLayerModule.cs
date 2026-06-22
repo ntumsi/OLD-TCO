@@ -1,6 +1,6 @@
-﻿using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace AMCOS.Logic
 {
@@ -11,11 +11,11 @@ namespace AMCOS.Logic
             DataSet userStats = new DataSet();
             string sqlStatement = "spGetUserStats";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     adapter.SelectCommand = command;

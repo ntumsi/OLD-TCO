@@ -1,12 +1,12 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.DataTransferObjects;
 using AMCOS.Data.Entities;
 using AMCOS.Data.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 
 namespace AMCOS.Logic
@@ -33,10 +33,10 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             using (var context = new ApplicationDbContext())
             {
-                rowsAffected = context.Database.ExecuteSqlCommand("EXEC web.PMCopyProject @ProjectId, @ProjectName, @Description",
-                    new SqlParameter("@ProjectId", projectId),
-                    new SqlParameter("@ProjectName", projectName),
-                    new SqlParameter("@Description", projectDescription));
+                rowsAffected = context.Database.ExecuteSqlRaw("CALL web.\"PMCopyProject\"(@ProjectId, @ProjectName, @Description)",
+                    new NpgsqlParameter("@ProjectId", projectId),
+                    new NpgsqlParameter("@ProjectName", projectName),
+                    new NpgsqlParameter("@Description", projectDescription));
             }
             return rowsAffected;
         }
@@ -487,19 +487,19 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             using (var context = new ApplicationDbContext())
             {
-                var sql = "EXEC web.ProjectAddUnit @CategoryId, @UIC, @NotSelectedPayPlans, @UnitLocation, @MtoeProjectInventoryYear, @MtoeSyncExtendedDurationFillValue, @UserOverheadPercent, @AmcosVersionId, @Debug";
-                context.Database.CommandTimeout = 120;
-                rowsAffected = context.Database.ExecuteSqlCommand(
+                var sql = "CALL web.\"ProjectAddUnit\"(@CategoryId, @UIC, @NotSelectedPayPlans, @UnitLocation, @MtoeProjectInventoryYear, @MtoeSyncExtendedDurationFillValue, @UserOverheadPercent, @AmcosVersionId, @Debug)";
+                context.Database.SetCommandTimeout(120);
+                rowsAffected = context.Database.ExecuteSqlRaw(
                     sql,
-                    new SqlParameter("@CategoryId", categoryId),
-                    new SqlParameter("@UIC", uic),
-                    new SqlParameter("@NotSelectedPayPlans", string.IsNullOrEmpty(notSelectedPayPlans) ? (object)DBNull.Value : (object)notSelectedPayPlans),
-                    new SqlParameter("@UnitLocation", unitLocation),
-                    new SqlParameter("@MtoeProjectInventoryYear", string.IsNullOrEmpty(mtoeProjectInventoryYear) ? (object)DBNull.Value : (object)mtoeProjectInventoryYear),
-                    new SqlParameter("@MtoeSyncExtendedDurationFillValue", mtoeSyncExtendedDuration),
-                    new SqlParameter("@UserOverheadPercent", userOverheadPercent),
-                    new SqlParameter("@AmcosVersionId", amcosVersionId),
-                    new SqlParameter("@Debug", (object)0));
+                    new NpgsqlParameter("@CategoryId", categoryId),
+                    new NpgsqlParameter("@UIC", uic),
+                    new NpgsqlParameter("@NotSelectedPayPlans", string.IsNullOrEmpty(notSelectedPayPlans) ? (object)DBNull.Value : (object)notSelectedPayPlans),
+                    new NpgsqlParameter("@UnitLocation", unitLocation),
+                    new NpgsqlParameter("@MtoeProjectInventoryYear", string.IsNullOrEmpty(mtoeProjectInventoryYear) ? (object)DBNull.Value : (object)mtoeProjectInventoryYear),
+                    new NpgsqlParameter("@MtoeSyncExtendedDurationFillValue", mtoeSyncExtendedDuration),
+                    new NpgsqlParameter("@UserOverheadPercent", userOverheadPercent),
+                    new NpgsqlParameter("@AmcosVersionId", amcosVersionId),
+                    new NpgsqlParameter("@Debug", (object)0));
             }
             return rowsAffected;
         }
@@ -664,8 +664,8 @@ namespace AMCOS.Logic
         {
             using (var context = new ApplicationDbContext())
             {
-                context.Database.ExecuteSqlCommand("EXEC web.DeleteProject @ProjectId",
-                    new SqlParameter("@ProjectId", projectId));
+                context.Database.ExecuteSqlRaw("CALL web.\"DeleteProject\"(@ProjectId)",
+                    new NpgsqlParameter("@ProjectId", projectId));
             }
         }
         public void LogAddUnit(ProjectAddUnitViewModel projectAddUnitViewModelObject)

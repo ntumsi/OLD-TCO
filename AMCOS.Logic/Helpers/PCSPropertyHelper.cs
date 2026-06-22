@@ -1,12 +1,12 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.DataTransferObjects;
 using AMCOS.Data.Entities;
 using AMCOS.Logic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -21,7 +21,7 @@ namespace AMCOS.Logic.Helpers
         /// <returns>IEnumerable of LocationDto</returns>
         public static IEnumerable<LocationDto> GetAllCivPCSLocations(int amcosVersionId)
         {
-            return ExecuteStoredProcedure("web.GetCivPCSLocations", new SqlParameter("@AmcosVersionId", amcosVersionId)).Tables[0].AsEnumerable().Select(p => new LocationDto()
+            return ExecuteStoredProcedure("web.GetCivPCSLocations", new NpgsqlParameter("@AmcosVersionId", amcosVersionId)).Tables[0].AsEnumerable().Select(p => new LocationDto()
             {
                 Value = p["LocationId"].ToString(),
                 OptionGroup = p["LocationType"].ToString(),
@@ -93,7 +93,7 @@ namespace AMCOS.Logic.Helpers
             var queries = query.Split(' ').ToList();
             var zips = new List<string>();
             queries.ForEach(q => { if (int.TryParse(q, out int zip)) { zips.Add(q); } });
-            return ExecuteStoredProcedure("web.GetCivPCSLocationsByQuery", new SqlParameter("@AmcosVersionId", amcosVersionId), new SqlParameter("@query", query), new SqlParameter("@zipcode", zips.Count > 0 ? zips.First() : null)).Tables[0].AsEnumerable().Select(p => new LocationDto()
+            return ExecuteStoredProcedure("web.GetCivPCSLocationsByQuery", new NpgsqlParameter("@AmcosVersionId", amcosVersionId), new NpgsqlParameter("@query", query), new NpgsqlParameter("@zipcode", zips.Count > 0 ? zips.First() : null)).Tables[0].AsEnumerable().Select(p => new LocationDto()
             {
                 Value = p["LocationId"].ToString(),
                 OptionGroup = p["LocationType"].ToString(),
@@ -107,7 +107,7 @@ namespace AMCOS.Logic.Helpers
         /// <returns>IEnumerable of LocationDto</returns>
         public static LocationDto GetCivPCSLocationById(int locationId, int amcosVersionId)
         {
-            var dataset = ExecuteStoredProcedure("web.GetCivPCSLocationById", new SqlParameter("@LocationId", locationId), new SqlParameter("@AmcosVersionId", amcosVersionId));
+            var dataset = ExecuteStoredProcedure("web.GetCivPCSLocationById", new NpgsqlParameter("@LocationId", locationId), new NpgsqlParameter("@AmcosVersionId", amcosVersionId));
             if (dataset?.Tables != null && dataset.Tables.Count > 0 && dataset.Tables[0].Rows.Count > 0 && dataset.Tables[0].Rows[0] != null)
             {
                 var row = dataset.Tables[0].Rows[0];
@@ -188,7 +188,7 @@ namespace AMCOS.Logic.Helpers
         /// <returns></returns>
         public static IEnumerable<SelectListItem> GetMaxReleaseVersionPerYear(int startYear)
         {
-            return ExecuteStoredProcedure("web.GetMaxReleaseVersionsPerYear", new SqlParameter("@start", startYear)).Tables[0].AsEnumerable().Select(p => new SelectListItem { Value = $"{p["CY"]}{p["Release"]}", Text = p["CY"]?.ToString() });
+            return ExecuteStoredProcedure("web.GetMaxReleaseVersionsPerYear", new NpgsqlParameter("@start", startYear)).Tables[0].AsEnumerable().Select(p => new SelectListItem { Value = $"{p["CY"]}{p["Release"]}", Text = p["CY"]?.ToString() });
         }
 
         /// <summary>
@@ -527,15 +527,15 @@ namespace AMCOS.Logic.Helpers
             realEstateLease.PurchasePriceRefund *= 100;
             realEstateLease.SalePriceRefund *= 100;
         }
-        private static DataSet ExecuteStoredProcedure(string storedProcedure, params SqlParameter[] parameters)
+        private static DataSet ExecuteStoredProcedure(string storedProcedure, params NpgsqlParameter[] parameters)
         {
             DataSet dataset = new DataSet();
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(storedProcedure, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(storedProcedure, connection))
                 {
                     command.Parameters.AddRange(parameters);
                     command.CommandType = CommandType.StoredProcedure;

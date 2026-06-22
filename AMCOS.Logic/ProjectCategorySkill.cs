@@ -1,9 +1,10 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.Entities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 
 namespace AMCOS.Logic
@@ -71,7 +72,7 @@ namespace AMCOS.Logic
                 return payPlanList;
             }
         }
-        private static PMCategorySkill MapSkill(SqlDataReader reader)
+        private static PMCategorySkill MapSkill(NpgsqlDataReader reader)
         {
             PMCategorySkill skill = new PMCategorySkill();
 

@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 using AMCOS.Data;
 using AMCOS.Data.Entities;
@@ -526,10 +526,10 @@ namespace AMCOS.Logic
         public void DeleteProject(int projectId)
         {
             string sqlStatement = "web.DeleteProject";
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectId", projectId);
                     command.CommandType = CommandType.StoredProcedure;

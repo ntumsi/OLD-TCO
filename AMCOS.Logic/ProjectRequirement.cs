@@ -1,12 +1,12 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.DataTransferObjects;
 using AMCOS.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 
 namespace AMCOS.Logic
@@ -129,14 +129,14 @@ namespace AMCOS.Logic
             Collection<PMCategory> categories = new Collection<PMCategory>();
             string sqlStatement = "SELECT * FROM web.PMGetCategories(@ProjectId)";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectId", projectId);
                     command.CommandType = CommandType.Text;
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -153,14 +153,14 @@ namespace AMCOS.Logic
             Collection<PMCategory> categories = new Collection<PMCategory>();
             string sqlStatement = "SELECT * FROM web.PMGetCategoriesAll(@ProjectId);";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectId", projectId);
                     command.CommandType = CommandType.Text;
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -177,15 +177,15 @@ namespace AMCOS.Logic
             PMCategory category;
             string sqlStatement = "SELECT * FROM webuser.PMCategory WHERE ProjectID = @ProjectId AND CategoryID = @CategoryID;";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectId", projectId);
                     command.Parameters.AddWithValue("@CategoryID", categoryId);
                     command.CommandType = CommandType.Text;
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         reader.Read();
                         category = MapCategory(reader);
@@ -241,14 +241,14 @@ namespace AMCOS.Logic
             Collection<PMCategory> categories = new Collection<PMCategory>();
             string sqlStatement = "SELECT * FROM web.PMGetCategoriesAll(@ProjectId);";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectId", projectId);
                     command.CommandType = CommandType.Text;
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -487,7 +487,7 @@ namespace AMCOS.Logic
                 return dependentStatus;
             }
         }
-        private PMCategory MapCategory(SqlDataReader reader)
+        private PMCategory MapCategory(NpgsqlDataReader reader)
         {
 
             PMCategory category = new PMCategory();

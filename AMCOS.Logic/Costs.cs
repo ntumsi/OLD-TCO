@@ -1,8 +1,9 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.ViewModels;
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Globalization;
 
 namespace AMCOS.Logic
@@ -38,11 +39,11 @@ namespace AMCOS.Logic
                 case "CCE":
                     string sqlStatement = "SELECT * FROM web.costsCCE(@CategorySubgroupCode, @Area, @OverheadPercent);";
 
-                    using (SqlConnection connection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+                    using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
                     {
                         connection.Open();
-                        SqlDataAdapter adapter = new SqlDataAdapter();
-                        using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                        NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                        using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                         {
                             command.Parameters.AddWithValue("@CategorySubgroupCode", categorySubgroupCode);
                             command.Parameters.AddWithValue("@Area", metroAreaCode);
@@ -71,11 +72,11 @@ namespace AMCOS.Logic
                 case "CCE":
                     string sqlStatement = "SELECT * FROM web.costsCCEInflated(@CategorySubgroupCode, @Area, @OverheadPercent, @InflationConversion, @InflationYear, @AmcosVersionId);";
 
-                    using (SqlConnection connection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+                    using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
                     {
                         connection.Open();
-                        SqlDataAdapter adapter = new SqlDataAdapter();
-                        using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                        NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                        using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                         {
                             command.Parameters.AddWithValue("@CategorySubgroupCode", categorySubgroupCode);
                             command.Parameters.AddWithValue("@Area", metroAreaCode);

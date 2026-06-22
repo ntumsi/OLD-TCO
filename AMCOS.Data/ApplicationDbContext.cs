@@ -1,18 +1,27 @@
-using System.Data.Entity;
-using System.Data.Entity.SqlServer;
 using AMCOS.Data.Entities;
-using Microsoft.SqlServer.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMCOS.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext() : base("name=AmcosEF")
+        public ApplicationDbContext() : this(CreateDefaultOptions())
         {
-            this.Configuration.LazyLoadingEnabled = false;
-            this.Configuration.ProxyCreationEnabled = false;
         }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
+        private static DbContextOptions<ApplicationDbContext> CreateDefaultOptions()
+        {
+            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            builder.UseNpgsql(AppConfiguration.GetConnectionString());
+            return builder.Options;
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AMCOSLiteAudit>().ToTable("AMCOSLiteAudit", "webuser");
             modelBuilder.Entity<AMCOSLiteAudit>().HasKey(e => new { e.UserId, e.CreateDate, e.PageAction, e.PageElement });
@@ -112,10 +121,11 @@ namespace AMCOS.Data
 
             modelBuilder.Entity<CivLocationPerDiem>().ToTable("CivLocationPerDiem", "web");
             modelBuilder.Entity<CivLocationPerDiem>().HasKey(e => new { e.LocationId });
+            modelBuilder.Entity<CivLocationPerDiem>().Ignore(e => e.Coordinates);
 
             modelBuilder.Entity<CostElement>().ToTable("CostElement", "lookup");
             modelBuilder.Entity<CostElement>().HasKey(e => e.CostElementId);
-            modelBuilder.Entity<CostElement>().Property(e => e.CostElementId).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<CostElement>().Property(e => e.CostElementId).ValueGeneratedOnAdd();
             modelBuilder.Entity<CostElement>().Property(e => e.PayPlan).HasMaxLength(3);
             modelBuilder.Entity<CostElement>().Property(e => e.Appn).HasMaxLength(25);
             modelBuilder.Entity<CostElement>().Property(e => e.CostElementCategory).HasMaxLength(50);
@@ -126,16 +136,16 @@ namespace AMCOS.Data
             modelBuilder.Entity<CostElement>().Property(e => e.Source).HasMaxLength(3000);
             modelBuilder.Entity<CostElement>().Property(e => e.ArmyCesTitle).HasMaxLength(300);
             modelBuilder.Entity<CostElement>().Property(e => e.OsdCapeCesTitle).HasMaxLength(300);
-            modelBuilder.Entity<CostElement>().HasMany(e => e.CostSummaryElements).WithRequired(e => e.CostElement);
+            modelBuilder.Entity<CostElement>().HasMany(e => e.CostSummaryElements).WithOne(e => e.CostElement);
 
             modelBuilder.Entity<CostSummary>().ToTable("CostSummary", "lookup");
             modelBuilder.Entity<CostSummary>().HasKey(e => e.SummaryId);
-            modelBuilder.Entity<CostSummary>().Property(e => e.SummaryId).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<CostSummary>().Property(e => e.SummaryId).ValueGeneratedOnAdd();
             modelBuilder.Entity<CostSummary>().Property(e => e.PayPlan).HasMaxLength(3);
             modelBuilder.Entity<CostSummary>().Property(e => e.PayPlan).IsRequired();
             modelBuilder.Entity<CostSummary>().Property(e => e.Name).HasMaxLength(50);
             modelBuilder.Entity<CostSummary>().Property(e => e.Name).IsRequired();
-            modelBuilder.Entity<CostSummary>().HasMany(e => e.CostSummaryElements).WithRequired(e => e.CostSummary);
+            modelBuilder.Entity<CostSummary>().HasMany(e => e.CostSummaryElements).WithOne(e => e.CostSummary);
 
             modelBuilder.Entity<CostSummaryElement>().ToTable("CostSummaryElement", "lookup");
             modelBuilder.Entity<CostSummaryElement>().HasKey(e => new { e.SummaryId, e.CostElementId });
@@ -158,10 +168,10 @@ namespace AMCOS.Data
             modelBuilder.Entity<Costs>().Property(e => e.CostElementName).HasMaxLength(250);
             modelBuilder.Entity<Costs>().Property(e => e.Description).HasMaxLength(3000);
             modelBuilder.Entity<Costs>().Property(e => e.GradeType).HasMaxLength(3);
-            modelBuilder.Entity<Costs>().HasRequired(e => e.CategoryLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.PayPlan, e.CategoryGroupCode, e.CategorySubgroupCode });
-            modelBuilder.Entity<Costs>().HasRequired(e => e.CategoryGroupLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.PayPlan, e.CategoryGroupCode });
-            modelBuilder.Entity<Costs>().HasRequired(e => e.CategorySubgroupLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.PayPlan, e.CategoryGroupCode, e.CategorySubgroupCode });
-            modelBuilder.Entity<Costs>().HasRequired(e => e.CareerProgramLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.CareerProgramNumber });
+            modelBuilder.Entity<Costs>().HasOne(e => e.CategoryLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.PayPlan, e.CategoryGroupCode, e.CategorySubgroupCode });
+            modelBuilder.Entity<Costs>().HasOne(e => e.CategoryGroupLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.PayPlan, e.CategoryGroupCode });
+            modelBuilder.Entity<Costs>().HasOne(e => e.CategorySubgroupLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.PayPlan, e.CategoryGroupCode, e.CategorySubgroupCode });
+            modelBuilder.Entity<Costs>().HasOne(e => e.CareerProgramLookup).WithMany(e => e.Costs).HasForeignKey(e => new { e.CareerProgramNumber });
 
             modelBuilder.Entity<CostsAE>().Property(e => e.Amount).HasPrecision(26, 6);
 
@@ -187,7 +197,7 @@ namespace AMCOS.Data
             modelBuilder.Entity<Inventory>().Property(e => e.Strl).HasMaxLength(20);
             modelBuilder.Entity<Inventory>().Property(e => e.GradeType).HasMaxLength(3);
             modelBuilder.Entity<Inventory>().Property(e => e.InventoryAmount).HasColumnName("Inventory");
-            modelBuilder.Entity<Inventory>().HasRequired(e => e.LocationLookup).WithMany(e => e.Inventory).HasForeignKey(e => e.LocationId);
+            modelBuilder.Entity<Inventory>().HasOne(e => e.LocationLookup).WithMany(e => e.Inventory).HasForeignKey(e => e.LocationId);
 
             modelBuilder.Entity<JicInflationRates>().ToTable("JicInflationRates", "lookup");
             modelBuilder.Entity<JicInflationRates>().HasKey(e => new { e.ConversionType, e.Year, e.Appropriation, e.AmcosVersionId });
@@ -229,8 +239,8 @@ namespace AMCOS.Data
             modelBuilder.Entity<OccupationalEmploymentStatisticsMetro>().Property(e => e.A_Median).HasPrecision(18, 0);
             modelBuilder.Entity<OccupationalEmploymentStatisticsMetro>().Property(e => e.A_Pct75).HasPrecision(18, 0);
             modelBuilder.Entity<OccupationalEmploymentStatisticsMetro>().Property(e => e.A_Pct90).HasPrecision(18, 0);
-            modelBuilder.Entity<OccupationalEmploymentStatisticsMetro>().HasRequired(e => e.MetropolitanStatisticalArea).WithMany(e => e.OccupationalEmploymentStatisticsMetros).HasForeignKey(e => new { e.MSACode, e.AmcosVersionId });
-            modelBuilder.Entity<OccupationalEmploymentStatisticsMetro>().HasRequired(e => e.SOCStructure).WithMany(e => e.OccupationalEmploymentStatisticsMetros).HasForeignKey(e => e.SOC);
+            modelBuilder.Entity<OccupationalEmploymentStatisticsMetro>().HasOne(e => e.MetropolitanStatisticalArea).WithMany(e => e.OccupationalEmploymentStatisticsMetros).HasForeignKey(e => new { e.MSACode, e.AmcosVersionId });
+            modelBuilder.Entity<OccupationalEmploymentStatisticsMetro>().HasOne(e => e.SOCStructure).WithMany(e => e.OccupationalEmploymentStatisticsMetros).HasForeignKey(e => e.SOC);
 
             modelBuilder.Entity<OccupationalEmploymentStatisticsNational>().ToTable("OccupationalEmploymentStatisticsNational", "BLS_OES");
             modelBuilder.Entity<OccupationalEmploymentStatisticsNational>().HasKey(e => e.SOC);
@@ -285,7 +295,7 @@ namespace AMCOS.Data
             modelBuilder.Entity<PaySchedules>().Property(e => e.GradeType).HasMaxLength(3);
             modelBuilder.Entity<PaySchedules>().Property(e => e.RateType).HasMaxLength(25);
             modelBuilder.Entity<PaySchedules>().Property(e => e.Rate).HasColumnType("numeric");
-            modelBuilder.Entity<PaySchedules>().HasRequired(e => e.LocationLookup).WithMany(e => e.PaySchedules).HasForeignKey(e => e.LocationId );
+            modelBuilder.Entity<PaySchedules>().HasOne(e => e.LocationLookup).WithMany(e => e.PaySchedules).HasForeignKey(e => e.LocationId );
 
             modelBuilder.Entity<PCSProject>().ToTable("PCSProject", "webuser");
             modelBuilder.Entity<PCSProject>().HasKey(e => new { e.UserId, e.ProjectName });
@@ -303,13 +313,13 @@ namespace AMCOS.Data
 
             modelBuilder.Entity<PMCategory>().ToTable("PMCategory", "webuser");
             modelBuilder.Entity<PMCategory>().HasKey(e => new { e.CategoryId });
-            modelBuilder.Entity<PMCategory>().Property(e => e.CategoryId).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<PMCategory>().Property(e => e.CategoryId).ValueGeneratedOnAdd();
             modelBuilder.Entity<PMCategory>().Property(e => e.CategoryName).HasMaxLength(50);
 
             modelBuilder.Entity<PMCategorySkill>().ToTable("PMCategorySkill", "webuser");
             modelBuilder.Entity<PMCategorySkill>().HasKey(e => new { e.SkillId });
-            modelBuilder.Entity<PMCategorySkill>().HasIndex(e => new { e.CategoryId, e.PayPlan, e.CategoryGroupCode, e.CategorySubgroupCode, e.CareerProgramNumber, e.LocationId, e.STRL, e.GradeLevel, e.DependentStatus, e.ActiveDutyDays, e.OverheadPercent }).HasName("AK_PMCategorySkill_Unique").IsUnique();
-            modelBuilder.Entity<PMCategorySkill>().Property(e => e.SkillId).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<PMCategorySkill>().HasIndex(e => new { e.CategoryId, e.PayPlan, e.CategoryGroupCode, e.CategorySubgroupCode, e.CareerProgramNumber, e.LocationId, e.STRL, e.GradeLevel, e.DependentStatus, e.ActiveDutyDays, e.OverheadPercent }).HasDatabaseName("AK_PMCategorySkill_Unique").IsUnique();
+            modelBuilder.Entity<PMCategorySkill>().Property(e => e.SkillId).ValueGeneratedOnAdd();
             modelBuilder.Entity<PMCategorySkill>().Property(e => e.Uic).HasMaxLength(6);
             modelBuilder.Entity<PMCategorySkill>().Property(e => e.PayPlan).HasMaxLength(3);
             modelBuilder.Entity<PMCategorySkill>().Property(e => e.CategoryGroupCode).HasMaxLength(10);
@@ -320,19 +330,19 @@ namespace AMCOS.Data
 
             modelBuilder.Entity<PMCategorySkillInventory>().ToTable("PMCategorySkillInventory", "webuser");
             modelBuilder.Entity<PMCategorySkillInventory>().HasKey(e => new { e.InventoryId });
-            modelBuilder.Entity<PMCategorySkillInventory>().Property(e => e.InventoryId).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<PMCategorySkillInventory>().HasRequired(e => e.PMCategorySkillRecord).WithMany(e => e.Inventories).HasForeignKey(e => e.SkillId);
+            modelBuilder.Entity<PMCategorySkillInventory>().Property(e => e.InventoryId).ValueGeneratedOnAdd();
+            modelBuilder.Entity<PMCategorySkillInventory>().HasOne(e => e.PMCategorySkillRecord).WithMany(e => e.Inventories).HasForeignKey(e => e.SkillId);
 
             modelBuilder.Entity<PMProject>().ToTable("PMProject", "webuser");
             modelBuilder.Entity<PMProject>().HasKey(e => e.ProjectId);
-            modelBuilder.Entity<PMProject>().Property(e => e.ProjectId).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<PMProject>().Property(e => e.ProjectId).ValueGeneratedOnAdd();
             modelBuilder.Entity<PMProject>().Property(e => e.UserId).HasMaxLength(50);
             modelBuilder.Entity<PMProject>().Property(e => e.ProjectName).HasMaxLength(50);
             modelBuilder.Entity<PMProject>().Property(e => e.ProjectCreator).HasMaxLength(50);
 
             modelBuilder.Entity<PMReport>().ToTable("PMReport", "webuser");
             modelBuilder.Entity<PMReport>().HasKey(e => e.ReportId);
-            modelBuilder.Entity<PMReport>().Property(e => e.ReportId).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<PMReport>().Property(e => e.ReportId).ValueGeneratedOnAdd();
             modelBuilder.Entity<PMReport>().Property(e => e.PayPlan).HasMaxLength(3);
 
             modelBuilder.Entity<ProjectAddUnitAudit>().ToTable("ProjectAddUnitAudit", "webuser");
@@ -420,6 +430,7 @@ namespace AMCOS.Data
             modelBuilder.Entity<QuickSightEnvironment>().ToTable("QuickSightEnvironment", "web");
             modelBuilder.Entity<QuickSightEnvironment>().HasKey(e => e.AwsAccountId);
 
+            base.OnModelCreating(modelBuilder);
         }
         public void AddLogging(AMCOSLiteAudit amcosLiteAuditObject)
         {

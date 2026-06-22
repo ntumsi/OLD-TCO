@@ -1,0 +1,117 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Project.IndexModel
+@{
+    ViewData["Title"] = "Project Manager";
+}
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header">Create project</div>
+            <div class="card-body">
+                @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+                {
+                    <div class="alert alert-info">@Model.StatusMessage</div>
+                }
+                <form method="post" asp-page-handler="Create" class="row g-3">
+                    <div class="col-12">
+                        <label asp-for="NewProjectName" class="form-label"></label>
+                        <input asp-for="NewProjectName" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="NewProjectDescription" class="form-label"></label>
+                        <textarea asp-for="NewProjectDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="NewProjectYearStart" class="form-label"></label>
+                        <input asp-for="NewProjectYearStart" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Create Project</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Copy project</div>
+            <div class="card-body">
+                <form method="post" asp-page-handler="Copy" class="row g-3">
+                    <div class="col-12">
+                        <label asp-for="CopySourceProjectId" class="form-label"></label>
+                        <select asp-for="CopySourceProjectId" class="form-select">
+                            <option value="">Select source project</option>
+                            @foreach (var project in Model.Projects)
+                            {
+                                <option value="@project.ProjectId">@project.ProjectName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="CopyProjectName" class="form-label"></label>
+                        <input asp-for="CopyProjectName" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="CopyProjectDescription" class="form-label"></label>
+                        <textarea asp-for="CopyProjectDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-outline-secondary">Copy Project</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">Project listing</div>
+            <div class="card-body">
+                @if (!string.IsNullOrWhiteSpace(Model.LoadError))
+                {
+                    <div class="alert alert-warning">@Model.LoadError</div>
+                }
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Start Year</th>
+                                <th>Updated</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.Projects.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No projects available for the current user.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var project in Model.Projects)
+                            {
+                                <tr>
+                                    <td>@project.ProjectName</td>
+                                    <td>@project.Description</td>
+                                    <td>@project.YearStart</td>
+                                    <td>@project.LastUpdate.ToString("g")</td>
+                                    <td class="text-end">
+                                        <a class="btn btn-sm btn-primary" asp-page="/App/Project/Report" asp-route-projectId="@project.ProjectId">Report</a>
+                                        <form method="post" asp-page-handler="Delete" class="d-inline">
+                                            <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
