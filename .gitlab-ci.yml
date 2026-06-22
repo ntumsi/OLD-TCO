@@ -1,0 +1,121 @@
+# Converted from azure-pipelines.yml
+# Requires a GitLab Runner registered with the 'amcos-pool' tag running on a
+# Windows host that has Visual Studio 2019 Enterprise, Node.js, NuGet, and
+# MSBuild available.
+
+variables:
+  SOLUTION: "**\\*.sln"
+  ARTIFACT_NAME: "drop"
+  PUBLISH_PROFILE: "Development"
+  BUILD_CONFIGURATION: "Release"
+  BUILD_PLATFORM: "Any CPU"
+  MSBUILD_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe'
+
+workflow:
+  rules:
+    # Only run on the Source/Development branch when the relevant paths change
+    - if: '$CI_COMMIT_BRANCH == "Source/Development"'
+      changes:
+        - AMCOS.Web/**/*
+        - AMCOS.AMCOS2020_MAR/**/*
+        - AMCOS.Data/**/*
+        - AMCOS.Logic/**/*
+        - AMCOS.Tests/**/*
+
+default:
+  tags:
+    - amcos-pool
+
+stages:
+  - build
+  - test
+  - publish
+
+# ---------------------------------------------------------------------------
+# Build stage – mirrors the Azure DevOps Job_1 / AMCOS Development pipeline
+# ---------------------------------------------------------------------------
+
+npm_and_gulp:
+  stage: build
+  script:
+    - cd AMCOS.Web
+    - npm install
+    - node_modules\gulp\bin\gulp.js default
+  artifacts:
+    paths:
+      - AMCOS.Web/node_modules/
+    expire_in: 1 hour
+
+nuget_restore:
+  stage: build
+  needs: []
+  script:
+    - nuget restore $SOLUTION -MSBuildPath "$MSBUILD_PATH"
+
+build_solution:
+  stage: build
+  needs:
+    - npm_and_gulp
+    - nuget_restore
+  script:
+    - >
+      & "$MSBUILD_PATH"
+      $SOLUTION
+      /p:DeployOnBuild=True
+      /p:DeployDefaultTarget=WebPublish
+      /p:WebPublishMethod=FileSystem
+      /p:DeleteExistingFiles=True
+      "/p:publishURL=$CI_PROJECT_DIR\artifacts"
+      /p:PublishProfile=$PUBLISH_PROFILE
+      /p:Configuration=$BUILD_CONFIGURATION
+      "/p:Platform=$BUILD_PLATFORM"
+      /t:Rebuild
+      /m
+  artifacts:
+    name: "$ARTIFACT_NAME"
+    paths:
+      - artifacts/
+    when: always
+    expire_in: 7 days
+
+# ---------------------------------------------------------------------------
+# Test stage – mirrors the VSTest@2 task
+# ---------------------------------------------------------------------------
+
+test_assemblies:
+  stage: test
+  needs:
+    - build_solution
+  script:
+    - >
+      vstest.console.exe
+      (Get-ChildItem -Recurse -Filter "*test*.dll"
+        | Where-Object { $_.FullName -notmatch "\\obj\\" }
+        | Select-Object -ExpandProperty FullName)
+      /EnableCodeCoverage
+      /Platform:$BUILD_PLATFORM
+      /Configuration:$BUILD_CONFIGURATION
+  artifacts:
+    reports:
+      junit: "**/*.trx"
+    when: always
+
+# ---------------------------------------------------------------------------
+# Publish stage – mirrors the PublishBuildArtifacts@1 task
+# ---------------------------------------------------------------------------
+
+publish_artifact:
+  stage: publish
+  needs:
+    - build_solution
+    - test_assemblies
+  when: always
+  script:
+    - echo "Build artifacts are available in the 'artifacts' directory."
+    - echo "Artifacts can be downloaded from the GitLab UI or via the API."
+  artifacts:
+    name: "$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - artifacts/
+    when: always
+    expire_in: 30 days
