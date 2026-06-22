@@ -1,4 +1,9 @@
-"""Load OPM locality, COLA, GS/GL raw schedules, and special-rate crosswalks."""
+"""Load OPM locality, COLA, GS/GL raw schedules, and special-rate crosswalks.
+
+Covers:
+  - AMCOS.SSIS.DataLoad.OPM.dtsx
+  - AMCOS.SSIS.DataLoad.LookupLocalityRates.dtsx
+"""
 
 from __future__ import annotations
 
@@ -24,6 +29,8 @@ FILE_TARGETS = {
     "xwalk.SpecialRateTablesByLocation.csv": ("xwalk.specialratetablesbylocation", ["amcos_version_id", "table_number", "location"]),
     "xwalk.SpecialRateTablesByOccupation.csv": ("xwalk.specialratetablesbyoccupation", ["amcos_version_id", "table_number", "occupation"]),
 }
+
+LOCALITY_RATES_TABLE = "lookup.localityrates"
 
 
 def _generic_transform(df, version_id: str, file_name: str):
@@ -56,6 +63,32 @@ def load_opm(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERSION_ID
         )
     logger.info("Loaded OPM datasets: %s", results)
     return results
+
+
+def load_locality_rates(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERSION_ID) -> int:
+    """Load LocalityRates.csv into lookup.LocalityRates.
+
+    Replaces AMCOS.SSIS.DataLoad.LookupLocalityRates.dtsx.
+    """
+    data_root = Path(data_dir)
+    source = find_first_existing(
+        data_root,
+        ["**/LocalityRates.csv", "**/LookupTables/LocalityRates.csv", "**/OPM/LocalityRates.csv"],
+    )
+    if not source:
+        logger.warning("LocalityRates.csv not found; skipping.")
+        return 0
+    logger.info("Loading locality rates from %s", source)
+    working = normalize_columns(read_csv_flexible(source))
+    working["amcos_version_id"] = str(version_id)
+    rows = load_dataframe(
+        working,
+        LOCALITY_RATES_TABLE,
+        delete_where_clause="amcosversionid = %s",
+        delete_params=(version_id,),
+    )
+    logger.info("Loaded %s locality rate rows", rows)
+    return rows
 
 
 if __name__ == "__main__":
