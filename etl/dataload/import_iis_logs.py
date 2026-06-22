@@ -15,6 +15,7 @@ from config.settings import DATA_DIR
 
 logger = logging.getLogger(__name__)
 TARGET_TABLE = "logs.iislogs"
+DELETE_ALL_CLAUSE = "TRUE"
 SOURCE_PATTERNS = [
     "**/*iis*log*.csv",
     "**/*iis*log*.txt",
@@ -42,8 +43,11 @@ def _read_w3c_log(path: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
     rows = [re.split(r"\s+", line) for line in data_lines]
-    if fields and all(len(row) == len(fields) for row in rows):
-        return pd.DataFrame(rows, columns=fields)
+    if fields:
+        try:
+            return pd.DataFrame(rows, columns=fields)
+        except ValueError:
+            pass
     return pd.DataFrame(rows)
 
 
@@ -72,7 +76,7 @@ def load_iis_logs(data_dir: Path | str = DATA_DIR) -> dict[str, int]:
         results[source.name] = load_dataframe(
             transformed,
             TARGET_TABLE,
-            delete_where_clause="TRUE" if clear_target else None,
+            delete_where_clause=DELETE_ALL_CLAUSE if clear_target else None,
         )
         clear_target = False
 

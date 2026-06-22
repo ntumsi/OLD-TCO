@@ -11,6 +11,7 @@ from common.logging_utils import configure_logging
 from config.settings import DATA_DIR
 
 logger = logging.getLogger(__name__)
+DELETE_ALL_CLAUSE = "TRUE"
 
 SOURCE_TABLE_MAP = {
     "costs_test": (
@@ -56,7 +57,7 @@ def load_refresh_comparison_analysis(data_dir: Path | str = DATA_DIR) -> dict[st
         results[source_name] = load_dataframe(
             transformed,
             target_table,
-            delete_where_clause="TRUE",
+            delete_where_clause=DELETE_ALL_CLAUSE,
         )
 
     if not found_any:
