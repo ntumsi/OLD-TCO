@@ -1,0 +1,28 @@
+﻿CREATE TABLE [analysis].[CostsByDate] (
+    [CrunchRunName]          NVARCHAR (50)   NULL,
+    [PayPlan]                NVARCHAR (3)    NOT NULL,
+    [CategoryGroupCode]      NVARCHAR (4)    NOT NULL,
+    [CategorySubGroupCode]   NVARCHAR (4)    NOT NULL,
+    [SpecialRateTableNumber] NVARCHAR (4)    NULL,
+    [WageArea]               NVARCHAR (3)    NULL,
+    [StateCountry]           NVARCHAR (50)   NULL,
+    [FunctionalAreaCode]     NVARCHAR (50)   NULL,
+    [CostCenterCode]         NVARCHAR (50)   NULL,
+    [CostElementId]          INT             NOT NULL,
+    [AppropriationGroup]     NVARCHAR (50)   NULL,
+    [APPN]                   NVARCHAR (25)   NOT NULL,
+    [CostElementCategory]    NVARCHAR (50)   NOT NULL,
+    [CostElementName]        NVARCHAR (250)  NOT NULL,
+    [Description]            NVARCHAR (3000) NULL,
+    [ArmyCesTitle]           NVARCHAR (250)  NULL,
+    [OsdCapeCesTitle]        NVARCHAR (250)  NULL,
+    [Amort]                  INT             NULL,
+    [Model]                  INT             NULL,
+    [Locality]               BIT             NULL,
+    [showOrder]              INT             NULL,
+    [GradeType]              NVARCHAR (3)    NULL,
+    [GradeLevel]             TINYINT         NOT NULL,
+    [WeaponSystemId]         INT             NULL,
+    [Amount]                 FLOAT (53)      NOT NULL
+);
+

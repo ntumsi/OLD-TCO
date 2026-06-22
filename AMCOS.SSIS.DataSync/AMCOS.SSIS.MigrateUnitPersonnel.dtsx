@@ -1,0 +1,1361 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/13/2023 7:22:51 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="CAADW00GAAA8006"
+  DTS:CreatorName="C15GDEV\Gregory.D.Bonner2.AU"
+  DTS:DTSID="{77C035C5-CF98-4F41-B47B-E24720E94258}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.948.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS MigrateUnitPersonnel"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{11DE75AB-E9F0-43B6-8BEF-A4585ADFCF22}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CAADW00GAAA4005.Amcos]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1E6A830D-6E5F-4CA5-9E17-9B8CE7EC0DAF}"
+      DTS:ObjectName="CAADW00GAAA4005.Amcos">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{1E6A830D-6E5F-4CA5-9E17-9B8CE7EC0DAF}CAADW00GAAA4005.Amcos;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{74C1C7CC-8756-4C80-AB8A-ED38E67B6044}"
+      DTS:ObjectName="CAATW00GAAA4009.Amcos">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAATW00GAAA4009;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{74C1C7CC-8756-4C80-AB8A-ED38E67B6044}CAATW00GAAA4009.Amcos;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Export UnitPersonnel"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{4AAE4B81-E0FD-460A-A368-511D7DA033DB}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Export UnitPersonnel"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Export UnitPersonnel\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[warehouse].[UnitPersonnel]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Export UnitPersonnel\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CAADW00GAAA4005.Amcos]"
+                  connectionManagerRefId="Package.ConnectionManagers[CAADW00GAAA4005.Amcos]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UIC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UIC]"
+                      length="6"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UIC]"
+                      name="UIC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UICTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UICTitle]"
+                      length="150"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UICTitle]"
+                      name="UICTitle"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[PayPlan]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PayPlan]"
+                      length="3"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[PayPlan]"
+                      name="PayPlan"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryGroupCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategoryGroupCode]"
+                      length="10"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryGroupCode]"
+                      name="CategoryGroupCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategorySubgroupCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategorySubgroupCode]"
+                      length="10"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategorySubgroupCode]"
+                      name="CategorySubgroupCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationId]"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationId]"
+                      name="LocationId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationText]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationText]"
+                      length="150"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationText]"
+                      name="LocationText"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[STRL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STRL]"
+                      length="20"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[STRL]"
+                      name="STRL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[GradeLevel]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GradeLevel]"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[GradeLevel]"
+                      name="GradeLevel"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[DependentStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DependentStatus]"
+                      length="25"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[DependentStatus]"
+                      name="DependentStatus"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[NumberOfDependents]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NumberOfDependents]"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[NumberOfDependents]"
+                      name="NumberOfDependents"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActiveDutyDays]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActiveDutyDays]"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActiveDutyDays]"
+                      name="ActiveDutyDays"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[Inventory]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Inventory]"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[Inventory]"
+                      name="Inventory"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitYear]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitYear]"
+                      length="4"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitYear]"
+                      name="UnitYear"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[AsOf]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AsOf]"
+                      length="8"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[AsOf]"
+                      name="AsOf"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[AuthorizationDocument]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AuthorizationDocument]"
+                      length="50"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[AuthorizationDocument]"
+                      name="AuthorizationDocument"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UIC]"
+                      dataType="wstr"
+                      length="6"
+                      name="UIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UICTitle]"
+                      dataType="wstr"
+                      length="150"
+                      name="UICTitle" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PayPlan]"
+                      dataType="wstr"
+                      length="3"
+                      name="PayPlan" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategoryGroupCode]"
+                      dataType="wstr"
+                      length="10"
+                      name="CategoryGroupCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategorySubgroupCode]"
+                      dataType="wstr"
+                      length="10"
+                      name="CategorySubgroupCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationText]"
+                      dataType="wstr"
+                      length="150"
+                      name="LocationText" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STRL]"
+                      dataType="wstr"
+                      length="20"
+                      name="STRL" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GradeLevel]"
+                      dataType="ui1"
+                      name="GradeLevel" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DependentStatus]"
+                      dataType="wstr"
+                      length="25"
+                      name="DependentStatus" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NumberOfDependents]"
+                      dataType="i4"
+                      name="NumberOfDependents" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActiveDutyDays]"
+                      dataType="i2"
+                      name="ActiveDutyDays" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Inventory]"
+                      dataType="i4"
+                      name="Inventory" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitYear]"
+                      dataType="wstr"
+                      length="4"
+                      name="UnitYear" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AsOf]"
+                      dataType="wstr"
+                      length="8"
+                      name="AsOf" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AuthorizationDocument]"
+                      dataType="wstr"
+                      length="50"
+                      name="AuthorizationDocument" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UIC]"
+                      dataType="wstr"
+                      length="6"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UIC]"
+                      name="UIC" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UICTitle]"
+                      dataType="wstr"
+                      length="150"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UICTitle]"
+                      name="UICTitle" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PayPlan]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PayPlan]"
+                      name="PayPlan" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategoryGroupCode]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategoryGroupCode]"
+                      name="CategoryGroupCode" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategorySubgroupCode]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategorySubgroupCode]"
+                      name="CategorySubgroupCode" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationId]"
+                      dataType="i4"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationId]"
+                      name="LocationId" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationText]"
+                      dataType="wstr"
+                      length="150"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationText]"
+                      name="LocationText" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STRL]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STRL]"
+                      name="STRL" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GradeLevel]"
+                      dataType="ui1"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GradeLevel]"
+                      name="GradeLevel" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DependentStatus]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DependentStatus]"
+                      name="DependentStatus" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NumberOfDependents]"
+                      dataType="i4"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NumberOfDependents]"
+                      name="NumberOfDependents" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActiveDutyDays]"
+                      dataType="i2"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActiveDutyDays]"
+                      name="ActiveDutyDays" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Inventory]"
+                      dataType="i4"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Inventory]"
+                      name="Inventory" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitYear]"
+                      dataType="wstr"
+                      length="4"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitYear]"
+                      name="UnitYear" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AsOf]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AsOf]"
+                      name="AsOf" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AuthorizationDocument]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AuthorizationDocument]"
+                      name="AuthorizationDocument" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Export UnitPersonnel\Raw File Destination"
+              componentClassID="Microsoft.RawDestination"
+              contactInfo="Writes raw data that will not require parsing or translation. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers.;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Writes raw data that will not require parsing or translation. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers."
+              name="Raw File Destination"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the file."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Output file name"
+                  name="FileName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">D:\Projects\AMCOS\Greg\warehouse.UnitPersonnel.raw</property>
+                <property
+                  dataType="System.Null"
+                  description="Name of the variable that contains the file name"
+                  name="FileNameVariable" />
+                <property
+                  dataType="System.Int32"
+                  description="Indicates what option is used to write to the file."
+                  name="WriteOption"
+                  typeConverter="WriteOption">0</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input]"
+                  hasSideEffects="true"
+                  name="Raw File Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[UIC]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="UIC"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UIC]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[UICTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="UICTitle"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UICTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[PayPlan]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="PayPlan"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[PayPlan]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[CategoryGroupCode]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="CategoryGroupCode"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryGroupCode]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[CategorySubgroupCode]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="CategorySubgroupCode"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategorySubgroupCode]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[LocationId]"
+                      cachedDataType="i4"
+                      cachedName="LocationId"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationId]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[LocationText]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="LocationText"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationText]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[STRL]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="STRL"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[STRL]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[GradeLevel]"
+                      cachedDataType="ui1"
+                      cachedName="GradeLevel"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[GradeLevel]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[DependentStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="DependentStatus"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[DependentStatus]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[NumberOfDependents]"
+                      cachedDataType="i4"
+                      cachedName="NumberOfDependents"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[NumberOfDependents]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[ActiveDutyDays]"
+                      cachedDataType="i2"
+                      cachedName="ActiveDutyDays"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActiveDutyDays]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[Inventory]"
+                      cachedDataType="i4"
+                      cachedName="Inventory"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[Inventory]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[UnitYear]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="UnitYear"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitYear]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[AsOf]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="AsOf"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[AsOf]" />
+                    <inputColumn
+                      refId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input].Columns[AuthorizationDocument]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AuthorizationDocument"
+                      lineageId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output].Columns[AuthorizationDocument]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Export UnitPersonnel.Paths[OLE DB Source Output]"
+              endId="Package\DFT Export UnitPersonnel\Raw File Destination.Inputs[Raw File Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT Export UnitPersonnel\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{21100BB4-5226-4322-886A-39641E9E9813}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\DFT Import UnitPersonnel"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{6F38D40E-E1E4-44CA-9320-5EFBD6857431}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT Import UnitPersonnel"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[warehouse].[UnitPersonnel]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+                      connectionManagerRefId="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UIC]"
+                          cachedDataType="wstr"
+                          cachedLength="6"
+                          cachedName="UIC"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UIC]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UICTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="150"
+                          cachedName="UICTitle"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UICTitle]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UICTitle]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="PayPlan"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[PayPlan]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CategoryGroupCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="CategoryGroupCode"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupCode]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[CategoryGroupCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CategorySubgroupCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="CategorySubgroupCode"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupCode]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[CategorySubgroupCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationId]"
+                          cachedDataType="i4"
+                          cachedName="LocationId"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[LocationId]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationText]"
+                          cachedDataType="wstr"
+                          cachedLength="150"
+                          cachedName="LocationText"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationText]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[LocationText]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STRL]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="STRL"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STRL]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[STRL]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GradeLevel]"
+                          cachedDataType="ui1"
+                          cachedName="GradeLevel"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[GradeLevel]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DependentStatus]"
+                          cachedDataType="wstr"
+                          cachedLength="25"
+                          cachedName="DependentStatus"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DependentStatus]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[DependentStatus]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NumberOfDependents]"
+                          cachedDataType="i4"
+                          cachedName="NumberOfDependents"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NumberOfDependents]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[NumberOfDependents]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ActiveDutyDays]"
+                          cachedDataType="i2"
+                          cachedName="ActiveDutyDays"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ActiveDutyDays]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[ActiveDutyDays]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Inventory]"
+                          cachedDataType="i4"
+                          cachedName="Inventory"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Inventory]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[Inventory]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UnitYear]"
+                          cachedDataType="wstr"
+                          cachedLength="4"
+                          cachedName="UnitYear"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UnitYear]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UnitYear]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AsOf]"
+                          cachedDataType="wstr"
+                          cachedLength="8"
+                          cachedName="AsOf"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AsOf]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[AsOf]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AuthorizationDocument]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="AuthorizationDocument"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AuthorizationDocument]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[AuthorizationDocument]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                          dataType="wstr"
+                          length="6"
+                          name="UIC" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UICTitle]"
+                          dataType="wstr"
+                          length="150"
+                          name="UICTitle" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupCode]"
+                          dataType="wstr"
+                          length="10"
+                          name="CategoryGroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          length="10"
+                          name="CategorySubgroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                          dataType="i4"
+                          name="LocationId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationText]"
+                          dataType="wstr"
+                          length="150"
+                          name="LocationText" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STRL]"
+                          dataType="wstr"
+                          length="20"
+                          name="STRL" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DependentStatus]"
+                          dataType="wstr"
+                          length="25"
+                          name="DependentStatus" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NumberOfDependents]"
+                          dataType="i4"
+                          name="NumberOfDependents" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ActiveDutyDays]"
+                          dataType="i2"
+                          name="ActiveDutyDays" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Inventory]"
+                          dataType="i4"
+                          name="Inventory" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UnitYear]"
+                          dataType="wstr"
+                          length="4"
+                          name="UnitYear" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AsOf]"
+                          dataType="wstr"
+                          length="8"
+                          name="AsOf" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AuthorizationDocument]"
+                          dataType="wstr"
+                          length="50"
+                          name="AuthorizationDocument" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source"
+                  componentClassID="Microsoft.RawSource"
+                  contactInfo="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers.;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers."
+                  name="Raw File Source"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the file."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Output file name"
+                      name="FileName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">D:\Projects\AMCOS\Greg\warehouse.UnitPersonnel.raw</property>
+                    <property
+                      dataType="System.Null"
+                      description="Name of the variable that contains the file name"
+                      name="FileNameVariable" />
+                  </properties>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output]"
+                      name="Raw File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UIC]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[UIC]"
+                          length="6"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UIC]"
+                          name="UIC" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UICTitle]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[UICTitle]"
+                          length="150"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UICTitle]"
+                          name="UICTitle" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[PayPlan]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[PayPlan]"
+                          length="3"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[PayPlan]"
+                          name="PayPlan" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[CategoryGroupCode]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[CategoryGroupCode]"
+                          length="10"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[CategoryGroupCode]"
+                          name="CategoryGroupCode" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[CategorySubgroupCode]"
+                          length="10"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[CategorySubgroupCode]"
+                          name="CategorySubgroupCode" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[LocationId]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[LocationId]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[LocationId]"
+                          name="LocationId" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[LocationText]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[LocationText]"
+                          length="150"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[LocationText]"
+                          name="LocationText" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[STRL]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[STRL]"
+                          length="20"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[STRL]"
+                          name="STRL" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[GradeLevel]"
+                          dataType="ui1"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[GradeLevel]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[GradeLevel]"
+                          name="GradeLevel" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[DependentStatus]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DependentStatus]"
+                          length="25"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[DependentStatus]"
+                          name="DependentStatus" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[NumberOfDependents]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[NumberOfDependents]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[NumberOfDependents]"
+                          name="NumberOfDependents" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[ActiveDutyDays]"
+                          dataType="i2"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[ActiveDutyDays]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[ActiveDutyDays]"
+                          name="ActiveDutyDays" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[Inventory]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[Inventory]"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[Inventory]"
+                          name="Inventory" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UnitYear]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[UnitYear]"
+                          length="4"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[UnitYear]"
+                          name="UnitYear" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[AsOf]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AsOf]"
+                          length="8"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[AsOf]"
+                          name="AsOf" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[AuthorizationDocument]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AuthorizationDocument]"
+                          length="50"
+                          lineageId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].Columns[AuthorizationDocument]"
+                          name="AuthorizationDocument" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[UIC]"
+                          dataType="wstr"
+                          length="6"
+                          name="UIC" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[UICTitle]"
+                          dataType="wstr"
+                          length="150"
+                          name="UICTitle" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[CategoryGroupCode]"
+                          dataType="wstr"
+                          length="10"
+                          name="CategoryGroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          length="10"
+                          name="CategorySubgroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[LocationId]"
+                          dataType="i4"
+                          name="LocationId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[LocationText]"
+                          dataType="wstr"
+                          length="150"
+                          name="LocationText" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[STRL]"
+                          dataType="wstr"
+                          length="20"
+                          name="STRL" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DependentStatus]"
+                          dataType="wstr"
+                          length="25"
+                          name="DependentStatus" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[NumberOfDependents]"
+                          dataType="i4"
+                          name="NumberOfDependents" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[ActiveDutyDays]"
+                          dataType="i2"
+                          name="ActiveDutyDays" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[Inventory]"
+                          dataType="i4"
+                          name="Inventory" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[UnitYear]"
+                          dataType="wstr"
+                          length="4"
+                          name="UnitYear" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AsOf]"
+                          dataType="wstr"
+                          length="8"
+                          name="AsOf" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AuthorizationDocument]"
+                          dataType="wstr"
+                          length="50"
+                          name="AuthorizationDocument" />
+                      </externalMetadataColumns>
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\DFT Import UnitPersonnel.Paths[Raw File Source Output]"
+                  endId="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Raw File Source Output"
+                  startId="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source.Outputs[Raw File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\SQL Delete UnitPersonnel"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{94894613-4C65-4BC9-94BF-5FBA6355641B}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL Delete UnitPersonnel"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{74C1C7CC-8756-4C80-AB8A-ED38E67B6044}"
+              SQLTask:BypassPrepare="False"
+              SQLTask:SqlStatementSource="DELETE FROM warehouse.UnitPersonnel;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{E6A2AF53-C7AB-4799-8041-41D8FD6F39DD}"
+          DTS:From="Package\Sequence Container\SQL Delete UnitPersonnel"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\DFT Import UnitPersonnel" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="207,42"
+          Id="Package\DFT Export UnitPersonnel"
+          TopLeft="5.50000000000003,108.5" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Sequence Container\DFT Import UnitPersonnel"
+          TopLeft="13,107.5" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Sequence Container\SQL Delete UnitPersonnel"
+          TopLeft="5.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="113,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="225,205"
+          Size="225,248"
+          Id="Package\Sequence Container"
+          TopLeft="273.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Export UnitPersonnel">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\DFT Export UnitPersonnel\OLE DB Source"
+          TopLeft="396,105" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\DFT Export UnitPersonnel\Raw File Destination"
+          TopLeft="419,327" />
+        <EdgeLayout
+          Id="Package\DFT Export UnitPersonnel.Paths[OLE DB Source Output]"
+          TopLeft="474.5,147">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.5,180"
+              Start="0,0"
+              End="34.5,172.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,86" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,86"
+                    Point2="0,90"
+                    Point3="4,90" />
+                  <mssgle:LineSegment
+                    End="30.5,90" />
+                  <mssgle:CubicBezierSegment
+                    Point1="30.5,90"
+                    Point2="34.5,90"
+                    Point3="34.5,94" />
+                  <mssgle:LineSegment
+                    End="34.5,172.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Export UnitPersonnel\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\DFT Import UnitPersonnel">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Sequence Container\DFT Import UnitPersonnel\Raw File Source"
+          TopLeft="430,72" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination"
+          TopLeft="435,238" />
+        <EdgeLayout
+          Id="Package\Sequence Container\DFT Import UnitPersonnel.Paths[Raw File Source Output]"
+          TopLeft="510,114">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13.5,124"
+              Start="0,0"
+              End="13.5,116.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,58"
+                    Point2="0,62"
+                    Point3="4,62" />
+                  <mssgle:LineSegment
+                    End="9.5,62" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.5,62"
+                    Point2="13.5,62"
+                    Point3="13.5,66" />
+                  <mssgle:LineSegment
+                    End="13.5,116.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\DFT Import UnitPersonnel\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

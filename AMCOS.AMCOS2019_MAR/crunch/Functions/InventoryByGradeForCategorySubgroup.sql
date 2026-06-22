@@ -1,0 +1,23 @@
+﻿-- =============================================
+-- Author:		Name
+-- Create date: 
+-- Description:	
+-- =============================================
+CREATE FUNCTION [crunch].[InventoryByGradeForCategorySubgroup]
+(
+    @PayPlan NVARCHAR(3),
+    @CategorySubgroupCode NVARCHAR(4)
+)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT GradeType,
+           GradeLevel,
+           SUM(Inventory) AS Amount
+    FROM data.Inventory
+    WHERE CategorySubGroupCode = @CategorySubgroupCode
+          AND PayPlan = @PayPlan
+    GROUP BY GradeType,
+             GradeLevel
+);

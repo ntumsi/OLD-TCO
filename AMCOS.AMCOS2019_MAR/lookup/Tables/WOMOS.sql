@@ -1,0 +1,6 @@
+﻿CREATE TABLE [lookup].[WOMOS] (
+    [WOMOS]       NVARCHAR (4)   NOT NULL,
+    [Description] NVARCHAR (250) NULL,
+    CONSTRAINT [PK_WOMOS] PRIMARY KEY CLUSTERED ([WOMOS] ASC)
+);
+

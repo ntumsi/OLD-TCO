@@ -1,0 +1,828 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/9/2018 10:38:43 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\Greg.Bonner"
+  DTS:DTSID="{E1B5D8EE-E8B8-4300-9E90-2A9CDFA5CC5D}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad PaySchedule Military"
+  DTS:PackageType="5"
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{2FC47C5B-A7DE-4B55-8226-24941EF98950}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{93DA9E0A-E873-4CD6-AB39-96E9566A06D5}"
+      DTS:ObjectName="AMCOS">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Basic Pay &amp; Drill Pay]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{6D2FAF44-0EF9-4A6C-A9AD-4D518A3117FA}"
+      DTS:ObjectName="Basic Pay &amp; Drill Pay">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_DataLoadFiles] + "\\PaySchedules\\Military\\2019_DFAS_BasicPay_DrillPay.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\\PaySchedules\Military\2019_DFAS_BasicPay_DrillPay.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PayPlan"
+              DTS:DTSID="{7212743F-B476-45DC-B1FD-E4743EFE806F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TableNumber_Area"
+              DTS:DTSID="{051AD6B1-6922-453B-8FD1-A560B29B1661}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AreaCode"
+              DTS:DTSID="{4E362FF2-2278-4D8C-9977-E9B792233EAF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DataType"
+              DTS:DTSID="{4CA37921-63FD-44F2-B105-765E7871450B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeType"
+              DTS:DTSID="{DF70BEE9-08DE-425D-89B9-9853458A9A6E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="17"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeLevel"
+              DTS:DTSID="{DE69EEA8-61F3-452B-8F03-75CEB2BBF50D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="17"
+              DTS:TextQualified="True"
+              DTS:ObjectName="YOS"
+              DTS:DTSID="{497BFE5D-A1A6-4A39-842C-413BE8B607FF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="25"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RateType"
+              DTS:DTSID="{C2CABC71-A82A-491E-ADFE-13894A972D6E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Salary"
+              DTS:DTSID="{EC270221-5E4A-4274-8C09-0545037790D3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="135"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DateEffective"
+              DTS:DTSID="{892415BC-D84D-49C0-8FF8-745C463E56ED}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{20BE60FD-6C3F-4C90-AAB6-3E5467DC8F8B}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3E17B410-5539-45C2-AF70-B74512C5D2E0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1877DF7B-EE10-499A-8D76-46AC4597A473}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Projects\AMCOS\Greg\source\repos\amcos\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{339BA0EB-AAF5-4084-AF97-88AC31274F37}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{70E7D101-3374-425C-B304-6A814A5E9724}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A3EA2102-746A-42D3-8A22-A7D6082A23A5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8103DC43-D536-4E86-BE92-EBC3750B086B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F5325D7C-B6C4-4A01-9EEA-CB64249AEA94}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D4B332A3-D149-4F46-B825-95CF056E2C75}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C0FF9A55-0EC4-47A9-AEC4-92C831597FAB}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Scripts">
+      <DTS:VariableValue
+        DTS:DataType="8">Scripts</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Military Pay"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{763c229b-d0c5-470f-8987-bb75cb1cbe30}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Military Pay"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC Basic Pay &amp; Drill Pay"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Basic Pay &amp; Drill Pay]"
+                  connectionManagerRefId="Package.ConnectionManagers[Basic Pay &amp; Drill Pay]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[Salary]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[Salary]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[Salary]"
+                      name="Salary"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[PayPlan]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                      length="3"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[PayPlan]"
+                      name="PayPlan"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[GradeType]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                      length="1"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[GradeType]"
+                      name="GradeType"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                      name="GradeLevel"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[YOS]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[YOS]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[YOS]"
+                      name="YOS"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[RateType]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[RateType]"
+                      length="25"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[RateType]"
+                      name="RateType"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[DateEffective]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[DateEffective]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[DateEffective]"
+                      name="DateEffective"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[TableNumber_Area]"
+                      dataType="wstr"
+                      length="50"
+                      name="TableNumber_Area" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[AreaCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="AreaCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[DataType]"
+                      dataType="wstr"
+                      length="50"
+                      name="DataType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[Salary]"
+                      dataType="numeric"
+                      name="Salary"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                      dataType="wstr"
+                      length="3"
+                      name="PayPlan" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                      dataType="wstr"
+                      length="1"
+                      name="GradeType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                      dataType="ui1"
+                      name="GradeLevel" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[YOS]"
+                      dataType="ui1"
+                      name="YOS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[RateType]"
+                      dataType="wstr"
+                      length="25"
+                      name="RateType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].ExternalColumns[DateEffective]"
+                      dataType="dbTimeStamp"
+                      name="DateEffective" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Military Pay\OLE_DST Military Pay"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST Military Pay"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[load_payschedule].[PaySchedule_Military]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Military Pay\OLE_DST Military Pay.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].Columns[DateEffective]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateEffective"
+                      externalMetadataColumnId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[DateEffective]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[DateEffective]" />
+                    <inputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].Columns[GradeType]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="GradeType"
+                      externalMetadataColumnId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[GradeType]" />
+                    <inputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="PayPlan"
+                      externalMetadataColumnId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[PayPlan]" />
+                    <inputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].Columns[GradeLevel]"
+                      cachedDataType="ui1"
+                      cachedName="GradeLevel"
+                      externalMetadataColumnId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[GradeLevel]" />
+                    <inputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].Columns[RateType]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="RateType"
+                      externalMetadataColumnId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[RateType]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[RateType]" />
+                    <inputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].Columns[YOS]"
+                      cachedDataType="ui1"
+                      cachedName="YOS"
+                      externalMetadataColumnId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[YOS]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[YOS]" />
+                    <inputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].Columns[Salary]"
+                      cachedDataType="numeric"
+                      cachedName="Salary"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      lineageId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output].Columns[Salary]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                      dataType="wstr"
+                      length="3"
+                      name="PayPlan" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                      dataType="wstr"
+                      length="3"
+                      name="GradeType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                      dataType="ui1"
+                      name="GradeLevel" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      dataType="numeric"
+                      name="Rate"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[DateEffective]"
+                      dataType="dbDate"
+                      name="DateEffective" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[YOS]"
+                      dataType="ui1"
+                      name="YOS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input].ExternalColumns[RateType]"
+                      dataType="wstr"
+                      length="25"
+                      name="RateType" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Military Pay\OLE_DST Military Pay.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Military Pay\OLE_DST Military Pay.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Military Pay\OLE_DST Military Pay.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Military Pay\OLE_DST Military Pay.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Military Pay.Paths[Flat File Source Output]"
+              endId="Package\DFT Military Pay\OLE_DST Military Pay.Inputs[OLE DB Destination Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Truncate Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5db9bb4b-ff88-458c-ad7f-615c9a64f5a9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Truncate Tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{93DA9E0A-E873-4CD6-AB39-96E9566A06D5}"
+          SQLTask:SqlStatementSource="EXEC dataload.TruncatePayScheduleMilitary;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E7FE7571-04CD-42C6-BE89-67A65A0AB0CF}"
+      DTS:From="Package\SQL Truncate Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT Military Pay" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="160,42"
+          Id="Package\DFT Military Pay"
+          TopLeft="17,107.5" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\SQL Truncate Tables"
+          TopLeft="5.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="97,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Military Pay">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="228,42"
+          Id="Package\DFT Military Pay\FF_SRC Basic Pay &amp; Drill Pay"
+          TopLeft="5.50000000000001,5.5" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\DFT Military Pay\OLE_DST Military Pay"
+          TopLeft="25,107.5" />
+        <EdgeLayout
+          Id="Package\DFT Military Pay.Paths[Flat File Source Output]"
+          TopLeft="119.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Military Pay\OLE_DST Military Pay">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

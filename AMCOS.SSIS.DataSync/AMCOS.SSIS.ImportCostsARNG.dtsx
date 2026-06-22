@@ -1,0 +1,2290 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/28/2020 11:57:44 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="GBONNERE7450U"
+  DTS:CreatorName="CALIBRE\Greg.Bonner"
+  DTS:DTSID="{485F6819-67CC-4449-9F2A-9462FCC2CE0A}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS ImportCostsARNG"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{56C5DC35-F960-41CA-84C0-8D10A13E9230}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS2020_MAR]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9A3BC9AE-5EC3-47B8-920F-EB657AC7F846}"
+      DTS:ObjectName="AMCOS2020_MAR">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Costs_NE.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{453B9147-59D8-4D5D-A7D8-AF5F45294A8A}"
+      DTS:ObjectName="Costs_NE.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\crunch.Costs_NE.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PayPlan"
+              DTS:DTSID="{CBDDACE8-9E5F-4AE4-9113-23465BEB394B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CMF"
+              DTS:DTSID="{C577E6B3-CAEE-4829-B952-46D04E67499C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MOS"
+              DTS:DTSID="{A2330E18-F371-4DE8-A1AF-41FDCE93B206}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CostElementId"
+              DTS:DTSID="{590E1312-4741-41DF-BCB0-56050E27E62B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeType"
+              DTS:DTSID="{25910133-4465-4BB2-B1BB-03C5D5E35CE8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="17"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeLevel"
+              DTS:DTSID="{670274E8-1620-40CA-ABE3-4E700C4618F4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WeaponSystemId"
+              DTS:DTSID="{3BA0B885-7CBE-4CA6-9F60-5877009BB4FC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Amount"
+              DTS:DTSID="{64DC0A4B-503F-447B-96A1-ECFA3BBA4B3E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="7"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CrunchTime"
+              DTS:DTSID="{9AB232BD-E16A-4BE9-A89E-CAD387E70621}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AmcosVersionId"
+              DTS:DTSID="{5969C10E-3AD4-4A5F-8BB0-A8577C7F0F89}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Costs_NO.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{0F36C179-0597-426D-BAB5-6E600F77D1EE}"
+      DTS:ObjectName="Costs_NO.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\crunch.Costs_NO.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PayPlan"
+              DTS:DTSID="{CA7C3020-3240-478C-8248-511A79760EFB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CMF"
+              DTS:DTSID="{7FE252FD-2483-4B4B-A5CB-15BE63EBCDCC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AOC"
+              DTS:DTSID="{CE33B116-0B8F-4FD7-BE84-28BC6C720478}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CostElementId"
+              DTS:DTSID="{FA6D2D1B-3BB8-409B-B8BE-11E3DE693E98}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeType"
+              DTS:DTSID="{9D20A107-3D04-4844-A3E6-A3D6FE61FF6A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="17"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeLevel"
+              DTS:DTSID="{C917B35E-79C9-44DC-A75C-E4BCDD423D48}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WeaponSystemId"
+              DTS:DTSID="{AA2CB5BD-1A60-49C8-AFAB-23FE8A703CCB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="26"
+              DTS:DataScale="6"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Amount"
+              DTS:DTSID="{2DCE78BB-34EA-49BB-8BE8-DE94625DBFD3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="133"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CrunchTime"
+              DTS:DTSID="{A4CB0C5D-FB29-458D-9890-A5FF3760DB22}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AmcosVersionId"
+              DTS:DTSID="{38DB8034-F8EB-449B-B69D-2C227678A112}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Costs_NWO.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F69076BD-3256-499E-AFEC-E4E933120442}"
+      DTS:ObjectName="Costs_NWO.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\crunch.Costs_NWO.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PayPlan"
+              DTS:DTSID="{92593087-659F-40D3-93FC-23B0E8A9B2A8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Branch"
+              DTS:DTSID="{76271F75-41B6-408D-83BD-D90ECE14DAAA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WOMOS"
+              DTS:DTSID="{81118858-CD70-46B1-A2DE-345521BB43EB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CostElementId"
+              DTS:DTSID="{376FC552-B9F1-4759-84C0-E2A172E80C62}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeType"
+              DTS:DTSID="{3882FD0C-E383-47CB-A06F-283E47C024A3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="17"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GradeLevel"
+              DTS:DTSID="{8A523F31-53B6-415C-B3A6-A7DB72557398}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WeaponSystemId"
+              DTS:DTSID="{D9366586-F9A0-478C-9ACD-D29D221A6B00}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="26"
+              DTS:DataScale="6"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Amount"
+              DTS:DTSID="{9CF63C76-2A25-4E67-9110-6735132BC619}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="135"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CrunchTime"
+              DTS:DTSID="{A750CE43-44EC-4B1A-A45E-BE0994EBC360}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AmcosVersionId"
+              DTS:DTSID="{2E68DF1D-E82C-4BB1-B5DD-A2268D28CE6B}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataSync\AMCOS.SSIS.DataSync.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{1862771E-A6CE-4D8A-8861-7E79ACD52B34}"
+      DTS:ObjectName="AMCOS_SSIS_DataSync" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C642FC1C-54E4-4B92-81F7-99398BB41C27}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC Import ARNG Costs"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{3DBF7D11-B315-42CE-AA05-4AA385628BD2}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC Import ARNG Costs">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC Import ARNG Costs\DFT Costs_NE"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{51206169-8D8D-462B-B76D-152939FBCF79}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT Costs_NE"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC Costs_NE"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Costs_NE.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[Costs_NE.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          name="PayPlan"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CMF]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[CMF]"
+                          length="2"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CMF]"
+                          name="CMF"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[MOS]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[MOS]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[MOS]"
+                          name="MOS"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CostElementId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[CostElementId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CostElementId]"
+                          name="CostElementId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[WeaponSystemId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[WeaponSystemId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[WeaponSystemId]"
+                          name="WeaponSystemId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[GradeType]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[GradeType]"
+                          name="GradeType"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                          name="GradeLevel"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[Amount]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[Amount]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[Amount]"
+                          name="Amount"
+                          precision="26"
+                          scale="6"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CrunchTime]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[CrunchTime]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CrunchTime]"
+                          name="CrunchTime"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          name="AmcosVersionId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[CMF]"
+                          dataType="wstr"
+                          length="2"
+                          name="CMF" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[MOS]"
+                          dataType="wstr"
+                          length="3"
+                          name="MOS" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[CostElementId]"
+                          dataType="i4"
+                          name="CostElementId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[WeaponSystemId]"
+                          dataType="i4"
+                          name="WeaponSystemId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                          dataType="wstr"
+                          length="3"
+                          name="GradeType" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[Amount]"
+                          dataType="r4"
+                          name="Amount" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[CrunchTime]"
+                          dataType="date"
+                          name="CrunchTime" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST Costs_NE"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[crunch].[Costs_NE]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="PayPlan"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[PayPlan]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[CMF]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="CMF"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[CMF]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CMF]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[MOS]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="MOS"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[MOS]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[MOS]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[CostElementId]"
+                          cachedDataType="i4"
+                          cachedName="CostElementId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[CostElementId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CostElementId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[WeaponSystemId]"
+                          cachedDataType="i4"
+                          cachedName="WeaponSystemId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[WeaponSystemId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[WeaponSystemId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[GradeType]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="GradeType"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[GradeType]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[GradeLevel]"
+                          cachedDataType="ui1"
+                          cachedName="GradeLevel"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[GradeLevel]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[Amount]"
+                          cachedDataType="numeric"
+                          cachedName="Amount"
+                          cachedPrecision="26"
+                          cachedScale="6"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[Amount]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[CrunchTime]"
+                          cachedDataType="date"
+                          cachedName="CrunchTime"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[CrunchTime]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[CrunchTime]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                          cachedDataType="i4"
+                          cachedName="AmcosVersionId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output].Columns[AmcosVersionId]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[CMF]"
+                          dataType="wstr"
+                          length="2"
+                          name="CMF" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[MOS]"
+                          dataType="wstr"
+                          length="3"
+                          name="MOS" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[CostElementId]"
+                          dataType="i4"
+                          name="CostElementId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[WeaponSystemId]"
+                          dataType="i4"
+                          name="WeaponSystemId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                          dataType="wstr"
+                          length="3"
+                          name="GradeType" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                          dataType="r8"
+                          name="Amount" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[CrunchTime]"
+                          dataType="dbTimeStamp"
+                          name="CrunchTime" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NE.Paths[Flat File Source Output]"
+                  endId="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC Import ARNG Costs\DFT Costs_NO"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{F0C8B1C7-CB62-4364-B5BF-4CA9A1B71517}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT Costs_NO"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC Costs_NO"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Costs_NO.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[Costs_NO.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          name="PayPlan"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CMF]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[CMF]"
+                          length="2"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CMF]"
+                          name="CMF"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[AOC]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[AOC]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[AOC]"
+                          name="AOC"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CostElementId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[CostElementId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CostElementId]"
+                          name="CostElementId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[GradeType]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[GradeType]"
+                          name="GradeType"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                          name="GradeLevel"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[WeaponSystemId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[WeaponSystemId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[WeaponSystemId]"
+                          name="WeaponSystemId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[Amount]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[Amount]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[Amount]"
+                          name="Amount"
+                          precision="26"
+                          scale="6"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CrunchTime]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[CrunchTime]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CrunchTime]"
+                          name="CrunchTime"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          name="AmcosVersionId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[CMF]"
+                          dataType="wstr"
+                          length="2"
+                          name="CMF" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[AOC]"
+                          dataType="wstr"
+                          length="3"
+                          name="AOC" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[CostElementId]"
+                          dataType="i4"
+                          name="CostElementId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                          dataType="wstr"
+                          length="3"
+                          name="GradeType" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[WeaponSystemId]"
+                          dataType="i4"
+                          name="WeaponSystemId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[Amount]"
+                          dataType="numeric"
+                          name="Amount"
+                          precision="26"
+                          scale="6" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[CrunchTime]"
+                          dataType="dbDate"
+                          name="CrunchTime" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST Costs_NO"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[crunch].[Costs_NO]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="PayPlan"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[PayPlan]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[CMF]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="CMF"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[CMF]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CMF]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[AOC]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="AOC"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[AOC]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[AOC]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[CostElementId]"
+                          cachedDataType="i4"
+                          cachedName="CostElementId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[CostElementId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CostElementId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[GradeType]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="GradeType"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[GradeType]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[GradeLevel]"
+                          cachedDataType="ui1"
+                          cachedName="GradeLevel"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[GradeLevel]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[WeaponSystemId]"
+                          cachedDataType="i4"
+                          cachedName="WeaponSystemId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[WeaponSystemId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[WeaponSystemId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[Amount]"
+                          cachedDataType="numeric"
+                          cachedName="Amount"
+                          cachedPrecision="26"
+                          cachedScale="6"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[Amount]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[CrunchTime]"
+                          cachedDataType="dbDate"
+                          cachedName="CrunchTime"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[CrunchTime]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[CrunchTime]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                          cachedDataType="i4"
+                          cachedName="AmcosVersionId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output].Columns[AmcosVersionId]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[CMF]"
+                          dataType="wstr"
+                          length="2"
+                          name="CMF" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[AOC]"
+                          dataType="wstr"
+                          length="3"
+                          name="AOC" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[CostElementId]"
+                          dataType="i4"
+                          name="CostElementId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                          dataType="wstr"
+                          length="3"
+                          name="GradeType" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[WeaponSystemId]"
+                          dataType="i4"
+                          name="WeaponSystemId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                          dataType="numeric"
+                          name="Amount"
+                          precision="26"
+                          scale="6" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[CrunchTime]"
+                          dataType="dbTimeStamp"
+                          name="CrunchTime" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NO.Paths[Flat File Source Output]"
+                  endId="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{10B2B296-6313-4AA0-ABE6-B9011291C123}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT Costs_NWO"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC Costs_NWO"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Costs_NWO.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[Costs_NWO.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          name="PayPlan"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[Branch]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[Branch]"
+                          length="2"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[Branch]"
+                          name="Branch"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[WOMOS]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[WOMOS]"
+                          length="4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[WOMOS]"
+                          name="WOMOS"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[CostElementId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[CostElementId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[CostElementId]"
+                          name="CostElementId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[GradeType]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                          length="3"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[GradeType]"
+                          name="GradeType"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[GradeLevel]"
+                          name="GradeLevel"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[WeaponSystemId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[WeaponSystemId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[WeaponSystemId]"
+                          name="WeaponSystemId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[Amount]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[Amount]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[Amount]"
+                          name="Amount"
+                          precision="26"
+                          scale="6"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[CrunchTime]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[CrunchTime]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[CrunchTime]"
+                          name="CrunchTime"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          name="AmcosVersionId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[Branch]"
+                          dataType="wstr"
+                          length="2"
+                          name="Branch" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[WOMOS]"
+                          dataType="wstr"
+                          length="4"
+                          name="WOMOS" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[CostElementId]"
+                          dataType="i4"
+                          name="CostElementId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[GradeType]"
+                          dataType="wstr"
+                          length="3"
+                          name="GradeType" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[WeaponSystemId]"
+                          dataType="i4"
+                          name="WeaponSystemId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[Amount]"
+                          dataType="numeric"
+                          name="Amount"
+                          precision="26"
+                          scale="6" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[CrunchTime]"
+                          dataType="dbTimeStamp"
+                          name="CrunchTime" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST Costs_NWO"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[crunch].[Costs_NWO]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="PayPlan"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[PayPlan]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[Branch]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="Branch"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[Branch]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[Branch]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[WOMOS]"
+                          cachedDataType="wstr"
+                          cachedLength="4"
+                          cachedName="WOMOS"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[WOMOS]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[WOMOS]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[CostElementId]"
+                          cachedDataType="i4"
+                          cachedName="CostElementId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[CostElementId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[CostElementId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[GradeType]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="GradeType"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[GradeType]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[GradeLevel]"
+                          cachedDataType="ui1"
+                          cachedName="GradeLevel"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[GradeLevel]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[WeaponSystemId]"
+                          cachedDataType="i4"
+                          cachedName="WeaponSystemId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[WeaponSystemId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[WeaponSystemId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[Amount]"
+                          cachedDataType="numeric"
+                          cachedName="Amount"
+                          cachedPrecision="26"
+                          cachedScale="6"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[Amount]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[CrunchTime]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="CrunchTime"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[CrunchTime]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[CrunchTime]" />
+                        <inputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                          cachedDataType="i4"
+                          cachedName="AmcosVersionId"
+                          externalMetadataColumnId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output].Columns[AmcosVersionId]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[Branch]"
+                          dataType="wstr"
+                          length="2"
+                          name="Branch" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[WOMOS]"
+                          dataType="wstr"
+                          length="4"
+                          name="WOMOS" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[CostElementId]"
+                          dataType="i4"
+                          name="CostElementId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                          dataType="wstr"
+                          length="3"
+                          name="GradeType" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                          dataType="ui1"
+                          name="GradeLevel" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[WeaponSystemId]"
+                          dataType="i4"
+                          name="WeaponSystemId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                          dataType="numeric"
+                          name="Amount"
+                          precision="26"
+                          scale="6" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[CrunchTime]"
+                          dataType="dbTimeStamp"
+                          name="CrunchTime" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC Import ARNG Costs\DFT Costs_NWO.Paths[Flat File Source Output]"
+                  endId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Delete ARNG Costs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6F73A3F3-CC5D-44B7-997C-DA8F483CDADA}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Delete ARNG Costs"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9A3BC9AE-5EC3-47B8-920F-EB657AC7F846}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE crunch.Costs_NE;&#xA;TRUNCATE TABLE crunch.Costs_NO;&#xA;TRUNCATE TABLE crunch.Costs_NWO;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6A1958C6-1175-4FFE-BF22-D395C9D60EF1}"
+      DTS:From="Package\SQL Delete ARNG Costs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC Import ARNG Costs" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NE"
+          TopLeft="5.50000000000006,5.49999999999989" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NO"
+          TopLeft="219,5.49999999999989" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NWO"
+          TopLeft="434,5.49999999999989" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="604,102"
+          Size="604,145"
+          Id="Package\SEQC Import ARNG Costs"
+          TopLeft="5.50000000000006,107.5" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\SQL Delete ARNG Costs"
+          TopLeft="206.5,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="307.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SEQC Import ARNG Costs\DFT Costs_NE">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="181,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NE\FF_SRC Costs_NE"
+          TopLeft="9.00000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NE.Paths[Flat File Source Output]"
+          TopLeft="96,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC Import ARNG Costs\DFT Costs_NE\OLE_DST Costs_NE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\SEQC Import ARNG Costs\DFT Costs_NO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="183,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NO\FF_SRC Costs_NO"
+          TopLeft="9.00000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NO.Paths[Flat File Source Output]"
+          TopLeft="96.75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC Import ARNG Costs\DFT Costs_NO\OLE_DST Costs_NO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\SEQC Import ARNG Costs\DFT Costs_NWO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="193,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NWO\FF_SRC Costs_NWO"
+          TopLeft="16,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC Import ARNG Costs\DFT Costs_NWO.Paths[Flat File Source Output]"
+          TopLeft="105.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC Import ARNG Costs\DFT Costs_NWO\OLE_DST Costs_NWO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

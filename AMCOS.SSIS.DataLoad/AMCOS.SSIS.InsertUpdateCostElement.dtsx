@@ -1,0 +1,1550 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/28/2018 4:17:35 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\Greg.Bonner"
+  DTS:DTSID="{D1690918-5E27-4BDE-A4B4-F9F7A7FDE3B8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS InsertUpdateCostElement"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{EFE6FBEA-A4E6-4797-B3CA-F52D6B2F44F4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2019_MAR]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{41BA0E88-4EF2-4126-9406-90647EB8EF92}"
+      DTS:ObjectName="alexosmisa4dbd1.AMCOS2019_MAR">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2019_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{66077DB9-F8B9-427B-95F2-2305254E3B23}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Data\Development\AMCOS\Docs\Data Load\2019\March\ReferenceTables\CostElement.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Insert Update CostElements"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{81F49D21-7CC2-45A8-A3DB-B0D24A890939}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Insert Update CostElements"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Insert Update CostElements\DER CostElement"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER CostElement"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input].Columns[ArmyCesTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ArmyCesTitle"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[ArmyCesTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input].Columns[OsdCapeCesTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OsdCapeCesTitle"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[OsdCapeCesTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input].Columns[CostElementName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CostElementName"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementName]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input].Columns[CostElementCategory]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CostElementCategory"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementCategory]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input].Columns[APPN]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="APPN"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[APPN]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input].Columns[AppropriationGroup]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="AppropriationGroup"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[AppropriationGroup]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input].Columns[PayPlan]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PayPlan"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[PayPlan]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[ArmyCesTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="250"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[ArmyCesTitle]"
+                      name="ArmyCesTitle"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,250)[LEFT](#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[ArmyCesTitle]},250)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,250)LEFT(ArmyCesTitle,250)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[OsdCapeCesTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="250"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[OsdCapeCesTitle]"
+                      name="OsdCapeCesTitle"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,250)[LEFT](#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[OsdCapeCesTitle]},250)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,250)LEFT(OsdCapeCesTitle,250)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="250"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementName]"
+                      name="CostElementName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,250)[LEFT](#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementName]},250)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,250)LEFT(CostElementName,250)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementCategory]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementCategory]"
+                      name="CostElementCategory"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)[LEFT](#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementCategory]},50)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)LEFT(CostElementCategory,50)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[APPN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="25"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[APPN]"
+                      name="APPN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,25)[LEFT](#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[APPN]},25)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,25)LEFT(APPN,25)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[AppropriationGroup]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[AppropriationGroup]"
+                      name="AppropriationGroup"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,50)[LEFT](#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[AppropriationGroup]},50)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,50)LEFT(AppropriationGroup,50)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[PayPlan]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="3"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[PayPlan]"
+                      name="PayPlan"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,3)[LEFT](#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[PayPlan]},3)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,3)LEFT(PayPlan,3)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Insert Update CostElements\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">CombinedSheet$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Insert Update CostElements\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Action]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[Action]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Action]"
+                      name="Action"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[CostElementId]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementId]"
+                      name="CostElementId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[PayPlan]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[PayPlan]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[PayPlan]"
+                      name="PayPlan"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[AppropriationGroup]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[AppropriationGroup]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[AppropriationGroup]"
+                      name="AppropriationGroup"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[APPN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[APPN]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[APPN]"
+                      name="APPN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementCategory]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[CostElementCategory]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementCategory]"
+                      name="CostElementCategory"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[CostElementName]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementName]"
+                      name="CostElementName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Amort]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amort]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Amort]"
+                      name="Amort"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Model]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[Model]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Model]"
+                      name="Model"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[showOrder]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[showOrder]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[showOrder]"
+                      name="showOrder"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[ArmyCesTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[ArmyCesTitle]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[ArmyCesTitle]"
+                      name="ArmyCesTitle"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[OsdCapeCesTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[OsdCapeCesTitle]"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[OsdCapeCesTitle]"
+                      name="OsdCapeCesTitle"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[Action]"
+                      dataType="wstr"
+                      length="255"
+                      name="Action" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[CostElementId]"
+                      dataType="r8"
+                      name="CostElementId" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[PayPlan]"
+                      dataType="wstr"
+                      length="255"
+                      name="PayPlan" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[AppropriationGroup]"
+                      dataType="wstr"
+                      length="255"
+                      name="AppropriationGroup" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[APPN]"
+                      dataType="wstr"
+                      length="255"
+                      name="APPN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[CostElementCategory]"
+                      dataType="wstr"
+                      length="255"
+                      name="CostElementCategory" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[CostElementName]"
+                      dataType="wstr"
+                      length="255"
+                      name="CostElementName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amort]"
+                      dataType="r8"
+                      name="Amort" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[Model]"
+                      dataType="r8"
+                      name="Model" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[showOrder]"
+                      dataType="r8"
+                      name="showOrder" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[ArmyCesTitle]"
+                      dataType="wstr"
+                      length="255"
+                      name="ArmyCesTitle" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].ExternalColumns[OsdCapeCesTitle]"
+                      dataType="wstr"
+                      length="255"
+                      name="OsdCapeCesTitle" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[Action]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[Action]"
+                      name="Action" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[CostElementId]"
+                      dataType="r8"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[CostElementId]"
+                      name="CostElementId" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[PayPlan]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[PayPlan]"
+                      name="PayPlan" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[AppropriationGroup]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[AppropriationGroup]"
+                      name="AppropriationGroup" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[APPN]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[APPN]"
+                      name="APPN" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[CostElementCategory]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[CostElementCategory]"
+                      name="CostElementCategory" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[CostElementName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[CostElementName]"
+                      name="CostElementName" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[Amort]"
+                      dataType="r8"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[Amort]"
+                      name="Amort" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[Model]"
+                      dataType="r8"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[Model]"
+                      name="Model" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[showOrder]"
+                      dataType="r8"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[showOrder]"
+                      name="showOrder" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[ArmyCesTitle]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[ArmyCesTitle]"
+                      name="ArmyCesTitle" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[OsdCapeCesTitle]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[OsdCapeCesTitle]"
+                      name="OsdCapeCesTitle" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Insert Update CostElements\LKP CostElement"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP CostElement"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CostElementId
+FROM lookup.CostElement;</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT CostElementId
+FROM lookup.CostElement;) [refTable]
+where [refTable].[CostElementId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CostElementId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Insert Update CostElements\LKP CostElement.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2019_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2019_MAR]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Insert Update CostElements\LKP CostElement.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\LKP CostElement.Inputs[Lookup Input].Columns[CostElementId]"
+                      cachedDataType="i4"
+                      cachedName="CostElementId"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">CostElementId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\LKP CostElement.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\LKP CostElement.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\LKP CostElement.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Insert Update CostElements\OLE DB Command"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="OLE DB Command"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE lookup.CostElement
+SET PayPlan = ?,
+    [AppropriationGroup] = ?,
+    [APPN] = ?,
+    [CostElementCategory] = ?,
+    [CostElementName] = ?,
+    [Amort] = ?,
+    [Model] = ?,
+    [showOrder] = ?,
+    [ArmyCesTitle] = ?,
+    [OsdCapeCesTitle] = ?
+WHERE CostElementId = ?;</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Insert Update CostElements\OLE DB Command.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2019_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2019_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[Amort]"
+                      cachedDataType="r8"
+                      cachedName="Amort"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Amort]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[Model]"
+                      cachedDataType="r8"
+                      cachedName="Model"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Model]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[showOrder]"
+                      cachedDataType="r8"
+                      cachedName="showOrder"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[showOrder]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[CostElementId]"
+                      cachedDataType="i4"
+                      cachedName="CostElementId"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_10]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[CostElementId]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[ArmyCesTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="ArmyCesTitle"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[ArmyCesTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[OsdCapeCesTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="OsdCapeCesTitle"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_9]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[OsdCapeCesTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[CostElementName]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="CostElementName"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementName]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[CostElementCategory]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="CostElementCategory"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementCategory]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[APPN]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="APPN"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[APPN]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[PayPlan]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="PayPlan"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[PayPlan]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].Columns[AppropriationGroup]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AppropriationGroup"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[AppropriationGroup]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="3"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="wstr"
+                      length="25"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      dataType="wstr"
+                      length="250"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      dataType="i4"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      dataType="i4"
+                      name="Param_6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      dataType="i4"
+                      name="Param_7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                      dataType="wstr"
+                      length="250"
+                      name="Param_8">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_9]"
+                      dataType="wstr"
+                      length="250"
+                      name="Param_9">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_10]"
+                      dataType="i4"
+                      name="Param_10">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Insert Update CostElements\OLE DB Command.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Insert Update CostElements\OLE DB Command.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Insert Update CostElements\OLE_DST CostElement"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST CostElement"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[CostElement]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2019_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2019_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[Amort]"
+                      cachedDataType="r8"
+                      cachedName="Amort"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[Amort]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Amort]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[Model]"
+                      cachedDataType="r8"
+                      cachedName="Model"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[Model]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[Model]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[showOrder]"
+                      cachedDataType="r8"
+                      cachedName="showOrder"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[showOrder]"
+                      lineageId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output].Columns[showOrder]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[ArmyCesTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="ArmyCesTitle"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[ArmyCesTitle]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[ArmyCesTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[OsdCapeCesTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="OsdCapeCesTitle"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[OsdCapeCesTitle]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[OsdCapeCesTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[CostElementName]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="CostElementName"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[CostElementName]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementName]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[CostElementCategory]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="CostElementCategory"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[CostElementCategory]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[CostElementCategory]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[APPN]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="APPN"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[APPN]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[APPN]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[AppropriationGroup]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AppropriationGroup"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[AppropriationGroup]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[AppropriationGroup]" />
+                    <inputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="PayPlan"
+                      externalMetadataColumnId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                      lineageId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output].Columns[PayPlan]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[CostElementId]"
+                      dataType="i4"
+                      name="CostElementId" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                      dataType="wstr"
+                      length="3"
+                      name="PayPlan" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[AppropriationGroup]"
+                      dataType="wstr"
+                      length="50"
+                      name="AppropriationGroup" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[APPN]"
+                      dataType="wstr"
+                      length="25"
+                      name="APPN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[CostElementCategory]"
+                      dataType="wstr"
+                      length="50"
+                      name="CostElementCategory" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[CostElementName]"
+                      dataType="wstr"
+                      length="250"
+                      name="CostElementName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[Amort]"
+                      dataType="i4"
+                      name="Amort" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[Model]"
+                      dataType="i4"
+                      name="Model" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[Locality]"
+                      dataType="bool"
+                      name="Locality" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="3000"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[BusinessLogic]"
+                      dataType="wstr"
+                      length="3000"
+                      name="BusinessLogic" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[BasisOfComputation]"
+                      dataType="wstr"
+                      length="3000"
+                      name="BasisOfComputation" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[Source]"
+                      dataType="wstr"
+                      length="3000"
+                      name="Source" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[showOrder]"
+                      dataType="i4"
+                      name="showOrder" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[ArmyCesTitle]"
+                      dataType="wstr"
+                      length="250"
+                      name="ArmyCesTitle" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input].ExternalColumns[OsdCapeCesTitle]"
+                      dataType="wstr"
+                      length="250"
+                      name="OsdCapeCesTitle" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Insert Update CostElements.Paths[Derived Column Output]"
+              endId="Package\DFT Insert Update CostElements\LKP CostElement.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Insert Update CostElements\DER CostElement.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Insert Update CostElements.Paths[Excel Source Output]"
+              endId="Package\DFT Insert Update CostElements\DER CostElement.Inputs[Derived Column Input]"
+              name="Excel Source Output"
+              startId="Package\DFT Insert Update CostElements\Excel Source.Outputs[Excel Source Output]" />
+            <path
+              refId="Package\DFT Insert Update CostElements.Paths[Lookup Match Output]"
+              endId="Package\DFT Insert Update CostElements\OLE DB Command.Inputs[OLE DB Command Input]"
+              name="Lookup Match Output"
+              startId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT Insert Update CostElements.Paths[Lookup No Match Output]"
+              endId="Package\DFT Insert Update CostElements\OLE_DST CostElement.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\DFT Insert Update CostElements\LKP CostElement.Outputs[Lookup No Match Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="241,42"
+          Id="Package\DFT Insert Update CostElements"
+          TopLeft="391,122" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Insert Update CostElements">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\DFT Insert Update CostElements\Excel Source"
+          TopLeft="265,5.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\DFT Insert Update CostElements\OLE_DST CostElement"
+          TopLeft="239.5,311.5" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\DFT Insert Update CostElements\OLE DB Command"
+          TopLeft="5.50000000000006,311.5" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\DFT Insert Update CostElements\LKP CostElement"
+          TopLeft="254,209.5" />
+        <EdgeLayout
+          Id="Package\DFT Insert Update CostElements.Paths[Lookup Match Output]"
+          TopLeft="310.666666666667,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-218.666666666667,60"
+              Start="0,0"
+              End="-218.666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3436754176611" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3436754176611"
+                    Point2="0,24.3436754176611"
+                    Point3="-4,24.3436754176611" />
+                  <mssgle:LineSegment
+                    End="-214.666666666667,24.3436754176611" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-214.666666666667,24.3436754176611"
+                    Point2="-218.666666666667,24.3436754176611"
+                    Point3="-218.666666666667,28.3436754176611" />
+                  <mssgle:LineSegment
+                    End="-218.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-157.524720052083,29.3436754176611,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Insert Update CostElements.Paths[Lookup No Match Output]"
+          TopLeft="363.333333333333,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-26.3333333333333,60"
+              Start="0,0"
+              End="-26.3333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3436754176611" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3436754176611"
+                    Point2="0,24.3436754176611"
+                    Point3="-4,24.3436754176611" />
+                  <mssgle:LineSegment
+                    End="-22.3333333333333,24.3436754176611" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.3333333333333,24.3436754176611"
+                    Point2="-26.3333333333333,24.3436754176611"
+                    Point3="-26.3333333333333,28.3436754176611" />
+                  <mssgle:LineSegment
+                    End="-26.3333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-68.9730533854166,29.3436754176611,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168,42"
+          Id="Package\DFT Insert Update CostElements\DER CostElement"
+          TopLeft="253,107.5" />
+        <EdgeLayout
+          Id="Package\DFT Insert Update CostElements.Paths[Excel Source Output]"
+          TopLeft="337,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Insert Update CostElements.Paths[Derived Column Output]"
+          TopLeft="337,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Insert Update CostElements\OLE_DST CostElement">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Insert Update CostElements\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Insert Update CostElements\LKP CostElement">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

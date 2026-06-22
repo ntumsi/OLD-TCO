@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>AMCOS.AMCOS2019_MAR</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{3dff7ced-14fc-4828-889f-0e0ff9636188}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>AMCOS.AMCOS2019_MAR</RootNamespace>
+    <AssemblyName>AMCOS.AMCOS2019_MAR</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <DacApplicationName>AMCOS.AMCOS2019_MAR</DacApplicationName>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunSqlCodeAnalysis>False</RunSqlCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Security\" />
+    <Folder Include="analysis" />
+    <Folder Include="analysis\Stored Procedures" />
+    <Folder Include="analysis\Tables" />
+    <Folder Include="compare" />
+    <Folder Include="compare\Tables" />
+    <Folder Include="crunch" />
+    <Folder Include="crunch\Functions" />
+    <Folder Include="crunch\Stored Procedures" />
+    <Folder Include="crunch\Tables" />
+    <Folder Include="crunch\Views" />
+    <Folder Include="data" />
+    <Folder Include="data\Views" />
+    <Folder Include="dataload" />
+    <Folder Include="dataload\Stored Procedures" />
+    <Folder Include="dataload\Tables" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Functions" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="DMDC" />
+    <Folder Include="DMDC\Tables" />
+    <Folder Include="load_GFEBS" />
+    <Folder Include="load_GFEBS\Tables" />
+    <Folder Include="load_GFEBS\Views" />
+    <Folder Include="load_inventory" />
+    <Folder Include="load_inventory\Tables" />
+    <Folder Include="load_payschedule" />
+    <Folder Include="load_payschedule\Tables" />
+    <Folder Include="load_training" />
+    <Folder Include="load_training\Tables" />
+    <Folder Include="logs" />
+    <Folder Include="logs\Tables" />
+    <Folder Include="lookup" />
+    <Folder Include="lookup\Tables" />
+    <Folder Include="lookup\Views" />
+    <Folder Include="test" />
+    <Folder Include="test\Functions" />
+    <Folder Include="web" />
+    <Folder Include="web\Functions" />
+    <Folder Include="web\Stored Procedures" />
+    <Folder Include="web\Tables" />
+    <Folder Include="web\Views" />
+    <Folder Include="webuser" />
+    <Folder Include="webuser\Stored Procedures" />
+    <Folder Include="webuser\Tables" />
+    <Folder Include="greg" />
+    <Folder Include="greg\Tables" />
+    <Folder Include="analysis\Views\" />
+    <Folder Include="test\Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="analysis\Stored Procedures\CopyPMReport.sql" />
+    <Build Include="analysis\Tables\CostsByDate.sql" />
+    <Build Include="compare\Tables\CostsExternalTest.sql" />
+    <Build Include="compare\Tables\CostsProduction.sql" />
+    <Build Include="crunch\Functions\CivilianBasePay.sql" />
+    <Build Include="crunch\Functions\CivilianCashAwardsPay.sql" />
+    <Build Include="crunch\Functions\CivilianEmployerShareFEGLI.sql" />
+    <Build Include="crunch\Functions\CivilianEmployerShareFEHB.sql" />
+    <Build Include="crunch\Functions\CivilianEmployerShareFICA.sql" />
+    <Build Include="crunch\Functions\CivilianEmployerShareRetirement.sql" />
+    <Build Include="crunch\Functions\CivilianHazardousDutyPay.sql" />
+    <Build Include="crunch\Functions\CivilianLocalityPay.sql" />
+    <Build Include="crunch\Functions\CivilianMedicalPremiumPay.sql" />
+    <Build Include="crunch\Functions\CivilianNonForeignCOLA.sql" />
+    <Build Include="crunch\Functions\CivilianOtherBenefits.sql" />
+    <Build Include="crunch\Functions\CivilianOverseasAllowances.sql" />
+    <Build Include="crunch\Functions\CivilianPhysicianComparabilityPay.sql" />
+    <Build Include="crunch\Functions\CivilianPostDifferentialPay.sql" />
+    <Build Include="crunch\Functions\CivilianPostRetirementHealth.sql" />
+    <Build Include="crunch\Functions\CivilianPostRetirementLifeInsurance.sql" />
+    <Build Include="crunch\Functions\CivilianSupervisorySpecialPay.sql" />
+    <Build Include="crunch\Functions\CivilianTraining.sql" />
+    <Build Include="crunch\Functions\CostElementsByPayPlan.sql" />
+    <Build Include="crunch\Functions\GetAmortGrade.sql" />
+    <Build Include="crunch\Functions\GetContinuationRate.sql" />
+    <Build Include="crunch\Functions\GetManYears.sql" />
+    <Build Include="crunch\Functions\GetSingleValue.sql" />
+    <Build Include="crunch\Functions\InventoryByCategorySubgroupGrade.sql" />
+    <Build Include="crunch\Functions\InventoryByCategorySubgroupGradeYos.sql" />
+    <Build Include="crunch\Functions\InventoryByGradeForCategoryGroup.sql" />
+    <Build Include="crunch\Functions\InventoryByGradeForCategorySubgroup.sql" />
+    <Build Include="crunch\Functions\InventoryByGradeYosForCategorySubgroup.sql" />
+    <Build Include="crunch\Functions\PersonnelNumberReceivesLocalityPay.sql" />
+    <Build Include="crunch\Functions\ValidateAmcosVersion.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchAll.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchGG.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchGL.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchGS.sql">
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchPayPlanOf.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchPayPlanOf_1ActiveDay.sql" />
+    <Build Include="crunch\Tables\Costs_1ActiveDay_NE.sql" />
+    <Build Include="crunch\Tables\Costs_1ActiveDay_NO.sql" />
+    <Build Include="crunch\Tables\Costs_1ActiveDay_NWO.sql" />
+    <Build Include="crunch\Tables\Costs_1ActiveDay_RE.sql" />
+    <Build Include="crunch\Tables\Costs_1ActiveDay_RO.sql" />
+    <Build Include="crunch\Tables\Costs_1ActiveDay_RWO.sql" />
+    <Build Include="crunch\Tables\Costs_AE.sql" />
+    <Build Include="crunch\Tables\Costs_AO.sql" />
+    <Build Include="crunch\Tables\Costs_AWO.sql" />
+    <Build Include="crunch\Tables\Costs_CrunchTemp.sql" />
+    <Build Include="crunch\Tables\Costs_CrunchTemp_1AD.sql" />
+    <Build Include="crunch\Tables\Costs_DB.sql" />
+    <Build Include="crunch\Tables\Costs_DE.sql" />
+    <Build Include="crunch\Tables\Costs_DJ.sql" />
+    <Build Include="crunch\Tables\Costs_DK.sql" />
+    <Build Include="crunch\Tables\Costs_GP.sql" />
+    <Build Include="crunch\Tables\Costs_GS.sql" />
+    <Build Include="crunch\Tables\Costs_GSS.sql" />
+    <Build Include="crunch\Tables\Costs_NE.sql" />
+    <Build Include="crunch\Tables\Costs_NH.sql" />
+    <Build Include="crunch\Tables\Costs_NJ.sql" />
+    <Build Include="crunch\Tables\Costs_NK.sql" />
+    <Build Include="crunch\Tables\Costs_NO.sql" />
+    <Build Include="crunch\Tables\Costs_NWO.sql" />
+    <Build Include="crunch\Tables\Costs_RE.sql" />
+    <Build Include="crunch\Tables\Costs_RO.sql" />
+    <Build Include="crunch\Tables\Costs_RWO.sql" />
+    <Build Include="crunch\Tables\Costs_SES.sql" />
+    <Build Include="crunch\Tables\Costs_WG.sql" />
+    <Build Include="crunch\Tables\Costs_WL.sql" />
+    <Build Include="crunch\Tables\Costs_WS.sql" />
+    <Build Include="data\Views\AccessionsNonObligated.sql" />
+    <Build Include="data\Views\CategoryGroup.sql" />
+    <Build Include="data\Views\CategoryGroupWithInventory.sql" />
+    <Build Include="data\Views\CategorySubgroup.sql" />
+    <Build Include="data\Views\CategorySubgroupWithInventory.sql" />
+    <Build Include="data\Views\ContinuationRates.sql" />
+    <Build Include="data\Views\Costs.sql" />
+    <Build Include="data\Views\Costs_NgRes1.sql" />
+    <Build Include="data\Views\CostsWithDescriptions.sql" />
+    <Build Include="data\Views\Inventory.sql" />
+    <Build Include="data\Views\LocalityRates.sql" />
+    <Build Include="data\Views\PaySchedules.sql" />
+    <Build Include="data\Views\PercentAtETS_AvgReEnlistedRates.sql" />
+    <Build Include="data\Views\RE_SRB_PercentAtETS.sql" />
+    <Build Include="data\Views\TrainingAll.sql" />
+    <Build Include="dataload\Stored Procedures\DeletePersonnelWithLessThan80Hours.sql" />
+    <Build Include="dataload\Stored Procedures\GFEBSAggregateData.sql" />
+    <Build Include="dataload\Stored Procedures\InsertMissingUSAROfficer.sql" />
+    <Build Include="dataload\Stored Procedures\LoadGFEBSInventory.sql" />
+    <Build Include="dataload\Stored Procedures\LoadGSOccupations_Post.sql" />
+    <Build Include="dataload\Stored Procedures\LoadGSOccupations_Pre.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateBlsOes.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateContinuationRates.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateGFEBSData.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateGSJobSeries.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateInventoryCivilian.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateJicInflationRates.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateOPMSpecialRate.sql" />
+    <Build Include="dataload\Stored Procedures\TruncatePayScheduleGS.sql" />
+    <Build Include="dataload\Stored Procedures\TruncatePayScheduleGSS.sql" />
+    <Build Include="dataload\Stored Procedures\TruncatePayScheduleMilitary.sql" />
+    <Build Include="dataload\Stored Procedures\TruncatePayScheduleSES.sql" />
+    <Build Include="dataload\Stored Procedures\TruncatePayScheduleWage.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateTableValues.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateTableValuesMiscellaneousSheet.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateTrainingData.sql" />
+    <Build Include="dataload\Tables\AE_MilCompAllowances.sql" />
+    <Build Include="dataload\Tables\AE_OtherBenefits.sql" />
+    <Build Include="dataload\Tables\AE_PCS.sql" />
+    <Build Include="dataload\Tables\AE_SpecialPays.sql" />
+    <Build Include="dataload\Tables\AE_SpecialPaysElig.sql" />
+    <Build Include="dataload\Tables\AO_MilCompAllowances.sql" />
+    <Build Include="dataload\Tables\AO_OtherBenefits.sql" />
+    <Build Include="dataload\Tables\AO_PCS.sql" />
+    <Build Include="dataload\Tables\AO_ProjEndstrength.sql" />
+    <Build Include="dataload\Tables\AO_SpecialPaysBudget.sql" />
+    <Build Include="dataload\Tables\AO_SpecialPaysElig.sql" />
+    <Build Include="dataload\Tables\MilitaryAccessions.sql" />
+    <Build Include="dataload\Tables\MilitaryContinuationRates.sql" />
+    <Build Include="dataload\Tables\NE_MilCompAllowances.sql" />
+    <Build Include="dataload\Tables\NO_MilCompAllowances.sql" />
+    <Build Include="dataload\Tables\OccupationalEmploymentStatisticsMetro.sql" />
+    <Build Include="dataload\Tables\OccupationalEmploymentStatisticsNational.sql" />
+    <Build Include="dataload\Tables\RE_MilCompAllowances.sql" />
+    <Build Include="dataload\Tables\RO_MilCompAllowances.sql" />
+    <Build Include="dataload\Tables\RO_ProjectedInventory.sql" />
+    <Build Include="dataload\Tables\SepParms.sql" />
+    <Build Include="dataload\Tables\SingleValues.sql" />
+    <Build Include="dbo\Functions\GetCostElementId.sql" />
+    <Build Include="dbo\Functions\getGSOccupationalSeriesList.sql" />
+    <Build Include="dbo\Functions\getWageAreaList.sql" />
+    <Build Include="dbo\Functions\udfFormatPhoneNo.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_CheckSchemaVersion.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_WebEvent_LogEvent.sql" />
+    <Build Include="dbo\Stored Procedures\spCrossTabNumber.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateArmyCesTitle.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateCostElementAppropriationGroup.sql" />
+    <Build Include="dbo\Tables\aspnet_SchemaVersions.sql" />
+    <Build Include="dbo\Tables\aspnet_Users.sql" />
+    <Build Include="dbo\Tables\aspnet_WebEvent_Events.sql" />
+    <Build Include="DMDC\Tables\AMOSTABS.sql" />
+    <Build Include="DMDC\Tables\BasePopulation.sql" />
+    <Build Include="DMDC\Tables\ContinuationRates_NotPromoted.sql" />
+    <Build Include="DMDC\Tables\ContinuationRates_Promoted.sql" />
+    <Build Include="DMDC\Tables\ETS_Population.sql" />
+    <Build Include="DMDC\Tables\ETS_Rates.sql" />
+    <Build Include="DMDC\Tables\OFBYPMOS.sql" />
+    <Build Include="DMDC\Tables\RAR2409.sql" />
+    <Build Include="DMDC\Tables\TABMOS.sql" />
+    <Build Include="load_GFEBS\Tables\Cleaned.sql" />
+    <Build Include="load_GFEBS\Tables\Processed.sql" />
+    <Build Include="load_GFEBS\Tables\Raw.sql" />
+    <Build Include="load_GFEBS\Views\MultiplePositionsByPersonnelNumber.sql" />
+    <Build Include="load_GFEBS\Views\PersonnelNumberWithMultiplePositions.sql" />
+    <Build Include="load_GFEBS\Views\PersonnelThatContainOverseasCostElements.sql" />
+    <Build Include="load_GFEBS\Views\PersonnelThatDoNotContainOverseasCostElements.sql" />
+    <Build Include="load_GFEBS\Views\PositionToUse.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianAcquisition.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianDemonstration.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianGS.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianOther.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianSES.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianWage.sql" />
+    <Build Include="load_inventory\Tables\Inventory_Military_Enlisted.sql" />
+    <Build Include="load_inventory\Tables\Inventory_Military_Officer.sql" />
+    <Build Include="load_inventory\Tables\Inventory_Military_Warrant.sql" />
+    <Build Include="load_inventory\Tables\Inventory_Production.sql" />
+    <Build Include="load_payschedule\Tables\PaySchedule_CivilianDemonstration.sql" />
+    <Build Include="load_payschedule\Tables\PaySchedule_GS.sql" />
+    <Build Include="load_payschedule\Tables\PaySchedule_GSS.sql" />
+    <Build Include="load_payschedule\Tables\PaySchedule_Military.sql" />
+    <Build Include="load_payschedule\Tables\PaySchedule_SES.sql" />
+    <Build Include="load_payschedule\Tables\PaySchedule_Wage.sql" />
+    <Build Include="load_training\Tables\AE_TrainingBudgetFactors.sql" />
+    <Build Include="load_training\Tables\AO_TrainingBudgetFactors.sql" />
+    <Build Include="load_training\Tables\TrainingArmy.sql" />
+    <Build Include="load_training\Tables\TrainingCMF.sql" />
+    <Build Include="load_training\Tables\TrainingMOS.sql" />
+    <Build Include="logs\Tables\IISLogs.sql" />
+    <Build Include="lookup\Tables\AMCOSVersion.sql" />
+    <Build Include="lookup\Tables\AOC.sql" />
+    <Build Include="lookup\Tables\CMF_Branch_FA.sql" />
+    <Build Include="lookup\Tables\CostElement.sql" />
+    <Build Include="lookup\Tables\CostSummary.sql" />
+    <Build Include="lookup\Tables\CostSummaryElement.sql" />
+    <Build Include="lookup\Tables\FIPS_ZIP.sql" />
+    <Build Include="lookup\Tables\GFEBS_ActivityType.sql" />
+    <Build Include="lookup\Tables\GFEBS_CostCenter.sql" />
+    <Build Include="lookup\Tables\GFEBS_FunctionalArea.sql" />
+    <Build Include="lookup\Tables\GFEBS_FundsCenter.sql" />
+    <Build Include="lookup\Tables\GFEBS_NonUS.sql" />
+    <Build Include="lookup\Tables\Grade.sql" />
+    <Build Include="lookup\Tables\GS_LocalityPay.sql" />
+    <Build Include="lookup\Tables\GS_OccupationalGroup.sql" />
+    <Build Include="lookup\Tables\GS_OccupationalSeries.sql" />
+    <Build Include="lookup\Tables\JicInflationRates.sql" />
+    <Build Include="lookup\Tables\LocalityPayArea_FIPS.sql" />
+    <Build Include="lookup\Tables\LocalityRates.sql" />
+    <Build Include="lookup\Tables\MACOM.sql" />
+    <Build Include="lookup\Tables\MetroArea.sql" />
+    <Build Include="lookup\Tables\MOS.sql" />
+    <Build Include="lookup\Tables\MOS_SkillLevel.sql" />
+    <Build Include="lookup\Tables\OPM_SpecialRate.sql" />
+    <Build Include="lookup\Tables\Organization.sql" />
+    <Build Include="lookup\Tables\PayPlan.sql" />
+    <Build Include="lookup\Tables\SOCStructure.sql" />
+    <Build Include="lookup\Tables\StateCountry.sql" />
+    <Build Include="lookup\Tables\SubgroupMapping.sql" />
+    <Build Include="lookup\Tables\SubgroupMappingForCivOver2299.sql" />
+    <Build Include="lookup\Tables\WageArea.sql" />
+    <Build Include="lookup\Tables\WeaponSystem.sql" />
+    <Build Include="lookup\Tables\WOMOS.sql" />
+    <Build Include="lookup\Views\CostSummariesByPayPlan.sql" />
+    <Build Include="test\Functions\AtLeastSix010ExistsInInventoryForActiveArmy.sql" />
+    <Build Include="test\Functions\O10ExistsInInventoryForARNG.sql" />
+    <Build Include="test\Functions\O9ExistsInInventoryForARNG.sql" />
+    <Build Include="test\Functions\O9ExistsInInventoryForUSAR.sql" />
+    <Build Include="web\Functions\CostsCCE.sql" />
+    <Build Include="web\Functions\CostsCCEInflated.sql" />
+    <Build Include="web\Functions\GetArmyCesTitles.sql" />
+    <Build Include="web\Functions\GetCategorySkillsWithLocalityPay.sql" />
+    <Build Include="web\Functions\GetCategorySkillWithLocalityPay.sql" />
+    <Build Include="web\Functions\GetCostSummaryName.sql" />
+    <Build Include="web\Functions\GetInflationRateHeader.sql" />
+    <Build Include="web\Functions\GetLocalityPayAreaId.sql" />
+    <Build Include="web\Functions\GetLocalityRate.sql" />
+    <Build Include="web\Functions\GetPendingUserCount.sql" />
+    <Build Include="web\Functions\PayPlanXWalk.sql" />
+    <Build Include="web\Functions\PMGetCategories.sql" />
+    <Build Include="web\Functions\PMGetCategoriesAll.sql" />
+    <Build Include="web\Functions\PMGetProjectOutputs.sql" />
+    <Build Include="web\Functions\PMInventoryBySkillId.sql" />
+    <Build Include="web\Functions\PMReportAllAll.sql" />
+    <Build Include="web\Functions\PMReportCategorySubGroupCodeAll.sql" />
+    <Build Include="web\Functions\PMReportCategorySubGroupCodeNotAll.sql" />
+    <Build Include="web\Functions\PMReportCCEAvgCostOfSalary.sql" />
+    <Build Include="web\Functions\PMReportCostSummary.sql" />
+    <Build Include="web\Functions\PMReportGFEBS.sql" />
+    <Build Include="web\Functions\PMSkillIdForProject.sql" />
+    <Build Include="web\Functions\PMUserSummaries.sql" />
+    <Build Include="web\Functions\PMUserSummaryElements.sql" />
+    <Build Include="web\Functions\PMUserSummaryElementsCCE.sql" />
+    <Build Include="web\Functions\ProjectCategoryCount.sql" />
+    <Build Include="web\Stored Procedures\GetAmcosLiteCosts.sql" />
+    <Build Include="web\Stored Procedures\GetAmcosLiteCostsGSSpecialPay.sql" />
+    <Build Include="web\Stored Procedures\GetAmcosLiteCostsGSSpecialPayPlusLocality.sql" />
+    <Build Include="web\Stored Procedures\getCostView_Compare.sql" />
+    <Build Include="web\Stored Procedures\getCostView_CompareGFEBS.sql" />
+    <Build Include="web\Stored Procedures\getCostView_CompareGS.sql" />
+    <Build Include="web\Stored Procedures\getInventory.sql" />
+    <Build Include="web\Stored Procedures\getPaySchedules.sql" />
+    <Build Include="web\Stored Procedures\GetSkillsCascade.sql" />
+    <Build Include="web\Stored Procedures\getSubGroupMapping.sql" />
+    <Build Include="web\Stored Procedures\PMAddSkill.sql" />
+    <Build Include="web\Stored Procedures\PMAddSkillInventory.sql" />
+    <Build Include="web\Stored Procedures\PMAddUserSummary.sql" />
+    <Build Include="web\Stored Procedures\PMCopyProject.sql" />
+    <Build Include="web\Stored Procedures\PMCopyProjectCategory.sql" />
+    <Build Include="web\Stored Procedures\PMProjectInventory.sql" />
+    <Build Include="web\Stored Procedures\PMReport.sql" />
+    <Build Include="web\Stored Procedures\PMReportSelectedInflationRate.sql" />
+    <Build Include="web\Stored Procedures\spCrossTabGrades.sql" />
+    <Build Include="web\Stored Procedures\spGet_SummaryGroupArea.sql" />
+    <Build Include="web\Tables\ApplicationErrorLog.sql" />
+    <Build Include="web\Views\PendingUsers.sql" />
+    <Build Include="web\Views\PMCategorySkillInventory.sql" />
+    <Build Include="web\Views\PMDetailAll.sql" />
+    <Build Include="webuser\Stored Procedures\spUserLoginUpdate.sql" />
+    <Build Include="webuser\Tables\AmcosLiteAudit.sql" />
+    <Build Include="webuser\Tables\AMCOSUser.sql" />
+    <Build Include="webuser\Tables\PMCategory.sql" />
+    <Build Include="webuser\Tables\PMCategorySkill.sql" />
+    <Build Include="webuser\Tables\PMCategorySkillInventory.sql" />
+    <Build Include="webuser\Tables\PMProject.sql" />
+    <Build Include="webuser\Tables\PMReport.sql" />
+    <Build Include="webuser\Tables\User_Login_History.sql" />
+    <Build Include="webuser\Tables\User_Login_History_DeletedUsers.sql" />
+    <Build Include="webuser\Tables\User_Summaries.sql" />
+    <Build Include="webuser\Tables\User_SummaryElements.sql" />
+    <Build Include="webuser\Tables\UserDeleteMaster.sql" />
+    <Build Include="Security\analysis.sql" />
+    <Build Include="Security\compare.sql" />
+    <Build Include="Security\crunch.sql" />
+    <Build Include="Security\data.sql" />
+    <Build Include="Security\dataload.sql" />
+    <Build Include="Security\DMDC.sql" />
+    <Build Include="Security\greg.sql" />
+    <Build Include="Security\load_GFEBS.sql" />
+    <Build Include="Security\load_inventory.sql" />
+    <Build Include="Security\load_payschedule.sql" />
+    <Build Include="Security\load_training.sql" />
+    <Build Include="Security\logs.sql" />
+    <Build Include="Security\lookup.sql" />
+    <Build Include="Security\test.sql" />
+    <Build Include="Security\web.sql" />
+    <Build Include="Security\webuser.sql" />
+    <Build Include="lookup\Tables\DutyStation.sql" />
+    <Build Include="DMDC\Tables\Inventory.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateInventoryMilitary.sql" />
+    <Build Include="load_payschedule\Tables\PayScheduleGL.sql" />
+    <Build Include="load_payschedule\Tables\PayScheduleGG.sql" />
+    <Build Include="load_inventory\Tables\Rejected.sql" />
+    <Build Include="crunch\Tables\CostsGL.sql" />
+    <Build Include="crunch\Tables\CostsGG.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchWS.sql">
+      <AnsiNulls>Off</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchWL.sql">
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchWG.sql">
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchSES.sql">
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchRWO.sql">
+      <AnsiNulls>Off</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchRO.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchRE.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchNWO.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchNO.sql">
+      <AnsiNulls>Off</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchNK.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchNJ.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchNH.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchNE.sql">
+      <AnsiNulls>Off</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchGSS.sql">
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchGP.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchDK.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchDJ.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchDE.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchDB.sql" />
+    <Build Include="crunch\Stored Procedures\CrunchAWO.sql">
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchAO.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
+    <Build Include="crunch\Stored Procedures\CrunchAE.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianAcquisition2019.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianDemonstration2019.sql" />
+    <Build Include="load_inventory\Tables\Inventory_CivilianGP2019.sql" />
+    <Build Include="dbo\Tables\MOSAOC_Validation.sql" />
+    <Build Include="crunch\Stored Procedures\DMDCPay.sql" />
+    <Build Include="dataload\Tables\MilitaryEnlistmentBonusCap.sql" />
+    <Build Include="DMDC\Tables\Pay.sql" />
+    <Build Include="dataload\Tables\ArmyBudget.sql" />
+    <Build Include="lookup\Tables\MilitarySOC.sql" />
+    <Build Include="lookup\Tables\MilitaryConversions.sql" />
+    <Build Include="lookup\Tables\MilitaryAcqTransaction.sql" />
+    <Build Include="lookup\Tables\ATRRSOfficerBranchCodes.sql" />
+    <Build Include="dataload\Tables\MilitarySRBCaps.sql" />
+    <Build Include="load_training\Tables\ATRRS.sql" />
+    <Build Include="load_training\Tables\ATRM.sql" />
+    <Build Include="lookup\Tables\ATRRSCourseTypeMOS.sql" />
+    <Build Include="lookup\Tables\ATRRSATRMCrosswalk.sql" />
+    <Build Include="crunch\Stored Procedures\ArmyBudget.sql" />
+    <Build Include="crunch\Stored Procedures\CostOfTraining.sql" />
+    <Build Include="crunch\Stored Procedures\CostOfSpecialPays.sql" />
+    <Build Include="crunch\Stored Procedures\CostOfSelectiveRetentionBonus.sql" />
+    <Build Include="crunch\Stored Procedures\CostOfOfficerAcquisition.sql" />
+    <Build Include="crunch\Stored Procedures\CostOfRecruiting.sql" />
+    <Build Include="lookup\Tables\WOMOSConversion.sql" />
+    <Build Include="lookup\Tables\MOSConversion.sql" />
+    <Build Include="lookup\Tables\AOCConversion.sql" />
+    <Build Include="crunch\Tables\DMDCPayProcessed.sql" />
+    <Build Include="crunch\Functions\GetArmyBudgetSingleValue.sql" />
+    <Build Include="crunch\Tables\ArmyBudgetSingleValues.sql" />
+    <Build Include="test\Functions\InventoryWithoutPaySchedule.sql" />
+    <Build Include="DMDC\Tables\MilitaryAcqSourceOfCommission.sql" />
+    <Build Include="dataload\Stored Procedures\PayDelete.sql" />
+    <Build Include="dataload\Stored Procedures\MilitaryAcqSourceOfCommissionDelete.sql" />
+    <Build Include="DMDC\Tables\PayRejected.sql" />
+    <Build Include="crunch\Functions\InventoryByGradeYosForCategoryGroup.sql" />
+    <Build Include="crunch\Functions\InventoryByCategoryGroupGradeYos.sql" />
+    <Build Include="crunch\Functions\AnnualBasicPayByGradeYosForCategorySubgroup.sql" />
+    <Build Include="crunch\Functions\AvgCostOfBasePayMilitary.sql" />
+    <Build Include="crunch\Functions\AvgAnnualizedCostOfBasePayMilitary.sql" />
+    <Build Include="crunch\Functions\AnnualBasicPayActiveDuty.sql" />
+    <Build Include="crunch\Functions\AnnualBasicPayReserveComponents.sql" />
+    <Build Include="crunch\Stored Procedures\CostOfBasicAllowanceforSubsistence.sql" />
+    <Build Include="crunch\Stored Procedures\CostOfBasicAllowanceforHousing.sql" />
+    <Build Include="test\Views\ReserveComponentsInventoryWithoutBasePay.sql" />
+    <Build Include="test\Views\ActiveDutyInventoryWithoutBasePay.sql" />
+    <Build Include="DMDC\Tables\MembersAndDependents.sql" />
+    <Build Include="dataload\Tables\NonLocalityBAHRates.sql" />
+    <Build Include="dataload\Stored Procedures\NonLocalityBAHRatesDelete.sql" />
+    <Build Include="dataload\Stored Procedures\MembersAndDependentsDelete.sql" />
+    <Build Include="dataload\Stored Procedures\GFEBSDeleteMultiplePositions.sql" />
+    <Build Include="crunch\Functions\InventoryByGradeForPayPlan.sql" />
+    <Build Include="data\Views\CostElement.sql" />
+    <Build Include="crunch\Functions\InventoryByCategorySubgroupGradeForPayPlan.sql" />
+    <Build Include="test\Views\ArchivedCostElementsInCostSummary.sql" />
+    <Build Include="test\Views\ArchivedCostElementsInCostTables.sql" />
+    <Build Include="test\Views\CostElementsNotIncludedInCostSummary.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixRWO.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixRO.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixRE.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixNWO.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixNO.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixNE.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixAWO.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixAO.sql" />
+    <Build Include="crunch\Stored Procedures\SumOfAveragesFixAE.sql" />
+    <Build Include="test\Views\CostElementsInAncillaryCostSummaryAndAnotherCostSummary.sql" />
+    <Build Include="crunch\Functions\AverageInventoryProjected.sql" />
+    <Build Include="crunch\Functions\GetTotalInventoryForPayPlan.sql" />
+    <Build Include="crunch\Functions\NumberOfLumpSumTerminalLeavePayments.sql" />
+    <Build Include="greg\Tables\Costs_AO.sql" />
+    <Build Include="greg\Tables\Costs_AE.sql" />
+    <Build Include="data\Views\InventoryWithUnknownStepYOSOnly.sql" />
+    <Build Include="crunch\Stored Procedures\DeleteCostsWithUnknownStepYOSOnly.sql" />
+    <Build Include="crunch\Tables\TempTraining_xwalk_atrrs_crstype_mos.sql" />
+    <Build Include="crunch\Tables\TempTraining_xwalk_atrrs_atrm.sql" />
+    <Build Include="crunch\Tables\TempTraining_Costs_by_version.sql" />
+    <Build Include="crunch\Tables\TempTraining_Costs_avg.sql" />
+    <Build Include="crunch\Tables\TempTraining_Costs.sql" />
+    <Build Include="crunch\Tables\TempSRBPay.sql" />
+    <Build Include="crunch\Tables\TempSOCTransactionGL.sql" />
+    <Build Include="crunch\Tables\TempSOCTransaction.sql" />
+    <Build Include="crunch\Tables\TempRecruiting_Costs.sql" />
+    <Build Include="crunch\Tables\TempOfc_Acq_Total.sql" />
+    <Build Include="crunch\Tables\TempOfc_Acq_by_AOC.sql" />
+    <Build Include="crunch\Tables\TempMOSAOC_Validation.sql" />
+    <Build Include="crunch\Tables\TempMilitarySRBCaps.sql" />
+    <Build Include="crunch\Tables\TempMilitaryConversions.sql" />
+    <Build Include="crunch\Tables\TempDMDCPayProcessed.sql" />
+    <Build Include="crunch\Tables\Tempdmdc_bonus.sql" />
+    <Build Include="crunch\Tables\TempBonus_Caps.sql" />
+    <Build Include="crunch\Tables\TempATRRSOfficerBranchCodes.sql" />
+    <Build Include="crunch\Tables\TempATRRS_ATRM_Raw.sql" />
+    <Build Include="crunch\Tables\TempATRRS_ATRM_Crs_MOS.sql" />
+    <Build Include="crunch\Tables\TempATRRS.sql" />
+    <Build Include="crunch\Tables\TempATRM.sql" />
+    <Build Include="crunch\Tables\TempArmyBudgetSingleValues.sql" />
+    <Build Include="crunch\Tables\TempDMDCBonus.sql" />
+    <Build Include="crunch\Tables\TempCostGFEBS.sql" />
+    <Build Include="dataload\Stored Procedures\TruncateCivilianDemonstrationPay.sql" />
+    <Build Include="dataload\Stored Procedures\LoadPayScheduleCivilianDemo.sql" />
+    <Build Include="crunch\Functions\GetParentSharePercentage.sql" />
+    <Build Include="crunch\Functions\GetParentInventoryRecursive.sql" />
+    <Build Include="crunch\Functions\GetChildTrainingWeaponsRecursive.sql" />
+    <Build Include="crunch\Functions\GetChildTrainingRecursive.sql" />
+    <Build Include="crunch\Functions\GetChildBonusRecursive.sql" />
+    <Build Include="web\Functions\GetMinMaxPay.sql" />
+    <Build Include="web\Functions\PMInflatedValue.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="AMCOS2018_SEP">
+      <DefaultValue>AMCOS2018_SEP</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="AMCOS.AMCOS2019_MAR.refactorlog" />
+  </ItemGroup>
+</Project>

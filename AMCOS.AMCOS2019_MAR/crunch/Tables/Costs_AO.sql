@@ -1,0 +1,27 @@
+﻿CREATE TABLE [crunch].[Costs_AO] (
+    [PayPlan]        NVARCHAR (3)    NOT NULL,
+    [CMF]            NCHAR (2)       NOT NULL,
+    [AOC]            NVARCHAR (3)    NOT NULL,
+    [CostElementId]  INT             NOT NULL,
+    [GradeType]      NVARCHAR (3)    NOT NULL,
+    [GradeLevel]     TINYINT         NOT NULL,
+    [WeaponSystemId] INT             NOT NULL,
+    [Amount]         NUMERIC (26, 6) NOT NULL,
+    [CrunchTime]     SMALLDATETIME   NULL,
+    CONSTRAINT [PK_Costs_AO] PRIMARY KEY CLUSTERED ([PayPlan] ASC, [CMF] ASC, [AOC] ASC, [CostElementId] ASC, [GradeType] ASC, [GradeLevel] ASC, [WeaponSystemId] ASC)
+);
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_CostsAO_CategoryGroup_CategorySubgroup]
+    ON [crunch].[Costs_AO]([CMF] ASC, [AOC] ASC)
+    INCLUDE([CostElementId], [GradeType], [GradeLevel], [WeaponSystemId], [Amount]);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_CostsAO_CategoryGroup]
+    ON [crunch].[Costs_AO]([CMF] ASC)
+    INCLUDE([CostElementId], [GradeType], [GradeLevel], [WeaponSystemId], [Amount]);
+

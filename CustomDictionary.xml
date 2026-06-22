@@ -1,0 +1,31 @@
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>Amort</Word>
+      <Word>Appn</Word>
+      <Word>Civ</Word>
+      <Word>Param</Word>
+      <Word>Pct</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>AKO</Acronym>
+      <Acronym>AMCOS</Acronym>
+      <Acronym>AOC</Acronym>
+      <Acronym>CCE</Acronym>
+      <Acronym>CMF</Acronym>
+      <Acronym>CONUS</Acronym>
+      <Acronym>FIPS</Acronym>
+      <Acronym>GFEBS</Acronym>
+      <Acronym>MACOM</Acronym>
+      <Acronym>MOS</Acronym>
+      <Acronym>MPA</Acronym>
+      <Acronym>OMA</Acronym>
+      <Acronym>OPM</Acronym>
+      <Acronym>SOC</Acronym>
+      <Acronym>WOMOS</Acronym>
+      <Acronym>YOS</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

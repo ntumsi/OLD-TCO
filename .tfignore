@@ -1,0 +1,17 @@
+# Ignore the NuGet packages folder in the root of the repository.
+# If needed, prefix 'packages' with additional folder names if it's
+# not in the same folder as .tfignore.
+packages
+
+# Include package target files which may be required for MSBuild,
+# again prefixing the folder name as needed.
+!packages/*.targets
+
+# Make sure not to exclude packages.config
+!packages.config
+\AMCOS.Web\dist
+\AMCOS.Web\node_modules
+\AMCOS.SSIS.DataLoad\OutputFiles
+\AMCOS.SSIS.DataLoad\ErrorFiles
+\AMCOS.SSIS.DataLoad\RawFiles
+\packages

@@ -1,0 +1,6 @@
+﻿CREATE TABLE [lookup].[AOC] (
+    [AOC]         NVARCHAR (3)   NOT NULL,
+    [Description] NVARCHAR (250) NOT NULL,
+    CONSTRAINT [PK_AOC] PRIMARY KEY CLUSTERED ([AOC] ASC)
+);
+

@@ -1,0 +1,24 @@
+﻿@ModelType AMCOS.Logic.ViewModels.HelpViewModel
+@Code
+    ViewData("Title") = "Custom Data Request"
+    Layout = "~/Views/Shared/_Layout.vbhtml"
+End Code
+
+<div class="amcos-page">
+    <h3>To request a custom data export please click <a href="https://www.aesmp.army.mil/csm?id=sc_cat_item&sys_id=faac2dbe9775d69440c7b8021153afee" target="_blank">here</a> to submit a ticket with the following information:</h3>
+    <ul>
+        <li>
+            Pay Plan(s): [e.g. GS & GL, or by group: Acq Demo, Military, Active Military, etc]
+        </li>
+        <li>Category Group/Subgroup(s): [e.g. 1515, 1500]</li>
+        <li>Location(s): [e.g. Washington DC area, Detroit Arsenal, etc]</li>
+        <li>Grade Level(s): [e.g. 12, 13, 14]</li>
+        <li>Science and Technology Reinvention Laboratory (STRL): [e.g. ARI, this is for Lab Demo (D) pay plans only]</li>
+        <li>Number of dependents: [e.g. 0, 1, up to 5 -> this applies only to CIV overseas location, if you don't know state 'All']</li>
+        <li>Dependent status: [e.g. with, without, average -> this applies only to Active Military subgroups for CONUS locations, if you don't know state 'average']</li>
+        <li>requesting it not later than [add date/time])</li>
+    </ul>
+    <p>
+        For more information on how to submit a request, please click <a href='@Url.Content("~/Public/AESMP User Primer.pdf")' target='_blank'>here.</a>
+    </p>
+</div>

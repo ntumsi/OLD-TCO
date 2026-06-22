@@ -1,0 +1,1200 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/14/2020 2:34:33 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\greg.bonner"
+  DTS:DTSID="{89DE0D8C-2246-417F-92A1-4F91BCA75D3D}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad Inventory"
+  DTS:PackageType="5"
+  DTS:VersionBuild="23"
+  DTS:VersionGUID="{5B4944EF-34C0-4E20-B23B-8BEF7D79881D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CAADW00GAAA4005.Amcos]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6EB15388-8DE6-413A-9652-AA8D10936055}"
+      DTS:ObjectName="CAADW00GAAA4005.Amcos">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DRS_4008_INFINAL]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F21CF4AB-2719-4A4A-A455-BB4B74763F82}"
+      DTS:ObjectName="DRS_4008_INFINAL">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_DataLoadFiles] + "DMDC\\load_inventory.dmdc_raw\\DRS_4008_INFINAL_2309_FINAL.txt"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2024\Data\DMDC\load_inventory.dmdc_raw\DRS_4008_INFINAL_2309_FINAL.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CIVTYPE"
+              DTS:DTSID="{BC9AC11B-4EB9-4DB3-8D64-3449C20446AD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PAYPLAN"
+              DTS:DTSID="{F6C59DD4-21A8-446D-91AB-D1038C6F61EC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="20"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GROUP"
+              DTS:DTSID="{A42AEB85-4DEA-41A6-9F85-7415FDA960EE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SUBGROUP"
+              DTS:DTSID="{A761D275-D370-43B4-A5E3-D98639CDD6C8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="QUALITY"
+              DTS:DTSID="{7F181BA1-EB07-4066-8843-083CFD315277}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GRADETYPE"
+              DTS:DTSID="{8547AB43-CA4B-40CA-8D2F-B46D8916DFFF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GRADE"
+              DTS:DTSID="{9364E486-B8C4-4E20-8C34-749E5C92E33B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STEP"
+              DTS:DTSID="{81072566-A9E8-442B-8AC5-FD10CBF83C93}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="6"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UIC"
+              DTS:DTSID="{F8DEB391-90EF-4E9F-BCAF-73458835C676}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="YOS"
+              DTS:DTSID="{52822706-7AA0-453C-B533-D750CEBBD606}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RCC"
+              DTS:DTSID="{C26ACEB9-513C-4D75-91E6-DBA774EF05E6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DLOC"
+              DTS:DTSID="{1074B8E8-141F-46F6-8B8F-454BE85C86C8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COUNT"
+              DTS:DTSID="{E661974D-FFFB-4CF8-9F9D-0B13BE212277}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{42CEB2CF-57B4-44C1-8A90-E86F0CA10AF8}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D02546B9-E169-4AE1-9FFC-E2F873BE73EF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="AmcosVersionId">
+      <DTS:VariableValue
+        DTS:DataType="8">202401</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{06A21ACC-C335-4C37-B95E-5E43DD59EDA7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E2287825-0947-4B69-B7FF-40F770096EBE}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Projects\AMCOS\Greg\source\repos\amcos\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A475563A-998B-4D9C-8D03-479C3F8434A3}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2024\Data\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9360852E-EAE1-449F-88CB-CC0007ADFDA1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FD04E3B8-F44C-48B5-8CF8-7CE1929889AB}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C92EBA6B-6F14-45DC-9581-6AB50CFAA20E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0F6C9220-621F-48DB-808A-4AD13FDF2778}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3D0F8B9F-119E-4589-ABF5-3F5BDE5A9478}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D31F569A-0675-4A43-99A1-DD7206256C0D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Scripts">
+      <DTS:VariableValue
+        DTS:DataType="8">Scripts</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Import DMDC Inventory"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{BF2E7FFA-9D32-4598-A7DC-DAA1E0B61436}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Import DMDC Inventory"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER AMCOS Version Id"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Output].Columns[AmcosVersionId]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Output].Columns[AmcosVersionId]"
+                      name="AmcosVersionId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[User::AmcosVersionId]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[User::AmcosVersionId]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="DRS_4008_INFINAL"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DRS_4008_INFINAL]"
+                  connectionManagerRefId="Package.ConnectionManagers[DRS_4008_INFINAL]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[CIVTYPE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[CIVTYPE]"
+                      length="3"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[CIVTYPE]"
+                      name="CIVTYPE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[PAYPLAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[PAYPLAN]"
+                      length="3"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[PAYPLAN]"
+                      name="PAYPLAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GROUP]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[GROUP]"
+                      length="20"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GROUP]"
+                      name="GROUP"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[SUBGROUP]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[SUBGROUP]"
+                      length="4"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[SUBGROUP]"
+                      name="SUBGROUP"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[QUALITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[QUALITY]"
+                      length="1"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[QUALITY]"
+                      name="QUALITY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GRADETYPE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[GRADETYPE]"
+                      length="2"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GRADETYPE]"
+                      name="GRADETYPE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GRADE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[GRADE]"
+                      length="2"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GRADE]"
+                      name="GRADE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[STEP]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[STEP]"
+                      length="2"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[STEP]"
+                      name="STEP"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[UIC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[UIC]"
+                      length="6"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[UIC]"
+                      name="UIC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[YOS]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[YOS]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[YOS]"
+                      name="YOS"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[RCC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[RCC]"
+                      length="1"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[RCC]"
+                      name="RCC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[DLOC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[DLOC]"
+                      length="9"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[DLOC]"
+                      name="DLOC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[COUNT]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[COUNT]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[COUNT]"
+                      name="COUNT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[CIVTYPE]"
+                      dataType="wstr"
+                      length="3"
+                      name="CIVTYPE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[PAYPLAN]"
+                      dataType="wstr"
+                      length="3"
+                      name="PAYPLAN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[GROUP]"
+                      dataType="wstr"
+                      length="20"
+                      name="GROUP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[SUBGROUP]"
+                      dataType="wstr"
+                      length="4"
+                      name="SUBGROUP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[QUALITY]"
+                      dataType="wstr"
+                      length="1"
+                      name="QUALITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[GRADETYPE]"
+                      dataType="wstr"
+                      length="2"
+                      name="GRADETYPE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[GRADE]"
+                      dataType="wstr"
+                      length="2"
+                      name="GRADE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[STEP]"
+                      dataType="wstr"
+                      length="2"
+                      name="STEP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[UIC]"
+                      dataType="wstr"
+                      length="6"
+                      name="UIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[YOS]"
+                      dataType="i2"
+                      name="YOS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[RCC]"
+                      dataType="wstr"
+                      length="1"
+                      name="RCC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[DLOC]"
+                      dataType="wstr"
+                      length="9"
+                      name="DLOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].ExternalColumns[COUNT]"
+                      dataType="i2"
+                      name="COUNT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Import DMDC Inventory\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[load_inventory].[DMDC_Raw]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CAADW00GAAA4005.Amcos]"
+                  connectionManagerRefId="Package.ConnectionManagers[CAADW00GAAA4005.Amcos]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UIC]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="UIC"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[UIC]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[YOS]"
+                      cachedDataType="i2"
+                      cachedName="YOS"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[YOS]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[YOS]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RCC]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="RCC"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RCC]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[RCC]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CIVTYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="CIVTYPE"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CivType]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[CIVTYPE]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PAYPLAN]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="PAYPLAN"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[PAYPLAN]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GROUP]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="GROUP"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroup]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GROUP]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SUBGROUP]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="SUBGROUP"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroup]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[SUBGROUP]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[QUALITY]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="QUALITY"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quality]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[QUALITY]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GRADETYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="GRADETYPE"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GRADETYPE]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GRADE]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="GRADE"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[GRADE]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STEP]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="STEP"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Step]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[STEP]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DLOC]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="DLOC"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DutyLocationCode]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[DLOC]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COUNT]"
+                      cachedDataType="i2"
+                      cachedName="COUNT"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Count]"
+                      lineageId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output].Columns[COUNT]" />
+                    <inputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="AmcosVersionId"
+                      externalMetadataColumnId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                      lineageId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Output].Columns[AmcosVersionId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                      dataType="wstr"
+                      length="6"
+                      name="UIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[YOS]"
+                      dataType="i2"
+                      name="YOS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RCC]"
+                      dataType="wstr"
+                      length="1"
+                      name="RCC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CivType]"
+                      dataType="wstr"
+                      length="3"
+                      name="CivType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                      dataType="wstr"
+                      length="3"
+                      name="PayPlan" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroup]"
+                      dataType="wstr"
+                      length="20"
+                      name="CategoryGroup" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroup]"
+                      dataType="wstr"
+                      length="4"
+                      name="CategorySubgroup" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quality]"
+                      dataType="wstr"
+                      length="1"
+                      name="Quality" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GradeType]"
+                      dataType="wstr"
+                      length="2"
+                      name="GradeType" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GradeLevel]"
+                      dataType="wstr"
+                      length="2"
+                      name="GradeLevel" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Step]"
+                      dataType="wstr"
+                      length="2"
+                      name="Step" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DutyLocationCode]"
+                      dataType="wstr"
+                      length="9"
+                      name="DutyLocationCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Count]"
+                      dataType="i2"
+                      name="Count" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                      dataType="i4"
+                      name="AmcosVersionId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Import DMDC Inventory\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Import DMDC Inventory\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Import DMDC Inventory\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Import DMDC Inventory.Paths[Derived Column Output]"
+              endId="Package\DFT Import DMDC Inventory\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Import DMDC Inventory.Paths[Flat File Source Output]"
+              endId="Package\DFT Import DMDC Inventory\DER AMCOS Version Id.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Remove Existing Current Version Data"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AA111A59-8977-43F5-A49D-AF49ABC1FA41}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Remove Existing Current Version Data"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6EB15388-8DE6-413A-9652-AA8D10936055}"
+          SQLTask:SqlStatementSource="DELETE FROM load_inventory.DMDC_Raw WHERE AmcosVersionId = ?;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::AmcosVersionId"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{833043D6-84E4-4F8D-AABA-E906A221BBCE}"
+      DTS:From="Package\SQL Remove Existing Current Version Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT Import DMDC Inventory" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="219,42"
+          Id="Package\DFT Import DMDC Inventory"
+          TopLeft="42,107.5" />
+        <NodeLayout
+          Size="292,42"
+          Id="Package\SQL Remove Existing Current Version Data"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="151.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Import DMDC Inventory">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\DFT Import DMDC Inventory\OLE DB Destination"
+          TopLeft="16,209.5" />
+        <NodeLayout
+          Size="198,42"
+          Id="Package\DFT Import DMDC Inventory\DER AMCOS Version Id"
+          TopLeft="5.50000000000003,107.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\DFT Import DMDC Inventory\DRS_4008_INFINAL"
+          TopLeft="14,5.5" />
+        <EdgeLayout
+          Id="Package\DFT Import DMDC Inventory.Paths[Flat File Source Output]"
+          TopLeft="104.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Import DMDC Inventory.Paths[Derived Column Output]"
+          TopLeft="104.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Import DMDC Inventory\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

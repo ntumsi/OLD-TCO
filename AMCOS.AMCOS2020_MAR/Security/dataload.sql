@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [dataload]
+    AUTHORIZATION [dbo];
+

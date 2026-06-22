@@ -1,0 +1,608 @@
+﻿import { PCS } from "../js/pcs-common.js"
+
+var _civPCS: CivPCS
+$(document).ready(function () {
+    _civPCS = new CivPCS();
+    let buttons = document.getElementsByName("TransportationType");
+    for (let i = 0; i < 2; i++) {
+        buttons[i].onclick = function () {
+            _civPCS.DisplayTransportationPanel((<HTMLInputElement>this).value);
+        };
+    }
+    let rolButtons = document.getElementsByName("RealEstateOrLease");
+    for (let i = 0; i < 2; i++) {
+        rolButtons[i].onclick = function () {
+            _civPCS.DisplayRealEstateOrLease((<HTMLInputElement>this).value);
+        };
+    }
+    document.getElementById('CalculatedDistance').addEventListener('change', function () {
+        PCS._pcsInputFieldValueChange = true;
+        _civPCS._pcsState.MileageChanged = true;
+        _civPCS.CalculateAll();
+        _civPCS._pcsState.MileageChanged = false;
+    });
+    document.getElementById('POVMileage').addEventListener('change', function () {
+        PCS._pcsInputFieldValueChange = true;
+        _civPCS._pcsState.POVMileageChanged = true;
+        _civPCS.CalculateAll();
+        _civPCS._pcsState.POVMileageChanged = false;
+    });
+    (<HTMLInputElement>document.getElementById('HHGTotalWeight')).addEventListener('change', function () {
+        let maxWeight = parseFloat($("#HHGMaxWeight").text().replace(',', ''));
+        if (parseFloat(this.value) > maxWeight) {
+            document.getElementById('HHGTotalWeightWarning').style.display = "inline-block";
+            document.getElementById('HHGTotalWeightWarning').textContent = "The maximum weight of " + maxWeight + " will be used.";
+        } else {
+            document.getElementById('HHGTotalWeightWarning').style.display = "none";
+        }
+    });
+    document.getElementById('MEASubtotal').addEventListener('change', function () {
+        PCS._pcsInputFieldValueChanged = true;
+        _civPCS.CalculateAll();
+    });
+    let isolatedCheckBox = (<HTMLInputElement>document.getElementById("IsIsolatedDutyStation"));
+    _civPCS.DisableNTSSubtotal(!isolatedCheckBox.checked);
+    isolatedCheckBox.addEventListener('change', function () {
+        _civPCS.DisableNTSSubtotal(!this.checked);
+        _civPCS._pcsState.IsIsolatedDutyStationChanged = true;
+        PCS._pcsInputFieldValueChanged = true;
+        _civPCS.CalculateAll();
+        _civPCS._pcsState.IsIsolatedDutyStationChanged = false;
+    });
+    let transportationDependents = document.getElementById("TransportationDependents");
+    transportationDependents.addEventListener('change', function () {
+        _civPCS._pcsState.TransDependentsChanged = true;
+        PCS._pcsInputFieldValueChanged = true;
+        _civPCS.CalculateAll();
+        _civPCS._pcsState.TransDependentsChanged = false;
+    });
+    (<HTMLInputElement>document.getElementById("Appropriation")).addEventListener('change', function () {
+        let yearList = (<HTMLInputElement>document.getElementById("Year"));
+        let selectedYear = yearList.value;
+        yearList.innerHTML = "";
+
+        $.ajax({
+            url: _civPCS._getYearListURL,
+            type: 'POST',
+            data: {
+                amcosVersionId: _civPCS._amcosVersionId,
+                appropriation: this.value,
+                conversionType: (<HTMLInputElement>document.getElementById('ConversionType')).value
+            },
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: function () {
+                alert("Failed to retrieve data from server.");
+            },
+            success: function (response) {
+                let valueExists = false;
+                for (let x = 0; x < response.length; x++) {
+                    let option = document.createElement("option");
+                    option.value = response[x].Value;
+                    option.textContent = response[x].Text;
+                    yearList.appendChild(option);
+                    if (response[x].Value == selectedYear) { valueExists = true; }
+                }
+                if (valueExists) {
+                    yearList.value = selectedYear;
+                } else {
+                    yearList.value = document.getElementById("AmcosVersionYear").textContent;
+                }
+                _civPCS.ResetBaseline();
+            }
+        });
+    });
+    (<HTMLInputElement>document.getElementById('MEAHasSpouse')).addEventListener('change', function () {
+        if (this.checked) {
+            (<HTMLInputElement>document.getElementById('MEASubtotal')).value = PCS.GetFormattedNumber(document.getElementById('MEACivilianAndSpouse').textContent, 2);
+            (<HTMLInputElement>document.getElementById('MEASubtotalValue')).value = PCS.FormatAsNumber(document.getElementById('MEACivilianAndSpouse').textContent);
+        } else {
+            (<HTMLInputElement>document.getElementById('MEASubtotal')).value = PCS.GetFormattedNumber(document.getElementById('MEACivilian').textContent, 2);
+            (<HTMLInputElement>document.getElementById('MEASubtotalValue')).value = PCS.FormatAsNumber(document.getElementById('MEACivilian').textContent);
+        }
+        PCS._pcsInputFieldValueChanged = true;
+        _civPCS.CalculateAll();
+    });
+});
+
+export class CivPCS {
+    _selectLocationsData = null;
+    _originationCallback = null;
+    _destinationCallback = null;
+    _originationLocationId = null;
+    _destinationLocationId = null;
+    _civLocationPerDiemURL: string
+    _calculateAllURL: string
+    _saveProjectURL: string
+    _deleteProjectURL: string
+    _openProjectURL: string
+    _getYearListURL: string
+    _civPCSLocationsById: string
+    _amcosVersionId: number
+    _exportProjectURL: string
+    _sortProjectsURL: string
+
+    _pcsState = {
+        InitialState: true,
+        OriginationSelected: false,
+        DestinationSelected: false,
+        SelectLocationsAvailable: false,
+        OriginationSelectLocationLoaded: false,
+        DestinationSelectLocationLoaded: false,
+        LocationChanged: false,
+        MileageChanged: false,
+        POVMileageChanged: false,
+        IsIsolatedDutyStationChanged: false,
+        TransDependentsChanged: false
+    };
+
+
+    constructor() {
+        this._civLocationPerDiemURL = (<HTMLInputElement>document.getElementById("CivPCSLocationsURL")).value;
+        this._saveProjectURL = (<HTMLInputElement>document.getElementById("CivPCSSaveProjectURL")).value;
+        this._deleteProjectURL = (<HTMLInputElement>document.getElementById("CivPCSDeleteProjectURL")).value;
+        this._calculateAllURL = (<HTMLInputElement>document.getElementById("CalculateAllURL")).value;
+        this._civPCSLocationsById = (<HTMLInputElement>document.getElementById("CivPCSLocationsById")).value;
+        this._getYearListURL = (<HTMLInputElement>document.getElementById("GetYearListURL")).value;
+        this._amcosVersionId = parseInt((<HTMLInputElement>document.getElementById("AmcosVersionId")).value);
+        this._openProjectURL = (<HTMLInputElement>document.getElementById("CivPCSOpenProjectURL")).value;
+        this._exportProjectURL = (<HTMLInputElement>document.getElementById("CivPCSExportURL")).value;
+        this._sortProjectsURL = (<HTMLInputElement>document.getElementById("CivPCSSortProjectsURL")).value;
+        this.InitializeLocation('#SourceLocation', this.LoadOriginationList);
+        this.InitializeLocation('#TargetDestination', this.LoadDestinationList);
+        this.DisplayTransportationPanel('Goods');
+        this.DisplayRealEstateOrLease("RealEstate");
+
+    }
+    ResetBaseline() {
+        this._pcsState.InitialState = true;
+        PCS._pcsInputFieldValueChanged = true;
+        this.CalculateAll();
+        this._pcsState.InitialState = false;
+    }
+    SetDefaultTax() {
+        (<HTMLInputElement>document.getElementById("FederalTaxRate")).value = (<HTMLInputElement>document.getElementById("DefaultFederalTaxRate")).value;
+        this.CalculateAll();
+    }
+    DisableNTSSubtotal(option) {
+        let element = (<HTMLInputElement>document.getElementById("NTSSubtotal"));
+        if (option == true) {
+            element.value = "0.00";
+        }
+        element.disabled = option;
+    }
+    LoadOriginationList(query, callback) {
+        if (this._pcsState.SelectLocationsAvailable && !this._pcsState.OriginationSelectLocationLoaded) {
+            this._pcsState.OriginationSelectLocationLoaded = true;
+            callback(this._selectLocationsData);
+            this.SetLocationId();
+            return;
+        }
+        this._originationCallback = callback;
+        this.GetCivLocationPerDiem(this._amcosVersionId, query);
+        return;
+
+    }
+    LoadDestinationList(query, callback) {
+        if (this._pcsState.SelectLocationsAvailable && !this._pcsState.DestinationSelectLocationLoaded) {
+            this._pcsState.DestinationSelectLocationLoaded = true;
+            callback(this._selectLocationsData);
+            this.SetLocationId();
+            return;
+        }
+        this._destinationCallback = callback;
+        this.GetCivLocationPerDiem(this._amcosVersionId, query);
+        return;
+    }
+    SetLocationId() {
+        if (this._originationLocationId && this._pcsState.OriginationSelectLocationLoaded) {
+            $('#SourceLocation').selectize()[0].selectize.setValue(this._originationLocationId, true);
+            this._originationLocationId = null;
+        }
+        if (this._destinationLocationId && this._pcsState.DestinationSelectLocationLoaded) {
+            $('#TargetDestination').selectize()[0].selectize.setValue(this._destinationLocationId, true);
+            this._destinationLocationId = null;
+        }
+        if (this._pcsState.DestinationSelectLocationLoaded && this._pcsState.OriginationSelectLocationLoaded) {
+            this.CalculateAll();
+        }
+    }
+    InitializeLocation(selectObject, loadFunction) {
+        let preload = true;
+
+        $(selectObject).selectize()[0].selectize.destroy();
+        $(selectObject).selectize({
+            options: [],
+            create: false,
+            maxItems: 1,
+            //maxOptions: 1000,
+            selectOnTab: true,
+            optgroups: [
+                { $order: 1, value: 'Zip', label: 'Zip' },
+                { $order: 2, value: 'Civilian Overseas', label: 'Civilian Overseas' }
+            ],
+            valueField: 'Value',
+            optgroupValueField: 'value',
+            labelField: 'Text',
+            optgroupLabelField: 'label',
+            optgroupField: 'OptionGroup',
+            sortField: [
+                {
+                    field: 'Text',
+                    direction: 'asc'
+                }
+            ],
+            searchField: ['Text'],
+            plugins: { 'optgroup_columns': { equalizeWidth: false, equalizeHeight: false } },
+            lockOptgroupOrder: true,
+            onChange: function (value) {
+                //Set flag for auto save
+                PCS._pcsInputFieldValueChanged = true;
+                //Set flag location changed
+                this._pcsState.LocationChanged = true;
+                this._pcsState.OriginationSelected = $('#SourceLocation').val();
+                this._pcsState.DestinationSelected = $('#TargetDestination').val();
+                //If a both source and destination locations have a value then calculate values
+                if (this._pcsState.OriginationSelected && this._pcsState.DestinationSelected) {
+                    this.CalculateAll();
+                    this._pcsState.InitialState = false;
+                } else {
+                    this._pcsState.InitialState = true;
+                }
+            },
+            preload: preload,
+            load: loadFunction
+        });
+    }
+    
+
+    DeleteProject(projectName: string) {
+        $("body").css("cursor", "progress");
+        $.ajax({
+            url: this._deleteProjectURL,
+            type: 'POST',
+            data: { projectName: projectName, sortColumn: PCS._viewProjectsSortColumn, sortOrder: PCS._viewProjectsSortOrder },
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: this.HandleError,
+            success: function (res) {
+                PCS.PopulateViewProjectBody(res);
+                $("body").css("cursor", "default");
+            }
+        });
+    }
+    ExportToFile(projectName: string) {
+        $("body").css("cursor", "progress");
+        $.ajax({
+            url: this._saveProjectURL,
+            type: 'POST',
+            data: this.GetPCSData(projectName),
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: this.HandleError,
+            success: function (res) {
+                $(".pcs-project-name").text(projectName);
+                window.location.href = this._exportProjectURL + '?projectName=' + projectName;
+                $("body").css("cursor", "default");
+            }
+        });
+    }
+    GetCivLocationPerDiem(amcosVersionId: number, query: string) {
+        $.ajax({
+            url: this._civLocationPerDiemURL,
+            type: 'POST',
+            data: { amcosVersionId: amcosVersionId, query: query },
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: function () {
+                alert("Failed to retrieve data from server.");
+            },
+            success: function (res) {
+                this._pcsState.AllLocationsAvailable = true;
+                if (this._originationCallback) {
+                    this._originationCallback(res);
+                }
+                if (this._destinationCallback) {
+                    this._destinationCallback(res);
+                }
+            }
+        });
+    }
+    GetCivPCSLocationById() {
+        $.ajax({
+            url: this._civPCSLocationsById,
+            type: 'POST',
+            data: { originationId: this._originationLocationId, destinationId: this._destinationLocationId, amcosVersionId: this._amcosVersionId },
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: function () {
+                alert("Failed to fetch data from server.");
+            },
+            success: function (res) {
+                this._selectLocationsData = res;
+                this._pcsState.SelectLocationsAvailable = true;
+                if (this._originationCallback && !this._pcsState.OriginationSelectLocationLoaded) {
+                    this._pcsState.OriginationSelectLocationLoaded = true;
+                    this._originationCallback(res);
+                }
+                if (this._destinationCallback && !this._pcsState.DestinationSelectLocationLoaded) {
+                    this._pcsState.DestinationSelectLocationLoaded = true;
+                    this._destinationCallback(res);
+                }
+                this.SetLocationId();
+            }
+        });
+    }
+    DisplayTransportationPanel(transportationType: string) {
+        if (transportationType == "Goods") {
+            $("#house-hold-goods").show();
+            $("#mobile-home-transportation").hide();
+        } else {
+            $("#mobile-home-transportation").show();
+            $("#house-hold-goods").hide();
+        }
+    }
+    DisplayRealEstateOrLease(selectedValue: string) {
+        if (selectedValue == "RealEstate") {
+            $("#Real-Estate").show();
+            $("#Unexpired-Lease").hide();
+        } else {
+            $("#Unexpired-Lease").show();
+            $("#Real-Estate").hide();
+        }
+    }
+    OpenProject(projectName: string) {
+        $("body").css("cursor", "progress");
+        $.ajax({
+            url: this._openProjectURL,
+            type: 'POST',
+            data: { projectName: projectName },
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: this.HandleError,
+            success: function (res) {
+                //Populate the dropdowns with the location data.
+                this.SetPCSValues(res);
+                this._pcsState.OriginationSelectLocationLoaded = false;
+                this._pcsState.DestinationSelectLocationLoaded = false;
+                this._pcsState.SelectLocationsAvailable = false;
+                this._destinationLocationId = res.DestinationId;
+                this._originationLocationId = res.OriginationId;
+                this.GetCivPCSLocationById();
+            }
+        });
+    }
+    CalculateAll() {
+        $("body").css("cursor", "progress");
+        $.ajax({
+            url: this._calculateAllURL,
+            type: 'POST',
+            data: this.GetPCSData(),
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: this.HandleError,
+            success: this.SetPCSValues
+
+        });
+    }
+    SavePCSContentAction(projectName: string) {
+        $.ajax({
+            url: this._saveProjectURL,
+            type: 'POST',
+            data: this.GetPCSData(projectName),
+            headers: {
+                AntiForgeryToken: (<string>$('#AntiForgeryToken').val())
+            },
+            dataType: 'json',
+            error: this.HandleError,
+            success: function (res) {
+                $(".pcs-project-name").text(projectName);
+                PCS.PopulateViewProjectBody(res); //In pcs-common.js
+            }
+        });
+    }
+    HandleError(xhr, status, err) {
+        console.log(xhr.responseJSON + ":  " + status + "  " + err);
+        $("body").css("cursor", "default");
+    }
+    GetPCSData(projectName: string = null) {
+        return {
+            ProjectName: projectName,
+            ViewProjectsSortColumn: PCS._viewProjectsSortColumn,
+            ViewProjectsSortOrder: PCS._viewProjectsSortOrder,
+            AmcosVersionId: this._amcosVersionId,
+            LocationChanged: this._pcsState.LocationChanged,
+            InitialState: this._pcsState.InitialState,
+            TransDependentsChanged: this._pcsState.TransDependentsChanged,
+            POVMileageChanged: this._pcsState.POVMileageChanged,
+            ValueChangedElementId: PCS._valueChangedElementId,
+            MileageChanged: this._pcsState.MileageChanged,
+            /*** Mileage ***/
+            OriginationId: (<HTMLInputElement>document.getElementById('SourceLocation')).value,
+            DestinationId: (<HTMLInputElement>document.getElementById('TargetDestination')).value,            
+            CalculatedDistance: PCS.FormatAsNumber((<HTMLInputElement>document.getElementById('CalculatedDistance')).value),
+            Year: PCS.FormatAsNumber((<HTMLInputElement>document.getElementById('Year')).value),
+            Appropriation: (<HTMLInputElement>document.getElementById('Appropriation')).value,
+            ConversionType: (<HTMLInputElement>document.getElementById('ConversionType')).value,
+            /*** House Hunting ***/
+            NumberOfDaysHunting: PCS.FormatAsNumber((<HTMLInputElement>document.getElementById('NumberOfDaysHunting')).value),
+            HouseHuntingHaveSpouse: $('#HouseHuntingHaveSpouse').prop("checked"),
+            /*** Transportation ***/
+            POVMileage: PCS.FormatAsNumber($('#POVMileage').val()),
+            TransportationDependents: PCS.FormatAsNumber($('#TransportationDependents').val()),
+            TransportationSubTotal: PCS.FormatAsNumber($('#TransportationSubTotal').val()),
+            /*** TQSE ***/
+            NumberDaysTQSE: PCS.FormatAsNumber($('#NumberDaysTQSE').val()),
+            TQSEDependents: PCS.FormatAsNumber($('#TQSEDependents').val()),
+            /*** HHG / Mobile Home ***/
+            TransportationType: (<HTMLInputElement>document.querySelector('input[name="TransportationType"]:checked')).value,
+            HHGTotalMileage: PCS.FormatAsNumber($('#HHGTotalMileage').val()),
+            HHGTotalWeight: PCS.FormatAsNumber($('#HHGTotalWeight').val()),
+            HHGEstimatedCostPerMile: PCS.FormatAsNumber($('#HHGEstimatedCostPerMile').val()),
+            HHGEstimatedCostPerPound: PCS.FormatAsNumber($('#HHGEstimatedCostPerPound').val()),
+            MobileHomeTotalMileage: PCS.FormatAsNumber($('#MobileHomeTotalMileage').val()),
+            MobileHomeEstCostPerMile: PCS.FormatAsNumber($('#MobileHomeEstCostPerMile').val()),
+            /*** Misc Expenses ***/
+            MEASubtotal: PCS.FormatAsNumber($('#MEASubtotal').val()),
+            MEAHasSpouse: $('#MEAHasSpouse').prop('checked'),
+            /*** Real Estate / Lease ***/
+            RealEstateOrLease: (<HTMLInputElement>document.querySelector('input[name="RealEstateOrLease"]:checked')).value,
+            SalePriceAmount: PCS.FormatAsNumber($('#SalePriceAmount').val()),
+            SalePriceRefund: PCS.FormatAsNumber($('#SalePriceRefund').val()),
+            PurchasePriceAmount: PCS.FormatAsNumber($('#PurchasePriceAmount').val()),
+            PurchasePriceRefund: PCS.FormatAsNumber($('#PurchasePriceRefund').val()),
+            UELAmount: PCS.FormatAsNumber($('#UELAmount').val()),
+            /*** NTS ***/
+            IsIsolatedDutyStation: $('#IsIsolatedDutyStation').prop("checked"),
+            IsIsolatedDutyStationChanged: this._pcsState.IsIsolatedDutyStationChanged,
+            NTSSubtotal: PCS.FormatAsNumber($('#NTSSubtotal').val()),
+            /*** RITA ***/
+            FederalTaxRate: PCS.FormatAsNumber($('#FederalTaxRate').val()),
+            MedicareTaxRate: PCS.FormatAsNumber($('#MedicareTaxRate').val()),
+            SocialSecurityTaxRate: PCS.FormatAsNumber($('#SocialSecurityTaxRate').val()),
+            StateTaxRate: PCS.FormatAsNumber($('#StateTaxRate').val()),
+            CountyTaxRate: PCS.FormatAsNumber($('#CountyTaxRate').val()),
+            CityTaxRate: PCS.FormatAsNumber($('#CityTaxRate').val()),
+        };
+    }
+    SetPCSValues(res) {
+        //reset the antiforgery token
+        if (res.AntiForgeryToken) {
+            (<HTMLInputElement>document.getElementById("AntiForgeryToken")).value = res.AntiForgeryToken;
+        }
+        if (res.ProjectName) {
+            $(".pcs-project-name").text(res.ProjectName);
+        }
+        $('#SourceLocation').selectize()[0].selectize.setValue(res.OriginationId, true);
+        $('#TargetDestination').selectize()[0].selectize.setValue(res.DestinationId, true);
+        (<HTMLInputElement>document.getElementById('Year')).value = res.Year;
+        (<HTMLInputElement>document.getElementById('Appropriation')).value = res.Appropriation;
+        (<HTMLInputElement>document.getElementById('ConversionType')).value = res.ConversionType;
+        $('#CalculatedDistance').val(PCS.GetFormattedNumber(res.CalculatedDistance, 0));
+        $('#JicInflationRate').text(PCS.GetFormattedNumber(res.JicInflationRate, 6));
+        /*** House Hunting ***/
+        (<HTMLInputElement>document.getElementById('NumberOfDaysHunting')).value = PCS.GetFormattedNumber(res.NumberOfDaysHunting, 0);
+        $('#HouseHuntingHaveSpouse').prop("checked", res.HouseHuntingHaveSpouse);
+        $('#SelfLodgingPerDiem').text('$' + PCS.GetFormattedNumber(res.SelfLodgingPerDiem, 2));
+        $('#SelfMIEPerDiem').text('$' + PCS.GetFormattedNumber(res.SelfMIEPerDiem, 2));
+        $('#SpouseLodgingPerDiem').text('$' + PCS.GetFormattedNumber(res.SpouseLodgingPerDiem, 2));
+        $('#SpouseMIEPerDiem').text('$' + PCS.GetFormattedNumber(res.SpouseMIEPerDiem, 2));
+        $('#HouseHuntingTotalCell').text('$' + PCS.GetFormattedNumber(res.HouseHuntingTotal, 2));
+        $('#HouseHuntingTotal').val(res.HouseHuntingTotal);
+        $('#SelfPerDiemRate').text(parseFloat(res.SelfPerDiemRate) * 100);
+        /*** Transportation ***/
+        $('#POVMileage').val(PCS.GetFormattedNumber(res.POVMileage, 0));
+        $('#TransportationDependents').val(res.TransportationDependents);
+        $('#PCSMaltRate').text(PCS.GetFormattedNumber(res.PCSMaltRate, 2));
+        $('#TransportationVersionYear').text(res.TransportationVersionYear);
+        $('#MileageReimbursement').text('$' + PCS.GetFormattedNumber(res.MileageReimbursement, 2));
+        $('#DependantMileageReimbursement').text('$' + PCS.GetFormattedNumber(res.DependantMileageReimbursement, 2));
+        $('#TransportationSubTotal').val(PCS.GetFormattedNumber(res.TransportationSubTotal, 2));
+        $('#TransportationSubTotalValue').val(res.TransportationSubTotal);
+        /*** TQSE ***/
+        $('#NumberDaysTQSE').val(PCS.GetFormattedNumber(res.NumberDaysTQSE, 0));
+        $('#TQSEDependents').val(res.TQSEDependents);
+        $('#TQSESelfPerDiemLodging').text('$' + PCS.GetFormattedNumber(res.TQSESelfPerDiemLodging, 2));
+        $('#TQSESpousePerDiemLodging').text('$' + PCS.GetFormattedNumber(res.TQSESpousePerDiemLodging, 2));
+        $('#TQSESelfPerDiemMIE').text('$' + PCS.GetFormattedNumber(res.TQSESelfPerDiemMIE, 2));
+        $('#TQSESpousePerDiemMIE').text('$' + PCS.GetFormattedNumber(res.TQSESpousePerDiemMIE, 2));
+        $('#TQSETotal').val(res.TQSETotal);
+        $('#TQSETotalValue').text('$' + PCS.GetFormattedNumber(res.TQSETotal, 2));
+        $('#TQSEPerDiemRate').text(PCS.GetFormattedNumber(res.TQSEPerDiemRate, 2));
+        $('#TQSESpousePerDiemRate').text(PCS.GetFormattedNumber(res.TQSESpousePerDiemRate, 2));
+        /*** Goods Home Transporation ***/
+        $('input[name="TransportationType"][value="' + res.TransportationType + '"]').prop("checked", true);
+        $('#GHTransportationTotal').val(res.GHTransportationTotal);
+        $('#HHGTotalMileage').val(PCS.GetFormattedNumber(res.HHGTotalMileage, 0));
+        $('#HHGTotalWeight').val(PCS.GetFormattedNumber(res.HHGTotalWeight, 0));
+        $('#HHGMaxWeight').text(res.HHGMaxWeight.toLocaleString());
+        $('#HHGEstimatedCostPerMile').val(PCS.GetFormattedNumber(res.HHGEstimatedCostPerMile, 2));
+        $('#HHGEstimatedCostPerMileValue').text(PCS.GetFormattedNumber(res.HHGEstimatedCostPerMile, 2));
+        $('#HHGEstimatedCostPerPound').val(PCS.GetFormattedNumber(res.HHGEstimatedCostPerPound, 2));
+        $('#HHGEstimatedCostPerPoundValue').text(PCS.GetFormattedNumber(res.HHGEstimatedCostPerPound, 2));
+        $('#HHGCostByTotalMiles').text('$' + PCS.GetFormattedNumber(res.HHGCostByTotalMiles, 2));
+        $('#HHGCostByTotalWeight').text('$' + PCS.GetFormattedNumber(res.HHGCostByTotalWeight, 2));
+        $('#SubtotalHHG').text('$' + PCS.GetFormattedNumber(res.SubtotalHHG, 2));
+        $('#MobileHomeTotalMileage').val(PCS.GetFormattedNumber(res.MobileHomeTotalMileage, 0));
+        $('#MobileHomeEstCostPerMile').val(PCS.GetFormattedNumber(res.MobileHomeEstCostPerMile, 2));
+        $('#MobileHomeEstCostPerMileValue').text(PCS.GetFormattedNumber(res.MobileHomeEstCostPerMile, 2));
+        $('#MobileHomeSubtotal').text('$' + PCS.GetFormattedNumber(res.MobileHomeSubtotal, 2));
+        /*** MEA ***/
+        $('#MEACivilian').text(PCS.GetFormattedNumber(res.MEACivilian, 2));
+        $('#MEACivilianAndSpouse').text(PCS.GetFormattedNumber(res.MEACivilianAndSpouse, 2));
+        $('#MEASubtotal').val(PCS.GetFormattedNumber(res.MEASubtotal, 2));
+        $('#MEASubtotalValue').val(res.MEASubtotal);
+        $('#MEAHasSpouse').prop('checked', res.MEAHasSpouse);
+        /*** Real Estate / Lease ***/
+        $('input[name="RealEstateOrLease"][value="' + res.RealEstateOrLease + '"]').prop("checked", true);
+        $('#SalePriceAmount').val(PCS.GetFormattedNumber(res.SalePriceAmount, 2));
+        $('#SalePriceRefund').val(res.SalePriceRefund);
+        $('#PurchasePriceAmount').val(PCS.GetFormattedNumber(res.PurchasePriceAmount, 2));
+        $('#PurchasePriceRefund').val(res.PurchasePriceRefund);
+        $('#RealEstateSubtotalValue').text('$' + PCS.GetFormattedNumber(res.RealEstateSubtotal, 2));
+        $('#UELAmount').val(PCS.GetFormattedNumber(res.UELAmount, 2));
+        $('#UELTotalValue').text('$' + PCS.GetFormattedNumber(res.UELTotal, 2));
+        $('#RealEstateLeaseTotal').val(res.RealEstateLeaseTotal);
+        /*** NTS ***/
+        $('#IsIsolatedDutyStation').prop("checked", res.IsIsolatedDutyStation);
+        $('#NTSSubtotal').val(PCS.GetFormattedNumber(res.NTSSubtotal, 2));
+        $('#NTSSubtotalValue').val(res.NTSSubtotal);
+        /*** RITA ***/
+        $("[name='DefaultFederalTaxRate']").val(PCS.GetFormattedNumber(res.DefaultFederalTaxRate, 2));
+        $('#FederalTaxRate').val(PCS.GetFormattedNumber(res.FederalTaxRate, 2));
+        $('#SocialSecurityTaxRate').val(PCS.GetFormattedNumber(res.SocialSecurityTaxRate, 2));
+        $('#MedicareTaxRate').val(PCS.GetFormattedNumber(res.MedicareTaxRate, 2));
+        $('#StateTaxRate').val(PCS.GetFormattedNumber(res.StateTaxRate, 2));
+        $('#CountyTaxRate').val(PCS.GetFormattedNumber(res.CountyTaxRate, 2));
+        $('#CityTaxRate').val(PCS.GetFormattedNumber(res.CityTaxRate, 2));
+        $('#TotalTaxRate').text(PCS.GetFormattedNumber(res.TotalTaxRate, 2));
+        $("[name='TaxBracketLabel']").text(PCS.GetFormattedNumber(res.TotalTaxRate / 100, 4));
+        $('#RITASubtotal').val(res.RITASubtotal);
+        $('#RITASubtotalValue').text('$' + PCS.GetFormattedNumber(res.RITASubtotal, 2));
+        $('#HouseHuntingTotalLabel').text(PCS.GetFormattedNumber(res.HouseHuntingTotal, 2));
+        $('#HouseHuntingRITA').text(PCS.GetFormattedNumber(res.HouseHuntingRITA, 2));
+        $('#TransportationSubTotalLabel').text(PCS.GetFormattedNumber(res.TransportationSubTotal, 2));
+        $('#TransportationRITA').text(PCS.GetFormattedNumber(res.TransportationRITA, 2));
+        $('#TQSESubtotalLabel').text(PCS.GetFormattedNumber(res.TQSETotal, 2));
+        $('#TQSERITA').text(PCS.GetFormattedNumber(res.TQSERITA, 2));
+        $('#GHTransportationTotalLabel').text(PCS.GetFormattedNumber(res.GHTransportationTotal, 2));
+        $('#GHTransportationRITA').text(PCS.GetFormattedNumber(res.GHTransportationRITA, 2));
+        $('#MEASubtotalLabel').text(PCS.GetFormattedNumber(res.MEASubtotal, 2));
+        $('#MEARITA').text(PCS.GetFormattedNumber(res.MEARITA, 2));
+        $('#RealEstateLeaseTotalLabel').text(PCS.GetFormattedNumber(res.RealEstateLeaseTotal, 2));
+        $('#RealEstateLeaseRITA').text(PCS.GetFormattedNumber(res.RealEstateLeaseRITA, 2));
+        $('#NTSSubtotalLabel').text(PCS.GetFormattedNumber(res.NTSSubtotal, 2));
+        $('#NTSRITA').text(PCS.GetFormattedNumber(res.NTSRITA, 2));
+        /*** Grand Total ***/
+        $("#HouseHuntingSummarySubtotal").text('$' + PCS.GetFormattedNumber(res.HouseHuntingTotal, 2));
+        $("#TransportationSummarySubtotal").text('$' + PCS.GetFormattedNumber(res.TransportationSubTotal, 2));
+        $("#TQSESummarySubtotal").text('$' + PCS.GetFormattedNumber(res.TQSETotal, 2));
+        $("#GHTransportationSummarySubtotal").text('$' + PCS.GetFormattedNumber(res.GHTransportationTotal, 2));
+        $("#MEASummarySubtotal").text('$' + PCS.GetFormattedNumber(res.MEASubtotal, 2));
+        $("#RealEstateLeaseSummarySubtotal").text('$' + PCS.GetFormattedNumber(res.RealEstateLeaseTotal, 2));
+        $("#NTSSummarySubtotal").text('$' + PCS.GetFormattedNumber(res.NTSSubtotal, 2));
+        $("#RITASummarySubtotal").text('$' + PCS.GetFormattedNumber(res.RITASubtotal, 2));
+        $("#GrandTotal").text('$' + PCS.GetFormattedNumber(res.GrandTotal, 2));
+        PCS.LoadSummaryTable();
+
+        //Reset change notification pcsState flags
+        this._pcsState.LocationChanged = false;
+        this._pcsState.IsIsolatedDutyStationChanged = false;
+        //Set cursor back to default
+        $("body").css("cursor", "default");
+    }
+}

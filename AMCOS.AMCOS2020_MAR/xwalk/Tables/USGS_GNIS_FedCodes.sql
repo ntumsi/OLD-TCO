@@ -1,0 +1,23 @@
+﻿CREATE TABLE [xwalk].[USGS_GNIS_FedCodes] (
+    [Id]                INT            IDENTITY (1, 1) NOT NULL,
+    [FEATURE_ID]        INT            NOT NULL,
+    [FEATURE_NAME]      NVARCHAR (150) NOT NULL,
+    [FEATURE_CLASS]     NVARCHAR (50)  NOT NULL,
+    [CENSUS_CODE]       NVARCHAR (5)   NULL,
+    [CENSUS_CLASS_CODE] NVARCHAR (2)   NULL,
+    [GSA_CODE]          NVARCHAR (4)   NULL,
+    [OPM_CODE]          NVARCHAR (9)   NULL,
+    [STATE_NUMERIC]     NVARCHAR (2)   NOT NULL,
+    [STATE_ALPHA]       NVARCHAR (2)   NOT NULL,
+    [COUNTY_SEQUENCE]   INT            NOT NULL,
+    [COUNTY_NUMERIC]    NVARCHAR (3)   NULL,
+    [COUNTY_NAME]       NVARCHAR (75)  NULL,
+    [PRIMARY_LATITUDE]  FLOAT (53)     NOT NULL,
+    [PRIMARY_LONGITUDE] FLOAT (53)     NOT NULL,
+    [DATE_CREATED]      DATE           NULL,
+    [DATE_EDITED]       DATE           NULL,
+    CONSTRAINT [PK_USGS_GNIS_FedCodes] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+

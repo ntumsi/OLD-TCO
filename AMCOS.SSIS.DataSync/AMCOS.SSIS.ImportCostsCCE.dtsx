@@ -1,0 +1,1759 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/29/2020 9:46:57 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="GBONNERE7450U"
+  DTS:CreatorName="CALIBRE\Greg.Bonner"
+  DTS:DTSID="{59673E28-66F6-4BCA-B47D-1E2216C25FE0}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS ImportCostsCCE"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{9EF780CA-CF41-45EA-853B-ABDCA04D360C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS2020_MAR]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{0A53B97C-CB60-4106-B510-F5F8B3E80B22}"
+      DTS:ObjectName="AMCOS2020_MAR">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[OccupationalEmploymentStatisticsMetro.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{C0163E8E-C64B-443D-9AB9-18359C87F849}"
+      DTS:ObjectName="OccupationalEmploymentStatisticsMetro.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\BLS_OES.OccupationalEmploymentStatisticsMetro.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SOC"
+              DTS:DTSID="{1F372BC6-8543-4623-BD4D-89144A219440}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MSACode"
+              DTS:DTSID="{AB84F610-C7BD-4060-9094-F6BD5767B1F5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TOT_EMP"
+              DTS:DTSID="{E6D2687F-2E92-4B76-955E-D4E5A4E90CC9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="5"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EMP_PRSE"
+              DTS:DTSID="{1E55CFB9-0B25-44C5-B79A-2C00C2968438}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_MEAN"
+              DTS:DTSID="{527C4017-2354-43A5-A185-49D8BEB1A241}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="5"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MEAN_PRSE"
+              DTS:DTSID="{E6AF7F75-AE60-4ED4-B3CC-9EDA1ACCD043}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT10"
+              DTS:DTSID="{3A31074E-409B-4397-B9FB-9622BAB980D9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT25"
+              DTS:DTSID="{7EB2E242-D2A5-40B9-9639-FDB9B1FF2A63}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_MEDIAN"
+              DTS:DTSID="{0624EAE9-5152-4505-8062-8957CC88121F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT75"
+              DTS:DTSID="{3B5FA3FB-1972-4998-9BE1-63B859D14926}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT90"
+              DTS:DTSID="{589A78AA-9836-4A52-92F7-0FA59FB0EE66}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AmcosVersionId"
+              DTS:DTSID="{B85F625E-103E-4932-8F67-C8A30E7ECE65}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[OccupationalEmploymentStatisticsNational.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{5CE62621-BFE6-457F-99C9-16EAFEE0DC51}"
+      DTS:ObjectName="OccupationalEmploymentStatisticsNational.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\BLS_OES.OccupationalEmploymentStatisticsNational.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SOC"
+              DTS:DTSID="{A526EC23-C2CB-4252-A2F7-F8CAA6B9C98D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TOT_EMP"
+              DTS:DTSID="{F2042703-BA50-4057-A2C5-7BAB0114C310}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="5"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EMP_PRSE"
+              DTS:DTSID="{5201CD56-50C9-4543-9A7D-4B2FFA6FE8EB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_MEAN"
+              DTS:DTSID="{FFAEED11-A6FF-4F70-A0DD-BCF67971B8F4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="5"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MEAN_PRSE"
+              DTS:DTSID="{0F70E80C-7155-4646-BAFA-5628BC871D2A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT10"
+              DTS:DTSID="{01BF7BDD-43E2-4B0D-8A07-762E3F729367}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT25"
+              DTS:DTSID="{354E27B7-94BC-422C-B946-5C2884A48C8F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_MEDIAN"
+              DTS:DTSID="{77F90D14-FE98-41AF-BA0C-BEEAF9C73CF0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT75"
+              DTS:DTSID="{4696B45F-3402-4BF0-9E7E-DE5CC9247DEA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="A_PCT90"
+              DTS:DTSID="{0C6AD5FC-C5FF-4C87-AA25-6462D7DD09F9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AmcosVersionId"
+              DTS:DTSID="{44C61635-6A80-47F5-808A-ED6D1819FFAF}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataSync\AMCOS.SSIS.DataSync.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{FD069545-6B12-4149-AE4D-24B98E40A3EB}"
+      DTS:ObjectName="AMCOS_SSIS_DataSync" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C69F034A-E679-416E-A6BA-EFF0A84782E8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQC Import Contractor Costs"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{63CCECC5-EB82-4CC0-92EF-2F2D94D0B026}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQC Import Contractor Costs">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{2A1AD07F-BBB7-438E-ADD2-C97E0D5048E7}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT OccupationalEmploymentStatisticsMetro"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC OccupationalEmploymentStatisticsMetro"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[OccupationalEmploymentStatisticsMetro.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[OccupationalEmploymentStatisticsMetro.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          name="AmcosVersionId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[SOC]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[SOC]"
+                          length="7"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[SOC]"
+                          name="SOC"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[MSACode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[MSACode]"
+                          length="7"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[MSACode]"
+                          name="MSACode"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[TOT_EMP]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[TOT_EMP]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[TOT_EMP]"
+                          name="TOT_EMP"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[EMP_PRSE]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[EMP_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[EMP_PRSE]"
+                          name="EMP_PRSE"
+                          precision="5"
+                          scale="2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_MEAN]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_MEAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_MEAN]"
+                          name="A_MEAN"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[MEAN_PRSE]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[MEAN_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[MEAN_PRSE]"
+                          name="MEAN_PRSE"
+                          precision="5"
+                          scale="2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT10]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT10]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT10]"
+                          name="A_PCT10"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT25]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT25]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT25]"
+                          name="A_PCT25"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_MEDIAN]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_MEDIAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_MEDIAN]"
+                          name="A_MEDIAN"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT75]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT75]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT75]"
+                          name="A_PCT75"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT90]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT90]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT90]"
+                          name="A_PCT90"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[SOC]"
+                          dataType="wstr"
+                          length="7"
+                          name="SOC" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[MSACode]"
+                          dataType="wstr"
+                          length="7"
+                          name="MSACode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[TOT_EMP]"
+                          dataType="i4"
+                          name="TOT_EMP" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[EMP_PRSE]"
+                          dataType="numeric"
+                          name="EMP_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_MEAN]"
+                          dataType="numeric"
+                          name="A_MEAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[MEAN_PRSE]"
+                          dataType="numeric"
+                          name="MEAN_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT10]"
+                          dataType="numeric"
+                          name="A_PCT10"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT25]"
+                          dataType="numeric"
+                          name="A_PCT25"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_MEDIAN]"
+                          dataType="numeric"
+                          name="A_MEDIAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT75]"
+                          dataType="numeric"
+                          name="A_PCT75"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].ExternalColumns[A_PCT90]"
+                          dataType="numeric"
+                          name="A_PCT90"
+                          precision="18" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST OccupationalEmploymentStatisticsMetro"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[BLS_OES].[OccupationalEmploymentStatisticsMetro]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                          cachedDataType="i4"
+                          cachedName="AmcosVersionId"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[AmcosVersionId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[SOC]"
+                          cachedDataType="wstr"
+                          cachedLength="7"
+                          cachedName="SOC"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[SOC]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[SOC]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[MSACode]"
+                          cachedDataType="wstr"
+                          cachedLength="7"
+                          cachedName="MSACode"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[MSACode]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[MSACode]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[TOT_EMP]"
+                          cachedDataType="i4"
+                          cachedName="TOT_EMP"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[TOT_EMP]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[TOT_EMP]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[EMP_PRSE]"
+                          cachedDataType="numeric"
+                          cachedName="EMP_PRSE"
+                          cachedPrecision="5"
+                          cachedScale="2"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[EMP_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[EMP_PRSE]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[A_MEAN]"
+                          cachedDataType="numeric"
+                          cachedName="A_MEAN"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_MEAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_MEAN]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[MEAN_PRSE]"
+                          cachedDataType="numeric"
+                          cachedName="MEAN_PRSE"
+                          cachedPrecision="5"
+                          cachedScale="2"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[MEAN_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[MEAN_PRSE]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[A_PCT10]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT10"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT10]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT10]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[A_PCT25]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT25"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT25]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT25]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[A_MEDIAN]"
+                          cachedDataType="numeric"
+                          cachedName="A_MEDIAN"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_MEDIAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_MEDIAN]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[A_PCT75]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT75"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT75]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT75]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].Columns[A_PCT90]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT90"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT90]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output].Columns[A_PCT90]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[SOC]"
+                          dataType="wstr"
+                          length="7"
+                          name="SOC" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[MSACode]"
+                          dataType="wstr"
+                          length="7"
+                          name="MSACode" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[TOT_EMP]"
+                          dataType="i4"
+                          name="TOT_EMP" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[EMP_PRSE]"
+                          dataType="numeric"
+                          name="EMP_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_MEAN]"
+                          dataType="numeric"
+                          name="A_MEAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[MEAN_PRSE]"
+                          dataType="numeric"
+                          name="MEAN_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT10]"
+                          dataType="numeric"
+                          name="A_PCT10"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT25]"
+                          dataType="numeric"
+                          name="A_PCT25"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_MEDIAN]"
+                          dataType="numeric"
+                          name="A_MEDIAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT75]"
+                          dataType="numeric"
+                          name="A_PCT75"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT90]"
+                          dataType="numeric"
+                          name="A_PCT90"
+                          precision="18" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro.Paths[Flat File Source Output]"
+                  endId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{C34A1283-18F0-4C88-A6A8-ACDEA0523588}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT OccupationalEmploymentStatisticsNational"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC OccupationalEmploymentStatisticsNational"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[OccupationalEmploymentStatisticsNational.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[OccupationalEmploymentStatisticsNational.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[AmcosVersionId]"
+                          name="AmcosVersionId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[SOC]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[SOC]"
+                          length="7"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[SOC]"
+                          name="SOC"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[TOT_EMP]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[TOT_EMP]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[TOT_EMP]"
+                          name="TOT_EMP"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[EMP_PRSE]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[EMP_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[EMP_PRSE]"
+                          name="EMP_PRSE"
+                          precision="5"
+                          scale="2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_MEAN]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_MEAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_MEAN]"
+                          name="A_MEAN"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[MEAN_PRSE]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[MEAN_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[MEAN_PRSE]"
+                          name="MEAN_PRSE"
+                          precision="5"
+                          scale="2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT10]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT10]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT10]"
+                          name="A_PCT10"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT25]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT25]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT25]"
+                          name="A_PCT25"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_MEDIAN]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_MEDIAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_MEDIAN]"
+                          name="A_MEDIAN"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT75]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT75]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT75]"
+                          name="A_PCT75"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT90]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT90]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT90]"
+                          name="A_PCT90"
+                          precision="18"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[SOC]"
+                          dataType="wstr"
+                          length="7"
+                          name="SOC" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[TOT_EMP]"
+                          dataType="i4"
+                          name="TOT_EMP" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[EMP_PRSE]"
+                          dataType="numeric"
+                          name="EMP_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_MEAN]"
+                          dataType="numeric"
+                          name="A_MEAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[MEAN_PRSE]"
+                          dataType="numeric"
+                          name="MEAN_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT10]"
+                          dataType="numeric"
+                          name="A_PCT10"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT25]"
+                          dataType="numeric"
+                          name="A_PCT25"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_MEDIAN]"
+                          dataType="numeric"
+                          name="A_MEDIAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT75]"
+                          dataType="numeric"
+                          name="A_PCT75"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].ExternalColumns[A_PCT90]"
+                          dataType="numeric"
+                          name="A_PCT90"
+                          precision="18" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST OccupationalEmploymentStatisticsNational"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[BLS_OES].[OccupationalEmploymentStatisticsNational]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                          cachedDataType="i4"
+                          cachedName="AmcosVersionId"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[AmcosVersionId]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[SOC]"
+                          cachedDataType="wstr"
+                          cachedLength="7"
+                          cachedName="SOC"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[SOC]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[SOC]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[TOT_EMP]"
+                          cachedDataType="i4"
+                          cachedName="TOT_EMP"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[TOT_EMP]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[TOT_EMP]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[EMP_PRSE]"
+                          cachedDataType="numeric"
+                          cachedName="EMP_PRSE"
+                          cachedPrecision="5"
+                          cachedScale="2"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[EMP_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[EMP_PRSE]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[A_MEAN]"
+                          cachedDataType="numeric"
+                          cachedName="A_MEAN"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_MEAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_MEAN]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[MEAN_PRSE]"
+                          cachedDataType="numeric"
+                          cachedName="MEAN_PRSE"
+                          cachedPrecision="5"
+                          cachedScale="2"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[MEAN_PRSE]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[MEAN_PRSE]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[A_PCT10]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT10"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT10]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT10]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[A_PCT25]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT25"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT25]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT25]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[A_MEDIAN]"
+                          cachedDataType="numeric"
+                          cachedName="A_MEDIAN"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_MEDIAN]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_MEDIAN]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[A_PCT75]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT75"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT75]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT75]" />
+                        <inputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].Columns[A_PCT90]"
+                          cachedDataType="numeric"
+                          cachedName="A_PCT90"
+                          cachedPrecision="18"
+                          externalMetadataColumnId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT90]"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output].Columns[A_PCT90]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[SOC]"
+                          dataType="wstr"
+                          length="7"
+                          name="SOC" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[TOT_EMP]"
+                          dataType="i4"
+                          name="TOT_EMP" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[EMP_PRSE]"
+                          dataType="numeric"
+                          name="EMP_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_MEAN]"
+                          dataType="numeric"
+                          name="A_MEAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[MEAN_PRSE]"
+                          dataType="numeric"
+                          name="MEAN_PRSE"
+                          precision="5"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT10]"
+                          dataType="numeric"
+                          name="A_PCT10"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT25]"
+                          dataType="numeric"
+                          name="A_PCT25"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_MEDIAN]"
+                          dataType="numeric"
+                          name="A_MEDIAN"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT75]"
+                          dataType="numeric"
+                          name="A_PCT75"
+                          precision="18" />
+                        <externalMetadataColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input].ExternalColumns[A_PCT90]"
+                          dataType="numeric"
+                          name="A_PCT90"
+                          precision="18" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational.Paths[Flat File Source Output]"
+                  endId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Delete Contractor Costs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{03416076-DD8A-47DA-84D7-A37DDB2B7344}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Delete Contractor Costs"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{0A53B97C-CB60-4106-B510-F5F8B3E80B22}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE BLS_OES.OccupationalEmploymentStatisticsMetro;&#xA;TRUNCATE TABLE BLS_OES.OccupationalEmploymentStatisticsNational;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6F7D5321-F696-451A-BBF9-B5A1AF835CEA}"
+      DTS:From="Package\SQL Delete Contractor Costs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SEQC Import Contractor Costs" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="301,42"
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro"
+          TopLeft="5.50000000000006,5.49999999999989" />
+        <NodeLayout
+          Size="313,42"
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational"
+          TopLeft="367.5,5.49999999999989" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="686,103"
+          Size="686,146"
+          Id="Package\SEQC Import Contractor Costs"
+          TopLeft="5.50000000000006,107.5" />
+        <NodeLayout
+          Size="221,42"
+          Id="Package\SQL Delete Contractor Costs"
+          TopLeft="238,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="348.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="330,42"
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro"
+          TopLeft="5.50000000000003,107.5" />
+        <NodeLayout
+          Size="322,42"
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\FF_SRC OccupationalEmploymentStatisticsMetro"
+          TopLeft="9.5,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro.Paths[Flat File Source Output]"
+          TopLeft="170.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsMetro\OLE_DST OccupationalEmploymentStatisticsMetro">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="342,42"
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="335,42"
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\FF_SRC OccupationalEmploymentStatisticsNational"
+          TopLeft="9,5.5" />
+        <EdgeLayout
+          Id="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational.Paths[Flat File Source Output]"
+          TopLeft="176.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SEQC Import Contractor Costs\DFT OccupationalEmploymentStatisticsNational\OLE_DST OccupationalEmploymentStatisticsNational">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

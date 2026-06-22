@@ -1,0 +1,99 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="SiteUser.master.vb" Inherits="AMCOS.Web.SiteUser" %>
+<%@ Register Src="Controls/header-user.ascx" TagName="header" TagPrefix="uc" %>
+<%@ Register Src="Controls/Footer.ascx" TagName="footer" TagPrefix="uc" %>
+<!DOCTYPE html>
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMCOS</title>
+    <link rel="alternate" type="application/rss+xml" title="Army Military-Civilian Cost System (AMCOS)" href="~/Public/rss.xml" />
+    <link rel="stylesheet" type="text/css" href="~/dist/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/dist/css/AMCOS.css" />
+    <link rel="stylesheet" type="text/css" href="~/dist/css/amcos-lite-chart.css" />
+    <link rel="stylesheet" type="text/css" href="~/dist/css/selectize.default.css" />
+    <link rel="stylesheet" type="text/css" href="~/dist/css/c3.min.css" />
+</head>
+<body>
+    <input type="hidden" id="AntiForgeryToken" value="<%= AntiforgeryToken%>" />
+    <div class="reveal cal-modal" id="SessionExpiringModal" data-reveal data-options="closeOnClick:true;">
+        <strong >Your Session Is About To Expire</strong>
+        <label class="cal-pad-line" >Due to inactivity, your session will expire after <span id="SessionMinutes">3</span> minutes and <span id="SessionSeconds">0</span> seconds</label>
+        <input type="button" data-close value="Stay Logged In" class="cal-button-dark x2" onclick="AMCOS.keepSessionAlive();"/>
+        <input type="button" value="Log Out" class="cal-button-dark x2" onclick="document.getElementById('AMCOSLogout').click();" />
+    </div>
+    <div class="off-canvas position-right" id="offCanvas" data-off-canvas data-transition="overlap">
+        <ul>
+            <li>
+                <span>Primary Documents</span>
+                <ul>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS CBA Guide.pdf")%>' target="_blank">Cost Benefit Analysis Guide</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS Fact Sheet.pdf")%>' target="_blank">Fact Sheet</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS FAQ.pdf")%>' target="_blank">Frequently Asked Questions</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS Release Update History.pdf")%>' target="_blank">Release Notes/Update History</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS Cost Model Documentation.pdf")%>' target="_blank">Cost Model Documentation</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/app/data/calculations.aspx")%>'>Cost Element Data Dictionary</a></li>
+                </ul>
+            </li>
+            <li>
+                <span>Methodologies</span>
+                <ul>
+                    <li><a href='<%= ResolveClientUrl("~/Public/Contractor Cost Estimate Methodology.pdf")%>' target="_blank">Contractor Cost Estimate</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/Inflation and Discounting PVF Calculation Methodology.pdf")%>' target="_blank">Inflation and Discounting</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/Pay Plan Xwalk Methodology.pdf")%>' target="_blank">Pay Plan Xwalk</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/Salary Calculation Methodology.pdf")%>' target="_blank">Salary Calculation</a></li>
+                </ul>
+            </li>
+            <li>
+                <span>Tutorials</span>
+                <ul>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS Civilian PCS.pdf")%>' target="_blank">AMCOS Civilian PCS</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS LITE Tutorial.pdf")%>' target="_blank">AMCOS Lite</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS Project Manager Tutorial.pdf")%>' target="_blank">AMCOS Project Manager</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AMCOS Pay Plan Xwalk Tutorial.pdf")%>' target="_blank">AMCOS Pay Plan Xwalk</a></li>
+                    <li><a href='<%= ResolveClientUrl("~/Public/AESMP User Primer.pdf") %>' target="_blank">How to Submit a Request in AESMP</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href='<%= ResolveClientUrl("~/Public/HistoricalDatabaseLinksList.pdf")%>' target="_blank">Data Exports prior to 2020</a>
+            </li>
+            <li>
+                <a href='<%= ResolveClientUrl("~/Help/DataRequest") %>' target='_blank'>Request Data Export</a>
+            </li>
+            <li>
+                <a href='<%= ResolveClientUrl("~/Public/ARMY CES Xwalk.xlsx")%>' target="_blank">Army Current-Former CES Xwalk</a>
+            </li>
+        </ul>
+        <button class="close-button" aria-label="Close menu" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="off-canvas-content" data-off-canvas-content>
+        <form id="amcos" runat="server">
+            <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+            <div id="contentArea">                                                
+                <uc:header ID="header" runat="server" />
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </div>
+            <uc:footer ID="footer" runat="server" />
+        </form>
+    </div>
+
+    <%-- Keep JS at the bottom of the markup --%>
+    <script type="text/javascript">
+        var _logoutURL = '<%= ResolveUrl("~/Logout") %>';
+        var _defaultYear = '<%= ConfigurationManager.AppSettings("DefaultYear")%>';
+        var _baseApiUrl = '<%= ResolveUrl("~/api/")%>';
+        var _validateSessionURL = '<%= ResolveUrl("~/Home/KeepAlive")%>';
+    </script>
+    
+    <script type="text/javascript" src='<%= ResolveClientUrl("~/dist/js/jquery.min.js")%>'></script>
+    <script type="text/javascript" src='<%= ResolveClientUrl("~/dist/js/what-input.min.js")%>'></script>
+    <script type="text/javascript" src='<%= ResolveClientUrl("~/dist/js/foundation.min.js")%>'></script>
+    <script type="text/javascript" src='<%= ResolveClientUrl("~/dist/js/amcos-site.js")%>'></script>
+
+    <%-- Use this placeholder on pages to include page-specific JS code --%>
+    <asp:ContentPlaceHolder ID="JSPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+</body>
+</html>

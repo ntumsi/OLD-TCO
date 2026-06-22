@@ -1,0 +1,2471 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/29/2020 10:35:23 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="GBONNERE7450U"
+  DTS:CreatorName="CALIBRE\Greg.Bonner"
+  DTS:DTSID="{A25C603A-283B-40C2-8C96-384C739E2A9B}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS ImportWarehouse"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{3EF68991-4342-4389-B967-23223420663D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS2020_MAR]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{46458D38-249E-45FC-9C5F-3A3F975434CA}"
+      DTS:ObjectName="AMCOS2020_MAR">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=mysqlserver64154.database.windows.net;User ID=azureadmin;Initial Catalog=AMCOS2020_MAR;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"></DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Category.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{A79193C1-E6F2-47C1-B829-D6FD3297D840}"
+      DTS:ObjectName="Category.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\warehouse.Category.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PayPlan"
+              DTS:DTSID="{CCCD6336-BE2E-4867-A492-C8C2D63C6D4C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategoryGroupCode"
+              DTS:DTSID="{916AEC5A-5663-4967-AB08-28056B4F4B55}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="150"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategoryGroupDescription"
+              DTS:DTSID="{615B92A1-385E-4D63-896B-C38FABE8F07F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="175"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategoryGroupDisplay"
+              DTS:DTSID="{22B2ECAF-A2FE-4862-8936-9B3E9E9F5FFE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategorySubgroupCode"
+              DTS:DTSID="{C15307A5-7BFB-48F9-A1CA-E28C41D6AD3B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="150"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategorySubgroupDescription"
+              DTS:DTSID="{00090FEE-B81D-4AC9-B899-77AB49BD698D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="175"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategorySubgroupDisplay"
+              DTS:DTSID="{DCFA5D89-AD85-4D1D-8504-13BAAC7FCF82}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CareerProgramNumber"
+              DTS:DTSID="{C14D0F22-CDC6-4CF3-90ED-0075256D2EF7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="75"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CareerProgramDescription"
+              DTS:DTSID="{AACD8670-E0A7-480D-9EA6-A2B5CBAAE0C7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CareerProgramDisplay"
+              DTS:DTSID="{2C0BB5D2-4D21-453B-9031-264E02613492}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="11"
+              DTS:TextQualified="True"
+              DTS:ObjectName="HasCosts201901"
+              DTS:DTSID="{AE375A94-222D-45A2-96FA-DCC92E038664}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="11"
+              DTS:TextQualified="True"
+              DTS:ObjectName="HasCosts202001"
+              DTS:DTSID="{89152A1E-07FC-49A5-BDC2-804E37ABF6D1}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Location.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{4BC62C4B-8EE7-4348-93B3-1E8337CAF3E4}"
+      DTS:ObjectName="Location.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\warehouse.Location.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="lov_id"
+              DTS:DTSID="{1A6AFF1E-E78E-4C4D-9E87-7F5A47055BD4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="lov_orgnl_code"
+              DTS:DTSID="{644E5540-165E-4AC0-9AEA-A30EDAD2AAF1}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="lov_col_name"
+              DTS:DTSID="{3FE8E8A1-BF6E-405E-AD8C-9A0B598C8CB6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="lov_name"
+              DTS:DTSID="{64F739DB-D89F-4064-A402-611C74580BAB}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocationByCategory.csv]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{3B43990A-719A-4C57-A1C8-2D5F45F7900D}"
+      DTS:ObjectName="LocationByCategory.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Export2020\warehouse.LocationByCategory.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Id"
+              DTS:DTSID="{9BD4FA59-8609-400B-AA4F-BCE63E352124}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PayPlan"
+              DTS:DTSID="{CA6E35F2-2714-4B1D-94CE-A6592BED2851}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategoryGroupCode"
+              DTS:DTSID="{A3DE8EAB-C8FF-42F1-B614-BCB54F2CEE18}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CategorySubgroupCode"
+              DTS:DTSID="{71786363-A4B1-424A-A5FD-7D7B4F0E9B02}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CareerProgramNumber"
+              DTS:DTSID="{D1BD41C9-ECB3-459B-BB18-1C116B3A0CFF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LocationId"
+              DTS:DTSID="{35917B81-F1E0-498D-AEC4-9ABB4B293821}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OconusMHA"
+              DTS:DTSID="{89D17C9C-A8E7-453B-B3C3-0D31DFA5ADEA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ConusMHA"
+              DTS:DTSID="{6FEA0CD9-EB7E-439C-9FE0-06844D1D390B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Installation"
+              DTS:DTSID="{8D026457-F86D-4A4C-97DA-EE588122A475}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LocalityPayArea"
+              DTS:DTSID="{BA7298A4-E3B9-4F5B-872A-C5832769FD02}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SpecialPayArea"
+              DTS:DTSID="{1316D535-3088-4629-9924-7F0E5D287140}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Country"
+              DTS:DTSID="{99382DA4-FD18-479C-A6F8-B17DC103A7AD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WageSchedule"
+              DTS:DTSID="{BE179CFF-277E-47C1-81E2-89BFDF04D7AF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CityCounty"
+              DTS:DTSID="{22D4F800-5AF8-4E98-8180-310A9911ECEA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="150"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MSA"
+              DTS:DTSID="{2C6B9B10-099A-4111-915C-C2BEB873B2E1}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="200"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STRL"
+              DTS:DTSID="{CAEC3EF7-5969-4861-B3E5-FD4A64FB4A13}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="11"
+              DTS:TextQualified="True"
+              DTS:ObjectName="HasCosts202001"
+              DTS:DTSID="{65FC8F49-FFF7-4C17-8AE9-7F7232EBE591}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataSync\AMCOS.SSIS.DataSync.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{EC7BCBD3-0935-46BB-B272-4226293044B4}"
+      DTS:ObjectName="AMCOS_SSIS_DataSync" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{414080D5-CE5A-4900-9813-3475886EAC06}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=mysqlserver64154.database.windows.net;Initial Catalog=AMCOS2020_MAR;Provider=SQLNCLI11.1;User ID=azureadmin;Password=P@$$w0rd;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{721DF41B-5873-4F1C-8741-B60F1E945846}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\DFT Category"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{4E0CE3DA-7D62-4A84-82C5-B89B782A6BF5}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT Category"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\DFT Category\FF_SRC Category"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC Category"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DFT Category\FF_SRC Category.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Category.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[Category.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          length="3"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          name="PayPlan"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupCode]"
+                          length="7"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupCode]"
+                          name="CategoryGroupCode"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupDescription]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupDescription]"
+                          length="150"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupDescription]"
+                          name="CategoryGroupDescription"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupDisplay]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupDisplay]"
+                          length="175"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupDisplay]"
+                          name="CategoryGroupDisplay"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupCode]"
+                          length="7"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupCode]"
+                          name="CategorySubgroupCode"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupDescription]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupDescription]"
+                          length="150"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupDescription]"
+                          name="CategorySubgroupDescription"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupDisplay]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupDisplay]"
+                          length="175"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupDisplay]"
+                          name="CategorySubgroupDisplay"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramNumber]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CareerProgramNumber]"
+                          length="2"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramNumber]"
+                          name="CareerProgramNumber"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramDescription]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CareerProgramDescription]"
+                          length="75"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramDescription]"
+                          name="CareerProgramDescription"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramDisplay]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CareerProgramDisplay]"
+                          length="100"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramDisplay]"
+                          name="CareerProgramDisplay"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[HasCosts201901]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[HasCosts201901]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[HasCosts201901]"
+                          name="HasCosts201901"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[HasCosts202001]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[HasCosts202001]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[HasCosts202001]"
+                          name="HasCosts202001"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategoryGroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupDescription]"
+                          dataType="wstr"
+                          length="150"
+                          name="CategoryGroupDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupDisplay]"
+                          dataType="wstr"
+                          length="175"
+                          name="CategoryGroupDisplay" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategorySubgroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupDescription]"
+                          dataType="wstr"
+                          length="150"
+                          name="CategorySubgroupDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupDisplay]"
+                          dataType="wstr"
+                          length="175"
+                          name="CategorySubgroupDisplay" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CareerProgramNumber]"
+                          dataType="wstr"
+                          length="2"
+                          name="CareerProgramNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CareerProgramDescription]"
+                          dataType="wstr"
+                          length="75"
+                          name="CareerProgramDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[CareerProgramDisplay]"
+                          dataType="wstr"
+                          length="100"
+                          name="CareerProgramDisplay" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[HasCosts201901]"
+                          dataType="bool"
+                          name="HasCosts201901" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].ExternalColumns[HasCosts202001]"
+                          dataType="bool"
+                          name="HasCosts202001" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\DFT Category\OLE_DST Category"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST Category"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[warehouse].[Category]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DFT Category\OLE_DST Category.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="PayPlan"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[PayPlan]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CategoryGroupCode]"
+                          cachedDataType="wstr"
+                          cachedLength="7"
+                          cachedName="CategoryGroupCode"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupCode]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CategoryGroupDescription]"
+                          cachedDataType="wstr"
+                          cachedLength="150"
+                          cachedName="CategoryGroupDescription"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupDescription]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupDescription]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CategoryGroupDisplay]"
+                          cachedDataType="wstr"
+                          cachedLength="175"
+                          cachedName="CategoryGroupDisplay"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupDisplay]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategoryGroupDisplay]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CategorySubgroupCode]"
+                          cachedDataType="wstr"
+                          cachedLength="7"
+                          cachedName="CategorySubgroupCode"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupCode]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CategorySubgroupDescription]"
+                          cachedDataType="wstr"
+                          cachedLength="150"
+                          cachedName="CategorySubgroupDescription"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupDescription]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupDescription]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CategorySubgroupDisplay]"
+                          cachedDataType="wstr"
+                          cachedLength="175"
+                          cachedName="CategorySubgroupDisplay"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupDisplay]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CategorySubgroupDisplay]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CareerProgramNumber]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="CareerProgramNumber"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramNumber]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramNumber]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CareerProgramDescription]"
+                          cachedDataType="wstr"
+                          cachedLength="75"
+                          cachedName="CareerProgramDescription"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramDescription]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramDescription]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[CareerProgramDisplay]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="CareerProgramDisplay"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramDisplay]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[CareerProgramDisplay]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[HasCosts201901]"
+                          cachedDataType="bool"
+                          cachedName="HasCosts201901"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[HasCosts201901]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[HasCosts201901]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].Columns[HasCosts202001]"
+                          cachedDataType="bool"
+                          cachedName="HasCosts202001"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[HasCosts202001]"
+                          lineageId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output].Columns[HasCosts202001]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategoryGroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupDescription]"
+                          dataType="wstr"
+                          length="150"
+                          name="CategoryGroupDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupDisplay]"
+                          dataType="wstr"
+                          length="175"
+                          name="CategoryGroupDisplay" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategorySubgroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupDescription]"
+                          dataType="wstr"
+                          length="150"
+                          name="CategorySubgroupDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupDisplay]"
+                          dataType="wstr"
+                          length="175"
+                          name="CategorySubgroupDisplay" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramNumber]"
+                          dataType="wstr"
+                          length="2"
+                          name="CareerProgramNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramDescription]"
+                          dataType="wstr"
+                          length="75"
+                          name="CareerProgramDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramDisplay]"
+                          dataType="wstr"
+                          length="100"
+                          name="CareerProgramDisplay" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[HasCosts201901]"
+                          dataType="bool"
+                          name="HasCosts201901" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input].ExternalColumns[HasCosts202001]"
+                          dataType="bool"
+                          name="HasCosts202001" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT Category\OLE_DST Category.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Category\OLE_DST Category.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Category\OLE_DST Category.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Category\OLE_DST Category.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\DFT Category.Paths[Flat File Source Output]"
+                  endId="Package\Sequence Container\DFT Category\OLE_DST Category.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\Sequence Container\DFT Category\FF_SRC Category.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\DFT Location"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{DAF89937-DD13-4C37-A6C9-9B5273A717A5}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT Location"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\DFT Location\FF_SRC Location"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC Location"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DFT Location\FF_SRC Location.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Location.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[Location.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_id]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_id]"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_id]"
+                          name="lov_id"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_orgnl_code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_orgnl_code]"
+                          length="100"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_orgnl_code]"
+                          name="lov_orgnl_code"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_col_name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_col_name]"
+                          length="100"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_col_name]"
+                          name="lov_col_name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_name]"
+                          length="100"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_name]"
+                          name="lov_name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_id]"
+                          dataType="i4"
+                          name="lov_id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_orgnl_code]"
+                          dataType="wstr"
+                          length="100"
+                          name="lov_orgnl_code" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_col_name]"
+                          dataType="wstr"
+                          length="100"
+                          name="lov_col_name" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].ExternalColumns[lov_name]"
+                          dataType="wstr"
+                          length="100"
+                          name="lov_name" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\DFT Location\OLE_DST Location"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST Location"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[warehouse].[Location]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DFT Location\OLE_DST Location.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].Columns[lov_id]"
+                          cachedDataType="i4"
+                          cachedName="lov_id"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_id]"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_id]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].Columns[lov_orgnl_code]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="lov_orgnl_code"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_orgnl_code]"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_orgnl_code]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].Columns[lov_col_name]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="lov_col_name"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_col_name]"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_col_name]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].Columns[lov_name]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="lov_name"
+                          externalMetadataColumnId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_name]"
+                          lineageId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output].Columns[lov_name]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_id]"
+                          dataType="i4"
+                          name="lov_id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_orgnl_code]"
+                          dataType="wstr"
+                          length="100"
+                          name="lov_orgnl_code" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_col_name]"
+                          dataType="wstr"
+                          length="100"
+                          name="lov_col_name" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input].ExternalColumns[lov_name]"
+                          dataType="wstr"
+                          length="100"
+                          name="lov_name" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT Location\OLE_DST Location.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Location\OLE_DST Location.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT Location\OLE_DST Location.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT Location\OLE_DST Location.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\DFT Location.Paths[Flat File Source Output]"
+                  endId="Package\Sequence Container\DFT Location\OLE_DST Location.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\Sequence Container\DFT Location\FF_SRC Location.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\DFT LocationByCategory"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{4952A0C7-4EC2-47DD-B79F-A53421A0216E}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT LocationByCategory"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="FF_SRC LocationByCategory"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocationByCategory.csv]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocationByCategory.csv]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Id]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[Id]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Id]"
+                          name="Id"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          length="3"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[PayPlan]"
+                          name="PayPlan"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CategoryGroupCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupCode]"
+                          length="7"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CategoryGroupCode]"
+                          name="CategoryGroupCode"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupCode]"
+                          length="7"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CategorySubgroupCode]"
+                          name="CategorySubgroupCode"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CareerProgramNumber]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CareerProgramNumber]"
+                          length="2"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CareerProgramNumber]"
+                          name="CareerProgramNumber"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[LocationId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[LocationId]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[LocationId]"
+                          name="LocationId"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[OconusMHA]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[OconusMHA]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[OconusMHA]"
+                          name="OconusMHA"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[ConusMHA]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[ConusMHA]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[ConusMHA]"
+                          name="ConusMHA"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Installation]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[Installation]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Installation]"
+                          name="Installation"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[LocalityPayArea]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[LocalityPayArea]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[LocalityPayArea]"
+                          name="LocalityPayArea"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[SpecialPayArea]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[SpecialPayArea]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[SpecialPayArea]"
+                          name="SpecialPayArea"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Country]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Country]"
+                          name="Country"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[WageSchedule]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[WageSchedule]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[WageSchedule]"
+                          name="WageSchedule"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CityCounty]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CityCounty]"
+                          length="500"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CityCounty]"
+                          name="CityCounty"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[MSA]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[MSA]"
+                          length="150"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[MSA]"
+                          name="MSA"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[STRL]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[STRL]"
+                          length="200"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[STRL]"
+                          name="STRL"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[HasCosts202001]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[HasCosts202001]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[HasCosts202001]"
+                          name="HasCosts202001"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[Id]"
+                          dataType="i4"
+                          name="Id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CategoryGroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategoryGroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategorySubgroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CareerProgramNumber]"
+                          dataType="wstr"
+                          length="2"
+                          name="CareerProgramNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[LocationId]"
+                          dataType="i4"
+                          name="LocationId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[OconusMHA]"
+                          dataType="wstr"
+                          length="500"
+                          name="OconusMHA" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[ConusMHA]"
+                          dataType="wstr"
+                          length="500"
+                          name="ConusMHA" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[Installation]"
+                          dataType="wstr"
+                          length="500"
+                          name="Installation" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[LocalityPayArea]"
+                          dataType="wstr"
+                          length="500"
+                          name="LocalityPayArea" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[SpecialPayArea]"
+                          dataType="wstr"
+                          length="500"
+                          name="SpecialPayArea" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="500"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[WageSchedule]"
+                          dataType="wstr"
+                          length="500"
+                          name="WageSchedule" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[CityCounty]"
+                          dataType="wstr"
+                          length="500"
+                          name="CityCounty" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[MSA]"
+                          dataType="wstr"
+                          length="150"
+                          name="MSA" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[STRL]"
+                          dataType="wstr"
+                          length="200"
+                          name="STRL" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].ExternalColumns[HasCosts202001]"
+                          dataType="bool"
+                          name="HasCosts202001" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE_DST LocationByCategory"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[warehouse].[LocationByCategory]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      connectionManagerRefId="Package.ConnectionManagers[AMCOS2020_MAR]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[Id]"
+                          cachedDataType="i4"
+                          cachedName="Id"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Id]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[PayPlan]"
+                          cachedDataType="wstr"
+                          cachedLength="3"
+                          cachedName="PayPlan"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[PayPlan]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[CategoryGroupCode]"
+                          cachedDataType="wstr"
+                          cachedLength="7"
+                          cachedName="CategoryGroupCode"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupCode]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CategoryGroupCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[CategorySubgroupCode]"
+                          cachedDataType="wstr"
+                          cachedLength="7"
+                          cachedName="CategorySubgroupCode"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupCode]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CategorySubgroupCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[CareerProgramNumber]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="CareerProgramNumber"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramNumber]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CareerProgramNumber]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[LocationId]"
+                          cachedDataType="i4"
+                          cachedName="LocationId"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[LocationId]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[OconusMHA]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="OconusMHA"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[OconusMHA]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[OconusMHA]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[ConusMHA]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="ConusMHA"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[ConusMHA]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[ConusMHA]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[Installation]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="Installation"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[Installation]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Installation]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[LocalityPayArea]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="LocalityPayArea"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[LocalityPayArea]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[LocalityPayArea]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[SpecialPayArea]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="SpecialPayArea"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[SpecialPayArea]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[SpecialPayArea]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="Country"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[Country]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[WageSchedule]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="WageSchedule"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[WageSchedule]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[WageSchedule]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[CityCounty]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="CityCounty"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CityCounty]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[CityCounty]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[MSA]"
+                          cachedDataType="wstr"
+                          cachedLength="150"
+                          cachedName="MSA"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[MSA]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[MSA]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[STRL]"
+                          cachedDataType="wstr"
+                          cachedLength="200"
+                          cachedName="STRL"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[STRL]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[STRL]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].Columns[HasCosts202001]"
+                          cachedDataType="bool"
+                          cachedName="HasCosts202001"
+                          externalMetadataColumnId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[HasCosts202001]"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output].Columns[HasCosts202001]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                          dataType="i4"
+                          name="Id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[PayPlan]"
+                          dataType="wstr"
+                          length="3"
+                          name="PayPlan" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CategoryGroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategoryGroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CategorySubgroupCode]"
+                          dataType="wstr"
+                          length="7"
+                          name="CategorySubgroupCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CareerProgramNumber]"
+                          dataType="wstr"
+                          length="2"
+                          name="CareerProgramNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                          dataType="i4"
+                          name="LocationId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[OconusMHA]"
+                          dataType="wstr"
+                          length="500"
+                          name="OconusMHA" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[ConusMHA]"
+                          dataType="wstr"
+                          length="500"
+                          name="ConusMHA" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[Installation]"
+                          dataType="wstr"
+                          length="500"
+                          name="Installation" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[LocalityPayArea]"
+                          dataType="wstr"
+                          length="500"
+                          name="LocalityPayArea" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[SpecialPayArea]"
+                          dataType="wstr"
+                          length="500"
+                          name="SpecialPayArea" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="500"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[WageSchedule]"
+                          dataType="wstr"
+                          length="500"
+                          name="WageSchedule" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[CityCounty]"
+                          dataType="wstr"
+                          length="500"
+                          name="CityCounty" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[MSA]"
+                          dataType="wstr"
+                          length="150"
+                          name="MSA" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[STRL]"
+                          dataType="wstr"
+                          length="200"
+                          name="STRL" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input].ExternalColumns[HasCosts202001]"
+                          dataType="bool"
+                          name="HasCosts202001" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\DFT LocationByCategory.Paths[Flat File Source Output]"
+                  endId="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Truncate Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{289438DF-B8B4-4A86-A6BB-9F7ABBA16B40}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Truncate Tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{46458D38-249E-45FC-9C5F-3A3F975434CA}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE warehouse.Category;&#xA;TRUNCATE TABLE warehouse.Location;&#xA;TRUNCATE TABLE warehouse.LocationByCategory;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3040172B-6ECB-4648-87E2-9DDB07FF1390}"
+      DTS:From="Package\SQL Truncate Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Sequence Container" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="183,42"
+          Id="Package\SQL Truncate Tables"
+          TopLeft="234,5.5" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Sequence Container\DFT Category"
+          TopLeft="5.50000000000006,5.49999999999989" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Sequence Container\DFT Location"
+          TopLeft="214,5.49999999999989" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Sequence Container\DFT LocationByCategory"
+          TopLeft="419.5,5.49999999999989" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="627,102"
+          Size="627,145"
+          Id="Package\Sequence Container"
+          TopLeft="5.50000000000006,107.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="322.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Sequence Container\DFT Category">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Sequence Container\DFT Category\OLE_DST Category"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Sequence Container\DFT Category\FF_SRC Category"
+          TopLeft="9.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container\DFT Category.Paths[Flat File Source Output]"
+          TopLeft="94,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\DFT Category\OLE_DST Category">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\DFT Location">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Sequence Container\DFT Location\OLE_DST Location"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Sequence Container\DFT Location\FF_SRC Location"
+          TopLeft="11,5.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container\DFT Location.Paths[Flat File Source Output]"
+          TopLeft="93.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\DFT Location\OLE_DST Location">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\DFT LocationByCategory">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="231,42"
+          Id="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="224,42"
+          Id="Package\Sequence Container\DFT LocationByCategory\FF_SRC LocationByCategory"
+          TopLeft="9.00000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container\DFT LocationByCategory.Paths[Flat File Source Output]"
+          TopLeft="121,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\DFT LocationByCategory\OLE_DST LocationByCategory">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

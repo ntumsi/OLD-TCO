@@ -1,0 +1,1303 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/9/2018 11:43:19 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\Greg.Bonner"
+  DTS:DTSID="{FEEE1417-589C-4CA6-984C-99F7E3D310B9}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad LookupGSOccupations"
+  DTS:PackageType="5"
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{16D03CD2-8DE1-4537-9C1F-4AD409E7D6BE}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F1903DAB-D213-4C9A-8745-4E894A4389A3}"
+      DTS:ObjectName="AMCOS">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2018_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[GS Job Classification]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{11A57DE3-CD6E-41C8-A969-06B6FDEECC4B}"
+      DTS:ObjectName="GS Job Classification">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_DataLoadFiles] + "\\ReferenceTables\\" + "GS_Job_Series.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2018\March\ReferenceTables\GS_Job_Series.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Group Number"
+              DTS:DTSID="{C4223C0E-0653-42BE-8DA1-01A14F7EE0E1}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="250"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Group Title"
+              DTS:DTSID="{40A88E99-7C35-4A03-B9DC-FE7F3BEAC1CA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="250"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Group Number and Title"
+              DTS:DTSID="{3A6D462D-8D3A-4002-B752-5560E7DEFBC9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Series Number"
+              DTS:DTSID="{F9BEC049-A505-4237-84A2-0901620D1141}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="250"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Series Title"
+              DTS:DTSID="{1DCF2E0C-2B02-4008-8C31-672FAEBE3503}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="250"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Series Number and Title"
+              DTS:DTSID="{4FDFECFE-2802-44DA-89F2-5B57CA31C636}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{761FC52C-94FD-4B0A-9560-3607A8274E5D}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{ED14BC2A-078C-42B2-80A2-32AAABDA5232}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2018_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FB4DE8A7-A829-4369-818F-918AC4C3E63C}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AAF146A6-38D9-45B6-9D92-1F8BABF4C379}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Data\Development\AMCOS\Docs\Data Load\2018\March</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B77AD0AE-4DE5-43DE-941A-7EA30BA82450}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1FDB7B82-4333-4C40-A0E8-89A04041CB27}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4A26873A-5DFE-4901-9464-38788A14F322}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3F086392-DBDC-4C7C-81E8-99145DD4E548}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{37B2FC84-51FB-415A-AF8B-6DAAA42A0DD0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0374E37B-74F5-4287-A60E-D240BFC45BDF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Scripts">
+      <DTS:VariableValue
+        DTS:DataType="8">Scripts</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT GS Job Series"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8f0e4dd4-36a3-441d-9a65-1fe859c0747f}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT GS Job Series"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT GS Job Series\DER GS Job Series"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER GS Job Series"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT GS Job Series\DER GS Job Series.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\DER GS Job Series.Inputs[Derived Column Input].Columns[Group Number]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="Group Number"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Number]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,4,1252)[RIGHT]("0000" + #{Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Number]},4)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,4,1252)RIGHT("0000" + [Group Number],4)</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\DER GS Job Series.Inputs[Derived Column Input].Columns[Series Number]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="Series Number"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Number]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,4,1252)[RIGHT]("0000" + #{Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Number]},4)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,4,1252)RIGHT("0000" + [Series Number],4)</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT GS Job Series\DER GS Job Series.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT GS Job Series\DER GS Job Series.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT GS Job Series\DER GS Job Series.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT GS Job Series\DER GS Job Series.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\DER GS Job Series.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\DER GS Job Series.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\DER GS Job Series.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\DER GS Job Series.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC GS Job Classifications"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[GS Job Classification]"
+                  connectionManagerRefId="Package.ConnectionManagers[GS Job Classification]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Number]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Group Number]"
+                      length="4"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Number]"
+                      name="Group Number"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Title]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Group Title]"
+                      length="250"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Title]"
+                      name="Group Title"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Number]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Series Number]"
+                      length="4"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Number]"
+                      name="Series Number"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Title]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Series Title]"
+                      length="250"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Title]"
+                      name="Series Title"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Group Number]"
+                      dataType="wstr"
+                      length="4"
+                      name="Group Number" />
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Group Title]"
+                      dataType="wstr"
+                      length="250"
+                      name="Group Title" />
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Group Number and Title]"
+                      dataType="wstr"
+                      length="250"
+                      name="Group Number and Title" />
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Series Number]"
+                      dataType="wstr"
+                      length="4"
+                      name="Series Number" />
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Series Title]"
+                      dataType="wstr"
+                      length="250"
+                      name="Series Title" />
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].ExternalColumns[Series Number and Title]"
+                      dataType="wstr"
+                      length="250"
+                      name="Series Number and Title" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT GS Job Series\Multicast"
+              componentClassID="Microsoft.Multicast"
+              contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+              name="Multicast">
+              <inputs>
+                <input
+                  refId="Package\DFT GS Job Series\Multicast.Inputs[Multicast Input 1]"
+                  name="Multicast Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT GS Job Series\Multicast.Outputs[Multicast Output 2]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 2"
+                  synchronousInputId="Package\DFT GS Job Series\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT GS Job Series\Multicast.Outputs[Multicast Output 3]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 3"
+                  synchronousInputId="Package\DFT GS Job Series\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT GS Job Series\Multicast.Outputs[Multicast Output 1]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 1"
+                  synchronousInputId="Package\DFT GS Job Series\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST GS Occupational Group"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[GS_OccupationalGroup]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input].Columns[Group Title]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Group Title"
+                      cachedSortKeyPosition="2"
+                      externalMetadataColumnId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input].ExternalColumns[GroupTitle]"
+                      lineageId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Group Title]" />
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input].Columns[Group Number]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="Group Number"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalGroupNumber]"
+                      lineageId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Group Number]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input].ExternalColumns[GroupTitle]"
+                      dataType="wstr"
+                      length="250"
+                      name="GroupTitle" />
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalGroupNumber]"
+                      dataType="wstr"
+                      length="4"
+                      name="OccupationalGroupNumber" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST GS Occupational Series"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[GS_OccupationalSeries]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input].Columns[Series Number]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="Series Number"
+                      externalMetadataColumnId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalSeriesNumber]"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Number]" />
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input].Columns[Series Title]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Series Title"
+                      externalMetadataColumnId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input].ExternalColumns[SeriesTitle]"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Title]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalSeriesNumber]"
+                      dataType="wstr"
+                      length="4"
+                      name="OccupationalSeriesNumber" />
+                    <externalMetadataColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input].ExternalColumns[SeriesTitle]"
+                      dataType="wstr"
+                      length="250"
+                      name="SeriesTitle" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT GS Job Series\Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DFT GS Job Series\Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\Sort.Inputs[Sort Input].Columns[Group Number]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="Group Number"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Number]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\Sort.Inputs[Sort Input].Columns[Group Title]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Group Title"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Title]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\Sort.Inputs[Sort Input].Columns[Series Number]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="Series Number"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Number]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT GS Job Series\Sort.Inputs[Sort Input].Columns[Series Title]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Series Title"
+                      lineageId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Title]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT GS Job Series\Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Group Number]"
+                      dataType="wstr"
+                      length="4"
+                      lineageId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Group Number]"
+                      name="Group Number"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Number]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Group Title]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Group Title]"
+                      name="Group Title"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Group Title]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Series Number]"
+                      dataType="wstr"
+                      length="4"
+                      lineageId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Series Number]"
+                      name="Series Number">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Number]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Series Title]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\DFT GS Job Series\Sort.Outputs[Sort Output].Columns[Series Title]"
+                      name="Series Title">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output].Columns[Series Title]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT GS Job Series.Paths[Derived Column Output]"
+              endId="Package\DFT GS Job Series\Multicast.Inputs[Multicast Input 1]"
+              name="Derived Column Output"
+              startId="Package\DFT GS Job Series\DER GS Job Series.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT GS Job Series.Paths[Flat File Source Output]"
+              endId="Package\DFT GS Job Series\DER GS Job Series.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT GS Job Series\FF_SRC GS Job Classifications.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\DFT GS Job Series.Paths[Multicast Output 2]"
+              endId="Package\DFT GS Job Series\OLE_DST GS Occupational Series.Inputs[OLE DB Destination Input]"
+              name="Multicast Output 2"
+              startId="Package\DFT GS Job Series\Multicast.Outputs[Multicast Output 2]" />
+            <path
+              refId="Package\DFT GS Job Series.Paths[Multicast Output 3]"
+              endId="Package\DFT GS Job Series\Sort.Inputs[Sort Input]"
+              name="Multicast Output 3"
+              startId="Package\DFT GS Job Series\Multicast.Outputs[Multicast Output 3]" />
+            <path
+              refId="Package\DFT GS Job Series.Paths[Sort Output]"
+              endId="Package\DFT GS Job Series\OLE_DST GS Occupational Group.Inputs[OLE DB Destination Input]"
+              name="Sort Output"
+              startId="Package\DFT GS Job Series\Sort.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Insert Missing Rows"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{0ed013df-609b-4b35-965a-d9bd22c0dae9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Insert Missing Rows"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1903DAB-D213-4C9A-8745-4E894A4389A3}"
+          SQLTask:SqlStatementSource="  INSERT    INTO lookup.GS_OccupationalSeries&#xA;            ( [OccupationalSeriesNumber] ,&#xA;              [SeriesTitle]&#xA;            )&#xA;  VALUES    ( '0308' ,&#xA;              'RECORDS AND INFORMATION MANAGEMENT'&#xA;            );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Post Load Actions"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{30CBD166-59EC-48C2-88F7-1616A152FF01}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Post Load Actions"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1903DAB-D213-4C9A-8745-4E894A4389A3}"
+          SQLTask:SqlStatementSource="EXEC dataload.LoadGSOccupations_Post;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Pre Load Actions"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2c4e7953-7144-4f6d-8f77-8ccea28379d9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Pre Load Actions"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F1903DAB-D213-4C9A-8745-4E894A4389A3}"
+          SQLTask:SqlStatementSource="EXEC dataload.LoadGSOccupations_Pre;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{84A365C0-11B6-4781-9FDE-DB084970E47F}"
+      DTS:From="Package\SQL Pre Load Actions"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT GS Job Series" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{58042D47-41CF-4F51-B233-8F9E98321A95}"
+      DTS:From="Package\DFT GS Job Series"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SQL Post Load Actions" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="174,42"
+          Id="Package\DFT GS Job Series"
+          TopLeft="277.5,107.5" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\SQL Insert Missing Rows"
+          TopLeft="5.50000000000006,209.5" />
+        <NodeLayout
+          Size="187,42"
+          Id="Package\SQL Pre Load Actions"
+          TopLeft="271,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="364.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="192,42"
+          Id="Package\SQL Post Load Actions"
+          TopLeft="268.5,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="364.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT GS Job Series">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="249,42"
+          Id="Package\DFT GS Job Series\OLE_DST GS Occupational Series"
+          TopLeft="240.5,311.5" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\DFT GS Job Series\FF_SRC GS Job Classifications"
+          TopLeft="247.5,5.5" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\DFT GS Job Series\OLE_DST GS Occupational Group"
+          TopLeft="5.50000000000006,413.5" />
+        <NodeLayout
+          Size="123,42"
+          Id="Package\DFT GS Job Series\Multicast"
+          TopLeft="303.5,209.5" />
+        <NodeLayout
+          Size="99,42"
+          Id="Package\DFT GS Job Series\Sort"
+          TopLeft="80.5,311.5" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\DFT GS Job Series\DER GS Job Series"
+          TopLeft="277,107.5" />
+        <EdgeLayout
+          Id="Package\DFT GS Job Series.Paths[Sort Output]"
+          TopLeft="130,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT GS Job Series.Paths[Multicast Output 3]"
+          TopLeft="345.833333333333,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-215.833333333333,60"
+              Start="0,0"
+              End="-215.833333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.46227929374" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.46227929374"
+                    Point2="0,24.46227929374"
+                    Point3="-4,24.46227929374" />
+                  <mssgle:LineSegment
+                    End="-211.833333333333,24.46227929374" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-211.833333333333,24.46227929374"
+                    Point2="-215.833333333333,24.46227929374"
+                    Point3="-215.833333333333,28.46227929374" />
+                  <mssgle:LineSegment
+                    End="-215.833333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT GS Job Series.Paths[Multicast Output 2]"
+          TopLeft="384.166666666667,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-19.1666666666666,60"
+              Start="0,0"
+              End="-19.1666666666666,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.46227929374" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.46227929374"
+                    Point2="0,24.46227929374"
+                    Point3="-4,24.46227929374" />
+                  <mssgle:LineSegment
+                    End="-15.1666666666666,24.46227929374" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-15.1666666666666,24.46227929374"
+                    Point2="-19.1666666666666,24.46227929374"
+                    Point3="-19.1666666666666,28.46227929374" />
+                  <mssgle:LineSegment
+                    End="-19.1666666666666,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT GS Job Series.Paths[Flat File Source Output]"
+          TopLeft="365,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT GS Job Series.Paths[Derived Column Output]"
+          TopLeft="365,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

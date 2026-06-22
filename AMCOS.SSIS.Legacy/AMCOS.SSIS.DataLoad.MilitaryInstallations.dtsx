@@ -1,0 +1,1105 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/12/2019 12:30:58 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\Greg.Bonner"
+  DTS:DTSID="{7295D038-4912-4FED-B861-237A2B8CA099}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad MilitaryInstallations"
+  DTS:PackageType="5"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{608660EE-DFC5-4AF4-BAC0-79CAD9987DFC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2AFB8DAD-D54A-48E4-A647-474A14F4FAA0}"
+      DTS:ObjectName="alexosmisa4dbd1.AMCOS2020_MAR">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Military Installations]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{52C64FC9-8B1F-47A7-AC6A-5CB92A81D890}"
+      DTS:ObjectName="Military Installations">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\20190507 MIL COLA and BAH.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ActiveArmy"
+              DTS:DTSID="{0BF4F2F5-8D21-40EB-BE3C-FDF57F711494}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PrimaryZIPCode"
+              DTS:DTSID="{7B88BCAB-D5CD-44DF-894C-635F1E9928A3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BAH MHA Name"
+              DTS:DTSID="{0E91F451-12C0-4662-96DF-ADD51D95E86E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COLA Name"
+              DTS:DTSID="{9F40DAF1-E6BC-4005-BE59-80610C11350A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Installation"
+              DTS:DTSID="{095EA3BF-D0D0-4560-8034-D0E2D65C0C45}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Component (MIRTA Points shp)"
+              DTS:DTSID="{67580ACC-D0DC-4FF8-BC4A-F0DDF96B30D4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="25"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Component"
+              DTS:DTSID="{E2AA32F5-49A7-4F85-9668-CF2ECDA54BD1}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Country (MIRTA Points shp)"
+              DTS:DTSID="{B7319F7E-E154-40D7-96C5-4348686A9C22}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="25"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Country"
+              DTS:DTSID="{898D193E-F075-4FC3-B67E-52AF088DA5E4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Geometry (MIRTA Points shp)"
+              DTS:DTSID="{9E69BA6F-DFF8-4DF3-9AB8-4709E249F813}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Geometry"
+              DTS:DTSID="{B2FE98F4-1CB0-4EE0-AA7A-DB84ADF6A8AC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="JointBase (MIRTA Points shp)"
+              DTS:DTSID="{718B550B-8EAA-4235-86E3-2EC38000485D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="75"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="JointBase"
+              DTS:DTSID="{58356583-5EC1-4D9F-A03E-8D8F56FE7B80}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Number of Records"
+              DTS:DTSID="{38C3D563-8422-4EE2-BDAF-478D02DF3A6E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OPER STAT (MIRTA Points shp)"
+              DTS:DTSID="{B30E5987-9957-48CE-86DB-212203F5453C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="25"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OperStat"
+              DTS:DTSID="{A6AF9569-AD95-4396-8F22-2FCA895A2CDA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE NAME (MIRTA Points shp)"
+              DTS:DTSID="{A2F6D56B-6473-42C3-903B-5C08F0C1A9FC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="75"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SiteName"
+              DTS:DTSID="{F8EC7BE2-F039-4AEA-811C-A5CDE9B4E54E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STATE TERR (MIRTA Points shp)"
+              DTS:DTSID="{DF92065B-AC7B-4F5B-B48A-AD7CD32F591F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="25"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="StateTerritory"
+              DTS:DTSID="{9A054DDA-DFAC-4DB2-B2D3-D6D748CA003A}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{2CE62F0D-9542-4938-90D0-7D473944D54F}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CF4234F3-26C1-4285-A15C-614A7C3F58ED}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="AmcosVersionId">
+      <DTS:VariableValue
+        DTS:DataType="3">202501</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DEB41EC5-A766-4F50-BF30-BE47DDAEA36C}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BD41F3C1-6474-43D0-AEF8-20872F3DD59F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Projects\AMCOS\Greg\source\repos\amcos\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1EA3D028-6283-4347-8120-07E56AF69FC5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9D7025BA-8C68-4E9B-A087-DA1648EA4166}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9FD534BA-101C-4D4B-9E30-6A1C9DA9A4AA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D2E38F1D-7CE1-499C-895E-762B47C1F53D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7B344CBE-632A-43AE-A1D1-D17A7409B737}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DC55B872-2694-41DC-95EB-5C1F7C2742E6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load Military Installations"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{41E95FA0-3EFC-4DE3-AF1C-B57D4D65EA57}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load Military Installations"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load Military Installations\DER ActiveArmy"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER ActiveArmy"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load Military Installations\DER ActiveArmy.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\DER ActiveArmy.Inputs[Derived Column Input].Columns[ActiveArmy]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="ActiveArmy"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[ActiveArmy]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load Military Installations\DER ActiveArmy.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Output].Columns[ActiveArmy]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Output].Columns[ActiveArmy]"
+                      name="ActiveArmy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[ActiveArmy]} == "y" ? (DT_BOOL)1 : (DT_BOOL)0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ActiveArmy == "y" ? (DT_BOOL)1 : (DT_BOOL)0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load Military Installations\DER ActiveArmy.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Military Installations\FF_SRC Military Installations"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC Military Installations"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Military Installations]"
+                  connectionManagerRefId="Package.ConnectionManagers[Military Installations]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Installation]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Installation]"
+                      length="100"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Installation]"
+                      name="Installation"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Component]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Component]"
+                      length="25"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Component]"
+                      name="Component"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                      length="25"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[ActiveArmy]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[ActiveArmy]"
+                      length="1"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[ActiveArmy]"
+                      name="ActiveArmy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[PrimaryZIPCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[PrimaryZIPCode]"
+                      length="5"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[PrimaryZIPCode]"
+                      name="PrimaryZIPCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[JointBase]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[JointBase]"
+                      length="75"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[JointBase]"
+                      name="JointBase"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[OperStat]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[OperStat]"
+                      length="25"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[OperStat]"
+                      name="OperStat"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[SiteName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[SiteName]"
+                      length="75"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[SiteName]"
+                      name="SiteName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[StateTerritory]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[StateTerritory]"
+                      length="25"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[StateTerritory]"
+                      name="StateTerritory"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[BAH MHA Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="BAH MHA Name" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[COLA Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="COLA Name" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Installation]"
+                      dataType="wstr"
+                      length="100"
+                      name="Installation" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Component]"
+                      dataType="wstr"
+                      length="25"
+                      name="Component" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="25"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Geometry (MIRTA Points shp)]"
+                      dataType="wstr"
+                      length="50"
+                      name="Geometry (MIRTA Points shp)" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Geometry]"
+                      dataType="wstr"
+                      length="50"
+                      name="Geometry" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Number of Records]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Number of Records" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[OPER STAT (MIRTA Points shp)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="OPER STAT (MIRTA Points shp)" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[SITE NAME (MIRTA Points shp)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SITE NAME (MIRTA Points shp)" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[STATE TERR (MIRTA Points shp)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="STATE TERR (MIRTA Points shp)" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[ActiveArmy]"
+                      dataType="wstr"
+                      length="1"
+                      name="ActiveArmy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[PrimaryZIPCode]"
+                      dataType="wstr"
+                      length="5"
+                      name="PrimaryZIPCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Component (MIRTA Points shp)]"
+                      dataType="wstr"
+                      length="50"
+                      name="Component (MIRTA Points shp)" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[Country (MIRTA Points shp)]"
+                      dataType="wstr"
+                      length="50"
+                      name="Country (MIRTA Points shp)" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[JointBase]"
+                      dataType="wstr"
+                      length="75"
+                      name="JointBase" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[OperStat]"
+                      dataType="wstr"
+                      length="25"
+                      name="OperStat" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[SiteName]"
+                      dataType="wstr"
+                      length="75"
+                      name="SiteName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[StateTerritory]"
+                      dataType="wstr"
+                      length="25"
+                      name="StateTerritory" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].ExternalColumns[JointBase (MIRTA Points shp)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="JointBase (MIRTA Points shp)" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST MilitaryInstallations"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[MilitaryInstallations]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[Installation]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Installation"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[Installation]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Installation]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[Component]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="Component"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Component]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[Country]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[PrimaryZIPCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="PrimaryZIPCode"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[PrimaryZIPCode]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[PrimaryZIPCode]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[JointBase]"
+                      cachedDataType="wstr"
+                      cachedLength="75"
+                      cachedName="JointBase"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[JointBase]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[JointBase]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[OperStat]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="OperStat"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[OperStat]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[OperStat]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[SiteName]"
+                      cachedDataType="wstr"
+                      cachedLength="75"
+                      cachedName="SiteName"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[SiteName]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[SiteName]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[StateTerritory]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="StateTerritory"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[StateTerritory]"
+                      lineageId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output].Columns[StateTerritory]" />
+                    <inputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].Columns[ActiveArmy]"
+                      cachedDataType="bool"
+                      cachedName="ActiveArmy"
+                      externalMetadataColumnId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[ActiveArmy]"
+                      lineageId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Output].Columns[ActiveArmy]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[Installation]"
+                      dataType="wstr"
+                      length="100"
+                      name="Installation" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      dataType="wstr"
+                      length="25"
+                      name="Component" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="25"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[ActiveArmy]"
+                      dataType="bool"
+                      name="ActiveArmy" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[PrimaryZIPCode]"
+                      dataType="wstr"
+                      length="5"
+                      name="PrimaryZIPCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[JointBase]"
+                      dataType="wstr"
+                      length="75"
+                      name="JointBase" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[OperStat]"
+                      dataType="wstr"
+                      length="25"
+                      name="OperStat" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[SiteName]"
+                      dataType="wstr"
+                      length="75"
+                      name="SiteName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input].ExternalColumns[StateTerritory]"
+                      dataType="wstr"
+                      length="25"
+                      name="StateTerritory" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load Military Installations.Paths[Derived Column Output]"
+              endId="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load Military Installations\DER ActiveArmy.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load Military Installations.Paths[Flat File Source Output]"
+              endId="Package\DFT Load Military Installations\DER ActiveArmy.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Load Military Installations\FF_SRC Military Installations.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="227,42"
+          Id="Package\DFT Load Military Installations"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Load Military Installations">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="225,42"
+          Id="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations"
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="221,42"
+          Id="Package\DFT Load Military Installations\FF_SRC Military Installations"
+          TopLeft="7.50000000000001,5.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\DFT Load Military Installations\DER ActiveArmy"
+          TopLeft="39,107.5" />
+        <EdgeLayout
+          Id="Package\DFT Load Military Installations.Paths[Flat File Source Output]"
+          TopLeft="118.75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load Military Installations.Paths[Derived Column Output]"
+          TopLeft="118.75,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load Military Installations\OLE_DST MilitaryInstallations">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

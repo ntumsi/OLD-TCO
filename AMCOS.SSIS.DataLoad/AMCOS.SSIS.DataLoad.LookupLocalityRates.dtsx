@@ -1,0 +1,2022 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/21/2017 12:44:30 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\greg.bonner"
+  DTS:DTSID="{C68384E1-DB1F-4F26-9A34-E46E00A111FB}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3008.28"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad LookupLocalityRates"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{1150EC80-9AE2-4C71-BF00-332309FDD9BA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{087A2601-FC6F-4B60-8749-EBD4A61B03ED}"
+      DTS:ObjectName="AMCOS">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2018_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F55ED9B6-64A9-44C2-82CA-5576ECFE03B6}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Users\greg.bonner\Documents\AMCOS\2017 Spring Update\Load\LookupTables\LocalityRates.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ID"
+              DTS:DTSID="{287B9932-7B54-4DC1-9E91-D9ABDE65679C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OpmId"
+              DTS:DTSID="{201FCC6E-CEA4-4A50-94C9-B0C4791BD6C7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Description"
+              DTS:DTSID="{E480D075-E73C-4050-922B-A813E10F3FBC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="NAMT"
+              DTS:DTSID="{2162A378-4914-472E-8539-9C2234D11B98}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="6"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="StateName"
+              DTS:DTSID="{B08A1942-8232-48A9-ABC3-2CFAF50185A5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="8"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AreaCode"
+              DTS:DTSID="{BA24D461-4293-49CA-B2CF-F75962FF5BF0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="State"
+              DTS:DTSID="{3583FC3F-2CB8-45FD-A1B2-FE84F7405C0B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="6"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="County"
+              DTS:DTSID="{0AC3C873-85A9-4955-BA5F-D70845BF3B75}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="8"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="City"
+              DTS:DTSID="{BF213CFB-FAA9-44D8-94B6-2A252C0DCB5B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LocalityID"
+              DTS:DTSID="{E085D1EF-61E6-4B95-889A-A1BD621207EF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 10"
+              DTS:DTSID="{7D98C3A3-526F-4C07-BC4B-66F00903465E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Amount2017"
+              DTS:DTSID="{1739640E-6C77-4078-A1E6-5D06DD21E815}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Description2017"
+              DTS:DTSID="{77AFEFAD-8ACB-4F46-BF8F-F0BAB9677C9C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 13"
+              DTS:DTSID="{C66D9BF4-6CF1-4C15-81F7-CAF3B699BDEF}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{0D10B869-E56F-47A8-9D5E-51C66654E60F}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FD807D8D-6C0D-4146-B64F-AE99F6EDED4D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2018_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{15A4F3B8-5882-407B-996E-8505DD8952AE}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{02F56E1B-7573-4E8A-9C68-A2C77AB23D12}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Data\Development\AMCOS\Docs\Data Load\2018\March</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AF906B42-8AC7-4410-A980-9E53681FBE5E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{42A07BBD-6F5C-4D7B-BFFC-0DD36F91F55B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6891454A-8B4A-4DAC-8887-5A4E1231BD30}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{343AFCC3-B69E-4A08-83ED-6C6C4EA61F25}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3D729A83-09E6-4172-A46C-45E3D2F861CE}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{68444EF9-12A1-4FE0-9ED6-4C64296C6480}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Scripts">
+      <DTS:VariableValue
+        DTS:DataType="8">Scripts</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load Locality Rates"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{AB2C482E-34BA-4843-8AED-E9AD9D81CFB7}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load Locality Rates"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load Locality Rates\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load Locality Rates\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Conditional Split.Inputs[Conditional Split Input].Columns[NewRate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="NewRate"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewRate]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Has New Rate]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Has New Rate"
+                  synchronousInputId="Package\DFT Load Locality Rates\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">![ISNULL](#{Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewRate]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">!ISNULL(NewRate)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Locality Rates\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load Locality Rates\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Data Conversion.Inputs[Data Conversion Input].Columns[LocalityPayment]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="LocalityPayment"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayment]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocalityPayment]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocalityPayment]"
+                      name="Copy of LocalityPayment"
+                      precision="18"
+                      scale="4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayment]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Locality Rates\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load Locality Rates\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column.Inputs[Derived Column Input].Columns[NewRate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="NewRate"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewRate]" />
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column.Inputs[Derived Column Input].Columns[NewDescription]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="NewDescription"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewDescription]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output].Columns[LocalityPayArea]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output].Columns[LocalityPayArea]"
+                      name="LocalityPayArea"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewDescription]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NewDescription</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output].Columns[LocalityPayment]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output].Columns[LocalityPayment]"
+                      name="LocalityPayment"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewRate]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NewRate</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Locality Rates\Derived Column 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load Locality Rates\Derived Column 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column 1.Inputs[Derived Column Input].Columns[OldDescription]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="OldDescription"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldDescription]" />
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column 1.Inputs[Derived Column Input].Columns[OldRate]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="OldRate"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldRate]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Derived Column 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output].Columns[LocalityPayArea]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output].Columns[LocalityPayArea]"
+                      name="LocalityPayArea"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldDescription]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">OldDescription</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output].Columns[LocalityPayment]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output].Columns[LocalityPayment]"
+                      name="LocalityPayment"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldRate]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">OldRate</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\Derived Column 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC Locality Rates"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[ID]"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[ID]"
+                      name="ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OpmId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[OpmId]"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OpmId]"
+                      name="OpmId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldDescription]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Description]"
+                      length="100"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldDescription]"
+                      name="OldDescription"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldRate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[NAMT]"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OldRate]"
+                      name="OldRate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[StateName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[StateName]"
+                      length="6"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[StateName]"
+                      name="StateName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[AreaCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[AreaCode]"
+                      length="8"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[AreaCode]"
+                      name="AreaCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[State]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[State]"
+                      length="4"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[State]"
+                      name="State"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[County]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[County]"
+                      length="6"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[County]"
+                      name="County"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[City]"
+                      length="8"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[LocalityID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[LocalityID]"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[LocalityID]"
+                      name="LocalityID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewRate]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Amount2017]"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewRate]"
+                      name="NewRate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewDescription]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Description2017]"
+                      length="100"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[NewDescription]"
+                      name="NewDescription"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[OpmId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="OpmId" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="100"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[NAMT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="NAMT" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[StateName]"
+                      dataType="wstr"
+                      length="6"
+                      name="StateName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[AreaCode]"
+                      dataType="wstr"
+                      length="8"
+                      name="AreaCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="4"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[County]"
+                      dataType="wstr"
+                      length="6"
+                      name="County" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="8"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[LocalityID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="LocalityID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Column 10]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Column 10" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Amount2017]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Amount2017" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Description2017]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="Description2017" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].ExternalColumns[Column 13]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Column 13" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST LocalityRates"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[LocalityRates]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].Columns[StateName]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="StateName"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[StateName]"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[StateName]" />
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].Columns[AreaCode]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="AreaCode"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[AreaCode]"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[AreaCode]" />
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].Columns[LocalityPayArea]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="LocalityPayArea"
+                      externalMetadataColumnId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayArea]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="100"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[StateName]"
+                      dataType="wstr"
+                      length="6"
+                      name="StateName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[AreaCode]"
+                      dataType="wstr"
+                      length="8"
+                      name="AreaCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="i4"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[Location]"
+                      dataType="wstr"
+                      length="200"
+                      name="Location" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[StateCode]"
+                      dataType="wstr"
+                      length="2"
+                      name="StateCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[CountyCode]"
+                      dataType="wstr"
+                      length="3"
+                      name="CountyCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[CityCode]"
+                      dataType="wstr"
+                      length="4"
+                      name="CityCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[LocalityId]"
+                      dataType="i4"
+                      name="LocalityId" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[IsLocalityPayArea]"
+                      dataType="bool"
+                      name="IsLocalityPayArea" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input].ExternalColumns[SortOrder]"
+                      dataType="ui1"
+                      name="SortOrder" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Locality Rates\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="ID"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[ID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[ID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[OpmId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="OpmId"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OpmId]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[OpmId]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[StateName]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="StateName"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[StateName]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[StateName]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[AreaCode]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="AreaCode"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[AreaCode]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[AreaCode]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="State"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[County]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="County"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[County]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[County]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="City"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[LocalityID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="LocalityID"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[LocalityID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[LocalityPayArea]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="LocalityPayArea"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output].Columns[LocalityPayArea]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayArea]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2].Columns[LocalityPayment]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="LocalityPayment"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output].Columns[LocalityPayment]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayment]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1]"
+                  hasSideEffects="true"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="ID"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[ID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[ID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[OpmId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="OpmId"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[OpmId]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[OpmId]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[StateName]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="StateName"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[StateName]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[StateName]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[AreaCode]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="AreaCode"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[AreaCode]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[AreaCode]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="State"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[County]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="County"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[County]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[County]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="City"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[LocalityID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="LocalityID"
+                      lineageId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output].Columns[LocalityID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityID]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[LocalityPayArea]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="LocalityPayArea"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output].Columns[LocalityPayArea]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayArea]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1].Columns[LocalityPayment]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="LocalityPayment"
+                      lineageId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output].Columns[LocalityPayment]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayment]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[ID]"
+                      name="ID" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[OpmId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[OpmId]"
+                      name="OpmId" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[StateName]"
+                      dataType="wstr"
+                      length="6"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[StateName]"
+                      name="StateName" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[AreaCode]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[AreaCode]"
+                      name="AreaCode" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[State]"
+                      dataType="wstr"
+                      length="4"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[State]"
+                      name="State" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[County]"
+                      dataType="wstr"
+                      length="6"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[County]"
+                      name="County" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[City]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityID]"
+                      name="LocalityID" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayArea]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayArea]"
+                      name="LocalityPayArea" />
+                    <outputColumn
+                      refId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayment]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1].Columns[LocalityPayment]"
+                      name="LocalityPayment" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load Locality Rates.Paths[Conditional Split Default Output]"
+              endId="Package\DFT Load Locality Rates\Derived Column 1.Inputs[Derived Column Input]"
+              name="Conditional Split Default Output"
+              startId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Conditional Split Default Output]" />
+            <path
+              refId="Package\DFT Load Locality Rates.Paths[Data Conversion Output]"
+              endId="Package\DFT Load Locality Rates\OLE_DST LocalityRates.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\DFT Load Locality Rates\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\DFT Load Locality Rates.Paths[Derived Column Output]"
+              endId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 2]"
+              name="Derived Column Output"
+              startId="Package\DFT Load Locality Rates\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load Locality Rates.Paths[Derived Column Output1]"
+              endId="Package\DFT Load Locality Rates\Union All.Inputs[Union All Input 1]"
+              name="Derived Column Output"
+              startId="Package\DFT Load Locality Rates\Derived Column 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load Locality Rates.Paths[Flat File Source Output]"
+              endId="Package\DFT Load Locality Rates\Conditional Split.Inputs[Conditional Split Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Load Locality Rates\FF_SRC Locality Rates.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\DFT Load Locality Rates.Paths[Has New Rate]"
+              endId="Package\DFT Load Locality Rates\Derived Column.Inputs[Derived Column Input]"
+              name="Has New Rate"
+              startId="Package\DFT Load Locality Rates\Conditional Split.Outputs[Has New Rate]" />
+            <path
+              refId="Package\DFT Load Locality Rates.Paths[Union All Output 1]"
+              endId="Package\DFT Load Locality Rates\Data Conversion.Inputs[Data Conversion Input]"
+              name="Union All Output 1"
+              startId="Package\DFT Load Locality Rates\Union All.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Truncate Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{97EBD410-9117-4E8C-A0E3-AB168666430A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Truncate Tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{087A2601-FC6F-4B60-8749-EBD4A61B03ED}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE lookup.LocalityRates;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{5F05DA5F-705C-4B3D-9138-98D3155D0477}"
+      DTS:From="Package\SQL Truncate Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT Load Locality Rates" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="192,42"
+          Id="Package\DFT Load Locality Rates"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\SQL Truncate Tables"
+          TopLeft="13,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="101.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Load Locality Rates">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\DFT Load Locality Rates\Data Conversion"
+          TopLeft="223.5,413.5" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\DFT Load Locality Rates\Union All"
+          TopLeft="241,311.5" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\DFT Load Locality Rates\OLE_DST LocalityRates"
+          TopLeft="207.5,515.5" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\DFT Load Locality Rates\Derived Column"
+          TopLeft="5.5,209.5" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\DFT Load Locality Rates\Derived Column 1"
+          TopLeft="220,209.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\DFT Load Locality Rates\Conditional Split"
+          TopLeft="224,107.5" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\DFT Load Locality Rates\FF_SRC Locality Rates"
+          TopLeft="210,5.5" />
+        <EdgeLayout
+          Id="Package\DFT Load Locality Rates.Paths[Conditional Split Default Output]"
+          TopLeft="326,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-24.5,60"
+              Start="0,0"
+              End="-24.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.367816091954" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.367816091954"
+                    Point2="0,24.367816091954"
+                    Point3="-4,24.367816091954" />
+                  <mssgle:LineSegment
+                    End="-20.5,24.367816091954" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-20.5,24.367816091954"
+                    Point2="-24.5,24.367816091954"
+                    Point3="-24.5,28.367816091954" />
+                  <mssgle:LineSegment
+                    End="-24.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-82.86390625,29.367816091954,141.2278125,11.658203125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load Locality Rates.Paths[Union All Output 1]"
+          TopLeft="301.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load Locality Rates.Paths[Has New Rate]"
+          TopLeft="277,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-194.5,60"
+              Start="0,0"
+              End="-194.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.367816091954" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.367816091954"
+                    Point2="0,24.367816091954"
+                    Point3="-4,24.367816091954" />
+                  <mssgle:LineSegment
+                    End="-190.5,24.367816091954" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-190.5,24.367816091954"
+                    Point2="-194.5,24.367816091954"
+                    Point3="-194.5,28.367816091954" />
+                  <mssgle:LineSegment
+                    End="-194.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-128.81634765625,29.367816091954,63.1326953125,9.421875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load Locality Rates.Paths[Flat File Source Output]"
+          TopLeft="301.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load Locality Rates.Paths[Derived Column Output1]"
+          TopLeft="301.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.8333333333333,60"
+              Start="0,0"
+              End="18.8333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5301794453507"
+                    Point2="0,35.5301794453507"
+                    Point3="4,35.5301794453507" />
+                  <mssgle:LineSegment
+                    End="14.8333333333333,35.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.8333333333333,35.5301794453507"
+                    Point2="18.8333333333333,35.5301794453507"
+                    Point3="18.8333333333333,39.5301794453507" />
+                  <mssgle:LineSegment
+                    End="18.8333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load Locality Rates.Paths[Derived Column Output]"
+          TopLeft="82.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="200.166666666667,60"
+              Start="0,0"
+              End="200.166666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5301794453507"
+                    Point2="0,35.5301794453507"
+                    Point3="4,35.5301794453507" />
+                  <mssgle:LineSegment
+                    End="196.166666666667,35.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="196.166666666667,35.5301794453507"
+                    Point2="200.166666666667,35.5301794453507"
+                    Point3="200.166666666667,39.5301794453507" />
+                  <mssgle:LineSegment
+                    End="200.166666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load Locality Rates.Paths[Data Conversion Output]"
+          TopLeft="301.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load Locality Rates\OLE_DST LocalityRates">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

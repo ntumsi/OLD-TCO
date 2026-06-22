@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CAATw00GAAA4009.Amcos"
+  DTS:DTSID="{33811371-7298-4658-A127-66287F91310A}"
+  DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=CAATw00GAAA4009;Initial Catalog=Amcos;Integrated Security=True;Application Name=SSIS-DevToTest-{33811371-7298-4658-A127-66287F91310A}CAATw00GAAA4009.Amcos;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

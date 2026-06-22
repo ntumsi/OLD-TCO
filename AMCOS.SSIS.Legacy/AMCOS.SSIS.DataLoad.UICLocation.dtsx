@@ -1,0 +1,1767 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/24/2023 11:31:57 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="CAADW00GAAA8006"
+  DTS:CreatorName="C15GDEV\Gregory.D.Bonner2.AU"
+  DTS:DTSID="{06774F3F-DBD4-46E1-A5F8-24D1DFBBE0CC}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad UICLocation"
+  DTS:PackageType="5"
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{516EC5B9-62BF-4D5F-9A4E-B25D32E9EB0B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{115297EB-52E4-48DF-B59E-E98F993B4A08}"
+      DTS:ObjectName="AMCOS">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[UIC Locations.txt]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{75133DD8-4FB6-4D7F-8E96-C29C4B00ABCA}"
+      DTS:ObjectName="UIC Locations.txt">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_DataLoadFiles] + "FMSWeb\\20240221 uic locations.txt"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\FMSWeb\20240221 uic locations.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SRCASGMT"
+              DTS:DTSID="{DAB4C7FF-2F0B-4E9A-85B3-06D2D0432CE6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="6"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UIC"
+              DTS:DTSID="{1656E82F-D1F2-4046-99A2-6B57BE0AA081}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SOURCE"
+              DTS:DTSID="{503FB210-5C2F-4BC7-8719-F4AE3EE0B5FD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOCNM"
+              DTS:DTSID="{20781EC9-C4EE-4D55-A5F8-5EA73D1683B2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CITY"
+              DTS:DTSID="{854ED201-1F25-4422-AF93-C3C44D642C27}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STATE"
+              DTS:DTSID="{89935692-AA55-442D-8426-EE85DF7F1CFE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ZIP"
+              DTS:DTSID="{2EE94DC5-4156-4932-B87C-0859ABBC9D44}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COUNTRY"
+              DTS:DTSID="{565EB0C0-4EEB-4D2E-A62B-BEF69BF57B27}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DRRSNAME"
+              DTS:DTSID="{EAEDD6C9-43C2-4FA8-9D6C-FFC086FE04A9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DRRSZIPCDCITY"
+              DTS:DTSID="{03EAFE90-9206-4BD1-AD3E-AA39809E6FB4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DRRSZIPCDSTATE"
+              DTS:DTSID="{9CF6CDBB-1861-4E62-925E-AE515E8F9163}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DRRSZIPCD"
+              DTS:DTSID="{09834595-FCA1-43F3-8070-0BAB27280C01}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DRRSZIPCDCOUNTRY"
+              DTS:DTSID="{88811AF2-BF8E-4EE1-9005-B5ADC9D70C52}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ARLOC"
+              DTS:DTSID="{C197757A-8964-478E-B202-1B6AEB6E8627}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STACO"
+              DTS:DTSID="{D07A999D-8253-4172-BC58-32F2870EDD85}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="100"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STACONAME"
+              DTS:DTSID="{7EF37826-5A00-4867-8F74-17C7EEE21140}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STACOCITY"
+              DTS:DTSID="{A9BDA2F1-3DD7-4E23-A59A-DAE308A20CEC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STACOSTATE"
+              DTS:DTSID="{9AEC6BC7-872D-4CD1-8E95-330E7EFA938B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STACOZIP"
+              DTS:DTSID="{366F4D16-F8FA-4738-924E-6D1B80088E31}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STACOCOUNTRY"
+              DTS:DTSID="{10EBC093-F80F-4C8F-A872-760D30998260}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GELOC"
+              DTS:DTSID="{34C8C1DE-D9C7-40A0-9381-220CCE1D9CEE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EFY"
+              DTS:DTSID="{DEC0B365-3C71-4313-B02D-5465B5B3FA28}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TFY"
+              DTS:DTSID="{533AF230-B919-4AEC-B2A1-4840F4FD610D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SAMASSTACOCITY"
+              DTS:DTSID="{9DB16B20-DCC6-458F-A3F1-B55C359C77C7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 24"
+              DTS:DTSID="{2ABBEC02-075E-4949-9514-69CBE7AF6BBF}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{C7DA05BB-F63F-4274-BDDB-B200D6B37790}"
+      DTS:ObjectName="AMCOS_SSIS_DATALOAD" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{63576A43-B89E-4F01-B54E-1FE7DBCF6923}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="AmcosVersionId">
+      <DTS:VariableValue
+        DTS:DataType="3">202501</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F4BFA454-74AD-44F5-8EF5-1E67DE6E30CF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{44838ED0-B442-4F0A-8286-FE84ACC697F9}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Projects\AMCOS\Greg\source\repos\amcos\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{61DC2324-18B1-48DC-91DF-B8C1A0AE7764}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D68797A4-4CCF-4B1D-8ECF-D9573A87B085}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{755431DA-19D9-42AA-B4E8-03034A40081D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{793B1F1D-AAC2-4E0A-97AB-0BBAD1164AE8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{58045E48-39AC-4BE3-A8F1-DBFEAD0B9B70}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load UICLocation"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{36AA7287-35A9-4BFA-A4C9-28086F16B572}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load UICLocation"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load UICLocation\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load UICLocation\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load UICLocation\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdStart]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdStart]"
+                      name="AmcosVersionIdStart"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdEnd]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdEnd]"
+                      name="AmcosVersionIdEnd"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">999999</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">999999</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load UICLocation\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC UIC_Locations"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[UIC Locations.txt]"
+                  connectionManagerRefId="Package.ConnectionManagers[UIC Locations.txt]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SRCASGMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[SRCASGMT]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SRCASGMT]"
+                      name="SRCASGMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[UIC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[UIC]"
+                      length="6"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[UIC]"
+                      name="UIC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SOURCE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[SOURCE]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SOURCE]"
+                      name="SOURCE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[LOCNM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[LOCNM]"
+                      length="100"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[LOCNM]"
+                      name="LOCNM"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[CITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[CITY]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[CITY]"
+                      name="CITY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STATE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STATE]"
+                      length="2"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STATE]"
+                      name="STATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[ZIP]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[ZIP]"
+                      length="10"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[ZIP]"
+                      name="ZIP"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[COUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[COUNTRY]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[COUNTRY]"
+                      name="COUNTRY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSNAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSNAME]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSNAME]"
+                      name="DRRSNAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDCITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCDCITY]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDCITY]"
+                      name="DRRSZIPCDCITY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDSTATE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCDSTATE]"
+                      length="2"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDSTATE]"
+                      name="DRRSZIPCDSTATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCD]"
+                      length="5"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCD]"
+                      name="DRRSZIPCD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDCOUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCDCOUNTRY]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDCOUNTRY]"
+                      name="DRRSZIPCDCOUNTRY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[ARLOC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[ARLOC]"
+                      length="5"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[ARLOC]"
+                      name="ARLOC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACO]"
+                      length="5"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACO]"
+                      name="STACO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACONAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACONAME]"
+                      length="100"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACONAME]"
+                      name="STACONAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOCITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOCITY]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOCITY]"
+                      name="STACOCITY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOSTATE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOSTATE]"
+                      length="2"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOSTATE]"
+                      name="STACOSTATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOZIP]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOZIP]"
+                      length="10"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOZIP]"
+                      name="STACOZIP"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOCOUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOCOUNTRY]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOCOUNTRY]"
+                      name="STACOCOUNTRY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[GELOC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[GELOC]"
+                      length="4"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[GELOC]"
+                      name="GELOC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[EFY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[EFY]"
+                      length="4"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[EFY]"
+                      name="EFY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[TFY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[TFY]"
+                      length="4"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[TFY]"
+                      name="TFY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SAMASSTACOCITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[SAMASSTACOCITY]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SAMASSTACOCITY]"
+                      name="SAMASSTACOCITY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[Column 24]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[Column 24]"
+                      length="50"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[Column 24]"
+                      name="Column 24"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[SRCASGMT]"
+                      dataType="wstr"
+                      length="50"
+                      name="SRCASGMT" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[UIC]"
+                      dataType="wstr"
+                      length="6"
+                      name="UIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[SOURCE]"
+                      dataType="wstr"
+                      length="50"
+                      name="SOURCE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[LOCNM]"
+                      dataType="wstr"
+                      length="100"
+                      name="LOCNM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[CITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STATE]"
+                      dataType="wstr"
+                      length="2"
+                      name="STATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[ZIP]"
+                      dataType="wstr"
+                      length="10"
+                      name="ZIP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSNAME]"
+                      dataType="wstr"
+                      length="50"
+                      name="DRRSNAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCDCITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="DRRSZIPCDCITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCDSTATE]"
+                      dataType="wstr"
+                      length="2"
+                      name="DRRSZIPCDSTATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCD]"
+                      dataType="wstr"
+                      length="5"
+                      name="DRRSZIPCD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[DRRSZIPCDCOUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="DRRSZIPCDCOUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[ARLOC]"
+                      dataType="wstr"
+                      length="5"
+                      name="ARLOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACO]"
+                      dataType="wstr"
+                      length="5"
+                      name="STACO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACONAME]"
+                      dataType="wstr"
+                      length="100"
+                      name="STACONAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOCITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="STACOCITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOSTATE]"
+                      dataType="wstr"
+                      length="2"
+                      name="STACOSTATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOZIP]"
+                      dataType="wstr"
+                      length="10"
+                      name="STACOZIP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[STACOCOUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="STACOCOUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[GELOC]"
+                      dataType="wstr"
+                      length="4"
+                      name="GELOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[EFY]"
+                      dataType="wstr"
+                      length="4"
+                      name="EFY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[TFY]"
+                      dataType="wstr"
+                      length="4"
+                      name="TFY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[SAMASSTACOCITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="SAMASSTACOCITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].ExternalColumns[Column 24]"
+                      dataType="wstr"
+                      length="50"
+                      name="Column 24" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST UIC_Locations"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[UICLocation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[SRCASGMT]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SRCASGMT"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[SRCASGMT]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SRCASGMT]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[UIC]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="UIC"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[UIC]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[SOURCE]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SOURCE"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[SOURCE]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SOURCE]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[LOCNM]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="LOCNM"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[LOCNM]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[LOCNM]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[CITY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="CITY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[CITY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[CITY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[STATE]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="STATE"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STATE]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STATE]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[ZIP]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="ZIP"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[ZIP]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[ZIP]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[COUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="COUNTRY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[COUNTRY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[DRRSNAME]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DRRSNAME"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSNAME]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSNAME]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[DRRSZIPCDCITY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DRRSZIPCDCITY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCDCITY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDCITY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[DRRSZIPCDSTATE]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="DRRSZIPCDSTATE"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCDSTATE]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDSTATE]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[DRRSZIPCD]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="DRRSZIPCD"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCD]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCD]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[DRRSZIPCDCOUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DRRSZIPCDCOUNTRY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCDCOUNTRY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[DRRSZIPCDCOUNTRY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[ARLOC]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ARLOC"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[ARLOC]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[ARLOC]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[STACO]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="STACO"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACO]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACO]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[STACONAME]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="STACONAME"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACONAME]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACONAME]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[STACOCITY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="STACOCITY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOCITY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOCITY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[STACOSTATE]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="STACOSTATE"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOSTATE]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOSTATE]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[STACOZIP]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="STACOZIP"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOZIP]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOZIP]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[STACOCOUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="STACOCOUNTRY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOCOUNTRY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[STACOCOUNTRY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[GELOC]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="GELOC"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[GELOC]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[GELOC]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[EFY]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="EFY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[EFY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[EFY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[TFY]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="TFY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[TFY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[TFY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[SAMASSTACOCITY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SAMASSTACOCITY"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[SAMASSTACOCITY]"
+                      lineageId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output].Columns[SAMASSTACOCITY]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[AmcosVersionIdStart]"
+                      cachedDataType="i4"
+                      cachedName="AmcosVersionIdStart"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdStart]"
+                      lineageId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdStart]" />
+                    <inputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].Columns[AmcosVersionIdEnd]"
+                      cachedDataType="i4"
+                      cachedName="AmcosVersionIdEnd"
+                      externalMetadataColumnId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdEnd]"
+                      lineageId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdEnd]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[LOCNM]"
+                      dataType="wstr"
+                      length="100"
+                      name="LOCNM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[GELOC]"
+                      dataType="wstr"
+                      length="4"
+                      name="GELOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[ARLOC]"
+                      dataType="wstr"
+                      length="5"
+                      name="ARLOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[SRCASGMT]"
+                      dataType="wstr"
+                      length="50"
+                      name="SRCASGMT" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                      dataType="wstr"
+                      length="6"
+                      name="UIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[SOURCE]"
+                      dataType="wstr"
+                      length="50"
+                      name="SOURCE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[CITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STATE]"
+                      dataType="wstr"
+                      length="2"
+                      name="STATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[ZIP]"
+                      dataType="wstr"
+                      length="10"
+                      name="ZIP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSNAME]"
+                      dataType="wstr"
+                      length="50"
+                      name="DRRSNAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCDCITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="DRRSZIPCDCITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCDSTATE]"
+                      dataType="wstr"
+                      length="2"
+                      name="DRRSZIPCDSTATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCD]"
+                      dataType="wstr"
+                      length="5"
+                      name="DRRSZIPCD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[DRRSZIPCDCOUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="DRRSZIPCDCOUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACO]"
+                      dataType="wstr"
+                      length="5"
+                      name="STACO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACONAME]"
+                      dataType="wstr"
+                      length="100"
+                      name="STACONAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOCITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="STACOCITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOSTATE]"
+                      dataType="wstr"
+                      length="2"
+                      name="STACOSTATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOZIP]"
+                      dataType="wstr"
+                      length="10"
+                      name="STACOZIP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[STACOCOUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="STACOCOUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[EFY]"
+                      dataType="wstr"
+                      length="4"
+                      name="EFY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[TFY]"
+                      dataType="wstr"
+                      length="4"
+                      name="TFY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[SAMASSTACOCITY]"
+                      dataType="wstr"
+                      length="50"
+                      name="SAMASSTACOCITY" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdStart]"
+                      dataType="i4"
+                      name="AmcosVersionIdStart" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdEnd]"
+                      dataType="i4"
+                      name="AmcosVersionIdEnd" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load UICLocation.Paths[Derived Column Output]"
+              endId="Package\DFT Load UICLocation\OLE_DST UIC_Locations.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load UICLocation\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load UICLocation.Paths[Flat File Source Output]"
+              endId="Package\DFT Load UICLocation\Derived Column.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Load UICLocation\FF_SRC UIC_Locations.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0DBBCECD-3A4C-45E3-A38E-9DEBF2F17AAF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{115297EB-52E4-48DF-B59E-E98F993B4A08}"
+          SQLTask:SqlStatementSource="DELETE FROM lookup.UICLocation;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{F7555F9A-E920-418E-86E7-7DD395D04410}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT Load UICLocation" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="191,42"
+          Id="Package\DFT Load UICLocation"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="20.5,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="103.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Load UICLocation">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="204,42"
+          Id="Package\DFT Load UICLocation\OLE_DST UIC_Locations"
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\DFT Load UICLocation\Derived Column"
+          TopLeft="28.5,107.5" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\DFT Load UICLocation\FF_SRC UIC_Locations"
+          TopLeft="9.00000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\DFT Load UICLocation.Paths[Flat File Source Output]"
+          TopLeft="107.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load UICLocation.Paths[Derived Column Output]"
+          TopLeft="107.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load UICLocation\OLE_DST UIC_Locations">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,891 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/1/2025 8:50:09 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="CAADW00GAAA8006"
+  DTS:CreatorName="C15GDEV\Gregory.D.Bonner2.AU"
+  DTS:DTSID="{6049CBC9-4478-4642-AFE7-0FF56B7E4EAC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS ImportRaw-civilian-pcs"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{8DC6C71F-F936-433B-8D54-6B6786AB6F70}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A939F846-E6BD-417C-93E2-D736AE90934D}"
+      DTS:ObjectName="CAATW00GAAA4009.Amcos">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAATW00GAAA4009;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{A939F846-E6BD-417C-93E2-D736AE90934D}CAATW00GAAA4009.Amcos;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4DCB6200-3A2A-407E-8A99-24178174621C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A939F846-E6BD-417C-93E2-D736AE90934D}"
+          SQLTask:SqlStatementSource="DELETE FROM dataload.DoSPerDiem WHERE AmcosVersionId = 202501;&#xA;DELETE FROM crunch.GSAPerDiem WHERE AmcosVersionId = 202501;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container 2"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{6F253BFF-12A0-4DB3-88C4-642F5F47DAB2}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container 2">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{2B3639EA-697A-4C0B-82BA-E6E7303370C4}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT crunch_GSAPerDiem"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[crunch].[GSAPerDiem]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+                      connectionManagerRefId="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                          cachedDataType="i4"
+                          cachedName="AmcosVersionId"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[AmcosVersionId]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ZipCode]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="ZipCode"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ZipCode]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[ZipCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FiscalYear]"
+                          cachedDataType="i2"
+                          cachedName="FiscalYear"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYear]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[FiscalYear]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MaximumLodgingRate]"
+                          cachedDataType="i4"
+                          cachedName="MaximumLodgingRate"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MaximumLodgingRate]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumLodgingRate]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MaximumMealsAndIncidentalsRate]"
+                          cachedDataType="i4"
+                          cachedName="MaximumMealsAndIncidentalsRate"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MaximumMealsAndIncidentalsRate]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumMealsAndIncidentalsRate]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateEffective]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="DateEffective"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateEffective]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[DateEffective]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ZipCode]"
+                          dataType="wstr"
+                          length="5"
+                          name="ZipCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FiscalYear]"
+                          dataType="i2"
+                          name="FiscalYear" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MaximumLodgingRate]"
+                          dataType="i4"
+                          name="MaximumLodgingRate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MaximumMealsAndIncidentalsRate]"
+                          dataType="i4"
+                          name="MaximumMealsAndIncidentalsRate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateEffective]"
+                          dataType="dbTimeStamp"
+                          name="DateEffective" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source"
+                  componentClassID="Microsoft.RawSource"
+                  contactInfo="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers.;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers."
+                  name="Raw File Source"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the file."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Output file name"
+                      name="FileName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">D:\Projects\AMCOS\Greg\202501\crunch.GSAPerDiem.raw</property>
+                    <property
+                      dataType="System.Null"
+                      description="Name of the variable that contains the file name"
+                      name="FileNameVariable" />
+                  </properties>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output]"
+                      name="Raw File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[AmcosVersionId]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[AmcosVersionId]"
+                          name="AmcosVersionId" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[ZipCode]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[ZipCode]"
+                          length="5"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[ZipCode]"
+                          name="ZipCode" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[FiscalYear]"
+                          dataType="i2"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[FiscalYear]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[FiscalYear]"
+                          name="FiscalYear" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumLodgingRate]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[MaximumLodgingRate]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumLodgingRate]"
+                          name="MaximumLodgingRate" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumMealsAndIncidentalsRate]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[MaximumMealsAndIncidentalsRate]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumMealsAndIncidentalsRate]"
+                          name="MaximumMealsAndIncidentalsRate" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[DateEffective]"
+                          dataType="dbTimeStamp"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DateEffective]"
+                          lineageId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[DateEffective]"
+                          name="DateEffective" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[ZipCode]"
+                          dataType="wstr"
+                          length="5"
+                          name="ZipCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[FiscalYear]"
+                          dataType="i2"
+                          name="FiscalYear" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[MaximumLodgingRate]"
+                          dataType="i4"
+                          name="MaximumLodgingRate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[MaximumMealsAndIncidentalsRate]"
+                          dataType="i4"
+                          name="MaximumMealsAndIncidentalsRate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DateEffective]"
+                          dataType="dbTimeStamp"
+                          name="DateEffective" />
+                      </externalMetadataColumns>
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container 2\DFT crunch_GSAPerDiem.Paths[Raw File Source Output]"
+                  endId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Raw File Source Output"
+                  startId="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source.Outputs[Raw File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{E3DCCE2C-1584-4A2B-BE8F-CB411031E2D5}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DFT dataload_DoSPerDiem"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dataload].[DoSPerDiem]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+                      connectionManagerRefId="Package.ConnectionManagers[CAATW00GAAA4009.Amcos]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AmcosVersionId]"
+                          cachedDataType="i4"
+                          cachedName="AmcosVersionId"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[AmcosVersionId]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationCode]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="LocationCode"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationCode]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[LocationCode]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SeasonBegin]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="SeasonBegin"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SeasonBegin]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[SeasonBegin]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SeasonEnd]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="SeasonEnd"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SeasonEnd]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[SeasonEnd]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MaximumLodgingRate]"
+                          cachedDataType="i4"
+                          cachedName="MaximumLodgingRate"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MaximumLodgingRate]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumLodgingRate]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[m_ierate]"
+                          cachedDataType="i4"
+                          cachedName="m_ierate"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[m_ierate]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[m_ierate]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[_maximumperdiemrate]"
+                          cachedDataType="i4"
+                          cachedName="_maximumperdiemrate"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[_maximumperdiemrate]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[_maximumperdiemrate]" />
+                        <inputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[EffectiveDate]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="EffectiveDate"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EffectiveDate]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[EffectiveDate]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationCode]"
+                          dataType="wstr"
+                          length="50"
+                          name="LocationCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SeasonBegin]"
+                          dataType="wstr"
+                          length="50"
+                          name="SeasonBegin" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SeasonEnd]"
+                          dataType="wstr"
+                          length="50"
+                          name="SeasonEnd" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MaximumLodgingRate]"
+                          dataType="i4"
+                          name="MaximumLodgingRate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[m_ierate]"
+                          dataType="i4"
+                          name="m_ierate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[_maximumperdiemrate]"
+                          dataType="i4"
+                          name="_maximumperdiemrate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EffectiveDate]"
+                          dataType="wstr"
+                          length="50"
+                          name="EffectiveDate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source"
+                  componentClassID="Microsoft.RawSource"
+                  contactInfo="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers.;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers."
+                  name="Raw File Source"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the file."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Output file name"
+                      name="FileName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">D:\Projects\AMCOS\Greg\202501\dataload.DoSPerDiem.raw</property>
+                    <property
+                      dataType="System.Null"
+                      description="Name of the variable that contains the file name"
+                      name="FileNameVariable" />
+                  </properties>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output]"
+                      name="Raw File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[AmcosVersionId]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AmcosVersionId]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[AmcosVersionId]"
+                          name="AmcosVersionId" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[LocationCode]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[LocationCode]"
+                          length="50"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[LocationCode]"
+                          name="LocationCode" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[SeasonBegin]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[SeasonBegin]"
+                          length="50"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[SeasonBegin]"
+                          name="SeasonBegin" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[SeasonEnd]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[SeasonEnd]"
+                          length="50"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[SeasonEnd]"
+                          name="SeasonEnd" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumLodgingRate]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[MaximumLodgingRate]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[MaximumLodgingRate]"
+                          name="MaximumLodgingRate" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[m_ierate]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[m_ierate]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[m_ierate]"
+                          name="m_ierate" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[_maximumperdiemrate]"
+                          dataType="i4"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[_maximumperdiemrate]"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[_maximumperdiemrate]"
+                          name="_maximumperdiemrate" />
+                        <outputColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[EffectiveDate]"
+                          dataType="wstr"
+                          externalMetadataColumnId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[EffectiveDate]"
+                          length="50"
+                          lineageId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].Columns[EffectiveDate]"
+                          name="EffectiveDate" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[AmcosVersionId]"
+                          dataType="i4"
+                          name="AmcosVersionId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[LocationCode]"
+                          dataType="wstr"
+                          length="50"
+                          name="LocationCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[SeasonBegin]"
+                          dataType="wstr"
+                          length="50"
+                          name="SeasonBegin" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[SeasonEnd]"
+                          dataType="wstr"
+                          length="50"
+                          name="SeasonEnd" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[MaximumLodgingRate]"
+                          dataType="i4"
+                          name="MaximumLodgingRate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[m_ierate]"
+                          dataType="i4"
+                          name="m_ierate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[_maximumperdiemrate]"
+                          dataType="i4"
+                          name="_maximumperdiemrate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[EffectiveDate]"
+                          dataType="wstr"
+                          length="50"
+                          name="EffectiveDate" />
+                      </externalMetadataColumns>
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container 2\DFT dataload_DoSPerDiem.Paths[Raw File Source Output]"
+                  endId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Raw File Source Output"
+                  startId="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source.Outputs[Raw File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container 2.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{D0A08342-7792-4D74-AD40-C53310442DE6}"
+          DTS:From="Package\Sequence Container 2\DFT dataload_DoSPerDiem"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container 2\DFT crunch_GSAPerDiem" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{5AA66353-12F2-4DA9-8E58-19A4788BE09D}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Sequence Container 2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="34,5.5" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Sequence Container 2\DFT crunch_GSAPerDiem"
+          TopLeft="9.50000000000001,107.5" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Sequence Container 2\DFT dataload_DoSPerDiem"
+          TopLeft="5.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container 2.PrecedenceConstraints[Constraint]"
+          TopLeft="113.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="227,204"
+          Size="227,248"
+          Id="Package\Sequence Container 2"
+          TopLeft="5.50000000000004,107.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="119,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Sequence Container 2\DFT crunch_GSAPerDiem">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,43"
+          Id="Package\Sequence Container 2\DFT crunch_GSAPerDiem\Raw File Source"
+          TopLeft="14.5,5.5" />
+        <NodeLayout
+          Size="175,43"
+          Id="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination"
+          TopLeft="5.50000000000001,108.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container 2\DFT crunch_GSAPerDiem.Paths[Raw File Source Output]"
+          TopLeft="93,48.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container 2\DFT crunch_GSAPerDiem\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container 2\DFT dataload_DoSPerDiem">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="175,43"
+          Id="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination"
+          TopLeft="5.50000000000001,108.5" />
+        <NodeLayout
+          Size="157,43"
+          Id="Package\Sequence Container 2\DFT dataload_DoSPerDiem\Raw File Source"
+          TopLeft="14.5,5.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container 2\DFT dataload_DoSPerDiem.Paths[Raw File Source Output]"
+          TopLeft="93,48.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container 2\DFT dataload_DoSPerDiem\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

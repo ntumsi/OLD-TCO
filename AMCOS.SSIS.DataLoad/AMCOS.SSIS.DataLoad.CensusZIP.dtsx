@@ -1,0 +1,2486 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/18/2019 5:03:29 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\Greg.Bonner"
+  DTS:DTSID="{55735825-F0A2-473F-8980-3EF28D160DE1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.0900.40"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad CensusZIP"
+  DTS:PackageType="5"
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{0B4738F4-B824-423B-95EE-2194858B5018}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A7967C9E-8FAC-4507-8FD0-276C190CF152}"
+      DTS:ObjectName="alexosmisa4dbd1.AMCOS2020_MAR">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2020_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{6A7E7A7A-6F13-4FD8-9440-714E79F7F595}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\Census.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="302"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WKT"
+              DTS:DTSID="{0950FB94-8AD1-42E9-863D-72E173D4BF2F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ZCTA5CE10"
+              DTS:DTSID="{BF35E364-B42C-47BF-B93B-54B3BE647AD9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GEOID10"
+              DTS:DTSID="{040274AD-9915-4E12-8BE0-1EBF06E9F942}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CLASSFP10"
+              DTS:DTSID="{D25DA06E-749F-4D6B-8D67-D1911BC6A306}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MTFCC10"
+              DTS:DTSID="{81B565F3-99F0-439D-BE76-1D754245D973}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="FUNCSTAT10"
+              DTS:DTSID="{6A36608A-1DCD-4870-8C4F-4B3285689875}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ALAND10"
+              DTS:DTSID="{4B124C7E-30D1-45C8-8706-B53F1D2872BF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AWATER10"
+              DTS:DTSID="{E1BBFFB5-49FE-4F8A-958D-974ACD8FF1EB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="INTPTLAT10"
+              DTS:DTSID="{23AE2292-3952-4527-86CE-DC676A5C2C3A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="INTPTLON10"
+              DTS:DTSID="{54DBD758-0563-4255-86AE-30A7080AA3D6}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MIRTA Boundary]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{EBF99BD8-946B-495F-B89C-C1F3394C1EF8}"
+      DTS:ObjectName="MIRTA Boundary">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\MIRTABoundary2.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="302"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WKT"
+              DTS:DTSID="{C2D102A5-1BF7-45C0-99EC-BE83742C705A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COMPONENT"
+              DTS:DTSID="{E984A11C-B862-4313-B50A-F6151CAE6E89}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_NAME"
+              DTS:DTSID="{636515A4-CEE2-4D73-B810-DA75EE3D7C1A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="JOINT_BASE"
+              DTS:DTSID="{3CC18B14-EF62-435F-814B-3648618D48D2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STATE_TERR"
+              DTS:DTSID="{5897317A-23B2-411D-BF03-0BA73DFA1074}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COUNTRY"
+              DTS:DTSID="{4162CEDA-D367-47C6-AD54-9A23926CFA98}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OPER_STAT"
+              DTS:DTSID="{0BF2BC2E-8539-4CBE-A7FB-413C4DC9785C}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MIRTA Point]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F5B15196-96C6-461F-8B1A-74B1011DBBF0}"
+      DTS:ObjectName="MIRTA Point">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\MIRTAPoints.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="302"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WKT"
+              DTS:DTSID="{0F4EA466-CC49-4FC7-B1E7-9337777551C7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COMPONENT"
+              DTS:DTSID="{C678FFF7-D50E-4AF4-B5AD-2C61E71CA826}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_NAME"
+              DTS:DTSID="{BF11A1D4-2498-4342-A0D3-A69C5437781E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="JOINT_BASE"
+              DTS:DTSID="{0355EE2A-85B1-499F-97C5-B98D0E5F3745}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STATE_TERR"
+              DTS:DTSID="{A4300E7E-4D18-4DF6-A7FC-35B670AF307E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COUNTRY"
+              DTS:DTSID="{CABAB418-FDC7-4FEE-A5F1-449827FA2E43}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OPER_STAT"
+              DTS:DTSID="{92D3CD91-1074-4EBD-B76D-895DCE63C41F}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{4100F21D-A374-443C-9337-ED60214BDC8F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[MIRTA Boundary]"
+                  connectionManagerRefId="Package.ConnectionManagers[MIRTA Boundary]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]"
+                      codePage="1252"
+                      dataType="text"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[WKT]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]"
+                      name="WKT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[COMPONENT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COMPONENT]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[COMPONENT]"
+                      name="COMPONENT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SITE_NAME]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]"
+                      name="SITE_NAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[JOINT_BASE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[JOINT_BASE]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[JOINT_BASE]"
+                      name="JOINT_BASE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[STATE_TERR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[STATE_TERR]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[STATE_TERR]"
+                      name="STATE_TERR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[COUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COUNTRY]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[COUNTRY]"
+                      name="COUNTRY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[OPER_STAT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[OPER_STAT]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[OPER_STAT]"
+                      name="OPER_STAT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[WKT]"
+                      codePage="1252"
+                      dataType="text"
+                      name="WKT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COMPONENT]"
+                      dataType="wstr"
+                      length="50"
+                      name="COMPONENT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SITE_NAME]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[JOINT_BASE]"
+                      dataType="wstr"
+                      length="50"
+                      name="JOINT_BASE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[STATE_TERR]"
+                      dataType="wstr"
+                      length="50"
+                      name="STATE_TERR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[OPER_STAT]"
+                      dataType="wstr"
+                      length="50"
+                      name="OPER_STAT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[MilitaryInstallationGeo]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COMPONENT]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="COMPONENT"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[COMPONENT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="COUNTRY"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[COUNTRY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SITE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_NAME"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SiteName]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[JOINT_BASE]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="JOINT_BASE"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[JointBase]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[JOINT_BASE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[WKT]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="WKT"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Boundary]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STATE_TERR]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="STATE_TERR"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StateTerritory]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[STATE_TERR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OPER_STAT]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="OPER_STAT"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OperatingStatus]"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[OPER_STAT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      dataType="wstr"
+                      length="50"
+                      name="Component" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SiteName]"
+                      dataType="wstr"
+                      length="50"
+                      name="SiteName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[JointBase]"
+                      dataType="wstr"
+                      length="50"
+                      name="JointBase" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StateTerritory]"
+                      dataType="wstr"
+                      length="50"
+                      name="StateTerritory" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OperatingStatus]"
+                      dataType="wstr"
+                      length="50"
+                      name="OperatingStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Boundary]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Boundary" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BoundaryGeo]"
+                      dataType="image"
+                      name="BoundaryGeo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Point]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Point" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PointGeo]"
+                      dataType="image"
+                      name="PointGeo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Flat File Source Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Flat File Source Output"
+              startId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task 1"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{07FDF8F7-B63B-4A76-B1DD-8310E92C7DD8}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task 1"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task 1\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[MIRTA Point]"
+                  connectionManagerRefId="Package.ConnectionManagers[MIRTA Point]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]"
+                      codePage="1252"
+                      dataType="text"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[WKT]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]"
+                      name="WKT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COMPONENT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COMPONENT]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COMPONENT]"
+                      name="COMPONENT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SITE_NAME]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]"
+                      name="SITE_NAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[JOINT_BASE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[JOINT_BASE]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[JOINT_BASE]"
+                      name="JOINT_BASE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[STATE_TERR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[STATE_TERR]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[STATE_TERR]"
+                      name="STATE_TERR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COUNTRY]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COUNTRY]"
+                      name="COUNTRY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[OPER_STAT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[OPER_STAT]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[OPER_STAT]"
+                      name="OPER_STAT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[WKT]"
+                      codePage="1252"
+                      dataType="text"
+                      name="WKT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COMPONENT]"
+                      dataType="wstr"
+                      length="50"
+                      name="COMPONENT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SITE_NAME]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[JOINT_BASE]"
+                      dataType="wstr"
+                      length="50"
+                      name="JOINT_BASE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[STATE_TERR]"
+                      dataType="wstr"
+                      length="50"
+                      name="STATE_TERR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="50"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[OPER_STAT]"
+                      dataType="wstr"
+                      length="50"
+                      name="OPER_STAT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Lookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT SiteName
+FROM dbo.MilitaryInstallationGeo;</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT SiteName
+FROM dbo.MilitaryInstallationGeo;) [refTable]
+where [refTable].[SiteName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="SiteName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Lookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Lookup.Inputs[Lookup Input].Columns[SITE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_NAME"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">SiteName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Lookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Data Flow Task 1\Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Lookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Data Flow Task 1\Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Lookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\OLE DB Command"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="OLE DB Command"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE dbo.MilitaryInstallationGeo SET Component = ?,JointBase=?,StateTerritory=?,Country=?,OperatingStatus=?,Point=? WHERE SiteName =?;</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\OLE DB Command.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].Columns[COMPONENT]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="COMPONENT"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COMPONENT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].Columns[JOINT_BASE]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="JOINT_BASE"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[JOINT_BASE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].Columns[STATE_TERR]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="STATE_TERR"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[STATE_TERR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].Columns[COUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="COUNTRY"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COUNTRY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].Columns[OPER_STAT]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="OPER_STAT"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[OPER_STAT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].Columns[WKT]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="WKT"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].Columns[SITE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_NAME"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">193</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\OLE DB Command.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\OLE DB Command.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\OLE DB Command.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[MilitaryInstallationGeo]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COMPONENT]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="COMPONENT"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COMPONENT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="COUNTRY"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[COUNTRY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SITE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_NAME"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SiteName]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[SITE_NAME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[JOINT_BASE]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="JOINT_BASE"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[JointBase]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[JOINT_BASE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STATE_TERR]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="STATE_TERR"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StateTerritory]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[STATE_TERR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OPER_STAT]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="OPER_STAT"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OperatingStatus]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[OPER_STAT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[WKT]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="WKT"
+                      externalMetadataColumnId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Point]"
+                      lineageId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      dataType="wstr"
+                      length="50"
+                      name="Component" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SiteName]"
+                      dataType="wstr"
+                      length="50"
+                      name="SiteName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[JointBase]"
+                      dataType="wstr"
+                      length="50"
+                      name="JointBase" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StateTerritory]"
+                      dataType="wstr"
+                      length="50"
+                      name="StateTerritory" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OperatingStatus]"
+                      dataType="wstr"
+                      length="50"
+                      name="OperatingStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Boundary]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Boundary" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BoundaryGeo]"
+                      dataType="image"
+                      name="BoundaryGeo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Point]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Point" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PointGeo]"
+                      dataType="image"
+                      name="PointGeo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task 1.Paths[Flat File Source Output]"
+              endId="Package\Data Flow Task 1\Lookup.Inputs[Lookup Input]"
+              name="Flat File Source Output"
+              startId="Package\Data Flow Task 1\Flat File Source.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\Data Flow Task 1.Paths[Lookup Match Output]"
+              endId="Package\Data Flow Task 1\OLE DB Command.Inputs[OLE DB Command Input]"
+              name="Lookup Match Output"
+              startId="Package\Data Flow Task 1\Lookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Data Flow Task 1.Paths[Lookup No Match Output]"
+              endId="Package\Data Flow Task 1\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\Data Flow Task 1\Lookup.Outputs[Lookup No Match Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task 2"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0C6E802D-FE93-4F04-97CF-AD52FFC03AB3}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task 2"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task 2\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 2\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]"
+                      codePage="1252"
+                      dataType="text"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[WKT]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]"
+                      name="WKT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[ZCTA5CE10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ZCTA5CE10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[ZCTA5CE10]"
+                      name="ZCTA5CE10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[GEOID10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[GEOID10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[GEOID10]"
+                      name="GEOID10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[CLASSFP10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[CLASSFP10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[CLASSFP10]"
+                      name="CLASSFP10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[MTFCC10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[MTFCC10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[MTFCC10]"
+                      name="MTFCC10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[FUNCSTAT10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[FUNCSTAT10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[FUNCSTAT10]"
+                      name="FUNCSTAT10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[ALAND10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ALAND10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[ALAND10]"
+                      name="ALAND10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[AWATER10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[AWATER10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[AWATER10]"
+                      name="AWATER10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[INTPTLAT10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[INTPTLAT10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[INTPTLAT10]"
+                      name="INTPTLAT10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[INTPTLON10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[INTPTLON10]"
+                      length="50"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[INTPTLON10]"
+                      name="INTPTLON10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[WKT]"
+                      codePage="1252"
+                      dataType="text"
+                      name="WKT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ZCTA5CE10]"
+                      dataType="wstr"
+                      length="50"
+                      name="ZCTA5CE10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[GEOID10]"
+                      dataType="wstr"
+                      length="50"
+                      name="GEOID10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[CLASSFP10]"
+                      dataType="wstr"
+                      length="50"
+                      name="CLASSFP10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[MTFCC10]"
+                      dataType="wstr"
+                      length="50"
+                      name="MTFCC10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[FUNCSTAT10]"
+                      dataType="wstr"
+                      length="50"
+                      name="FUNCSTAT10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ALAND10]"
+                      dataType="wstr"
+                      length="50"
+                      name="ALAND10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[AWATER10]"
+                      dataType="wstr"
+                      length="50"
+                      name="AWATER10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[INTPTLAT10]"
+                      dataType="wstr"
+                      length="50"
+                      name="INTPTLAT10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[INTPTLON10]"
+                      dataType="wstr"
+                      length="50"
+                      name="INTPTLON10" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 2\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CensusZIP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 2\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[WKT]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="WKT"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[WKT]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[WKT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ZCTA5CE10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ZCTA5CE10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ZCTA5CE10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[ZCTA5CE10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GEOID10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="GEOID10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GEOID10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[GEOID10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CLASSFP10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="CLASSFP10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CLASSFP10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[CLASSFP10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MTFCC10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="MTFCC10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MTFCC10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[MTFCC10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FUNCSTAT10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="FUNCSTAT10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FUNCSTAT10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[FUNCSTAT10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ALAND10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ALAND10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ALAND10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[ALAND10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AWATER10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AWATER10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AWATER10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[AWATER10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[INTPTLAT10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="INTPTLAT10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INTPTLAT10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[INTPTLAT10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[INTPTLON10]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="INTPTLON10"
+                      externalMetadataColumnId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INTPTLON10]"
+                      lineageId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output].Columns[INTPTLON10]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[WKT]"
+                      codePage="1252"
+                      dataType="text"
+                      name="WKT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ZCTA5CE10]"
+                      dataType="wstr"
+                      length="50"
+                      name="ZCTA5CE10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GEOID10]"
+                      dataType="wstr"
+                      length="50"
+                      name="GEOID10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CLASSFP10]"
+                      dataType="wstr"
+                      length="50"
+                      name="CLASSFP10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MTFCC10]"
+                      dataType="wstr"
+                      length="50"
+                      name="MTFCC10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FUNCSTAT10]"
+                      dataType="wstr"
+                      length="50"
+                      name="FUNCSTAT10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ALAND10]"
+                      dataType="wstr"
+                      length="50"
+                      name="ALAND10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AWATER10]"
+                      dataType="wstr"
+                      length="50"
+                      name="AWATER10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INTPTLAT10]"
+                      dataType="wstr"
+                      length="50"
+                      name="INTPTLAT10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INTPTLON10]"
+                      dataType="wstr"
+                      length="50"
+                      name="INTPTLON10" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 2\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task 2.Paths[Flat File Source Output]"
+              endId="Package\Data Flow Task 2\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Flat File Source Output"
+              startId="Package\Data Flow Task 2\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Data Flow Task"
+          TopLeft="382,129" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Data Flow Task 1"
+          TopLeft="671,133" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Data Flow Task 2"
+          TopLeft="379,301" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Data Flow Task\Flat File Source"
+          TopLeft="406,70" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="402,443" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Flat File Source Output]"
+          TopLeft="487.25,112">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,331"
+              Start="0,0"
+              End="0,323.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,323.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Data Flow Task 1">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Data Flow Task 1\Flat File Source"
+          TopLeft="419,95" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Task 1\OLE DB Destination"
+          TopLeft="401,500" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Data Flow Task 1\OLE DB Command"
+          TopLeft="690,493" />
+        <NodeLayout
+          Size="115,42"
+          Id="Package\Data Flow Task 1\Lookup"
+          TopLeft="452,270" />
+        <EdgeLayout
+          Id="Package\Data Flow Task 1.Paths[Flat File Source Output]"
+          TopLeft="497,137">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="12.5,133"
+              Start="0,0"
+              End="12.5,125.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,62.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,62.5"
+                    Point2="0,66.5"
+                    Point3="4,66.5" />
+                  <mssgle:LineSegment
+                    End="8.5,66.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="8.5,66.5"
+                    Point2="12.5,66.5"
+                    Point3="12.5,70.5" />
+                  <mssgle:LineSegment
+                    End="12.5,125.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task 1.Paths[Lookup No Match Output]"
+          TopLeft="509.5,312">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-20,188"
+              Start="0,0"
+              End="-20,180.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,90" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,90"
+                    Point2="0,94"
+                    Point3="-4,94" />
+                  <mssgle:LineSegment
+                    End="-16,94" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-16,94"
+                    Point2="-20,94"
+                    Point3="-20,98" />
+                  <mssgle:LineSegment
+                    End="-20,180.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-65.80638671875,99,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task 1.Paths[Lookup Match Output]"
+          TopLeft="527.333333333333,312">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="249.166666666667,181"
+              Start="0,0"
+              End="249.166666666667,173.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.8902229845626" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,69.8902229845626"
+                    Point2="0,73.8902229845626"
+                    Point3="4,73.8902229845626" />
+                  <mssgle:LineSegment
+                    End="245.166666666667,73.8902229845626" />
+                  <mssgle:CubicBezierSegment
+                    Point1="245.166666666667,73.8902229845626"
+                    Point2="249.166666666667,73.8902229845626"
+                    Point3="249.166666666667,77.8902229845626" />
+                  <mssgle:LineSegment
+                    End="249.166666666667,173.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="76.3919466145833,78.8902229845626,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task 1\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task 1\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Data Flow Task 2">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Data Flow Task 2\Flat File Source"
+          TopLeft="451,97" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Task 2\OLE DB Destination"
+          TopLeft="446,389" />
+        <EdgeLayout
+          Id="Package\Data Flow Task 2.Paths[Flat File Source Output]"
+          TopLeft="531.75,139">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,250"
+              Start="0,0"
+              End="0,242.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,242.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task 2\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

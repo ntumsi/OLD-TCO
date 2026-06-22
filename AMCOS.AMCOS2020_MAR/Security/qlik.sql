@@ -1,0 +1,1 @@
+﻿CREATE SCHEMA [qlik] AUTHORIZATION [dbo];

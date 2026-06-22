@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D8343891-2FE6-4C32-A9C6-D961BC3C4B3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AMCOS.Data</RootNamespace>
+    <AssemblyName>AMCOS.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="DataTransferObjects\AmcosLite.cs" />
+    <Compile Include="DataTransferObjects\Inventory.cs" />
+    <Compile Include="DataTransferObjects\ProjectManager.cs" />
+    <Compile Include="DataTransferObjects\UserAdministration.cs" />
+    <Compile Include="Entities\BLS_OES\OccupationalEmploymentStatisticsNational.cs" />
+    <Compile Include="Entities\Crunch\Costs_AE.cs" />
+    <Compile Include="Entities\Crunch\Costs_AO.cs" />
+    <Compile Include="Entities\Crunch\Costs_AWO.cs" />
+    <Compile Include="Entities\Crunch\PayScheduleMinMax.cs" />
+    <Compile Include="Entities\Data\AvalaraStateTax.cs" />
+    <Compile Include="Entities\Data\CategoryGroup.cs" />
+    <Compile Include="Entities\Data\CategorySubgroup.cs" />
+    <Compile Include="Entities\lookup\AMCOSVersion.cs" />
+    <Compile Include="Entities\ApplicationErrorLog.cs" />
+    <Compile Include="Entities\lookup\ArmyCareerProgram.cs" />
+    <Compile Include="Entities\lookup\CMF_Branch_FA.cs" />
+    <Compile Include="Entities\lookup\CostElement.cs" />
+    <Compile Include="Entities\Data\Costs.cs" />
+    <Compile Include="Entities\lookup\CostSummary.cs" />
+    <Compile Include="Entities\lookup\CostSummaryElement.cs" />
+    <Compile Include="Entities\Costs_GP_Prod.cs" />
+    <Compile Include="Entities\Data\Costs_NgRes1.cs" />
+    <Compile Include="Entities\Costs_Prod.cs" />
+    <Compile Include="Entities\Costs_Test.cs" />
+    <Compile Include="Entities\DiscountFactor.cs" />
+    <Compile Include="Entities\lookup\GFEBS_CostCenter.cs" />
+    <Compile Include="Entities\lookup\GFEBS_FunctionalArea.cs" />
+    <Compile Include="Entities\Data\GP_Inventory.cs" />
+    <Compile Include="Entities\lookup\Grade.cs" />
+    <Compile Include="Entities\lookup\GS_OccupationalGroup.cs" />
+    <Compile Include="Entities\lookup\GS_OccupationalSeries.cs" />
+    <Compile Include="Entities\Data\Inventory.cs" />
+    <Compile Include="Entities\Inventory_Prod.cs" />
+    <Compile Include="Entities\lookup\JicInflationRates.cs" />
+    <Compile Include="Entities\lookup\LocalityPayArea_FIPS.cs" />
+    <Compile Include="Entities\lookup\LocalityRates.cs" />
+    <Compile Include="Entities\Data\LocalityRates1.cs" />
+    <Compile Include="Entities\lookup\AOC.cs" />
+    <Compile Include="Entities\lookup\FipsZip.cs" />
+    <Compile Include="Entities\lookup\MetropolitanStatisticalArea.cs" />
+    <Compile Include="Entities\lookup\MOS.cs" />
+    <Compile Include="Entities\lookup\OPM_SpecialRate.cs" />
+    <Compile Include="Entities\lookup\Organization.cs" />
+    <Compile Include="Entities\lookup\PayPlan.cs" />
+    <Compile Include="Entities\Data\PaySchedules.cs" />
+    <Compile Include="Entities\BLS_OES\OccupationalEmploymentStatisticsMetro.cs" />
+    <Compile Include="Entities\Dataload\SingleValues.cs" />
+    <Compile Include="Entities\lookup\SOCStructure.cs" />
+    <Compile Include="Entities\lookup\SubgroupMapping.cs" />
+    <Compile Include="Entities\Data\vCosts_Prod.cs" />
+    <Compile Include="Entities\Data\vCosts_Test.cs" />
+    <Compile Include="Entities\lookup\WageArea.cs" />
+    <Compile Include="Entities\warehouse\Category.cs" />
+    <Compile Include="Entities\warehouse\Location.cs" />
+    <Compile Include="Entities\warehouse\LocationByCategory.cs" />
+    <Compile Include="Entities\warehouse\UnitPersonnel.cs" />
+    <Compile Include="Entities\webuser\AMCOSLiteAudit.cs" />
+    <Compile Include="Entities\webuser\AMCOSUser.cs" />
+    <Compile Include="Entities\webuser\PCSProject.cs" />
+    <Compile Include="Entities\webuser\PMCategory.cs" />
+    <Compile Include="Entities\webuser\PMCategorySkill.cs" />
+    <Compile Include="Entities\webuser\PMCategorySkillInventory.cs" />
+    <Compile Include="Entities\webuser\PMProject.cs" />
+    <Compile Include="Entities\webuser\PMReport.cs" />
+    <Compile Include="Entities\webuser\ProjectAddUnitAudit.cs" />
+    <Compile Include="Entities\webuser\UserMacom.cs" />
+    <Compile Include="Entities\webuser\User_Login_History.cs" />
+    <Compile Include="Entities\webuser\User_Login_History_DeletedUsers.cs" />
+    <Compile Include="Entities\lookup\WOMOS.cs" />
+    <Compile Include="Entities\lookup\ValidEmailSuffix.cs" />
+    <Compile Include="Entities\web\CivLocationPerDiem.cs" />
+    <Compile Include="Entities\web\PayPlanTag.cs" />
+    <Compile Include="Entities\web\PendingUsers.cs" />
+    <Compile Include="Entities\web\QuickSightDashboard.cs" />
+    <Compile Include="Entities\web\QuickSightEnvironment.cs" />
+    <Compile Include="Entities\web\ViewPMCategorySkill.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="ViewModels\AmcosLiteViewModel.cs" />
+    <Compile Include="ViewModels\ApplicationErrorLogViewModel.cs" />
+    <Compile Include="ViewModels\ContractorCostEstimateCostsViewModel.cs" />
+    <Compile Include="ViewModels\CostElementOrderViewModel.cs" />
+    <Compile Include="ViewModels\ProjectAddUnitViewModel.cs" />
+    <Compile Include="WarehouseContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SqlServerTypes\x64\" />
+    <Folder Include="SqlServerTypes\x86\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

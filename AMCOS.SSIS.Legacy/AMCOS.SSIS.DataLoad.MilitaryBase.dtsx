@@ -1,0 +1,3172 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/26/2019 3:43:41 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\Greg.Bonner"
+  DTS:DTSID="{AFE61001-97F5-4F20-866C-1135E8260094}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad MilitaryBase"
+  DTS:PackageType="5"
+  DTS:VersionBuild="49"
+  DTS:VersionGUID="{A7BA2E0E-570D-466A-9D0D-C5EC4F878A30}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{EBC06217-7044-48A5-8AB1-5687383B87D4}"
+      DTS:ObjectName="alexosmisa4dbd1.AMCOS2020_MAR">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Base]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{8AFEDA29-BA20-4F66-9207-E9632343D3E5}"
+      DTS:ObjectName="Base">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="RaggedRight"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\webexls20731.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="129"
+              DTS:ObjectName="Row"
+              DTS:DTSID="{18825633-3E48-4C8D-BBD4-A88ADE222E2C}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BaseModified]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{149B2CDF-6794-427A-9C92-5F3F6AD3480E}"
+      DTS:ObjectName="BaseModified">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x007C_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\BaseOriginal.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MACOM"
+              DTS:DTSID="{F1D564EC-5C74-45C8-AD14-37AC97C4CA4A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="150"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="InstallationName"
+              DTS:DTSID="{35958472-CA6F-4D93-9B4E-FF2A2A5F101E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BaseCode"
+              DTS:DTSID="{953B87D3-B7A7-499E-8A3D-9EFDF16B98E8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BaseName"
+              DTS:DTSID="{B90BE9A5-2D38-4986-A692-7E2CCF26210F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STACO"
+              DTS:DTSID="{BC49E7E8-5F1D-4D59-B19E-D643BA60DDF6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="150"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="StationName"
+              DTS:DTSID="{00C53D9A-B1BA-443F-A446-EF692EA943DD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Status"
+              DTS:DTSID="{9F76596F-BCE8-45EF-8571-E44EC26C9D73}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SiteCode"
+              DTS:DTSID="{04AC10B5-CBE0-42BA-A74A-17734E361AF7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Component"
+              DTS:DTSID="{E00D8723-901A-4AD9-A22D-3B7833D62942}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Service"
+              DTS:DTSID="{309B2622-F0E7-432E-8434-612B942048B9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="150"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Address"
+              DTS:DTSID="{4FBFC284-7268-4D5E-99D1-860057B86944}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="City"
+              DTS:DTSID="{CA910F8C-3E5A-4616-A186-B0A23B86A728}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="State"
+              DTS:DTSID="{831C2583-4BF6-4BD9-B5AF-939627836FEE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ZIPCode"
+              DTS:DTSID="{DEF93CB2-6C84-46EF-A1F9-D2420DF2CC63}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Phone"
+              DTS:DTSID="{9D055F6F-E391-4E0C-BAD9-CEB33D88A6A3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Facid"
+              DTS:DTSID="{747D0A2E-4575-4378-95CB-CDFF9DE9637D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Geloc"
+              DTS:DTSID="{887BECC4-7020-45C2-91AE-525B9C589EE8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Geona"
+              DTS:DTSID="{6D86895F-1473-4D16-B2E8-0556414C85C1}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Congdis"
+              DTS:DTSID="{58E302E5-07FC-4AC7-8700-0A126723C8A1}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BaseOriginal]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{34884054-6E4B-4F6B-9587-7749F0B10E77}"
+      DTS:ObjectName="BaseOriginal">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="RaggedRight"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\BaseOriginal.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D_"
+              DTS:MaximumWidth="1000"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Row"
+              DTS:DTSID="{90AD5F93-F51D-48A3-9ED6-70236544D1B4}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Site]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{B7F2A1ED-749A-41E9-A0E2-BA94BD1CB3BF}"
+      DTS:ObjectName="Site">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x007C_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\Sprint 1\Site.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:ObjectName="SITE_UID"
+              DTS:DTSID="{9A14B7DF-C181-4950-85A7-DCAA7785112D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_CD"
+              DTS:DTSID="{B2D94ED0-1595-4B43-BB5B-CCE0234B3356}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="200"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_NAME"
+              DTS:DTSID="{4EFB73C2-3B9F-440B-8485-6E8CBEFFE618}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_STREET_NMBR"
+              DTS:DTSID="{B5FE4F41-F4AD-4C35-8408-C4D007C3512C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_STREET_DIR_CD"
+              DTS:DTSID="{9D62044D-25D2-4C05-8462-570585758AD5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="200"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_STREET_NAME"
+              DTS:DTSID="{AA6A3DDC-27E4-409D-A4E0-137B93E35265}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_STREET_TYPE_CD"
+              DTS:DTSID="{EE868F21-DFF9-4B79-B557-C789253D2C4B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_CMD_CLMNT_CD"
+              DTS:DTSID="{C1555444-F68B-46BF-8B58-3DF45FA8DFFA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="INSTL_CD"
+              DTS:DTSID="{5586DE28-ED32-403A-A7C2-0707D335E1D5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SITE_OPERNL_STAT_CD"
+              DTS:DTSID="{BAF7D518-87D1-434E-B264-84A70F749D06}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{4A783714-E299-4BCC-A59A-175402F92C91}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8CBE474D-A716-4FAB-B546-228C43F54763}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="AmcosVersionId">
+      <DTS:VariableValue
+        DTS:DataType="3">202501</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D9AD4DF2-5BB4-4C1B-B986-B38BAEF239B8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2F5CF3A3-BA9A-4D76-BE63-BCBEDE973DD5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Projects\AMCOS\Greg\source\repos\amcos\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5830211C-C338-4461-A3E6-48E4741AB4F0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1ED95F7C-D300-4AC7-9A2E-922270D56C92}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EF2DB2E0-7F70-4828-9975-167D009C341F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C896270C-FE0A-4CDF-8CAA-BA5715A085B1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{100D31D4-6E35-4115-BD47-A5620E4C3170}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{25C90C14-D654-4C52-B65A-79BF316A8F49}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Scripts">
+      <DTS:VariableValue
+        DTS:DataType="8">Scripts</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D9374F71-B09B-4514-9F42-8F9D7D6AD2FE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\FF_SRC BaseModified"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC BaseModified"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\FF_SRC BaseModified.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BaseModified]"
+                  connectionManagerRefId="Package.ConnectionManagers[BaseModified]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[MACOM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[MACOM]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[MACOM]"
+                      name="MACOM"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[InstallationName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[InstallationName]"
+                      length="150"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[InstallationName]"
+                      name="InstallationName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[BaseCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[BaseCode]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[BaseCode]"
+                      name="BaseCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[BaseName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[BaseName]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[BaseName]"
+                      name="BaseName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[STACO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[STACO]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[STACO]"
+                      name="STACO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Status]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Status]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Status]"
+                      name="Status"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[SiteCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[SiteCode]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[SiteCode]"
+                      name="SiteCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Component]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Component]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Component]"
+                      name="Component"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Service]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Service]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Service]"
+                      name="Service"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Address]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Address]"
+                      length="150"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Address]"
+                      name="Address"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[City]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[State]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[State]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[State]"
+                      name="State"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[ZIPCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[ZIPCode]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[ZIPCode]"
+                      name="ZIPCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Phone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Phone]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Phone]"
+                      name="Phone"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Facid]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Facid]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Facid]"
+                      name="Facid"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Geloc]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Geloc]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Geloc]"
+                      name="Geloc"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Geona]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Geona]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Geona]"
+                      name="Geona"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Congdis]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Congdis]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Congdis]"
+                      name="Congdis"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[StationName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[StationName]"
+                      length="150"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[StationName]"
+                      name="StationName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[MACOM]"
+                      dataType="wstr"
+                      length="50"
+                      name="MACOM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[InstallationName]"
+                      dataType="wstr"
+                      length="150"
+                      name="InstallationName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[BaseCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="BaseCode" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[BaseName]"
+                      dataType="wstr"
+                      length="50"
+                      name="BaseName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[STACO]"
+                      dataType="wstr"
+                      length="50"
+                      name="STACO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Status]"
+                      dataType="wstr"
+                      length="50"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[SiteCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="SiteCode" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Component]"
+                      dataType="wstr"
+                      length="50"
+                      name="Component" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Service]"
+                      dataType="wstr"
+                      length="50"
+                      name="Service" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Address]"
+                      dataType="wstr"
+                      length="150"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="50"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="50"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[ZIPCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="ZIPCode" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="50"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Facid]"
+                      dataType="wstr"
+                      length="50"
+                      name="Facid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Geloc]"
+                      dataType="wstr"
+                      length="50"
+                      name="Geloc" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Geona]"
+                      dataType="wstr"
+                      length="50"
+                      name="Geona" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[Congdis]"
+                      dataType="wstr"
+                      length="50"
+                      name="Congdis" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].ExternalColumns[StationName]"
+                      dataType="wstr"
+                      length="150"
+                      name="StationName" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE_DST MilitaryBase"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST MilitaryBase"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[MilitaryBase]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE_DST MilitaryBase.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Status]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Status"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Status]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Service]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Service"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Service]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Service]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Address]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="Address"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Address]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Address]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="State"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[State]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Phone]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Phone"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Phone]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Facid]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Facid"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Facid]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Facid]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Geloc]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Geloc"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Geloc]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Geloc]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Geona]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Geona"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Geona]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Geona]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Congdis]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Congdis"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Congdis]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Congdis]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[MACOM]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="MACOM"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[MACOMName]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[MACOM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[InstallationName]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="InstallationName"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[InstallationName]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[InstallationName]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[BaseCode]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="BaseCode"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[BaseCode]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[BaseCode]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[BaseName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="BaseName"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[BaseName]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[BaseName]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[SiteCode]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SiteCode"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[SiteCode]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[SiteCode]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[Component]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Component"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[Component]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[ZIPCode]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ZIPCode"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[ZIPCode]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[ZIPCode]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[StationName]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="StationName"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[StationName]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[StationName]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].Columns[STACO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="STACO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[STACO]"
+                      lineageId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output].Columns[STACO]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
+                      dataType="wstr"
+                      length="50"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Service]"
+                      dataType="wstr"
+                      length="50"
+                      name="Service" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Address]"
+                      dataType="wstr"
+                      length="150"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="50"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="50"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="50"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Facid]"
+                      dataType="wstr"
+                      length="50"
+                      name="Facid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Geloc]"
+                      dataType="wstr"
+                      length="50"
+                      name="Geloc" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Geona]"
+                      dataType="wstr"
+                      length="50"
+                      name="Geona" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Congdis]"
+                      dataType="wstr"
+                      length="50"
+                      name="Congdis" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[MACOMName]"
+                      dataType="wstr"
+                      length="50"
+                      name="MACOMName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[InstallationName]"
+                      dataType="wstr"
+                      length="150"
+                      name="InstallationName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[BaseCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="BaseCode" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[BaseName]"
+                      dataType="wstr"
+                      length="50"
+                      name="BaseName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[STACO]"
+                      dataType="wstr"
+                      length="50"
+                      name="STACO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[StationName]"
+                      dataType="wstr"
+                      length="150"
+                      name="StationName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[SiteCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="SiteCode" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[Component]"
+                      dataType="wstr"
+                      length="50"
+                      name="Component" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input].ExternalColumns[ZIPCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="ZIPCode" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE_DST MilitaryBase.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE_DST MilitaryBase.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE_DST MilitaryBase.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE_DST MilitaryBase.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Flat File Source Output]"
+              endId="Package\Data Flow Task\OLE_DST MilitaryBase.Inputs[OLE DB Destination Input]"
+              name="Flat File Source Output"
+              startId="Package\Data Flow Task\FF_SRC BaseModified.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load MilitaryBase"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{7A6F9793-468A-4808-A0E4-C272044069F5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load MilitaryBase"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load MilitaryBase\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column.Inputs[Derived Column Input].Columns[Row]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="500"
+                      cachedName="Row"
+                      lineageId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].Columns[Row]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Output].Columns[StartOfThirdColumn]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Output].Columns[StartOfThirdColumn]"
+                      name="StartOfThirdColumn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[FINDSTRING](#{Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].Columns[Row]},",",2)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">FINDSTRING(Row,",",2)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\Derived Column 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\Derived Column 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 1.Inputs[Derived Column Input].Columns[Row]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="500"
+                      cachedName="Row"
+                      lineageId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].Columns[Row]" />
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 1.Inputs[Derived Column Input].Columns[StartOfThirdColumn]"
+                      cachedDataType="i4"
+                      cachedName="StartOfThirdColumn"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Output].Columns[StartOfThirdColumn]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Left]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="500"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Left]"
+                      name="Left"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[LEFT](#{Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].Columns[Row]},#{Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Output].Columns[StartOfThirdColumn]} - 1)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEFT(Row,StartOfThirdColumn - 1)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Right]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="501"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Right]"
+                      name="Right"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"\"" + [SUBSTRING](#{Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].Columns[Row]},#{Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Output].Columns[StartOfThirdColumn]} + 1,500)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"\"" + SUBSTRING(Row,StartOfThirdColumn + 1,500)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\Derived Column 2"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 2"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\Derived Column 2.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 2.Inputs[Derived Column Input].Columns[Left]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="Left"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Left]" />
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 2.Inputs[Derived Column Input].Columns[Right]"
+                      cachedDataType="wstr"
+                      cachedLength="501"
+                      cachedName="Right"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Right]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 2.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Output].Columns[NewRow]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="1002"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Output].Columns[NewRow]"
+                      name="NewRow"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Left]} + "," + #{Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output].Columns[Right]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Left + "," + Right</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 2.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\Derived Column 3"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 3"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\Derived Column 3.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 3.Inputs[Derived Column Input].Columns[NewRow]"
+                      cachedDataType="wstr"
+                      cachedLength="1002"
+                      cachedName="NewRow"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Output].Columns[NewRow]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 3.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Output].Columns[NewRow2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="1001"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Output].Columns[NewRow2]"
+                      name="NewRow2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACE](#{Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Output].Columns[NewRow]},",=",",")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(NewRow,",=",",")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 3.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\Derived Column 4"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 4"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\Derived Column 4.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 4.Inputs[Derived Column Input].Columns[NewRow2]"
+                      cachedDataType="wstr"
+                      cachedLength="1001"
+                      cachedName="NewRow2"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Output].Columns[NewRow2]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 4.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Output].Columns[NewRow3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="1001"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Output].Columns[NewRow3]"
+                      name="NewRow3"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACE](#{Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Output].Columns[NewRow2]},"\",\"","|,|")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(NewRow2,"\",\"","|,|")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 4.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\Derived Column 5"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 5"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\Derived Column 5.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 5.Inputs[Derived Column Input].Columns[NewRow3]"
+                      cachedDataType="wstr"
+                      cachedLength="1001"
+                      cachedName="NewRow3"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Output].Columns[NewRow3]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 5.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Output].Columns[FinalRow]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="1001"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Output].Columns[FinalRow]"
+                      name="FinalRow"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"|" + [SUBSTRING](#{Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Output].Columns[NewRow3]},2,1000)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"|" + SUBSTRING(NewRow3,2,1000)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 5.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\Derived Column 6"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 6"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\Derived Column 6.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 6.Inputs[Derived Column Input].Columns[FinalRow]"
+                      cachedDataType="wstr"
+                      cachedLength="1001"
+                      cachedName="FinalRow"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Output].Columns[FinalRow]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 6.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Output].Columns[FinalFinalRow]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="1002"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Output].Columns[FinalFinalRow]"
+                      name="FinalFinalRow"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[LEFT](#{Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Output].Columns[FinalRow]},[LEN](#{Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Output].Columns[FinalRow]}) - 1) + "|"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEFT(FinalRow,LEN(FinalRow) - 1) + "|"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load MilitaryBase\Derived Column 6.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\FF_DST BaseOriginal"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Destination"
+              localeId="1033"
+              name="FF_DST BaseOriginal">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether the data will overwrite or append to the destination file."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the text to write to the destination file before any data is written."
+                  expressionType="Notify"
+                  name="Header" />
+                <property
+                  dataType="System.Boolean"
+                  description="When text qualifier is enabled, specifies whether the text qualifier in the data written to the destination file will be escaped or not."
+                  name="EscapeQualifier">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load MilitaryBase\FF_DST BaseOriginal.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BaseOriginal]"
+                  connectionManagerRefId="Package.ConnectionManagers[BaseOriginal]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load MilitaryBase\FF_DST BaseOriginal.Inputs[Flat File Destination Input]"
+                  hasSideEffects="true"
+                  name="Flat File Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load MilitaryBase\FF_DST BaseOriginal.Inputs[Flat File Destination Input].Columns[FinalFinalRow]"
+                      cachedDataType="wstr"
+                      cachedLength="1002"
+                      cachedName="FinalFinalRow"
+                      externalMetadataColumnId="Package\DFT Load MilitaryBase\FF_DST BaseOriginal.Inputs[Flat File Destination Input].ExternalColumns[Row]"
+                      lineageId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Output].Columns[FinalFinalRow]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load MilitaryBase\FF_DST BaseOriginal.Inputs[Flat File Destination Input].ExternalColumns[Row]"
+                      dataType="wstr"
+                      length="1000"
+                      name="Row" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\DFT Load MilitaryBase\FF_SRC Base"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC Base"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load MilitaryBase\FF_SRC Base.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Base]"
+                  connectionManagerRefId="Package.ConnectionManagers[Base]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].Columns[Row]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].ExternalColumns[Row]"
+                      length="500"
+                      lineageId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].Columns[Row]"
+                      name="Row"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output].ExternalColumns[Row]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="Row" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Derived Column Output]"
+              endId="Package\DFT Load MilitaryBase\Derived Column 1.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load MilitaryBase\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Derived Column Output1]"
+              endId="Package\DFT Load MilitaryBase\Derived Column 2.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load MilitaryBase\Derived Column 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Derived Column Output2]"
+              endId="Package\DFT Load MilitaryBase\Derived Column 3.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load MilitaryBase\Derived Column 2.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Derived Column Output3]"
+              endId="Package\DFT Load MilitaryBase\Derived Column 4.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load MilitaryBase\Derived Column 3.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Derived Column Output4]"
+              endId="Package\DFT Load MilitaryBase\Derived Column 5.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load MilitaryBase\Derived Column 4.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Derived Column Output5]"
+              endId="Package\DFT Load MilitaryBase\Derived Column 6.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load MilitaryBase\Derived Column 5.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Derived Column Output6]"
+              endId="Package\DFT Load MilitaryBase\FF_DST BaseOriginal.Inputs[Flat File Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load MilitaryBase\Derived Column 6.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load MilitaryBase.Paths[Flat File Source Output]"
+              endId="Package\DFT Load MilitaryBase\Derived Column.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Load MilitaryBase\FF_SRC Base.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load Site"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{5BBCBB0B-11AD-4495-8D2D-1FF5618B2006}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load Site"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load Site\FF_SRC Site"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC Site"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load Site\FF_SRC Site.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Site]"
+                  connectionManagerRefId="Package.ConnectionManagers[Site]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_UID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_UID]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_UID]"
+                      name="SITE_UID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_CD]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_CD]"
+                      name="SITE_CD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_NAME]"
+                      length="200"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_NAME]"
+                      name="SITE_NAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_NMBR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_NMBR]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_NMBR]"
+                      name="SITE_STREET_NMBR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_DIR_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_DIR_CD]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_DIR_CD]"
+                      name="SITE_STREET_DIR_CD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_NAME]"
+                      length="200"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_NAME]"
+                      name="SITE_STREET_NAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_TYPE_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_TYPE_CD]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_TYPE_CD]"
+                      name="SITE_STREET_TYPE_CD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_CMD_CLMNT_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_CMD_CLMNT_CD]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_CMD_CLMNT_CD]"
+                      name="SITE_CMD_CLMNT_CD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[INSTL_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[INSTL_CD]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[INSTL_CD]"
+                      name="INSTL_CD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_OPERNL_STAT_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_OPERNL_STAT_CD]"
+                      length="50"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_OPERNL_STAT_CD]"
+                      name="SITE_OPERNL_STAT_CD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_UID]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_UID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_NAME]"
+                      dataType="wstr"
+                      length="200"
+                      name="SITE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_NMBR]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_STREET_NMBR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_DIR_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_STREET_DIR_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_NAME]"
+                      dataType="wstr"
+                      length="200"
+                      name="SITE_STREET_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_STREET_TYPE_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_STREET_TYPE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_CMD_CLMNT_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_CMD_CLMNT_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[INSTL_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="INSTL_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].ExternalColumns[SITE_OPERNL_STAT_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_OPERNL_STAT_CD" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load Site\OLE_DST Site"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST Site"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Site]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load Site\OLE_DST Site.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  connectionManagerRefId="Package.ConnectionManagers[alexosmisa4dbd1.AMCOS2020_MAR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_UID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_UID"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_UID]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_UID]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_CD"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_CD]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_CD]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="SITE_NAME"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_NAME]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_NAME]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_STREET_NMBR]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_STREET_NMBR"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_NMBR]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_NMBR]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_STREET_DIR_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_STREET_DIR_CD"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_DIR_CD]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_DIR_CD]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_STREET_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="SITE_STREET_NAME"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_NAME]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_NAME]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_STREET_TYPE_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_STREET_TYPE_CD"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_TYPE_CD]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_STREET_TYPE_CD]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_CMD_CLMNT_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_CMD_CLMNT_CD"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_CMD_CLMNT_CD]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_CMD_CLMNT_CD]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[INSTL_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="INSTL_CD"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[INSTL_CD]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[INSTL_CD]" />
+                    <inputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].Columns[SITE_OPERNL_STAT_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SITE_OPERNL_STAT_CD"
+                      externalMetadataColumnId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_OPERNL_STAT_CD]"
+                      lineageId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output].Columns[SITE_OPERNL_STAT_CD]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_UID]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_UID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_NAME]"
+                      dataType="wstr"
+                      length="200"
+                      name="SITE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_NMBR]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_STREET_NMBR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_DIR_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_STREET_DIR_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_NAME]"
+                      dataType="wstr"
+                      length="200"
+                      name="SITE_STREET_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_STREET_TYPE_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_STREET_TYPE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_CMD_CLMNT_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_CMD_CLMNT_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[INSTL_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="INSTL_CD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input].ExternalColumns[SITE_OPERNL_STAT_CD]"
+                      dataType="wstr"
+                      length="50"
+                      name="SITE_OPERNL_STAT_CD" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load Site\OLE_DST Site.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Site\OLE_DST Site.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load Site\OLE_DST Site.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load Site\OLE_DST Site.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load Site.Paths[Flat File Source Output]"
+              endId="Package\DFT Load Site\OLE_DST Site.Inputs[OLE DB Destination Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Load Site\FF_SRC Site.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{09C8BF9B-D19F-41F9-A632-727C5043F43C}"
+      DTS:From="Package\DFT Load MilitaryBase"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Data Flow Task"
+          TopLeft="23.5,107.5" />
+        <NodeLayout
+          Size="191,42"
+          Id="Package\DFT Load MilitaryBase"
+          TopLeft="5.49999999999997,5.5" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\DFT Load Site"
+          TopLeft="239,107.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="101,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Data Flow Task\FF_SRC BaseModified"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Data Flow Task\OLE_DST MilitaryBase"
+          TopLeft="12.5,311.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Flat File Source Output]"
+          TopLeft="104.75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,264"
+              Start="0,0"
+              End="0,256.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,256.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE_DST MilitaryBase">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\DFT Load MilitaryBase">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\DFT Load MilitaryBase\FF_SRC Base"
+          TopLeft="24,5.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\DFT Load MilitaryBase\Derived Column"
+          TopLeft="20,107.5" />
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Flat File Source Output]"
+          TopLeft="99,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT Load MilitaryBase\Derived Column 1"
+          TopLeft="15.5,209.5" />
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Derived Column Output]"
+          TopLeft="99,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="187,42"
+          Id="Package\DFT Load MilitaryBase\FF_DST BaseOriginal"
+          TopLeft="5.5000000000001,821.5" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT Load MilitaryBase\Derived Column 2"
+          TopLeft="15.5,311.5" />
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Derived Column Output1]"
+          TopLeft="99,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT Load MilitaryBase\Derived Column 3"
+          TopLeft="15.5000000000001,413.5" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT Load MilitaryBase\Derived Column 4"
+          TopLeft="15.5000000000001,515.5" />
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Derived Column Output2]"
+          TopLeft="99.0000000000001,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Derived Column Output3]"
+          TopLeft="99.0000000000001,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT Load MilitaryBase\Derived Column 5"
+          TopLeft="15.5000000000001,617.5" />
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Derived Column Output4]"
+          TopLeft="99.0000000000001,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT Load MilitaryBase\Derived Column 6"
+          TopLeft="15.5000000000001,719.5" />
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Derived Column Output5]"
+          TopLeft="99.0000000000001,659.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load MilitaryBase.Paths[Derived Column Output6]"
+          TopLeft="99.0000000000001,761.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\DFT Load Site">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\DFT Load Site\FF_SRC Site"
+          TopLeft="9.00000000000001,5.5" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\DFT Load Site\OLE_DST Site"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\DFT Load Site.Paths[Flat File Source Output]"
+          TopLeft="81,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load Site\OLE_DST Site">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

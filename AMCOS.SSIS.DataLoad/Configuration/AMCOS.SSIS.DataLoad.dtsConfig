@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="CALIBRE\Greg.Bonner" GeneratedFromPackageName="WageGrade" GeneratedFromPackageID="{4ADC3699-2219-45FA-AC1C-24BAE19C2B6F}" GeneratedDate="7/6/2016 10:37:08 AM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ConnectionString_TransactionDB].Properties[Value]" ValueType="String">
+		<ConfiguredValue>Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::AmcosVersionId].Properties[Value]" ValueType="String">
+		<ConfiguredValue>202501</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ThenToThenOMAJicInflationRate].Properties[Value]" ValueType="Decimal">
+		<ConfiguredValue>1.0214</ConfiguredValue>
+	</Configuration>	
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Rate1].Properties[Value]" ValueType="Decimal">
+		<ConfiguredValue>1.0</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Rate2].Properties[Value]" ValueType="Decimal">
+		<ConfiguredValue>1.0</ConfiguredValue>
+	</Configuration>	
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_Base].Properties[Value]" ValueType="String">
+		<ConfiguredValue>D:\Projects\AMCOS\Greg\source\repos\amcos\AMCOS.SSIS.DataLoad</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_DataLoadFiles].Properties[Value]" ValueType="String">
+		<ConfiguredValue>\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_Error].Properties[Value]" ValueType="String">
+		<ConfiguredValue>ErrorFiles</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_Logs].Properties[Value]" ValueType="String">
+		<ConfiguredValue>Logs</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_OutputFiles].Properties[Value]" ValueType="String">
+		<ConfiguredValue>OutputFiles</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_Packages].Properties[Value]" ValueType="String">
+		<ConfiguredValue></ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_RawFiles].Properties[Value]" ValueType="String">
+		<ConfiguredValue>RawFiles</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_Scripts].Properties[Value]" ValueType="String">
+		<ConfiguredValue>Scripts</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::Directory_UserAndLogTables].Properties[Value]" ValueType="String">
+		<ConfiguredValue>\\caadw00gaaa7001\AMCOS\DeployDB\CAADW00GAAA4005</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

@@ -1,0 +1,15 @@
+<%@ Page Language="VB" AutoEventWireup="false" Inherits="AMCOS.Web.Notes" Title="Notes" Codebehind="notes.aspx.vb" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div class="amcos-page">
+        <h1>Notes</h1>
+        <hr />
+        <ul>
+            <li>
+                The number of GS Locality Pay Area remained at 46 areas plus "Rest of US (RUS)".  For more information, go to <a href="https://www.opm.gov/policy-data-oversight/pay-leave/salaries-wages" target="_blank"  style="color: red; text-decoration: underline">Office of Personnel Management (OPM) Locality Pay Area Definitions</a>.
+            </li>
+            <li>
+                Users may see substantial cost swings in their training costs from previous years due to the implementation of a major training methodology change.  In previous years, a TRADOC school reporting training costs for a specific course also only reported a single grade referred to as the "Modal Grade" for that same course.  Each year, the reported "Modal Grade" for the same course may stay the same, however, most of the time it changed grade levels or it even changed between personnel types (enlisted, officer, or W/O).  These "Modal Grade" fluctuations had significant impact on final training costs at the MOS level.  With this release, the AMCOS Team merged the latest available TRADOC (Army Training Resource Management) ATRM-159 Training Report (FY15 inflated to FY17) cost data with Army Training Requirements and Resources System (ATRRS) student data for the same time period.  The ATRRS's reported student mixture (e.g., E-1, O-3, W-2, etc.) and the student counts for each course were merged with the ATRM cost data.  AIT, OSUT, and similar initial skill producing courses for officers and warrant officers to include UPT or other Flight training have had specific MOS/AOC identified and course costs will be applied to that courses targeted MOS/AOC, e.g., 11B, 13A, 152H.  For career and professional courses not directly linked to a specialty, typically course costs will be distributed as a cost to a specific CMF or as an Army-level cost when any soldier could attend the class.  In the final analysis, a cost roll-up of all courses by Grade and MOS/AOC is performed; applied first at the MOS-level, then CMF-level, and lastly to the Army-level courses.  More stable training cost trend within each MOS is anticipated in future AMCOS products.
+            </li>
+        </ul>
+    </div>
+</asp:Content>

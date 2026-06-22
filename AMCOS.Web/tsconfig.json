@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "allowJs": true,
+    "target": "es6",    
+    "lib": [ "ES2015", "DOM" ]    
+  },  
+  "include": [
+    "./src/ts/*.ts"
+  ],
+  "exclude": [
+    "./dist/js/*.js"
+  ]
+}

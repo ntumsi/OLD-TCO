@@ -1,0 +1,689 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="14bccc06-6177-4489-9d69-b0ec130a0daa" ChangeDateTime="01/23/2020 17:57:42">
+    <Property Name="ElementName" Value="[dataload].[Military_OCONUS_OHA].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[Military_OCONUS_OHA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6ab894d1-b23c-4581-9252-e17dbf2e0769" ChangeDateTime="01/23/2020 18:06:29">
+    <Property Name="ElementName" Value="[webuser].[PMCategorySkill].[CategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[webuser].[PMCategorySkill]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b6cd2a46-6ed1-42a0-9317-d2a48ba62b38" ChangeDateTime="01/23/2020 18:20:54">
+    <Property Name="ElementName" Value="[compare].[CostsExternalTest].[CategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[compare].[CostsExternalTest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a1c8cdf5-1dd3-4595-be57-1f4c63b3d48c" ChangeDateTime="01/23/2020 18:24:41">
+    <Property Name="ElementName" Value="[crunch].[TempTraining_Costs].[CategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempTraining_Costs]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0923929b-2eb0-48ed-aca7-b0b30802e336" ChangeDateTime="01/23/2020 18:40:03">
+    <Property Name="ElementName" Value="[xwalk].[FIPS_WageArea].[amcosversionidstart]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[FIPS_WageArea]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionIdStart" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9cf22273-c0c7-40ec-a250-05a16722fa36" ChangeDateTime="01/23/2020 18:40:27">
+    <Property Name="ElementName" Value="[xwalk].[FIPS_WageArea].[amcosversionidend]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[FIPS_WageArea]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionIdEnd" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d8a4803e-b84e-4eb2-8485-e3afbe027489" ChangeDateTime="01/23/2020 18:47:58">
+    <Property Name="ElementName" Value="[crunch].[TempOfc_Acq_by_AOC].[CategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempOfc_Acq_by_AOC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7bb3adb9-c651-490d-8a23-ce3621d036c4" ChangeDateTime="01/23/2020 19:05:43">
+    <Property Name="ElementName" Value="[compare].[CostsProduction].[CategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[compare].[CostsProduction]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f41cd88d-ad1f-4a56-87fd-c7bda89ca3d8" ChangeDateTime="01/31/2020 20:26:53">
+    <Property Name="ElementName" Value="[crunch].[TempTraining_Costs].[coursetype]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempTraining_Costs]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CourseType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f055fd71-ca06-452f-9439-807638f0ed1e" ChangeDateTime="01/31/2020 20:27:06">
+    <Property Name="ElementName" Value="[crunch].[TempTraining_Costs].[inventory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempTraining_Costs]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3d2b8840-4d22-493b-9bae-ffc7e5ddc4e1" ChangeDateTime="02/14/2020 19:02:10">
+    <Property Name="ElementName" Value="[crunch].[TempTraining_Costs_by_version].[inventory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempTraining_Costs_by_version]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="eefd289a-f77f-4ddf-99df-ec24f8255901" ChangeDateTime="02/14/2020 19:03:13">
+    <Property Name="ElementName" Value="[crunch].[TempRecruiting_Costs].[CategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempRecruiting_Costs]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="26499086-6e68-430f-baff-4fcd00c94d01" ChangeDateTime="02/14/2020 22:11:12">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_Wage].[locationid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_Wage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e18ed393-4c2f-4a72-ab8d-55c6606c3174" ChangeDateTime="02/14/2020 22:18:24">
+    <Property Name="ElementName" Value="[crunch].[TempATRRS_ATRM_Crs_MOS].[inventory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempATRRS_ATRM_Crs_MOS]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1edeffe1-655c-4ad0-a7fd-f139f1fe92b3" ChangeDateTime="02/14/2020 22:55:28">
+    <Property Name="ElementName" Value="[crunch].[TimeInGrade].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TimeInGrade]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1ce0bf08-b7b4-4a51-9590-a3b0a308ca72" ChangeDateTime="02/14/2020 22:56:22">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[inventory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8bea7bae-9b3a-4eba-bcde-4ebfd5d54f12" ChangeDateTime="02/14/2020 22:56:38">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6e3610d7-6fb1-4d1b-a2ee-e44a6c39914d" ChangeDateTime="02/14/2020 22:56:52">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[locationid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4d0d7247-6ea7-45d9-8c6c-6e776e87abc1" ChangeDateTime="02/15/2020 17:23:46">
+    <Property Name="ElementName" Value="[crunch].[TempTraining_Costs_avg].[payplan]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempTraining_Costs_avg]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PayPlan" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7c141b2e-4542-4034-b1b5-6e724afc955f" ChangeDateTime="02/15/2020 17:24:04">
+    <Property Name="ElementName" Value="[crunch].[TempTraining_Costs_avg].[inv]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempTraining_Costs_avg]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inv" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="734ff691-3edc-4f9b-8a6a-d191ab093c3f" ChangeDateTime="02/15/2020 17:30:57">
+    <Property Name="ElementName" Value="[crunch].[TempTraining_Costs_by_version].[payplan]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempTraining_Costs_by_version]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PayPlan" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="adfe9d43-10f7-4c4a-83b9-f1b47893dad2" ChangeDateTime="02/15/2020 17:46:23">
+    <Property Name="ElementName" Value="[crunch].[TempATRRS_ATRM_Crs_MOS].[payplan]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[TempATRRS_ATRM_Crs_MOS]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PayPlan" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a16c510e-7ab8-44e0-8c95-99fbda4b68b1" ChangeDateTime="02/15/2020 18:11:09">
+    <Property Name="ElementName" Value="[lookup].[SubgroupMapping].[CategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[lookup].[SubgroupMapping]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="485d748c-c9a2-4f77-9edb-d85b6576b314" ChangeDateTime="02/15/2020 18:11:16">
+    <Property Name="ElementName" Value="[lookup].[SubgroupMapping].[ToCategorySubGroupCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[lookup].[SubgroupMapping]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ToCategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="98bbff54-8f3d-40f3-b136-aa75baa76f78" ChangeDateTime="02/17/2020 16:41:55">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="80c26bb9-43c2-4c73-a906-f026ac48740c" ChangeDateTime="02/17/2020 16:46:12">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Raw].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Raw]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3ef719fb-53a6-42c1-8d81-eb704a1c5903" ChangeDateTime="07/23/2020 15:35:33">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_CY].[locationid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_CY]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a8b5cfb9-75fe-4705-acae-bf69c98b68d6" ChangeDateTime="07/23/2020 15:36:00">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_CY].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_CY]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="94a313bc-545e-4945-8eb0-cf586a5ddc5c" ChangeDateTime="07/23/2020 15:36:15">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_CY].[minpay]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_CY]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MinPay" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6379e971-d6be-42ef-93c3-f1924ad7fa7f" ChangeDateTime="07/23/2020 15:36:24">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_CY].[maxpay]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_CY]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaxPay" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="baa0070c-2eaa-4c82-8f7b-927fd07921b8" ChangeDateTime="09/09/2020 19:58:38">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[STEP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Step" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="63cb5f95-8a81-4ce8-8665-9e0f92b7bb24" ChangeDateTime="09/09/2020 19:58:53">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[GRADElevel]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GradeLevel" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6cc71e72-cbd3-44ba-8549-fbd527d0bb1a" ChangeDateTime="09/09/2020 20:00:53">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[GRADETYPE]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GradeType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="13134e49-aa22-4ee6-b74f-2316c21cf9cb" ChangeDateTime="09/09/2020 20:01:03">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[PAYPLAN]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PayPlan" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f5e8f5b2-1944-40e2-89fc-81fb8b115d2f" ChangeDateTime="09/11/2020 17:11:47">
+    <Property Name="ElementName" Value="[analysis].[CrunchTime].[objectname]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[analysis].[CrunchTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ObjectName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fd22492a-152c-4e17-a9d7-7334b713c6e0" ChangeDateTime="09/11/2020 17:11:59">
+    <Property Name="ElementName" Value="[analysis].[CrunchTime].[starttime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[analysis].[CrunchTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StartTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a5987ca8-a24f-4290-af8d-fc9e346597bb" ChangeDateTime="09/11/2020 17:12:06">
+    <Property Name="ElementName" Value="[analysis].[CrunchTime].[endtime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[analysis].[CrunchTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EndTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6a7344bc-765b-4576-baf5-39d8ad3a6146" ChangeDateTime="09/11/2020 17:12:11">
+    <Property Name="ElementName" Value="[analysis].[CrunchTime].[debug]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[analysis].[CrunchTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Debug" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c9a1e982-1628-4789-976d-4017e116e1fa" ChangeDateTime="09/11/2020 17:12:58">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[payplan]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PayPlan" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="27ecc4fc-1644-4814-a80e-8393f3896f7e" ChangeDateTime="09/11/2020 17:13:23">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[gradetype]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[GradeType]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="eaddde8f-e661-4156-9688-abc9ee510991" ChangeDateTime="09/11/2020 17:13:42">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[inventory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ef5513fc-5e8e-47b2-a9d4-fa75fc9b100e" ChangeDateTime="09/11/2020 17:13:49">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[parentMOS]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ParentMOS" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="817d3ae1-92d7-4530-b1bb-6f09a4d129fb" ChangeDateTime="09/11/2020 17:13:54">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[Percentshare]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PercentShare" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cb094e1e-3dd6-475d-9f61-b50da0d94309" ChangeDateTime="09/11/2020 17:14:01">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[adjInv]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AdjInv" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9b693a63-5f10-4e22-b651-cf5591ede74a" ChangeDateTime="09/11/2020 17:14:06">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[invGL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InvGL" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="620905df-c7f6-4725-b9ca-70e91b66e498" ChangeDateTime="09/11/2020 17:14:16">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[invsubgrp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InvSubgrp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b899252a-98ff-4446-bc85-b09f2b128c66" ChangeDateTime="09/11/2020 17:14:22">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[baseGL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BaseGL" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9fc14718-e6fb-4828-9fd7-8b097fc18c79" ChangeDateTime="09/11/2020 17:14:27">
+    <Property Name="ElementName" Value="[crunch].[CGLA].[baseSubgrp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLA]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BaseSubgrp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0b8ca98e-2546-448d-bd5b-fe836e5a5c30" ChangeDateTime="09/11/2020 17:14:44">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[payplan]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PayPlan" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bbdbef16-d959-4f59-b58c-20e8ce643686" ChangeDateTime="09/11/2020 17:14:52">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[gradetype]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GradeType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="52fe72a5-0fd2-47da-b913-7e77a42013c6" ChangeDateTime="09/11/2020 17:14:57">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[baseSubgrp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BaseSubgrp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e2e15398-ed11-42d9-a1c4-743b82c63b15" ChangeDateTime="09/11/2020 17:15:01">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[baseGL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BaseGL" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="eb1b8792-cbab-42c5-9c02-d0e46ee89343" ChangeDateTime="09/11/2020 17:15:09">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[invsubgrp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InvSubgrp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="53dc387a-8fec-46c7-b15e-9c4c67523d9c" ChangeDateTime="09/11/2020 17:15:15">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[invGL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InvGL" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0c9d335d-432e-4716-8ee9-1eb9d1b1e0cb" ChangeDateTime="09/11/2020 17:15:20">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[inventory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="afb29f26-4c2d-49bc-bf0d-d48001320cfe" ChangeDateTime="09/11/2020 17:15:24">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[parentMOS]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ParentMOS" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ab66d40b-d04e-4a19-b7ef-fe7ff9e357b3" ChangeDateTime="09/11/2020 17:15:30">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[adjInv]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AdjInv" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d0357168-c4f2-4c29-b21f-d83a547c7323" ChangeDateTime="09/11/2020 17:15:38">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[Percentshare]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PercentShare" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9ad4182a-a870-4f6c-88ce-dac296c2b0c4" ChangeDateTime="09/11/2020 17:15:48">
+    <Property Name="ElementName" Value="[crunch].[CGLATEMP].[parentshare]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[CGLATEMP]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ParentShare" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a59ca97a-e017-45f2-aa88-e29eef9c9990" ChangeDateTime="11/02/2020 18:04:42">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_D_NSeries].[minpay]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_D_NSeries]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MinPay" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a4de4b6e-3a66-4914-ab3c-887e54be3216" ChangeDateTime="11/02/2020 18:04:48">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_D_NSeries].[maxpay]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_D_NSeries]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaxPay" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cf8ce6e2-2023-4741-a7b4-ab3b6518cf06" ChangeDateTime="11/02/2020 18:04:54">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_D_NSeries].[locationid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_D_NSeries]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7c9351fd-d1ea-41e5-a30e-167ef0b3afca" ChangeDateTime="11/02/2020 18:05:02">
+    <Property Name="ElementName" Value="[load_payschedule].[PaySchedule_D_NSeries].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_payschedule].[PaySchedule_D_NSeries]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="296490d1-d802-423f-b537-fa8705affae8" ChangeDateTime="11/02/2020 18:07:29">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[GROUP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Grouop" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d514ba1a-0e66-4bc0-a85d-3f88499c5b2f" ChangeDateTime="11/02/2020 18:07:33">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[Grouop]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Group" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="895906e1-d039-4e8a-b354-5ad43c674ae7" ChangeDateTime="11/02/2020 18:07:41">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[SUBGROUP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Subgroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="43329cff-a4d1-4e99-b3a9-d2007ea006dc" ChangeDateTime="11/02/2020 18:07:52">
+    <Property Name="ElementName" Value="[load_inventory].[DMDC_Processed].[CIVTYPE]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[DMDC_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CivType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dca141fd-ca02-46c5-b952-caff9ad6ab7c" ChangeDateTime="01/06/2021 22:44:58">
+    <Property Name="ElementName" Value="[dataload].[GSAPerDiem].[zipcode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[GSAPerDiem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ZIPCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="260f7e3c-95a6-4a7e-8f8d-4e848eef36f6" ChangeDateTime="01/06/2021 22:45:23">
+    <Property Name="ElementName" Value="[dataload].[GSAPerDiem].[fiscalyear]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[GSAPerDiem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FiscalYear" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ca56d0e7-9d53-4402-88e5-4d95bc4d5dfc" ChangeDateTime="01/06/2021 22:45:37">
+    <Property Name="ElementName" Value="[dataload].[GSAPerDiem].[maximumlodgingrate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[GSAPerDiem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaximumLodgingRate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="babf1c19-e999-4389-91e7-71ad1446ffae" ChangeDateTime="01/06/2021 22:45:57">
+    <Property Name="ElementName" Value="[dataload].[GSAPerDiem].[m_ierate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[GSAPerDiem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaximumMealsAndIncidentalsRate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fd94a19b-323f-4da6-a732-7d9849b84537" ChangeDateTime="01/06/2021 22:46:10">
+    <Property Name="ElementName" Value="[dataload].[GSAPerDiem].[effectivedate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[GSAPerDiem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateEffective" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a20aa30d-f8fc-410f-a455-837ff99d9cf9" ChangeDateTime="01/06/2021 22:46:20">
+    <Property Name="ElementName" Value="[dataload].[GSAPerDiem].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[GSAPerDiem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0dd54b6e-33d6-4c1f-8553-904860e5cd1c" ChangeDateTime="02/17/2021 20:40:47">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[PAYPLAN]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PayPlan" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4db36bf8-4886-4463-97c7-08a26a3a31a1" ChangeDateTime="02/17/2021 20:40:53">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[GROUP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Group" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0845ba06-3586-4079-a844-61b4ca7be521" ChangeDateTime="02/17/2021 20:40:58">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[SUBGROUP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Subgroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b6e84d7f-628b-47c6-8518-b47a0b070751" ChangeDateTime="02/17/2021 20:41:04">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[GRADETYPE]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GradeType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a3e82404-782b-4426-9865-a877d264aadc" ChangeDateTime="02/17/2021 20:41:10">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[GRADElevel]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GradeLevel" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9736fd15-1f8f-4e1e-b75c-a0da8e872bd3" ChangeDateTime="02/17/2021 20:41:14">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[STEP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Step" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ab1a3f8b-2b24-40d6-bc1b-bb2ee4acf8bf" ChangeDateTime="02/17/2021 20:41:20">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[locationid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="54b3e24e-d33d-49f0-aee8-d3c36c8a0afe" ChangeDateTime="02/17/2021 20:41:25">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[inventory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7784d954-dbda-4d21-b169-be286e67d86a" ChangeDateTime="02/17/2021 20:41:43">
+    <Property Name="ElementName" Value="[load_inventory].[WASS_Processed].[avgpay]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[WASS_Processed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AvgPay" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b04d6240-a9d6-4715-b717-a735d3480571" ChangeDateTime="02/17/2021 20:52:36">
+    <Property Name="ElementName" Value="[xwalk].[LocalityPayArea].[statecode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[LocalityPayArea]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StateCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="40f69ae7-c190-49ba-b04b-31cf982c948c" ChangeDateTime="02/17/2021 20:52:43">
+    <Property Name="ElementName" Value="[xwalk].[LocalityPayArea].[countycode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[LocalityPayArea]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CountyCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b013fdda-3595-4982-89d8-d47625669c2c" ChangeDateTime="02/17/2021 20:52:50">
+    <Property Name="ElementName" Value="[xwalk].[LocalityPayArea].[citycode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[LocalityPayArea]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CityCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="01f433f3-2753-483c-8101-bc71b4f91276" ChangeDateTime="02/17/2021 20:53:13">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[locationname]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b6583eb9-78d5-4c51-bde4-8cb4367c119f" ChangeDateTime="02/17/2021 20:53:18">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[state]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="State" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2ffb979a-33a8-4e60-9c28-7e55735ab8ea" ChangeDateTime="02/17/2021 20:53:23">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[statecode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StateCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ece13bc2-d364-411e-9029-62db59255f24" ChangeDateTime="02/17/2021 20:53:35">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[countycode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CountyCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1dce4f4b-03bf-49b4-a4e4-a0ebbbce2f4e" ChangeDateTime="02/17/2021 20:53:41">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[citycode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CityCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c3afe488-f374-48fb-b580-fb146d510564" ChangeDateTime="02/17/2021 20:53:47">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[tablenumber]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TableNumber" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="176ab906-9780-42e9-89ec-e24cc06e3b39" ChangeDateTime="02/17/2021 20:53:56">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[AmcosVersionIdstart]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionIdStart" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7fe52622-8e0e-4a40-8b70-90bd86f46748" ChangeDateTime="02/17/2021 20:54:03">
+    <Property Name="ElementName" Value="[xwalk].[SpecialRatesbyLocation].[AmcosVersionIdend]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[xwalk].[SpecialRatesbyLocation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionIdEnd" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1c9c4cd4-a2a8-40d7-9dcd-ac9fc59ef852" ChangeDateTime="02/17/2021 21:25:51">
+    <Property Name="ElementName" Value="[crunch].[Costs_1ActiveDay].[categorygroupcode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[Costs_1ActiveDay]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategoryGroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="035ae7d4-be87-4e95-bdd6-1a87e2f6b91b" ChangeDateTime="02/17/2021 21:26:03">
+    <Property Name="ElementName" Value="[crunch].[Costs_1ActiveDay].[categorysubgroupcode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[Costs_1ActiveDay]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySubgroupCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="28829495-d7e9-494b-8a39-9c2b2765cd5c" ChangeDateTime="02/17/2021 21:42:56">
+    <Property Name="ElementName" Value="[load_inventory].[Inventory_GFEBS].[locationid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[load_inventory].[Inventory_GFEBS]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e92e6fcb-8728-4ee5-b643-d4ecde90825c" ChangeDateTime="03/31/2023 16:27:22">
+    <Property Name="ElementName" Value="[dataload].[DoSLivingAllowance].[amcosversionid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dataload].[DoSLivingAllowance]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmcosVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="de4f25bf-6e0c-4d51-ab8e-ecfe04aceb4b" ChangeDateTime="06/12/2025 23:41:41">
+    <Property Name="ElementName" Value="[crunch].[OpmCaProcessed].[locationid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[crunch].[OpmCaProcessed]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LocationId" />
+  </Operation>
+</Operations>

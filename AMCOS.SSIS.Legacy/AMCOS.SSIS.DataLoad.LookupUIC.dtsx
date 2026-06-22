@@ -1,0 +1,1413 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/7/2019 1:48:17 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\Greg.Bonner"
+  DTS:DTSID="{C159585B-DBC4-46EA-AC30-B4DF62F1F37C}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad LookupUIC"
+  DTS:PackageType="5"
+  DTS:VersionBuild="22"
+  DTS:VersionGUID="{8DF965FC-75E2-4F53-ADDD-2C4A9A766475}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5E8A4D87-3002-4C6F-98BC-9F633D4DEBF5}"
+      DTS:ObjectName="AMCOS">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[UIC.txt]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{ED75C8A2-47E7-4F79-BEE0-C7ED92E18277}"
+      DTS:ObjectName="UIC.txt">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_DataLoadFiles] + "FMSWeb\\20240221 uic.txt"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\FMSWeb\20240221 uic.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="6"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UICOD"
+              DTS:DTSID="{4A8DDCE9-41AA-4351-89A8-1974FBE5781A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EDATEUIC"
+              DTS:DTSID="{094FE907-5304-4EEA-9411-E4B67BD37524}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="75"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LNAME"
+              DTS:DTSID="{483070EB-6013-4B91-8DA7-3A319794E840}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="25"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOCNM"
+              DTS:DTSID="{3955A62A-F460-4351-80BC-88953259C5DC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MACOM"
+              DTS:DTSID="{09188A58-9C14-4D8E-8037-F3FCCBBA8E8D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SBCOM"
+              DTS:DTSID="{16302762-52EB-4152-9F7A-5CD533762274}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TPACO"
+              DTS:DTSID="{FE7AC1A1-9DAA-446F-BE78-B4DD0A030814}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PPACO"
+              DTS:DTSID="{ED1A8263-6FE2-4E33-BA18-B5C4DE91D9FB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UICUR"
+              DTS:DTSID="{95F78947-C9D2-49CA-B718-5B7454A7D7D4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="GELOC"
+              DTS:DTSID="{5D7E8C22-4A35-48F7-99F3-6AF3168B9622}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UDATE"
+              DTS:DTSID="{439F4708-8864-46AB-B05D-C1BF18FA2749}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TCODE"
+              DTS:DTSID="{3336332B-2459-466C-8428-3A250B1C1E39}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ARLOC"
+              DTS:DTSID="{3A74DA19-A0A6-46A6-983F-9AE1CB0ADB01}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ZIPCD"
+              DTS:DTSID="{F20816E2-953E-4B6C-B80F-B04CCAF516E6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TPSN"
+              DTS:DTSID="{1EB66A89-B236-438C-81F2-F0B341A63B0E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STATUS"
+              DTS:DTSID="{37DAF5A7-B890-4332-B2E2-28D2FB663F9D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 16"
+              DTS:DTSID="{4F972C44-BD92-4412-A77A-A239A74FDA58}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{845045AC-80A9-409C-9526-6081E14A2C95}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0F5E9706-9CFD-4055-B4FF-F19722826EBA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=CAADW00GAAA4005;Initial Catalog=Amcos;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{46050B56-3B55-4C19-9CED-ACB0FE93192A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Projects\AMCOS\Greg\source\repos\amcos\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{59B7DB02-A205-4FEB-8E1E-0C16CA859706}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">\\caadw00gaaa7001\AMCOS\4 AMCOS Releases\2025\Data\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4F16D48E-1DD9-4CF4-A5EF-1FEC31AC2C31}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3C550C76-93DA-45F8-A8D4-4DAEA01D06EA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CA2B4EE5-259B-4BC2-99E8-5F33734521EB}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EC61A8C6-4789-4FDC-A984-6D2138375C30}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load UIC"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{412F211F-2027-4F3A-8152-43C12C83461D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load UIC"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load UIC\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load UIC\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load UIC\Derived Column.Inputs[Derived Column Input].Columns[ZIPCD]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="ZIPCD"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[ZIPCD]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load UIC\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[ZIPCD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[ZIPCD]"
+                      name="ZIPCD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_WSTR,7)[TRIM](#{Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[ZIPCD]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,7)TRIM(ZIPCD)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdStart]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdStart]"
+                      name="AmcosVersionIdStart"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdEnd]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdEnd]"
+                      name="AmcosVersionIdEnd"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">999999</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">999999</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load UIC\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load UIC\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load UIC\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[UIC.txt]"
+                  connectionManagerRefId="Package.ConnectionManagers[UIC.txt]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UICOD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UICOD]"
+                      length="6"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UICOD]"
+                      name="UICOD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[EDATEUIC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[EDATEUIC]"
+                      length="50"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[EDATEUIC]"
+                      name="EDATEUIC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[LNAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[LNAME]"
+                      length="75"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[LNAME]"
+                      name="LNAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[LOCNM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[LOCNM]"
+                      length="25"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[LOCNM]"
+                      name="LOCNM"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[MACOM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[MACOM]"
+                      length="2"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[MACOM]"
+                      name="MACOM"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[SBCOM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SBCOM]"
+                      length="2"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[SBCOM]"
+                      name="SBCOM"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TPACO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[TPACO]"
+                      length="2"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TPACO]"
+                      name="TPACO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[PPACO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[PPACO]"
+                      length="2"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[PPACO]"
+                      name="PPACO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UICUR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UICUR]"
+                      length="50"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UICUR]"
+                      name="UICUR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[GELOC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[GELOC]"
+                      length="4"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[GELOC]"
+                      name="GELOC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UDATE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UDATE]"
+                      length="50"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UDATE]"
+                      name="UDATE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TCODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[TCODE]"
+                      length="1"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TCODE]"
+                      name="TCODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[ARLOC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ARLOC]"
+                      length="5"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[ARLOC]"
+                      name="ARLOC"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[ZIPCD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ZIPCD]"
+                      length="9"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[ZIPCD]"
+                      name="ZIPCD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TPSN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[TPSN]"
+                      length="7"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TPSN]"
+                      name="TPSN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[STATUS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[STATUS]"
+                      length="1"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[STATUS]"
+                      name="STATUS"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[Column 16]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 16]"
+                      length="50"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[Column 16]"
+                      name="Column 16"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UICOD]"
+                      dataType="wstr"
+                      length="6"
+                      name="UICOD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[EDATEUIC]"
+                      dataType="wstr"
+                      length="50"
+                      name="EDATEUIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[LNAME]"
+                      dataType="wstr"
+                      length="75"
+                      name="LNAME" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[LOCNM]"
+                      dataType="wstr"
+                      length="25"
+                      name="LOCNM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[MACOM]"
+                      dataType="wstr"
+                      length="2"
+                      name="MACOM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SBCOM]"
+                      dataType="wstr"
+                      length="2"
+                      name="SBCOM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[TPACO]"
+                      dataType="wstr"
+                      length="2"
+                      name="TPACO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[PPACO]"
+                      dataType="wstr"
+                      length="2"
+                      name="PPACO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UICUR]"
+                      dataType="wstr"
+                      length="50"
+                      name="UICUR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[GELOC]"
+                      dataType="wstr"
+                      length="4"
+                      name="GELOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UDATE]"
+                      dataType="wstr"
+                      length="50"
+                      name="UDATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[TCODE]"
+                      dataType="wstr"
+                      length="1"
+                      name="TCODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ARLOC]"
+                      dataType="wstr"
+                      length="5"
+                      name="ARLOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[ZIPCD]"
+                      dataType="wstr"
+                      length="9"
+                      name="ZIPCD" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[TPSN]"
+                      dataType="wstr"
+                      length="7"
+                      name="TPSN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[STATUS]"
+                      dataType="wstr"
+                      length="1"
+                      name="STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 16]"
+                      dataType="wstr"
+                      length="50"
+                      name="Column 16" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load UIC\OLE_DST UIC"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST UIC"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[UIC]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load UIC\OLE_DST UIC.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[EDATEUIC]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="EDATEUIC"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[EDATEUIC]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[EDATEUIC]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[MACOM]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="MACOM"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[MACOM]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[MACOM]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[SBCOM]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="SBCOM"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[SBCOM]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[SBCOM]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[TPACO]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="TPACO"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[TPACO]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TPACO]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[PPACO]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="PPACO"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[PPACO]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[PPACO]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[UICUR]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="UICUR"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[UICUR]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UICUR]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[GELOC]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="GELOC"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[GELOC]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[GELOC]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[UDATE]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="UDATE"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[UDATE]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UDATE]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[TCODE]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="TCODE"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[TCODE]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TCODE]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[ARLOC]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ARLOC"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[ARLOC]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[ARLOC]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[TPSN]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="TPSN"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[TPSN]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[TPSN]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[AmcosVersionIdStart]"
+                      cachedDataType="i4"
+                      cachedName="AmcosVersionIdStart"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdStart]"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdStart]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[AmcosVersionIdEnd]"
+                      cachedDataType="i4"
+                      cachedName="AmcosVersionIdEnd"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdEnd]"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[AmcosVersionIdEnd]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[UICOD]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="UICOD"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[UICOD]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[STATUS]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="STATUS"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[STATUS]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[LNAME]"
+                      cachedDataType="wstr"
+                      cachedLength="75"
+                      cachedName="LNAME"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[LNAME]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[LOCNM]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="LOCNM"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      lineageId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output].Columns[LOCNM]" />
+                    <inputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].Columns[ZIPCD]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="ZIPCD"
+                      externalMetadataColumnId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[ZIP]"
+                      lineageId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output].Columns[ZIPCD]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[EDATEUIC]"
+                      dataType="wstr"
+                      length="50"
+                      name="EDATEUIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[MACOM]"
+                      dataType="wstr"
+                      length="2"
+                      name="MACOM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[SBCOM]"
+                      dataType="wstr"
+                      length="2"
+                      name="SBCOM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[TPACO]"
+                      dataType="wstr"
+                      length="2"
+                      name="TPACO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[PPACO]"
+                      dataType="wstr"
+                      length="2"
+                      name="PPACO" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[UICUR]"
+                      dataType="wstr"
+                      length="50"
+                      name="UICUR" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[GELOC]"
+                      dataType="wstr"
+                      length="4"
+                      name="GELOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[UDATE]"
+                      dataType="wstr"
+                      length="50"
+                      name="UDATE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[TCODE]"
+                      dataType="wstr"
+                      length="1"
+                      name="TCODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[ARLOC]"
+                      dataType="wstr"
+                      length="5"
+                      name="ARLOC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[TPSN]"
+                      dataType="wstr"
+                      length="7"
+                      name="TPSN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[UIC]"
+                      dataType="wstr"
+                      length="6"
+                      name="UIC" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="75"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      dataType="wstr"
+                      length="25"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[ZIP]"
+                      dataType="wstr"
+                      length="7"
+                      name="ZIP" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
+                      dataType="wstr"
+                      length="1"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdStart]"
+                      dataType="i4"
+                      name="AmcosVersionIdStart" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input].ExternalColumns[AmcosVersionIdEnd]"
+                      dataType="i4"
+                      name="AmcosVersionIdEnd" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load UIC\OLE_DST UIC.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UIC\OLE_DST UIC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load UIC\OLE_DST UIC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load UIC\OLE_DST UIC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load UIC.Paths[Derived Column Output]"
+              endId="Package\DFT Load UIC\OLE_DST UIC.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load UIC\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load UIC.Paths[Flat File Source Output]"
+              endId="Package\DFT Load UIC\Derived Column.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Load UIC\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B58CA11B-C5F2-4F86-A602-CCFE57FB17C0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5E8A4D87-3002-4C6F-98BC-9F633D4DEBF5}"
+          SQLTask:SqlStatementSource="DELETE FROM lookup.UIC;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{8CC125C7-3CC1-4390-A433-967435E49B05}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT Load UIC" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\DFT Load UIC"
+          TopLeft="15.5,107.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="5.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="90.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Load UIC">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\DFT Load UIC\Flat File Source"
+          TopLeft="6.50000000000001,5.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\DFT Load UIC\Derived Column"
+          TopLeft="5.50000000000003,107.5" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\DFT Load UIC\OLE_DST UIC"
+          TopLeft="9.00000000000003,209.5" />
+        <EdgeLayout
+          Id="Package\DFT Load UIC.Paths[Flat File Source Output]"
+          TopLeft="84.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load UIC.Paths[Derived Column Output]"
+          TopLeft="84.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load UIC\OLE_DST UIC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

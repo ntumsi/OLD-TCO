@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.props" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <JavaScriptTestRoot>test\</JavaScriptTestRoot>
+    <JavaScriptTestFramework>Mocha</JavaScriptTestFramework>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{A8BF970B-4272-4734-8708-2F5B5D78E48F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>AMCOS.Web</RootNamespace>
+    <AssemblyName>AMCOS.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <MyType>Custom</MyType>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Cells, Version=17.9.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.5.3.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.3.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.5.3.0\lib\net461\Microsoft.IdentityModel.Protocols.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.5.3.0\lib\net461\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.3.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.2.3\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.2.3\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.2.3\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.2.3\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OpenIdConnect.4.2.3\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.3.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+    <Content Include="about.aspx" />
+    <Content Include="App\Admin\AdminApproval.aspx" />
+    <Content Include="App\Lite\LiteService.asmx" />
+    <Content Include="App\Project\ProjectService.asmx" />
+    <Content Include="App\UnderConstruction.aspx" />
+    <Content Include="bin\SqlServerTypes\x64\msvcr120.dll" />
+    <Content Include="bin\SqlServerTypes\x64\SqlServerSpatial140.dll" />
+    <Content Include="bin\SqlServerTypes\x86\msvcr120.dll" />
+    <Content Include="bin\SqlServerTypes\x86\SqlServerSpatial140.dll" />
+    <Content Include="Controls\header-admin.ascx" />
+    <Content Include="Controls\header-user.ascx" />
+    <Content Include="dist\css\amcos-lite-chart.css" />
+    <Content Include="dist\css\AMCOS.css" />
+    <Content Include="dist\css\c3.min.css" />
+    <Content Include="dist\css\foundation.min.css" />
+    <Content Include="dist\css\selectize.default.css" />
+    <Content Include="dist\img\access.gif" />
+    <Content Include="dist\img\amcos.png" />
+    <Content Include="dist\img\amcoslite.jpg" />
+    <Content Include="dist\img\amcosmanager.jpg" />
+    <Content Include="dist\img\army.png" />
+    <Content Include="dist\img\backgrounds\USE-Flag_Civ-shutterstock_219655348.png" />
+    <Content Include="dist\img\backgrounds\USE-Flag_Tags_UsArmyTag.png" />
+    <Content Include="dist\img\backgrounds\USE-Flag_Tags_UsArmyTag_DesertTan.png" />
+    <Content Include="dist\img\backgrounds\USE-Flag_Tags_UsContractorTag-shutterstock_331017356.png" />
+    <Content Include="dist\img\backgrounds\USE-Flag_UsArmy-shutterstock_289206533.png" />
+    <Content Include="dist\img\backgrounds\USE_Blue_Civilian_Word Only--ChropManOut_313014128.png" />
+    <Content Include="dist\img\backgrounds\USE_Red_Box_COSTS-shutterstock_219505258.png" />
+    <Content Include="dist\img\backgrounds\USE_WoodLetters_COSTS-shutterstock_262137485.png" />
+    <Content Include="dist\img\backgrounds\USE_Word_COSTS_Red Circle-shutterstock_302958032.png" />
+    <Content Include="dist\img\ceac.gif" />
+    <Content Include="dist\img\ceacsealsm.gif" />
+    <Content Include="dist\img\DASA.png" />
+    <Content Include="dist\img\development.gif" />
+    <Content Include="dist\img\development3.gif" />
+    <Content Include="dist\img\excel.gif" />
+    <Content Include="dist\img\Expand.gif" />
+    <Content Include="dist\img\Expand.png" />
+    <Content Include="dist\img\feed-icon-12x12.png" />
+    <Content Include="dist\img\ie.jpg" />
+    <Content Include="dist\img\ms-access.gif" />
+    <Content Include="dist\img\ms-excel.gif" />
+    <Content Include="dist\img\ms-ppoint.gif" />
+    <Content Include="dist\img\ms-word.gif" />
+    <Content Include="dist\img\PleaseWait.gif" />
+    <Content Include="dist\img\ppoint.gif" />
+    <Content Include="dist\img\processing4.gif" />
+    <Content Include="dist\img\Shrink.gif" />
+    <Content Include="dist\img\Shrink.png" />
+    <Content Include="dist\img\word.gif" />
+    <Content Include="dist\js\amcos-common.js" />
+    <Content Include="dist\js\amcos-lite.js" />
+    <Content Include="dist\js\amcos-site.js" />
+    <Content Include="dist\js\c3.min.js" />
+    <Content Include="dist\js\d3.min.js" />
+    <Content Include="dist\js\foundation.min.js" />
+    <Content Include="dist\js\jquery.min.js" />
+    <Content Include="dist\js\object-inflationyear.min.js" />
+    <Content Include="dist\js\object-payplan.min.js" />
+    <Content Include="dist\js\pcs-civilian.js" />
+    <Content Include="dist\js\pcs-common.js" />
+    <Content Include="dist\js\project-manager.js" />
+    <Content Include="dist\js\quicksight-embedding-js-sdk.min.js" />
+    <Content Include="dist\js\quicksight.js" />
+    <Content Include="dist\js\selectize.min.js" />
+    <Content Include="dist\js\what-input.min.js" />
+    <Content Include="SqlServerTypes\Loader.cs" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="src\css\amcos-lite-chart.css" />
+    <Content Include="src\css\AMCOS.css" />
+    <Content Include="src\js\amcos-common.js" />
+    <Content Include="src\js\CivPCS.js" />
+    <Content Include="src\js\pcs-civilian.js" />
+    <Content Include="src\js\pcs-common.js" />
+    <Content Include="src\js\project-manager.js" />
+    <Content Include="Public\AMCOS Login Process.pdf" />
+    <Content Include="Public\AESMP User Primer.pdf" />
+    <Content Include="package-lock.json" />
+    <None Include="src\ts\CivPCS.ts.bk" />
+    <Content Include="src\js\quicksight.js" />
+    <Content Include="Template.aspx" />
+    <Content Include="test\amcos-lite.tests.js" />
+    <Content Include="Views\web.config" />
+    <Content Include="Views\Lite\Index.vbhtml" />
+    <Content Include="Views\Shared\_Footer.vbhtml" />
+    <Content Include="Views\Shared\_Header.vbhtml" />
+    <Content Include="Views\Shared\_Layout.vbhtml" />
+    <Content Include="DataRequests\AMCOS_DataTables_2009_Mini.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2010_Mini.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2011_Full.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2011_Mini.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2012_Dec.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2012_Full.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2012_Mini.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2013_Dec.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2013_Jun.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2013_Mar.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2014_Aug.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2014_Feb.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2014_Mar.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2014_May.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2015_Apr.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2015_Aug.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2015_Feb.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2016_Apr.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2016_Jul.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2017_May.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2017_Oct.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2018_JUN.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2018_OCT.zip" />
+    <Content Include="DataRequests\AMCOS_DataTables_2019_APR.zip" />
+    <None Include="gulpfile.js" />
+    <Content Include="Global.asax" />
+    <Content Include="src\js\amcos-lite.js" />
+    <Content Include="src\js\amcos-site.js" />
+    <Content Include="src\js\object-inflationyear.js" />
+    <Content Include="src\js\object-payplan.js" />
+    <Content Include="src\img\Expand.gif" />
+    <Content Include="App\Admin\log.aspx" />
+    <Content Include="src\img\Shrink.gif" />
+    <Content Include="App\Admin\UpdateMyProfile.aspx" />
+    <Content Include="App\Admin\UserList.aspx" />
+    <Content Include="App\Admin\ViewInventory.aspx" />
+    <Content Include="App\Data\calculations.aspx" />
+    <Content Include="App\Data\download.aspx" />
+    <Content Include="App\Data\skills.aspx" />
+    <Content Include="help.aspx" />
+    <Content Include="App\Lite\default.aspx" />
+    <Content Include="notes.aspx" />
+    <Content Include="App\Project\default.aspx" />
+    <Content Include="App\Project\details.aspx" />
+    <Content Include="App\Project\report.aspx" />
+    <Content Include="App\Project\waitreport.aspx" />
+    <Content Include="SponsorAction.aspx" />
+    <Content Include="bin\AjaxControlToolkit.dll" />
+    <Content Include="bin\Aspose.Cells.dll" />
+    <Content Include="Controls\Footer.ascx" />
+    <Content Include="Controls\uc_selectskill.ascx" />
+    <Content Include="error.htm" />
+    <Content Include="src\img\access.gif" />
+    <Content Include="src\img\amcos.png" />
+    <Content Include="src\img\amcoslite.jpg" />
+    <Content Include="src\img\amcosmanager.jpg" />
+    <Content Include="src\img\army.png" />
+    <Content Include="src\img\backgrounds\USE-Flag_Civ-shutterstock_219655348.png" />
+    <Content Include="src\img\backgrounds\USE-Flag_Tags_UsArmyTag.png" />
+    <Content Include="src\img\backgrounds\USE-Flag_Tags_UsArmyTag_DesertTan.png" />
+    <Content Include="src\img\backgrounds\USE-Flag_Tags_UsContractorTag-shutterstock_331017356.png" />
+    <Content Include="src\img\backgrounds\USE-Flag_UsArmy-shutterstock_289206533.png" />
+    <Content Include="src\img\backgrounds\USE_Blue_Civilian_Word Only--ChropManOut_313014128.png" />
+    <Content Include="src\img\backgrounds\USE_Red_Box_COSTS-shutterstock_219505258.png" />
+    <Content Include="src\img\backgrounds\USE_WoodLetters_COSTS-shutterstock_262137485.png" />
+    <Content Include="src\img\backgrounds\USE_Word_COSTS_Red Circle-shutterstock_302958032.png" />
+    <Content Include="src\img\ceac.gif" />
+    <Content Include="src\img\ceacsealsm.gif" />
+    <Content Include="src\img\DASA.png" />
+    <Content Include="src\img\development.gif" />
+    <Content Include="src\img\development3.gif" />
+    <Content Include="src\img\excel.gif" />
+    <Content Include="src\img\Expand.png" />
+    <Content Include="src\img\feed-icon-12x12.png" />
+    <Content Include="src\img\ie.jpg" />
+    <Content Include="src\img\ms-access.gif" />
+    <Content Include="src\img\ms-excel.gif" />
+    <Content Include="src\img\ms-ppoint.gif" />
+    <Content Include="src\img\ms-word.gif" />
+    <Content Include="src\img\PleaseWait.gif" />
+    <Content Include="src\img\ppoint.gif" />
+    <Content Include="src\img\processing4.gif" />
+    <Content Include="src\img\Shrink.png" />
+    <Content Include="src\img\word.gif" />
+    <Content Include="Public\note.aspx" />
+    <Content Include="Public\PrivacySecurity.aspx" />
+    <Content Include="bin\Aspose.Cells.lic" />
+    <None Include="My Project\PublishProfiles\Development.pubxml" />
+    <None Include="My Project\PublishProfiles\ExternalTest.pubxml" />
+    <None Include="My Project\PublishProfiles\Production.pubxml" />
+    <Content Include="SessionOver.aspx" />
+    <Content Include="Public\AMCOS Civilian PCS.pdf" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="package.json" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Public\AMCOS Cost Model Documentation.pdf" />
+    <Content Include="SiteUser.Master" />
+    <Content Include="SiteAdmin.Master" />
+    <Content Include="Public\HistoricalDatabaseLinksList.pdf" />
+    <Content Include="Public\ARMY CES Xwalk.xlsx" />
+    <Content Include="Public\SupportingDocs\2017_15_16 - AMCOS - FY17 - HelpDoc - Cost Element to JIC APPN Mappings.xlsx" />
+    <Content Include="Public\SupportingDocs\Inflation table generator.xlsx" />
+    <Content Include="Views\Shared\_DMZLayout.vbhtml" />
+    <Content Include="Views\CivPCS\Index.vbhtml" />
+    <Content Include="Views\CivPCS\_HouseHunting.vbhtml" />
+    <Content Include="Views\CivPCS\_Mileage.vbhtml" />
+    <Content Include="Views\CivPCS\_Transportation.vbhtml" />
+    <Content Include="Views\CivPCS\_TQSE.vbhtml" />
+    <Content Include="Views\CivPCS\_HHG.vbhtml" />
+    <Content Include="Views\CivPCS\_MobileHome.vbhtml" />
+    <Content Include="Views\CivPCS\_MEA.vbhtml" />
+    <Content Include="Views\CivPCS\_RealEstate.vbhtml" />
+    <Content Include="Views\CivPCS\_NTS.vbhtml" />
+    <Content Include="Views\CivPCS\_RITA.vbhtml" />
+    <Content Include="Views\CivPCS\_GrandTotal.vbhtml" />
+    <Content Include="Views\Shared\_DMZHeader.vbhtml" />
+    <Content Include="Views\Shared\_OpenProjectModal.vbhtml" />
+    <Content Include="Views\Shared\_SaveAsModal.vbhtml" />
+    <Content Include="Views\CivPCS\_GHTransportation.vbhtml" />
+    <Content Include="Views\CivPCS\_RealEstateLease.vbhtml" />
+    <Content Include="Views\CivPCS\_Lease.vbhtml" />
+    <Content Include="Views\Shared\_ViewProjects.vbhtml" />
+    <Content Include="tsconfig.json" />
+    <Content Include="Views\Home\Home.vbhtml" />
+    <Content Include="Views\Shared\_QuickSight.vbhtml" />
+    <Content Include="Views\Shared\Visualization.vbhtml" />
+    <Content Include="Views\Help\DataRequest.vbhtml" />
+    <Content Include="Views\Logout\Logout.vbhtml" />
+    <Content Include="Views\Shared\_SessionExpiringModal.vbhtml" />
+    <Content Include="Views\Shared\UnderConstruction.vbhtml" />
+    <None Include="Web.Development.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.ExternalTest.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.InternalTest.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Production.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <TypeScriptCompile Include="src\ts\Test.ts" />
+    <TypeScriptCompile Include="src\ts\Test2.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="node_modules\**" />
+    <Compile Include="App\Lite\LiteService.asmx.vb">
+      <DependentUpon>LiteService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App\Project\ProjectService.asmx.vb">
+      <DependentUpon>ProjectService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App\UnderConstruction.aspx.designer.vb">
+      <DependentUpon>UnderConstruction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\UnderConstruction.aspx.vb">
+      <DependentUpon>UnderConstruction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.vb" />
+    <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="App_Start\Startup.vb" />
+    <Compile Include="App_Start\WebApiConfig.vb" />
+    <Compile Include="Controllers\AmcosLiteController.vb" />
+    <Compile Include="Controllers\CategoriesController.vb" />
+    <Compile Include="Controllers\GradesController.vb" />
+    <Compile Include="Controllers\LocationsController.vb" />
+    <Compile Include="Controllers\PayPlansController.vb" />
+    <Compile Include="Controllers\ProjectManagerController.vb" />
+    <Compile Include="Controllers\StrlsController.vb" />
+    <Compile Include="Controllers\UnitsController.vb" />
+    <Compile Include="Controls\header-admin.ascx.designer.vb">
+      <DependentUpon>header-admin.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\header-admin.ascx.vb">
+      <DependentUpon>header-admin.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\header-user.ascx.designer.vb">
+      <DependentUpon>header-user.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\header-user.ascx.vb">
+      <DependentUpon>header-user.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="about.aspx.designer.vb">
+      <DependentUpon>about.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="about.aspx.vb">
+      <DependentUpon>about.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\AdminApproval.aspx.designer.vb">
+      <DependentUpon>AdminApproval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\AdminApproval.aspx.vb">
+      <DependentUpon>AdminApproval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\log.aspx.designer.vb">
+      <DependentUpon>log.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\log.aspx.vb">
+      <DependentUpon>log.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\UpdateMyProfile.aspx.designer.vb">
+      <DependentUpon>UpdateMyProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\UpdateMyProfile.aspx.vb">
+      <DependentUpon>UpdateMyProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\UserList.aspx.designer.vb">
+      <DependentUpon>UserList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\UserList.aspx.vb">
+      <DependentUpon>UserList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\ViewInventory.aspx.designer.vb">
+      <DependentUpon>ViewInventory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Admin\ViewInventory.aspx.vb">
+      <DependentUpon>ViewInventory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Data\calculations.aspx.designer.vb">
+      <DependentUpon>calculations.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Data\calculations.aspx.vb">
+      <DependentUpon>calculations.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Data\download.aspx.designer.vb">
+      <DependentUpon>download.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Data\download.aspx.vb">
+      <DependentUpon>download.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Data\skills.aspx.designer.vb">
+      <DependentUpon>skills.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Data\skills.aspx.vb">
+      <DependentUpon>skills.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="help.aspx.designer.vb">
+      <DependentUpon>help.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="help.aspx.vb">
+      <DependentUpon>help.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Lite\default.aspx.designer.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Lite\default.aspx.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="notes.aspx.designer.vb">
+      <DependentUpon>notes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="notes.aspx.vb">
+      <DependentUpon>notes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\default.aspx.designer.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\default.aspx.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\details.aspx.designer.vb">
+      <DependentUpon>details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\details.aspx.vb">
+      <DependentUpon>details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\report.aspx.designer.vb">
+      <DependentUpon>report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\report.aspx.vb">
+      <DependentUpon>report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\waitreport.aspx.designer.vb">
+      <DependentUpon>waitreport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Project\waitreport.aspx.vb">
+      <DependentUpon>waitreport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SponsorAction.aspx.designer.vb">
+      <DependentUpon>SponsorAction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SponsorAction.aspx.vb">
+      <DependentUpon>SponsorAction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Footer.ascx.designer.vb">
+      <DependentUpon>Footer.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Footer.ascx.vb">
+      <DependentUpon>Footer.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\uc_selectskill.ascx.designer.vb">
+      <DependentUpon>uc_selectskill.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.vb">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Public\note.aspx.designer.vb">
+      <DependentUpon>note.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Public\note.aspx.vb">
+      <DependentUpon>note.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Public\PrivacySecurity.aspx.designer.vb">
+      <DependentUpon>PrivacySecurity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Public\PrivacySecurity.aspx.vb">
+      <DependentUpon>PrivacySecurity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionOver.aspx.designer.vb">
+      <DependentUpon>SessionOver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SessionOver.aspx.vb">
+      <DependentUpon>SessionOver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Old_App_Code\CommonModule.vb" />
+    <Compile Include="Controls\uc_selectskill.ascx.vb">
+      <DependentUpon>uc_selectskill.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWebExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.Web.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SiteAdmin.Master.designer.vb">
+      <DependentUpon>SiteAdmin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SiteAdmin.Master.vb">
+      <DependentUpon>SiteAdmin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SiteUser.Master.designer.vb">
+      <DependentUpon>SiteUser.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SiteUser.Master.vb">
+      <DependentUpon>SiteUser.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Template.aspx.designer.vb">
+      <DependentUpon>Template.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Template.aspx.vb">
+      <DependentUpon>Template.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App\Project\Public\Inflation and Discounting PVF Calculation Methodology.pdf" />
+    <Content Include="App_Themes\default\default.skin" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\PublishProfiles\InternalTest.pubxml" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="Public\AMCOS CBA Guide.pdf" />
+    <Content Include="Public\AMCOS Fact Sheet.pdf" />
+    <Content Include="Public\AMCOS FAQ.pdf" />
+    <Content Include="Public\AMCOS LITE Tutorial.pdf" />
+    <Content Include="Public\AMCOS Pay Plan Xwalk Tutorial.pdf" />
+    <Content Include="Public\AMCOS Project Manager Tutorial.pdf" />
+    <Content Include="Public\AMCOS Release Update History.pdf" />
+    <Content Include="Public\Contractor Cost Estimate Methodology.pdf" />
+    <Content Include="Public\Inflation and Discounting PVF Calculation Methodology.pdf" />
+    <Content Include="Public\Pay Plan Xwalk Methodology.pdf" />
+    <Content Include="Public\Salary Calculation Methodology.pdf" />
+    <Content Include="Public\SupportingDocs\2013_12_03 - AMCOS - FY14 - HelpDoc - InflationRates.xlsx" />
+    <Content Include="Public\SupportingDocs\2013_12_03 - AMCOS - FY14 - HelpDoc - JIC Mappings.xlsx" />
+    <Content Include="Public\SupportingDocs\2014_05_19 - AMCOS - FY14 - HelpDoc - Cost Element to JIC APPN Mappings.xlsx" />
+    <Content Include="Public\SupportingDocs\2014_05_19 - AMCOS - FY14 - HelpDoc - InflationRates.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SqlServerTypes\x64\" />
+    <Folder Include="SqlServerTypes\x86\" />
+    <Folder Include="Views\ProjectManager\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AMCOS.Data\AMCOS.Data.csproj">
+      <Project>{d8343891-2fe6-4c32-a9c6-d961bc3c4b3f}</Project>
+      <Name>AMCOS.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AMCOS.Logic\AMCOS.Logic.csproj">
+      <Project>{cb6df64a-467e-4c7d-8649-5fe7a30722e1}</Project>
+      <Name>AMCOS.Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <NoWarn>
+    </NoWarn>
+    <DocumentationFile>AMCOS.Web.xml</DocumentationFile>
+    <ExcludeFoldersFromDeployment>src</ExcludeFoldersFromDeployment>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <NoWarn>
+    </NoWarn>
+    <DocumentationFile>AMCOS.Web.xml</DocumentationFile>
+    <ExcludeFoldersFromDeployment>src</ExcludeFoldersFromDeployment>
+    <OutputPath>bin\</OutputPath>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <UsingTask TaskName="TransformConfigFiles" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="TransformConfigFiles" AfterTargets="AfterBuild" Condition="'$(TransformConfigFiles)' == 'true'">
+    <ItemGroup>
+      <DeleteAfterBuild Include="$(WebProjectOutputDir)\Web.*.config" />
+    </ItemGroup>
+    <Message Text="'Message After Build:  TFSBuild Status $(IsTFSBuild) - $(OutDir)\_PublishedWebsites\$(TargetName) '" />
+    <TransformXml Source="Web.Config" Transform="$(ProjectConfigTransformFileName)" Destination="$(WebProjectOutputDir)\Web.config" />
+    <Delete Files="@(DeleteAfterBuild)" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.targets" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.4.3.2\build\Microsoft.TypeScript.MSBuild.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,78 @@
+# Variable Group 'Shared information for AMCOS Releases' was defined in the Variables tab
+variables:
+- name: BuildParameters.solution
+  value: '**\*.sln'
+- name: BuildParameters.ArtifactName
+  value: drop
+- name: publishProfile
+  value: Development
+trigger:
+  branches:
+    include:
+    - refs/heads/Source/Development
+  paths:
+    include:
+    - AMCOS.Web
+    - AMCOS.AMCOS2020_MAR
+    - AMCOS.Data
+    - AMCOS.Logic
+    - AMCOS.Tests
+  batch: True
+name: $(date:yyyyMMdd)$(rev:.r)
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/Source/Development
+jobs:
+- job: Job_1
+  displayName: AMCOS Development
+  pool:
+    name: AMCOS Pool
+  steps:
+  - checkout: self
+    clean: true
+  - task: Npm@1
+    displayName: npm install
+    inputs:
+      workingDir: AMCOS.Web
+      verbose: false
+  - task: gulp@0
+    displayName: gulp default
+    inputs:
+      gulpFile: AMCOS.Web/gulpfile.js
+      targets: default
+      gulpjs: AMCOS.Web/node_modules/gulp/bin/gulp.js
+  - task: NuGetToolInstaller@1
+    displayName: 'Use NuGet '
+  - task: NuGetCommand@2
+    displayName: NuGet restore
+    inputs:
+      solution: $(BuildParameters.solution)
+      arguments: restore -MSBuildPath 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe'
+  - task: VSBuild@1
+    displayName: Build solution
+    inputs:
+      solution: $(BuildParameters.solution)
+      vsVersion: "16.0"
+      msbuildArgs: /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishURL=$(build.artifactstagingdirectory) /p:PublishProfile=$(PublishProfile)
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+      clean: true
+  - task: VSTest@2
+    displayName: Test Assemblies
+    inputs:
+      testAssemblyVer2: >-
+        **\$(BuildConfiguration)\*test*.dll
+
+        !**\obj\**
+      codeCoverageEnabled: true
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Artifact
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: $(BuildParameters.ArtifactName)
+      TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'

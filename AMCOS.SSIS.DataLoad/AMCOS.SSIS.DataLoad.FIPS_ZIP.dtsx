@@ -1,0 +1,1767 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/11/2017 4:03:14 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXW10GBONNER"
+  DTS:CreatorName="ILP1\greg.bonner"
+  DTS:DTSID="{0B122162-6A2C-4026-9D0E-F8D316B38936}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.0900.40"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad FIPS_ZIP"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{5ABA696E-A534-4C11-9DA1-CDA5AD44D852}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{AC31914E-0D5A-44A8-AC3E-272593C697B1}"
+      DTS:ObjectName="AMCOS">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::ConnectionString_TransactionDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2019_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ZipWise]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{91C7F037-8BB6-4C67-977F-DDD019784CE2}"
+      DTS:ObjectName="ZipWise">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_DataLoadFiles] +"\\ReferenceTables\\Zipwise Geo US-Preferred.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowsToSkip="4"
+          DTS:HeaderRowDelimiter="_x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="65001"
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Docs\Data Load\2019\March\ReferenceTables\Zipwise Geo US-Preferred.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="6"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ZIP_Postal"
+              DTS:DTSID="{E7D485B3-5661-4321-ADBD-F105CCD461F5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="City"
+              DTS:DTSID="{1C64237C-A038-4BA4-B952-AB5CEBC94D04}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="County"
+              DTS:DTSID="{341AA3CC-AE0D-48BE-A2E7-D2DDE939CFBD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="State_Province"
+              DTS:DTSID="{39286108-7F6C-40C0-BF6E-E9D2E538E822}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Area_Code"
+              DTS:DTSID="{CC1ACC72-D12F-4FC6-B096-1B6343E71F24}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="FIPS"
+              DTS:DTSID="{418540CC-8178-42E9-9041-F026956072D3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Time_Zone"
+              DTS:DTSID="{A5979D9B-FAB5-49F8-AD8D-816FB886A2CD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Daylight_Savings"
+              DTS:DTSID="{833352B4-BE41-4ADD-B652-1752091D753B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Latitude"
+              DTS:DTSID="{3AE5AE8F-93B4-47E7-9E68-2F7F0CC5E84F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Longitude"
+              DTS:DTSID="{B84DE3E2-392C-408E-8BA1-DC2ADA8654A6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Type"
+              DTS:DTSID="{E6B8996E-2C54-4EF4-B2D6-F7537735A1BC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:DataType="131"
+              DTS:DataPrecision="18"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Population"
+              DTS:DTSID="{184848D8-38FB-4A77-8F8D-BB1538FF576A}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{E8E883ED-3490-422C-9C65-83219D29A32B}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E577CFEA-F11C-46E1-9FE0-CDC97B551B67}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2019_MAR;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E6E36E8E-A8A7-4A30-9420-DBE44FFB033F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CF8E0BE0-8AAB-4370-9F2A-3541F9ABBF72}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Data\Development\AMCOS\Docs\Data Load\2019\March</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AA88D810-6F66-4580-A1EB-2902080C911A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{23274E47-1C9D-4578-9A6A-968A43F67001}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{25B3D360-5269-4F1D-8E02-309CBD251DD9}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{55841745-5102-4445-8682-44C3145AE043}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A86AAB0C-53CA-4667-93E8-2991791B8AF6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_RawFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">RawFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{112B0CFA-96E1-416C-A957-DB3731DF7DD8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Scripts">
+      <DTS:VariableValue
+        DTS:DataType="8">Scripts</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load FIPS ZIP"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{927C323B-8511-4D4D-866E-E7C29ECBBAC6}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load FIPS ZIP"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load FIPS ZIP\ALL StateCountry"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="ALL StateCountry"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="City"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[County]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="County"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[County]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[County]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[State_Province]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="State_Province"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[State_Province]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[State_Province]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[ZIPCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ZIPCode"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[ZIPCode]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[ZIPCode]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[FIPSCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="FIPSCode"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[FIPSCode]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[FIPSCode]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[StateName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="StateName"
+                      lineageId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output].Columns[StateName]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateName]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[StateNameCapitalized]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="StateNameCapitalized"
+                      lineageId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output].Columns[StateNameCapitalized]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateNameCapitalized]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[Latitude]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Latitude"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Latitude]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Latitude]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1].Columns[Longitude]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Longitude"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Longitude]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Longitude]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="City"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2].Columns[County]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="County"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[County]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[County]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2].Columns[State_Province]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="State_Province"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[State_Province]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[State_Province]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2].Columns[ZIPCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ZIPCode"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[ZIPCode]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[ZIPCode]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2].Columns[FIPSCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="FIPSCode"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[FIPSCode]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[FIPSCode]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2].Columns[Latitude]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Latitude"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Latitude]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Latitude]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2].Columns[Longitude]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Longitude"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Longitude]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Longitude]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[City]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[County]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[County]"
+                      name="County" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[State_Province]"
+                      dataType="wstr"
+                      length="2"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[State_Province]"
+                      name="State_Province" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[ZIPCode]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[ZIPCode]"
+                      name="ZIPCode" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[FIPSCode]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[FIPSCode]"
+                      name="FIPSCode" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateName]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateName]"
+                      name="StateName" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateNameCapitalized]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateNameCapitalized]"
+                      name="StateNameCapitalized" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Latitude]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Latitude]"
+                      name="Latitude" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Longitude]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Longitude]"
+                      name="Longitude" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load FIPS ZIP\DER ZipWise"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="DER ZipWise"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT Load FIPS ZIP\DER ZipWise.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\DER ZipWise.Inputs[Derived Column Input].Columns[ZIP_Postal]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="ZIP_Postal"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[ZIP_Postal]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\DER ZipWise.Inputs[Derived Column Input].Columns[FIPS]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="FIPS"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[FIPS]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\DFT Load FIPS ZIP\DER ZipWise.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[ZIPCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[ZIPCode]"
+                      name="ZIPCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[RIGHT]("00000" + #{Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[ZIP_Postal]},5)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">RIGHT("00000" + ZIP_Postal,5)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[FIPSCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output].Columns[FIPSCode]"
+                      name="FIPSCode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[RIGHT]("00000" + #{Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[FIPS]},5)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">RIGHT("00000" + FIPS,5)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\DFT Load FIPS ZIP\DER ZipWise.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="FF_SRC ZipWise"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[ZipWise]"
+                  connectionManagerRefId="Package.ConnectionManagers[ZipWise]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[ZIP_Postal]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[ZIP_Postal]"
+                      length="6"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[ZIP_Postal]"
+                      name="ZIP_Postal"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[City]"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[County]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[County]"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[County]"
+                      name="County"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[State_Province]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[State_Province]"
+                      length="2"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[State_Province]"
+                      name="State_Province"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Area_Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Area_Code]"
+                      length="5"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Area_Code]"
+                      name="Area_Code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[FIPS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[FIPS]"
+                      length="5"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[FIPS]"
+                      name="FIPS"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Time_Zone]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Time_Zone]"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Time_Zone]"
+                      name="Time_Zone"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Daylight_Savings]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Daylight_Savings]"
+                      length="1"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Daylight_Savings]"
+                      name="Daylight_Savings"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Type]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Type]"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Type]"
+                      name="Type"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Population]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Population]"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Population]"
+                      name="Population"
+                      precision="18"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Latitude]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Latitude]"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Latitude]"
+                      name="Latitude"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Longitude]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Longitude]"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[Longitude]"
+                      name="Longitude"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[ZIP_Postal]"
+                      dataType="wstr"
+                      length="6"
+                      name="ZIP_Postal" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="50"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[County]"
+                      dataType="wstr"
+                      length="50"
+                      name="County" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[State_Province]"
+                      dataType="wstr"
+                      length="2"
+                      name="State_Province" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Area_Code]"
+                      dataType="wstr"
+                      length="5"
+                      name="Area_Code" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[FIPS]"
+                      dataType="wstr"
+                      length="5"
+                      name="FIPS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Time_Zone]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="Time_Zone" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Daylight_Savings]"
+                      dataType="wstr"
+                      length="1"
+                      name="Daylight_Savings" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Type]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="Type" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Population]"
+                      dataType="numeric"
+                      name="Population"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Latitude]"
+                      dataType="wstr"
+                      length="50"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].ExternalColumns[Longitude]"
+                      dataType="wstr"
+                      length="50"
+                      name="Longitude" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="65001"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load FIPS ZIP\LKP StateCountry"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LKP StateCountry"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [lookup].[StateCountry]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [lookup].[StateCountry]) [refTable]
+where [refTable].[ZIPCode] = ? and [refTable].[State] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ZIPCode" dataType="DT_WSTR" length="5" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="State" dataType="DT_WSTR" length="2" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StateName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StateNameCapitalized" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[ZIP_Postal]};#{Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[State_Province]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Inputs[Lookup Input].Columns[State_Province]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="State_Province"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[State_Province]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">State</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Inputs[Lookup Input].Columns[ZIP_Postal]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="ZIP_Postal"
+                      lineageId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output].Columns[ZIP_Postal]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">ZIPCode</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT Load FIPS ZIP\LKP StateCountry.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output].Columns[StateName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output].Columns[StateName]"
+                      name="StateName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">StateName</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output].Columns[StateNameCapitalized]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="50"
+                      lineageId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output].Columns[StateNameCapitalized]"
+                      name="StateNameCapitalized"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">StateNameCapitalized</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT Load FIPS ZIP\LKP StateCountry.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT Load FIPS ZIP\LKP StateCountry.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE_DST FIPS_ZIP"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[lookup].[FIPS_ZIP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AMCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[AMCOS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[City]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[County]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="County"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[County]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[County]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[State_Province]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="State_Province"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[State_Province]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[FIPSCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="FIPSCode"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[FIPSCode]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[FIPSCode]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[ZIPCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ZIPCode"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[ZIPCode]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[ZIPCode]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[StateName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="StateName"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[StateName]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateName]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[StateNameCapitalized]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="StateNameCapitalized"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[StateNameCapitalized]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[StateNameCapitalized]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[Latitude]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Latitude"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[Latitude]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Latitude]" />
+                    <inputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].Columns[Longitude]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Longitude"
+                      externalMetadataColumnId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[Longitude]"
+                      lineageId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1].Columns[Longitude]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="50"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[County]"
+                      dataType="wstr"
+                      length="50"
+                      name="County" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="2"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[FIPSCode]"
+                      dataType="wstr"
+                      length="5"
+                      name="FIPSCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[ZIPCode]"
+                      dataType="wstr"
+                      length="5"
+                      name="ZIPCode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[StateName]"
+                      dataType="wstr"
+                      length="50"
+                      name="StateName" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[StateNameCapitalized]"
+                      dataType="wstr"
+                      length="50"
+                      name="StateNameCapitalized" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[Latitude]"
+                      dataType="wstr"
+                      length="50"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input].ExternalColumns[Longitude]"
+                      dataType="wstr"
+                      length="50"
+                      name="Longitude" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load FIPS ZIP.Paths[Derived Column Output]"
+              endId="Package\DFT Load FIPS ZIP\LKP StateCountry.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\DFT Load FIPS ZIP\DER ZipWise.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\DFT Load FIPS ZIP.Paths[Flat File Source Output]"
+              endId="Package\DFT Load FIPS ZIP\DER ZipWise.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT Load FIPS ZIP\FF_SRC ZipWise.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\DFT Load FIPS ZIP.Paths[Lookup Match Output]"
+              endId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 1]"
+              name="Lookup Match Output"
+              startId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DFT Load FIPS ZIP.Paths[Lookup No Match Output]"
+              endId="Package\DFT Load FIPS ZIP\ALL StateCountry.Inputs[Union All Input 2]"
+              name="Lookup No Match Output"
+              startId="Package\DFT Load FIPS ZIP\LKP StateCountry.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\DFT Load FIPS ZIP.Paths[Union All Output 1]"
+              endId="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP.Inputs[OLE DB Destination Input]"
+              name="Union All Output 1"
+              startId="Package\DFT Load FIPS ZIP\ALL StateCountry.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Truncate Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{98D1CC0C-5486-4DB6-BC2F-0ECCCE261904}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Truncate Tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{AC31914E-0D5A-44A8-AC3E-272593C697B1}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE lookup.FIPS_ZIP;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{4A53736E-002A-4D82-AF41-B6202760CF66}"
+      DTS:From="Package\SQL Truncate Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT Load FIPS ZIP" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="168,42"
+          Id="Package\DFT Load FIPS ZIP"
+          TopLeft="10,107.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\SQL Truncate Tables"
+          TopLeft="5.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="94,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Load FIPS ZIP">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="167,42"
+          Id="Package\DFT Load FIPS ZIP\LKP StateCountry"
+          TopLeft="12,212.875" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP"
+          TopLeft="5.50000000000004,420.25" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\DFT Load FIPS ZIP\DER ZipWise"
+          TopLeft="23,109.1875" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\DFT Load FIPS ZIP\ALL StateCountry"
+          TopLeft="12.5,316.5625" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\DFT Load FIPS ZIP\FF_SRC ZipWise"
+          TopLeft="13,5.5" />
+        <EdgeLayout
+          Id="Package\DFT Load FIPS ZIP.Paths[Union All Output 1]"
+          TopLeft="95.5,358.5625">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.6875"
+              Start="0,0"
+              End="0,54.1875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.1875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load FIPS ZIP.Paths[Lookup No Match Output]"
+          TopLeft="95.5,254.875">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.6875"
+              Start="0,0"
+              End="0,54.1875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.1875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,21.2890625,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load FIPS ZIP.Paths[Lookup Match Output]"
+          TopLeft="95.5,254.875">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.6875"
+              Start="0,0"
+              End="0,54.1875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.1875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,21.2890625,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load FIPS ZIP.Paths[Flat File Source Output]"
+          TopLeft="95.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.6875"
+              Start="0,0"
+              End="0,54.1875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.1875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load FIPS ZIP.Paths[Derived Column Output]"
+          TopLeft="95.5,151.1875">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.6875"
+              Start="0,0"
+              End="0,54.1875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.1875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load FIPS ZIP\LKP StateCountry">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[lookup].[StateCountry]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load FIPS ZIP\OLE_DST FIPS_ZIP">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

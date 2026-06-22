@@ -1,0 +1,5 @@
+﻿CREATE TABLE [lookup].[GFEBS_NonUS] (
+    [StateCountry] NVARCHAR (50) NOT NULL,
+    CONSTRAINT [PK_GFEBS_NonUS] PRIMARY KEY CLUSTERED ([StateCountry] ASC)
+);
+

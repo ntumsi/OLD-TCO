@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DeploymentModel>Package</DeploymentModel>
+  <ProductVersion>16.0.5270.0</ProductVersion>
+  <SchemaVersion>9.0.1.0</SchemaVersion>
+  <State>$base64$PFNvdXJjZUNvbnRyb2xJbmZvIHhtbG5zOnhzZD0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOmRkbDI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yIiB4bWxuczpkZGwyXzI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yLzIiIHhtbG5zOmRkbDEwMF8xMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDA4L2VuZ2luZS8xMDAvMTAwIiB4bWxuczpkZGwyMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAiIHhtbG5zOmRkbDIwMF8yMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAvMjAwIiB4bWxuczpkZGwzMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAiIHhtbG5zOmRkbDMwMF8zMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAvMzAwIiB4bWxuczpkZGw0MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAiIHhtbG5zOmRkbDQwMF80MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAvNDAwIiB4bWxuczpkZGw1MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAiIHhtbG5zOmRkbDUwMF81MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAvNTAwIiB4bWxuczpkd2Q9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vRGF0YVdhcmVob3VzZS9EZXNpZ25lci8xLjAiPg0KICA8RW5hYmxlZD50cnVlPC9FbmFibGVkPg0KICA8UHJvamVjdE5hbWU+U0FLPC9Qcm9qZWN0TmFtZT4NCiAgPEF1eFBhdGg+U0FLPC9BdXhQYXRoPg0KICA8TG9jYWxQYXRoPlNBSzwvTG9jYWxQYXRoPg0KICA8UHJvdmlkZXI+U0FLPC9Qcm92aWRlcj4NCjwvU291cmNlQ29udHJvbEluZm8+</State>
+  <Database>
+    <Name>AMCOS.SSIS.DataSync.database</Name>
+    <FullPath>AMCOS.SSIS.DataSync.database</FullPath>
+  </Database>
+  <DataSources />
+  <DataSourceViews />
+  <DeploymentModelSpecificContent>
+    <Manifest>
+      <DTSPackages>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.DeployFixes.dtsx</Name>
+          <FullPath>AMCOS.SSIS.DeployFixes.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.Enlisted-91C-Fix.dtsx</Name>
+          <FullPath>AMCOS.SSIS.Enlisted-91C-Fix.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ExportRawFromDev.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ExportRawFromDev.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportAll.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportAll.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportCostsActiveDuty.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportCostsActiveDuty.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportCostsARNG.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportCostsARNG.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportCostsCCE.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportCostsCCE.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportCostsCivilian.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportCostsCivilian.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportCostsUSAR.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportCostsUSAR.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportInventory.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportInventory.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportLookup.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportLookup.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportPaySchedule.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportPaySchedule.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportRaw-civilian-pcs.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportRaw-civilian-pcs.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportRaw-crunch-civilian.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportRaw-crunch-civilian.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportRaw-crunch-military.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportRaw-crunch-military.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportRaw-inventory.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportRaw-inventory.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportRaw-warehouse.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportRaw-warehouse.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportWarehouse.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportWarehouse.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.ImportWeb.dtsx</Name>
+          <FullPath>AMCOS.SSIS.ImportWeb.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.Migrate17C-Fix.dtsx</Name>
+          <FullPath>AMCOS.SSIS.Migrate17C-Fix.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.MigrateExport.dtsx</Name>
+          <FullPath>AMCOS.SSIS.MigrateExport.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.MigrateImport.dtsx</Name>
+          <FullPath>AMCOS.SSIS.MigrateImport.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>AMCOS.SSIS.MigrateUnitPersonnel.dtsx</Name>
+          <FullPath>AMCOS.SSIS.MigrateUnitPersonnel.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+      </DTSPackages>
+    </Manifest>
+  </DeploymentModelSpecificContent>
+  <ControlFlowParts />
+  <Miscellaneous />
+  <Configurations>
+    <Configuration>
+      <Name>Development</Name>
+      <Options>
+        <OutputPath>bin</OutputPath>
+        <ConnectionMappings />
+        <ConnectionProviderMappings />
+        <ConnectionSecurityMappings />
+        <DatabaseStorageLocations />
+        <TargetServerVersion>SQLServer2016</TargetServerVersion>
+        <AzureMode>false</AzureMode>
+        <LinkedAzureTenantId />
+        <LinkedAzureAccountId />
+        <LinkedAzureSSISIR />
+        <LinkedAzureStorage />
+        <RemoteExecutionFolder />
+        <ParameterConfigurationValues />
+      </Options>
+    </Configuration>
+    <Configuration>
+      <Name>Release</Name>
+      <Options>
+        <OutputPath>bin</OutputPath>
+        <ConnectionMappings />
+        <ConnectionProviderMappings />
+        <ConnectionSecurityMappings />
+        <DatabaseStorageLocations />
+        <TargetServerVersion>SQLServer2016</TargetServerVersion>
+        <AzureMode>false</AzureMode>
+        <LinkedAzureTenantId />
+        <LinkedAzureAccountId />
+        <LinkedAzureSSISIR />
+        <LinkedAzureStorage />
+        <RemoteExecutionFolder />
+        <ParameterConfigurationValues />
+      </Options>
+    </Configuration>
+    <Configuration>
+      <Name>Debug</Name>
+      <Options>
+        <OutputPath>bin</OutputPath>
+        <ConnectionMappings />
+        <ConnectionProviderMappings />
+        <ConnectionSecurityMappings />
+        <DatabaseStorageLocations />
+        <TargetServerVersion>SQLServer2016</TargetServerVersion>
+        <AzureMode>false</AzureMode>
+        <LinkedAzureTenantId />
+        <LinkedAzureAccountId />
+        <LinkedAzureSSISIR />
+        <LinkedAzureStorage />
+        <RemoteExecutionFolder />
+        <ParameterConfigurationValues />
+      </Options>
+    </Configuration>
+  </Configurations>
+</Project>

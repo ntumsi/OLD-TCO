@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/11/2017 10:03:49 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ALEXWK8GBONNER"
+  DTS:CreatorName="ILP1\greg.bonner"
+  DTS:DTSID="{7FEECDFC-2E68-4390-AA55-17343F9876BE}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.2165.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AMCOS SSIS DataLoad Main"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{A7DA3EE0-F1F0-42A4-91A6-68908954EF28}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS.SSIS.DataLoad.DMDC.CMF.dtsx]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{3AA3A7A1-BB1C-45B9-885B-E812E7912D75}"
+      DTS:ObjectName="AMCOS.SSIS.DataLoad.DMDC.CMF.dtsx">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_Base] + "\\" + @[User::Directory_Packages] + "\\AMCOS.SSIS.DataLoad.DMDC.CMF.dtsx"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataLoad\\AMCOS.SSIS.DataLoad.DMDC.CMF.dtsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS.SSIS.DataLoad.DMDC.Inventory.dtsx]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{742374DE-3416-47B8-A73A-EBB85070B42B}"
+      DTS:ObjectName="AMCOS.SSIS.DataLoad.DMDC.Inventory.dtsx">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_Base] + "\\" + @[User::Directory_Packages] + "\\AMCOS.SSIS.DataLoad.DMDC.Inventory.dtsx"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataLoad\\AMCOS.SSIS.DataLoad.DMDC.Inventory.dtsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AMCOS.SSIS.DataLoad.ReferenceTables.dtsx]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{068A78EA-36AB-44A8-91ED-5FB5E5EC7244}"
+      DTS:ObjectName="AMCOS.SSIS.DataLoad.ReferenceTables.dtsx">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Directory_Base] + "\\" + @[User::Directory_Packages] + "\\AMCOS.SSIS.DataLoad.ReferenceTables.dtsx"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataLoad\\AMCOS.SSIS.DataLoad.ReferenceTables.dtsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="AMCOS.SSIS.DataLoad"
+      DTS:ConfigurationType="5"
+      DTS:CreationName=""
+      DTS:DTSID="{FA26A0CE-FA07-4164-8DFA-6DFC69C6C167}"
+      DTS:ObjectName="AMCOS_SSIS_DataLoad" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{052EF81C-6617-44F7-BBA5-27C5C7EEAA6F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ConnectionString_TransactionDB">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=alexosmisa4dbd1;Initial Catalog=AMCOS2017_SEP;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{377D3448-0AAD-4364-BB4D-4F9F32A0CC5E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Data\Development\AMCOS\Source\Development\AMCOS.SSIS.DataLoad</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7C65968F-0B80-41CA-BA55-E238BAFAB2B9}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_DataLoadFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Users\greg.bonner\Documents\AMCOS\2017 Spring Update\Load</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5D9497DB-D900-4B7C-B067-CD656DB23762}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Error">
+      <DTS:VariableValue
+        DTS:DataType="8">ErrorFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{06A726E5-1DB2-4A34-843E-BCFA61EA2AD0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Logs">
+      <DTS:VariableValue
+        DTS:DataType="8">Logs</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A7E182FA-44F7-44DB-BCD3-160ABAAD9622}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_OutputFiles">
+      <DTS:VariableValue
+        DTS:DataType="8">OutputFiles</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FDF50D11-0396-47B0-B302-AB08DBF2C031}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Packages">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{99A740B0-FA71-4D9F-824C-F567999E7ECD}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Directory_Scripts">
+      <DTS:VariableValue
+        DTS:DataType="8">Scripts</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\EPT DMDC CMF"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{3F166286-CD19-4812-901D-9EC065B82DDD}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EPT DMDC CMF"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <Connection>{3AA3A7A1-BB1C-45B9-885B-E812E7912D75}</Connection>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\EPT DMDC Inventory"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{5DF2FF0E-5134-4BE5-8EC6-FC123A862023}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EPT DMDC Inventory"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <Connection>{742374DE-3416-47B8-A73A-EBB85070B42B}</Connection>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\EPT Reference Tables"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{1C48D8A7-ABFE-4FB2-A65A-51C314A37673}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EPT Reference Tables"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <Connection>{068A78EA-36AB-44A8-91ED-5FB5E5EC7244}</Connection>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{CC9FB560-15CE-4E12-AEF6-181513CF65D6}"
+      DTS:From="Package\EPT Reference Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\EPT DMDC Inventory" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{1C03573A-27F9-4E27-B57B-07F84EE71494}"
+      DTS:From="Package\EPT DMDC Inventory"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\EPT DMDC CMF" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153,42"
+          Id="Package\EPT DMDC CMF"
+          TopLeft="272,337" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\EPT DMDC Inventory"
+          TopLeft="268,228" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\EPT Reference Tables"
+          TopLeft="278,129" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="368.5,171">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-11.5,57"
+              Start="0,0"
+              End="-11.5,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5"
+                    Point2="0,28.5"
+                    Point3="-4,28.5" />
+                  <mssgle:LineSegment
+                    End="-7.5,28.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-7.5,28.5"
+                    Point2="-11.5,28.5"
+                    Point3="-11.5,32.5" />
+                  <mssgle:LineSegment
+                    End="-11.5,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="357,270">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8.5,67"
+              Start="0,0"
+              End="-8.5,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.5"
+                    Point2="0,33.5"
+                    Point3="-4,33.5" />
+                  <mssgle:LineSegment
+                    End="-4.5,33.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4.5,33.5"
+                    Point2="-8.5,33.5"
+                    Point3="-8.5,37.5" />
+                  <mssgle:LineSegment
+                    End="-8.5,59.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

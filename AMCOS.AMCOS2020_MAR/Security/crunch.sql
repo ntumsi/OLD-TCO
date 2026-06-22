@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [crunch]
+    AUTHORIZATION [dbo];
+

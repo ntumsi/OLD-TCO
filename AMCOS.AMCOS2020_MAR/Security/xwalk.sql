@@ -1,0 +1,2 @@
+﻿CREATE SCHEMA [xwalk]
+    AUTHORIZATION [dbo];
