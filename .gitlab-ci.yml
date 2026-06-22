@@ -122,8 +122,8 @@ publish_artifact:
     - test_assemblies
   when: always
   script:
-    # Zip the published output so it can be handled by CodeDeploy
-    - Compress-Archive -Path artifacts\* -DestinationPath "$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip" -Force
+    # Zip the published output (including subdirectories) so it can be handled by CodeDeploy
+    - Compress-Archive -Path artifacts -DestinationPath "$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip" -Force
     # Upload the archive to S3
     - >
       aws s3 cp
@@ -159,4 +159,3 @@ deploy_to_aws:
       --description "GitLab CI deployment for $CI_COMMIT_SHORT_SHA"
   environment:
     name: development
-    url: http://$CODEDEPLOY_GROUP.example.com
