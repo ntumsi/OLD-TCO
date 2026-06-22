@@ -28,6 +28,12 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def clean_loaded_frame(df: pd.DataFrame) -> pd.DataFrame:
+    working = normalize_columns(df)
+    working = working.drop(columns=[column for column in working.columns if column.startswith("unnamed")], errors="ignore")
+    return working.dropna(how="all")
+
+
 def find_first_existing(base_dir: Path | str, patterns: Sequence[str]) -> Optional[Path]:
     base = Path(base_dir)
     for pattern in patterns:

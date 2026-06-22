@@ -6,7 +6,7 @@ import logging
 from pathlib import Path
 
 from common.db import load_dataframe
-from common.file_utils import find_first_existing, normalize_columns, read_csv_flexible
+from common.file_utils import clean_loaded_frame, find_first_existing, read_csv_flexible
 from common.logging_utils import configure_logging
 from config.settings import DATA_DIR
 
@@ -49,9 +49,7 @@ def load_refresh_comparison_analysis(data_dir: Path | str = DATA_DIR) -> dict[st
             results[source_name] = 0
             continue
         found_any = True
-        transformed = normalize_columns(read_csv_flexible(source))
-        transformed = transformed.drop(columns=[column for column in transformed.columns if column.startswith("unnamed")], errors="ignore")
-        transformed = transformed.dropna(how="all")
+        transformed = clean_loaded_frame(read_csv_flexible(source))
         if transformed.empty:
             results[source_name] = 0
             continue

@@ -9,7 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 from common.db import load_dataframe
-from common.file_utils import find_all_existing, normalize_columns, read_csv_flexible
+from common.file_utils import clean_loaded_frame, find_all_existing, read_csv_flexible
 from common.logging_utils import configure_logging
 from config.settings import DATA_DIR
 
@@ -64,9 +64,7 @@ def load_iis_logs(data_dir: Path | str = DATA_DIR) -> dict[str, int]:
     results: dict[str, int] = {}
     clear_target = True
     for source in sources:
-        transformed = normalize_columns(_read_iis_source(source))
-        transformed = transformed.drop(columns=[column for column in transformed.columns if column.startswith("unnamed")], errors="ignore")
-        transformed = transformed.dropna(how="all")
+        transformed = clean_loaded_frame(_read_iis_source(source))
         if transformed.empty:
             results[source.name] = 0
             continue
