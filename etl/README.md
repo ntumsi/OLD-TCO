@@ -59,6 +59,7 @@ Every active SSIS package in the repository is now replaced by a Python module.
 | `AMCOS.SSIS.DataLoad.Locations.dtsx` | `dataload/locations.py` |
 | `AMCOS.SSIS.DataLoad.LookupGSOccupations.dtsx` | `dataload/lookup_gs_occupations.py` (also `dataload/lookup_tables.py`) |
 | `AMCOS.SSIS.DataLoad.LookupLocalityRates.dtsx` | `dataload/opm.py` (`load_locality_rates`) |
+| `AMCOS.SSIS.DataLoad.Main.dtsx` | `dataload/main.py` |
 | `AMCOS.SSIS.DataLoad.NewInventory.dtsx` | `dataload/inventory.py` (`load_inventory_2024`) |
 | `AMCOS.SSIS.DataLoad.NonLocalityBAHRates.dtsx` | `dataload/non_locality_bah.py` |
 | `AMCOS.SSIS.DataLoad.OPM.dtsx` | `dataload/opm.py` |
@@ -71,8 +72,10 @@ Every active SSIS package in the repository is now replaced by a Python module.
 | `AMCOS.SSIS.Export.LookupTables.dtsx` | `datasync/export_data.py` |
 | `AMCOS.SSIS.ExportData.dtsx` | `datasync/export_data.py` |
 | `AMCOS.SSIS.InsertUpdateCostElement.dtsx` | `dataload/cost_element.py` |
+| `AMCOS.SSIS.Import_IISLogs.dtsx` | `dataload/import_iis_logs.py` |
 | `AMCOS.SSIS.Load.WageRaw.dtsx` | `dataload/pay_schedule_fws.py` |
 | `AMCOS.SSIS.PaySchedule.DCPAS.dtsx` | `dataload/pay_schedule_gs.py` |
+| `AMCOS.SSIS.RefreshComparisonAnalysis.dtsx` | `dataload/refresh_comparison_analysis.py` |
 | `AMCOS.SSIS.Sync.Export.dtsx` | `datasync/export_data.py` |
 | `AMCOS.SSIS.UpdateCostElement.dtsx` | `dataload/cost_element.py` |
 | `AMCOS.SSIS.WageAreaDefinition.dtsx` | `dataload/wage_areas.py` |
@@ -152,8 +155,7 @@ python -m datasync.import_lookup
 Run the orchestrator:
 
 ```bash
-cd etl
-python -m dataload.main
+python -m etl
 ```
 
 Run tests:
@@ -190,6 +192,7 @@ python -m pytest etl/tests -q
 - `g1pam.py` – loads G1 PAM position data (BRPEXP, CMF, 711 files) into `POS.*`
 - `gfebs.py` – loads GFEBS functional area, activity type, and cost center lookups
 - `inventory.py` – loads raw DMDC inventory flat-files and 2024-format CSVs into staging
+- `import_iis_logs.py` – loads IIS log extracts into `logs.iislogs`
 - `jic_inflation_rates.py` – loads JIC inflation rate CSVs into `data.asafmcjointinflationrates`
 - `locations.py` – loads duty station lookup data
 - `lookup_gs_occupations.py` – loads GS occupational series and group data
@@ -202,6 +205,7 @@ python -m pytest etl/tests -q
 - `pay_schedule_gs.py` – loads GS-style schedules from DCPAS/OPM CSVs
 - `pay_schedule_military.py` – loads military basic and drill pay
 - `pay_schedule_ses.py` – loads SES pay schedules into `load_payschedule.PaySchedule_SES`
+- `refresh_comparison_analysis.py` – refreshes comparison-analysis staging tables from exported raw files
 - `single_values.py` – loads single-value reference constants
 - `special_rates.py` – loads OPM special rate tables and agency/location/occupation crosswalks
 - `table_values.py` – loads table-driven values (special pays eligibility, PCS rates, continuation rates)
