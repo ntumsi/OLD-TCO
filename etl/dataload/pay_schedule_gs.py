@@ -29,7 +29,9 @@ def load_pay_schedule_gs(data_dir: Path | str = DATA_DIR, version_id: str = AMCO
             working,
             TARGET_TABLE,
             conflict_columns=["amcos_version_id", "pay_plan", "grade", "step"],
-            delete_where_clause="amcosversionid = %s" + (" AND payplan = %s" if pay_plan else ""),
+            delete_where_clause=(
+            "amcosversionid = %s AND payplan = %s" if pay_plan else "amcosversionid = %s"
+        ),
             delete_params=(version_id, pay_plan) if pay_plan else (version_id,),
         )
     logger.info("Loaded %s GS-style schedule rows", rows_loaded)

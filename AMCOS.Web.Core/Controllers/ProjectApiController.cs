@@ -24,6 +24,7 @@ public class ProjectApiController : ControllerBase
     }
 
     [HttpPost("LogAddUnit")]
+    [ValidateAntiForgeryToken]
     public IActionResult LogAddUnitPost([FromBody] ProjectAddUnitRequest request)
     {
         LogAddUnitInternal(request);

@@ -32,7 +32,7 @@ namespace AMCOS.Logic.ViewModels
         /// </summary>
         public bool ShowAfterSubmit => _emails != null;
         /// <summary>
-        /// Show contents of the emails that were sent inside the view (developent only)
+        /// Show contents of the emails that were sent inside the view (development only)
         /// </summary>
         public bool ShowEmailSent => AppConfiguration.GetSetting("Environment") == "Development";
         /// <summary>

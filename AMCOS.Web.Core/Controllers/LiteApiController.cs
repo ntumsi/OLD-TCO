@@ -25,6 +25,7 @@ public class LiteApiController : ControllerBase
     }
 
     [HttpPost("LogChoices")]
+    [ValidateAntiForgeryToken]
     public IActionResult LogChoicesPost([FromBody] AmcosLiteRequest request)
     {
         LogChoicesInternal(request);
