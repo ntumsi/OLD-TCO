@@ -1,0 +1,40 @@
+@model System.Data.DataTable?
+@if (Model is null || Model.Columns.Count == 0)
+{
+    <div class="alert alert-light border">No data available.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    @foreach (System.Data.DataColumn column in Model.Columns)
+                    {
+                        <th>@column.ColumnName</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Rows.Count == 0)
+                {
+                    <tr>
+                        <td colspan="@Model.Columns.Count" class="text-center text-muted">No rows returned.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        <tr>
+                            @foreach (System.Data.DataColumn column in Model.Columns)
+                            {
+                                <td>@(row[column] == System.DBNull.Value ? string.Empty : row[column])</td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}

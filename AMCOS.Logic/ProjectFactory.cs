@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +15,14 @@ namespace AMCOS.Logic
             Project project = null;
             string sqlStatement = "SELECT * FROM webuser.PMProject WHERE ProjectID = @ProjectID;";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectID", ProjectID);
                     command.CommandType = CommandType.Text;
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -38,10 +38,10 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             string sqlStatement = "web.PMCopyProject";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectId", ProjectId);
                     command.Parameters.AddWithValue("@ProjectName", Name);
@@ -63,10 +63,10 @@ namespace AMCOS.Logic
             int rowsAffected;
             string sqlStatement = "DELETE webuser.PMProject WHERE (ProjectID = @ProjectID AND UserId = @UserId);";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectID", ProjectID);
                     command.Parameters.AddWithValue("@UserId", UserId);
@@ -88,10 +88,10 @@ namespace AMCOS.Logic
             "SET [ProjectName] = @ProjectName, YearStart = @YearStart, YearDuration = @YearDuration, ProjectCreator = @ProjectCreator, ProjectType = @ProjectType, ReserveDaysInActive = @ReserveDaysInActive, ReserveDaysActive = @ReserveDaysActive, DiscountRate = @DiscountRate, CreateDate = @CreateDate, LastUpdate = @LastUpdate, Description = @Description " +
             "WHERE (UserId = @UserId AND ProjectID = @ProjectID);";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@UserId", UserId);
                     command.Parameters.AddWithValue("@ProjectID", ProjectID);
@@ -119,11 +119,11 @@ namespace AMCOS.Logic
             DataSet projectOutputs = new DataSet();
             string sqlStatement = "SELECT * FROM web.PMGetProjectOutputs(@ProjectId) ORDER BY PayPlan;";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
                 {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@ProjectID", ProjectID);
                     command.CommandType = CommandType.Text;
@@ -134,7 +134,7 @@ namespace AMCOS.Logic
 
             return projectOutputs;
         }
-        private static Project MapProject(SqlDataReader reader) {
+        private static Project MapProject(NpgsqlDataReader reader) {
             Project project = new Project();
 
             if (!reader.IsDBNull(reader.GetOrdinal("UserId")))

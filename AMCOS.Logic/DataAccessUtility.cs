@@ -1,19 +1,19 @@
-﻿using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Data;
 using System.Text;
 using System;
-using System.Configuration;
 
 namespace AMCOS.Logic
 {
     public class DataAccessUtility
     {
-        public static void ExecuteStoredProc(string storedProcedureName, string[] parameterNames, SqlDbType[] parameterTypes, object[] parameterValues)
+        public static void ExecuteStoredProc(string storedProcedureName, string[] parameterNames, NpgsqlDbType[] parameterTypes, object[] parameterValues)
         {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand sqlCmd = new SqlCommand(storedProcedureName, connection))
+                using (NpgsqlCommand sqlCmd = new NpgsqlCommand(storedProcedureName, connection))
                 {
                     sqlCmd.CommandType = CommandType.StoredProcedure;
                     for (int i = 0; i <= parameterNames.Length - 1; i++)
@@ -24,14 +24,14 @@ namespace AMCOS.Logic
                 }
             }
         }
-        public static DataSet ExecuteStoredProcDataSet(string storedProcedureName, string[] parameterNames, SqlDbType[] parameterTypes, object[] parameterValues)
+        public static DataSet ExecuteStoredProcDataSet(string storedProcedureName, string[] parameterNames, NpgsqlDbType[] parameterTypes, object[] parameterValues)
         {
             DataSet dataSet = new DataSet();
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(storedProcedureName, connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandTimeout = 900000;
@@ -39,7 +39,7 @@ namespace AMCOS.Logic
                     {
                         command.Parameters.Add(parameterNames[i], parameterTypes[i]).Value = parameterValues[i];
                     }
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter
+                    NpgsqlDataAdapter dataAdapter = new NpgsqlDataAdapter
                     {
                         SelectCommand = command
                     };
@@ -51,10 +51,10 @@ namespace AMCOS.Logic
         public static object GetScalarByStaticSql(string sqlStatement, string[] parameterNames = null, object[] parameterValues = null)
         {
             object oScalar = null;
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand sqlCmd = new SqlCommand())
+                using (NpgsqlCommand sqlCmd = new NpgsqlCommand())
                 {
                     sqlCmd.CommandText = sqlStatement;
                     sqlCmd.Connection = connection;
@@ -83,10 +83,10 @@ namespace AMCOS.Logic
         public static DataTable GetDataTableByStaticSql(string sqlStatement, string[] parameterNames = null, object[] parameterValues = null)
         {
             DataTable dt = new DataTable();
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     if (!(parameterNames == null) && (parameterNames.Length > 0))
                     {
@@ -98,7 +98,7 @@ namespace AMCOS.Logic
                             }
                         }
                     }
-                    using (SqlDataReader objDataReader = command.ExecuteReader())
+                    using (NpgsqlDataReader objDataReader = command.ExecuteReader())
                     {
                         dt.Load(objDataReader);
                     }

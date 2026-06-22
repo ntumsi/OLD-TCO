@@ -1,8 +1,7 @@
-﻿using AMCOS.Logic.Helpers;
+using AMCOS.Logic.Helpers;
 using AMCOS.Logic.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,9 +32,9 @@ namespace AMCOS.Logic.ViewModels
         /// </summary>
         public bool ShowAfterSubmit => _emails != null;
         /// <summary>
-        /// Show contents of the emails that were sent inside the view (developent only)
+        /// Show contents of the emails that were sent inside the view (development only)
         /// </summary>
-        public bool ShowEmailSent => ConfigurationManager.AppSettings["Environment"] == "Development";
+        public bool ShowEmailSent => AppConfiguration.GetSetting("Environment") == "Development";
         /// <summary>
         /// Amcos Email address from (Used for development purposes only)
         /// </summary>

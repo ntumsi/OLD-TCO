@@ -1,0 +1,40 @@
+@page
+@model AMCOS.Web.Core.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="p-5 mb-4 bg-light rounded-3 border">
+    <div class="container-fluid py-4">
+        <h1 class="display-6">Army Civilian and Military Operational Support</h1>
+        <p class="lead">This ASP.NET Core 8 Razor Pages application is the migration target for the legacy AMCOS WebForms application.</p>
+        <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-primary" asp-page="/App/Lite/Index">Open AMCOS Lite</a>
+            <a class="btn btn-outline-secondary" asp-page="/About">About AMCOS</a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5">Migration focus</h2>
+                <p class="mb-0">The new app replaces WebForms pages, OWIN authentication, ASMX services, and SQL-backed ASPState with ASP.NET Core 8 middleware, Razor Pages, controllers, and distributed caching.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5">Legacy module coverage</h2>
+                <ul class="mb-0">
+                    <li>AMCOS Lite</li>
+                    <li>Project Manager</li>
+                    <li>Xwalk</li>
+                    <li>Civilian PCS</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

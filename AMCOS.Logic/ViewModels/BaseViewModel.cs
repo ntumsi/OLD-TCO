@@ -1,6 +1,5 @@
-﻿using AMCOS.Data.Entities;
+using AMCOS.Data.Entities;
 using System;
-using System.Configuration;
 
 namespace AMCOS.Logic.ViewModels
 {
@@ -11,7 +10,7 @@ namespace AMCOS.Logic.ViewModels
     {
         public BaseViewModel(AMCOSUser user)
         {
-            var isDevelopment = ConfigurationManager.AppSettings["Environment"] == "Development";            
+            var isDevelopment = AppConfiguration.GetSetting("Environment") == "Development";            
             IsAdmin = user.UserRole == "Admin";
             if (IsAdmin)
             {

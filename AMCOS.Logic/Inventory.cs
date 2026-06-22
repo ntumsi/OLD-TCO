@@ -1,10 +1,10 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.DataTransferObjects;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 
 namespace AMCOS.Logic
@@ -84,11 +84,11 @@ namespace AMCOS.Logic
             DataTable inventory = new DataTable();
             string sqlStatement = "web.getInventory";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@PayPlan", PayPlan);
                     command.Parameters.AddWithValue("@CategoryGroupCode", CategoryGroupCode);
@@ -111,11 +111,11 @@ namespace AMCOS.Logic
             DataTable inventory = new DataTable();
             string sqlStatement = "web.GetInventoryWage";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@PayPlan", PayPlan);
                     command.Parameters.AddWithValue("@LocationId", LocationId);

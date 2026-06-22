@@ -1,0 +1,144 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Lite.IndexModel
+@{
+    ViewData["Title"] = "AMCOS Lite";
+}
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">Filters</div>
+            <div class="card-body">
+                @if (!string.IsNullOrWhiteSpace(Model.LoadError))
+                {
+                    <div class="alert alert-warning">@Model.LoadError</div>
+                }
+                <form id="liteFilters" class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label" for="payPlan">Pay Plan</label>
+                        <select id="payPlan" name="PayPlan" class="form-select">
+                            <option value="">Select pay plan</option>
+                            @foreach (var payPlan in Model.PayPlans)
+                            {
+                                <option value="@payPlan.Value">@payPlan.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="costSummaryName">Summary</label>
+                        <input id="costSummaryName" name="CostSummaryName" class="form-control" value="Default" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="categoryGroupCode">Category Group</label>
+                        <input id="categoryGroupCode" name="CategoryGroupCode" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="categorySubgroupCode">Category Subgroup</label>
+                        <input id="categorySubgroupCode" name="CategorySubgroupCode" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="careerProgramNumber">Career Program</label>
+                        <input id="careerProgramNumber" name="CareerProgramNumber" class="form-control" value="-1" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="locationId">Location Id</label>
+                        <input id="locationId" name="LocationId" type="number" class="form-control" value="0" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="dependentStatus">Dependent Status</label>
+                        <input id="dependentStatus" name="DependentStatus" class="form-control" value="-1" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="numberOfDependents">Dependents</label>
+                        <input id="numberOfDependents" name="NumberOfDependents" type="number" class="form-control" value="0" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="overheadPercent">Overhead %</label>
+                        <input id="overheadPercent" name="OverheadPercent" type="number" step="0.01" class="form-control" value="0" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="inflationYear">Inflation Year</label>
+                        <input id="inflationYear" name="InflationYear" class="form-control" value="@Model.DefaultYear" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="inflationConversionType">Inflation Conversion</label>
+                        <select id="inflationConversionType" name="InflationConversionType" class="form-select">
+                            <option value="ThenToThen">Then Year to Then Year</option>
+                            <option value="ThenToConstant">Then Year to Constant Dollars</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" id="loadCosts" class="btn btn-primary">Refresh Cost Table</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header">AMCOS Lite Results</div>
+            <div class="card-body">
+                <p class="text-muted">This page model calls <code>AMCOS.Logic.Lite</code> and returns JSON through the Razor Pages cost-data handler for JavaScript rendering.</p>
+                <div id="liteStatus" class="alert alert-info">Choose filters and refresh to retrieve cost data.</div>
+                <div id="liteResults" class="table-responsive"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">CCE note</div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>The highlighted salary threshold in the legacy app was @Model.CceMaxPayFootnote.ToString("C0").</li>
+                    <li>Wages and salaries accounted for @Model.CceWagesAndSalaries of employer compensation costs.</li>
+                    <li>Benefits ratio: @Model.CceBenefitsAll.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(() => {
+    const button = document.getElementById('loadCosts');
+    const status = document.getElementById('liteStatus');
+    const results = document.getElementById('liteResults');
+    const form = document.getElementById('liteFilters');
+
+    function renderTable(table) {
+        if (!table || !table.rows || table.rows.length === 0) {
+            return '<div class="alert alert-light border">No data returned.</div>';
+        }
+
+        const headers = Object.keys(table.rows[0]);
+        const head = headers.map(h => `<th>${h}</th>`).join('');
+        const body = table.rows.map(row => `<tr>${headers.map(h => `<td>${row[h] ?? ''}</td>`).join('')}</tr>`).join('');
+        return `<table class="table table-sm table-striped table-bordered"><thead class="table-dark"><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+    }
+
+    button.addEventListener('click', async () => {
+        status.className = 'alert alert-info';
+        status.textContent = 'Loading cost data...';
+        results.innerHTML = '';
+
+        const params = new URLSearchParams(new FormData(form));
+
+        try {
+            const response = await fetch(`?handler=CostData&${params.toString()}`);
+            if (!response.ok) {
+                throw new Error(`Request failed with ${response.status}`);
+            }
+
+            const payload = await response.json();
+            const primaryTable = payload.tables?.[0];
+            results.innerHTML = renderTable(primaryTable);
+            status.className = 'alert alert-success';
+            status.textContent = `Loaded ${payload.tables?.length ?? 0} table(s) from AMCOS.Logic.Lite.`;
+        } catch (error) {
+            status.className = 'alert alert-danger';
+            status.textContent = error.message;
+        }
+    });
+})();
+</script>
+}

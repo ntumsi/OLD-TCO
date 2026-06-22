@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualBasic;
+using Microsoft.VisualBasic;
 using System;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
@@ -416,7 +416,7 @@ namespace AMCOS.Logic
         {
             DataSet ds = new DataSet();
             string[] parameterNames = new string[] { "@PayPlan", "@CostSummaryName", "@CategoryGroupCode", "@CategorySubgroupCode", "@CareerProgramNumber", "@LocationId", "@STRL", "@DependentStatus", "@NumberOfDependents", "@InflationConversion", "@InflationYear", "@AmcosVersionId" };
-            SqlDbType[] parameterTypes = new SqlDbType[] { SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.Int, SqlDbType.Int, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.Int, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.Int };
+            NpgsqlDbType[] parameterTypes = new NpgsqlDbType[] { NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer, NpgsqlDbType.Integer, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer };
             object[] parameterValues = new object[] {PayPlan,CostSummaryName,CategoryGroupCode,CategorySubgroupCode,CareerProgramNumber,LocationId,ScienceTechnologyReinventionLaboratory,DependentStatus,NumberOfDependents,InflationConversionType,InflationYear,AmcosVersionId };
             try
             {
@@ -535,11 +535,11 @@ namespace AMCOS.Logic
             {
                 case "CCE":
                     string sqlStatement = "SELECT * FROM web.costsCCE(@StandardOccupationCode, @Area, @OverheadPercent, @AmcosVersionId);";
-                    using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+                    using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
                     {
                         connection.Open();
-                        SqlDataAdapter adapter = new SqlDataAdapter();
-                        using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                        NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                        using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                         {
                             command.Parameters.AddWithValue("@StandardOccupationCode", categorySubgroupCode);
                             command.Parameters.AddWithValue("@Area", metroAreaCode);
@@ -573,11 +573,11 @@ namespace AMCOS.Logic
                         standardOccupationCode = categorySubgroupCode;
                     }
 
-                    using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+                    using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
                     {
                         connection.Open();
-                        SqlDataAdapter adapter = new SqlDataAdapter();
-                        using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                        NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                        using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                         {
                             command.Parameters.AddWithValue("@StandardOccupationCode", standardOccupationCode);
                             command.Parameters.AddWithValue("@LocationId", locationId);

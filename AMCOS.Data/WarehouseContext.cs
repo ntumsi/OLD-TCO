@@ -1,17 +1,27 @@
-﻿using AMCOS.Data.Entities;
-using System.Data.Entity;
+using AMCOS.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMCOS.Data
 {
     public class WarehouseContext : DbContext
     {
-        public WarehouseContext() : base("name=AmcosEF")
+        public WarehouseContext() : this(CreateDefaultOptions())
         {
-            this.Configuration.LazyLoadingEnabled = false;
-            this.Configuration.ProxyCreationEnabled = false;
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public WarehouseContext(DbContextOptions<WarehouseContext> options)
+            : base(options)
+        {
+        }
+
+        private static DbContextOptions<WarehouseContext> CreateDefaultOptions()
+        {
+            var builder = new DbContextOptionsBuilder<WarehouseContext>();
+            builder.UseNpgsql(AppConfiguration.GetConnectionString());
+            return builder.Options;
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().ToTable("Category", "warehouse");
             modelBuilder.Entity<Category>().HasKey(e => new { e.PayPlan, e.CategoryGroupCode, e.CategorySubgroupCode });
@@ -29,6 +39,7 @@ namespace AMCOS.Data
             modelBuilder.Entity<Category>().Property(e => e.CategorySubgroupDescription).HasMaxLength(150);
             modelBuilder.Entity<Category>().Property(e => e.CategorySubgroupDisplay).IsUnicode(true);
             modelBuilder.Entity<Category>().Property(e => e.CategorySubgroupDisplay).HasMaxLength(175);
+            base.OnModelCreating(modelBuilder);
         }
 
         public virtual DbSet<Category> Category { get; set; }

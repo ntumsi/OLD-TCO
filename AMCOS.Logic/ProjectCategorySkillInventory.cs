@@ -1,10 +1,10 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.Entities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 
 namespace AMCOS.Logic
@@ -31,14 +31,14 @@ namespace AMCOS.Logic
             Collection<PMCategorySkillInventory> skillInventories = new Collection<PMCategorySkillInventory>();
             string sqlStatement = "SELECT * FROM webuser.PMCategorySkillInventory WHERE SkillID = @SkillID;";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@SkillID", SkillID);
                     command.CommandType = CommandType.Text;
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -50,7 +50,7 @@ namespace AMCOS.Logic
 
             return skillInventories;
         }
-        private static PMCategorySkillInventory MapSkillInventory(SqlDataReader reader)
+        private static PMCategorySkillInventory MapSkillInventory(NpgsqlDataReader reader)
         {
             PMCategorySkillInventory pmCategorySkillInventory = new PMCategorySkillInventory();
 
@@ -103,10 +103,10 @@ namespace AMCOS.Logic
             int rowsAffected;
             string sqlStatement = "UPDATE webuser.PMCategorySkillInventory SET Amount = @Amount WHERE InventoryId = @InventoryId AND SkillID = @SkillID AND Year = @Year;";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@InventoryId", inventoryId);
                     command.Parameters.AddWithValue("@SkillID", skillId);
@@ -124,10 +124,10 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             string sqlStatement = "DELETE webuser.PMCategorySkillInventory WHERE SkillId = @SkillId AND Year = @Year;";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@SkillId", skillId);
                     command.Parameters.AddWithValue("@Year", year);

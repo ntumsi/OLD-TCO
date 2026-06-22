@@ -1,4 +1,4 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using AMCOS.Data.DataTransferObjects;
 using AMCOS.Data.Entities;
 using AMCOS.Logic.Helpers;
@@ -6,7 +6,6 @@ using AMCOS.Logic.Models;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;

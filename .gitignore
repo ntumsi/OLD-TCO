@@ -329,3 +329,12 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /AMCOS.Web/dist
+
+# .NET build output
+**/bin/
+**/obj/
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo

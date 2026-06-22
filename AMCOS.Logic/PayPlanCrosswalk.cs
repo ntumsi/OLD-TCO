@@ -1,9 +1,9 @@
-﻿using AMCOS.Data;
+using AMCOS.Data;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,11 +47,11 @@ namespace AMCOS.Logic
             DataTable payPlanCrosswalk = new DataTable();
             string sqlStatement = "web.GetPayPlanCrosswalkAE";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
                     command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
@@ -68,11 +68,11 @@ namespace AMCOS.Logic
             DataTable payPlanCrosswalk = new DataTable();
             string sqlStatement = "web.GetPayPlanCrosswalkAO";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
                     command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
@@ -89,11 +89,11 @@ namespace AMCOS.Logic
             DataTable payPlanCrosswalk = new DataTable();
             string sqlStatement = "web.GetPayPlanCrosswalkAWO";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
                     command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
@@ -110,11 +110,11 @@ namespace AMCOS.Logic
             DataTable payPlanCrosswalk = new DataTable();
             string sqlStatement = "web.GetPayPlanCrosswalkGS";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
                     command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
@@ -132,11 +132,11 @@ namespace AMCOS.Logic
             DataTable payPlanCrosswalk = new DataTable();
             string sqlStatement = "web.GetPayPlanCrosswalkWage";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AmcosAdo"].ConnectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                using (SqlCommand command = new SqlCommand(sqlStatement, connection))
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
                 {
                     command.Parameters.AddWithValue("@PayPlan", PayPlan);
                     command.Parameters.AddWithValue("@LocationId", LocationId);
