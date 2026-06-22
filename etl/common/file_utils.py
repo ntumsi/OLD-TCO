@@ -30,7 +30,8 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 def clean_loaded_frame(df: pd.DataFrame) -> pd.DataFrame:
     working = normalize_columns(df)
-    working = working.drop(columns=[column for column in working.columns if column.startswith("unnamed")], errors="ignore")
+    unnamed_columns = tuple(filter(lambda column: column.startswith("unnamed"), working.columns))
+    working = working.drop(columns=unnamed_columns, errors="ignore")
     return working.dropna(how="all")
 
 

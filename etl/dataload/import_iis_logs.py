@@ -24,19 +24,19 @@ SOURCE_PATTERNS = [
 
 
 def _read_w3c_log(path: Path) -> pd.DataFrame:
-    lines = path.read_text(encoding="utf-8-sig", errors="ignore").splitlines()
     fields: list[str] | None = None
     data_lines: list[str] = []
-    for line in lines:
-        stripped = line.strip()
-        if not stripped:
-            continue
-        if stripped.startswith("#Fields:"):
-            fields = [part.strip() for part in stripped.replace("#Fields:", "", 1).split()]
-            continue
-        if stripped.startswith("#"):
-            continue
-        data_lines.append(stripped)
+    with path.open("r", encoding="utf-8-sig", errors="ignore") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if not stripped:
+                continue
+            if stripped.startswith("#Fields:"):
+                fields = [part.strip() for part in stripped.replace("#Fields:", "", 1).split()]
+                continue
+            if stripped.startswith("#"):
+                continue
+            data_lines.append(stripped)
 
     if not data_lines:
         return pd.DataFrame()
