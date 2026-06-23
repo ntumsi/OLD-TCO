@@ -37,10 +37,32 @@ default:
     - aws-windows
 
 stages:
+  - validate
   - build
   - test
   - publish
   - deploy
+
+# ---------------------------------------------------------------------------
+# Validate stage – fail fast if required CI/CD variables are missing
+# ---------------------------------------------------------------------------
+
+validate_variables:
+  stage: validate
+  script:
+    - |
+      $missing = @()
+      if (-not $env:AWS_ACCESS_KEY_ID)     { $missing += "AWS_ACCESS_KEY_ID" }
+      if (-not $env:AWS_SECRET_ACCESS_KEY) { $missing += "AWS_SECRET_ACCESS_KEY" }
+      if (-not $env:AWS_DEFAULT_REGION)    { $missing += "AWS_DEFAULT_REGION" }
+      if (-not $env:S3_BUCKET)             { $missing += "S3_BUCKET" }
+      if (-not $env:CODEDEPLOY_APP)        { $missing += "CODEDEPLOY_APP" }
+      if (-not $env:CODEDEPLOY_GROUP)      { $missing += "CODEDEPLOY_GROUP" }
+      if ($missing.Count -gt 0) {
+        Write-Error "Required CI/CD variables are not set: $($missing -join ', '). Configure them in GitLab → Settings → CI/CD → Variables."
+        exit 1
+      }
+      Write-Host "All required CI/CD variables are present."
 
 # ---------------------------------------------------------------------------
 # Build stage – mirrors the Azure DevOps Job_1 / AMCOS Development pipeline
@@ -48,6 +70,8 @@ stages:
 
 npm_and_gulp:
   stage: build
+  needs:
+    - validate_variables
   script:
     - cd AMCOS.Web
     - npm install
@@ -59,7 +83,8 @@ npm_and_gulp:
 
 nuget_restore:
   stage: build
-  needs: []
+  needs:
+    - validate_variables
   script:
     - nuget restore $SOLUTION -MSBuildPath "$MSBUILD_PATH"
 
@@ -76,7 +101,7 @@ build_solution:
       /p:DeployDefaultTarget=WebPublish
       /p:WebPublishMethod=FileSystem
       /p:DeleteExistingFiles=True
-      "/p:publishURL=$CI_PROJECT_DIR\artifacts"
+      "/p:publishURL=$CI_PROJECT_DIR/artifacts"
       /p:PublishProfile=$PUBLISH_PROFILE
       /p:Configuration=$BUILD_CONFIGURATION
       "/p:Platform=$BUILD_PLATFORM"
@@ -140,13 +165,35 @@ publish_artifact:
     expire_in: 30 days
 
 # ---------------------------------------------------------------------------
-# Deploy stage – trigger an AWS CodeDeploy deployment from the S3 artifact
+# Deploy stage – run DB migrations then trigger AWS CodeDeploy deployment
 # ---------------------------------------------------------------------------
+
+run_db_migrations:
+  stage: deploy
+  needs:
+    - publish_artifact
+  when: on_success
+  script:
+    # Run PostgreSQL migrations in numeric order against the target database.
+    # AMCOS_DB_HOST, AMCOS_DB_NAME, AMCOS_DB_USER, and AMCOS_DB_PASSWORD must
+    # be set as protected CI/CD variables.
+    - |
+      $env:PGPASSWORD = $env:AMCOS_DB_PASSWORD
+      $migrations = Get-ChildItem -Path "AMCOS.PostgreSQL\migrations" -Filter "*.sql" | Sort-Object Name
+      foreach ($file in $migrations) {
+        Write-Host "Applying migration: $($file.Name)"
+        psql -h $env:AMCOS_DB_HOST -U $env:AMCOS_DB_USER -d $env:AMCOS_DB_NAME -f $file.FullName
+        if ($LASTEXITCODE -ne 0) {
+          Write-Error "Migration failed: $($file.Name)"
+          exit 1
+        }
+      }
+      Write-Host "All migrations applied successfully."
 
 deploy_to_aws:
   stage: deploy
   needs:
-    - publish_artifact
+    - run_db_migrations
   when: on_success
   script:
     # Create a CodeDeploy deployment using the artifact uploaded to S3

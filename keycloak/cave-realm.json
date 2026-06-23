@@ -1,0 +1,164 @@
+{
+  "realm": "cave",
+  "enabled": true,
+  "displayName": "CAVE (Local Dev)",
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 900,
+  "ssoSessionMaxLifespan": 36000,
+
+  "roles": {
+    "realm": [
+      {
+        "name": "amcos-admin",
+        "description": "AMCOS administrator role"
+      },
+      {
+        "name": "amcos-user",
+        "description": "Standard AMCOS user role"
+      }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "amcos-local",
+      "name": "AMCOS Local Development",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "local-dev-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+
+      "redirectUris": [
+        "https://localhost:5001/*",
+        "https://localhost:5001/signin-oidc",
+        "https://localhost:5001/amcos/oidc-callback",
+        "http://localhost:5000/*",
+        "http://localhost:5000/signin-oidc",
+        "http://localhost:5000/amcos/oidc-callback"
+      ],
+      "webOrigins": [
+        "https://localhost:5001",
+        "http://localhost:5000"
+      ],
+      "postLogoutRedirectUris": [
+        "https://localhost:5001/",
+        "http://localhost:5000/"
+      ],
+
+      "attributes": {
+        "post.logout.redirect.uris": "https://localhost:5001/##http://localhost:5000/"
+      },
+
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "full.path": "false",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "groups",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "department",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "department",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "department",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "accountType",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "accountType",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "accountType",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ],
+
+  "users": [
+    {
+      "username": "admin.user",
+      "enabled": true,
+      "email": "admin.user@local.dev",
+      "firstName": "Admin",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Password1!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["amcos-admin"],
+      "attributes": {
+        "department": ["Army"],
+        "accountType": ["MILITARY"]
+      }
+    },
+    {
+      "username": "test.user",
+      "enabled": true,
+      "email": "test.user@local.dev",
+      "firstName": "Test",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Password1!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["amcos-user"],
+      "attributes": {
+        "department": ["Army"],
+        "accountType": ["CIVILIAN"]
+      }
+    }
+  ]
+}

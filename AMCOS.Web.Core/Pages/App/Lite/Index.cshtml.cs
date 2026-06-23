@@ -3,11 +3,13 @@ using AMCOS.Data.DataTransferObjects;
 using AMCOS.Data.ViewModels;
 using AMCOS.Logic;
 using AMCOS.Web.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AMCOS.Web.Core.Pages.App.Lite;
 
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly IConfiguration _configuration;

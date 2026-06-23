@@ -20,7 +20,7 @@ namespace AMCOS.Logic.Controllers
             var authResult = await authContext.AuthenticateAsync(OpenIdConnectAuthenticationDefaults.AuthenticationType);
             if (authResult == null || authResult.Identity == null)
             {
-                throw new Exception("Authentication failed.");
+                throw new InvalidOperationException("Authentication failed.");
             }
             // --- SUCCESS PATH ---
             // This is the user's identity from the token.

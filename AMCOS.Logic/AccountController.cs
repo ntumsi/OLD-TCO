@@ -25,7 +25,6 @@ namespace AMCOS.Logic.Controllers
                 OpenIdConnectAuthenticationDefaults.AuthenticationType);
         }
 
-        //TODO: make this the official logout.
         public void Logout()
         {
             HttpContext.GetOwinContext().Authentication.SignOut(
