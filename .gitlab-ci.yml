@@ -1,7 +1,15 @@
 # Converted from azure-pipelines.yml
-# Requires a GitLab Runner registered with the 'amcos-pool' tag running on a
-# Windows host that has Visual Studio 2019 Enterprise, Node.js, NuGet, and
-# MSBuild available.
+# Requires a GitLab Runner registered with the 'aws-windows' tag running on an
+# AWS EC2 Windows instance that has Visual Studio 2019 Enterprise, Node.js,
+# NuGet, MSBuild, and the AWS CLI available.
+#
+# Required CI/CD variables (set in GitLab → Settings → CI/CD → Variables):
+#   AWS_ACCESS_KEY_ID       – IAM access key with S3 and CodeDeploy permissions
+#   AWS_SECRET_ACCESS_KEY   – corresponding IAM secret key
+#   AWS_DEFAULT_REGION      – e.g. us-east-1
+#   S3_BUCKET               – name of the S3 bucket used for build artifacts
+#   CODEDEPLOY_APP          – AWS CodeDeploy application name
+#   CODEDEPLOY_GROUP        – AWS CodeDeploy deployment group name
 
 variables:
   SOLUTION: "**\\*.sln"
@@ -10,6 +18,8 @@ variables:
   BUILD_CONFIGURATION: "Release"
   BUILD_PLATFORM: "Any CPU"
   MSBUILD_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe'
+  # S3 key prefix used when uploading build artifacts
+  S3_KEY_PREFIX: "builds/$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHORT_SHA"
 
 workflow:
   rules:
@@ -24,12 +34,13 @@ workflow:
 
 default:
   tags:
-    - amcos-pool
+    - aws-windows
 
 stages:
   - build
   - test
   - publish
+  - deploy
 
 # ---------------------------------------------------------------------------
 # Build stage – mirrors the Azure DevOps Job_1 / AMCOS Development pipeline
@@ -101,7 +112,7 @@ test_assemblies:
     when: always
 
 # ---------------------------------------------------------------------------
-# Publish stage – mirrors the PublishBuildArtifacts@1 task
+# Publish stage – upload build artifacts to S3
 # ---------------------------------------------------------------------------
 
 publish_artifact:
@@ -111,11 +122,40 @@ publish_artifact:
     - test_assemblies
   when: always
   script:
-    - echo "Build artifacts are available in the 'artifacts' directory."
-    - echo "Artifacts can be downloaded from the GitLab UI or via the API."
+    # Zip the published output (including subdirectories) so it can be handled by CodeDeploy
+    - Compress-Archive -Path artifacts -DestinationPath "$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip" -Force
+    # Upload the archive to S3
+    - >
+      aws s3 cp
+      "$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip"
+      "s3://$S3_BUCKET/$S3_KEY_PREFIX/$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip"
+      --region $AWS_DEFAULT_REGION
+    - echo "Artifact uploaded to s3://$S3_BUCKET/$S3_KEY_PREFIX/$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip"
   artifacts:
     name: "$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
       - artifacts/
+      - "$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip"
     when: always
     expire_in: 30 days
+
+# ---------------------------------------------------------------------------
+# Deploy stage – trigger an AWS CodeDeploy deployment from the S3 artifact
+# ---------------------------------------------------------------------------
+
+deploy_to_aws:
+  stage: deploy
+  needs:
+    - publish_artifact
+  when: on_success
+  script:
+    # Create a CodeDeploy deployment using the artifact uploaded to S3
+    - >
+      aws deploy create-deployment
+      --application-name $CODEDEPLOY_APP
+      --deployment-group-name $CODEDEPLOY_GROUP
+      --s3-location "bucket=$S3_BUCKET,key=$S3_KEY_PREFIX/$ARTIFACT_NAME-$CI_COMMIT_SHORT_SHA.zip,bundleType=zip"
+      --region $AWS_DEFAULT_REGION
+      --description "GitLab CI deployment for $CI_COMMIT_SHORT_SHA"
+  environment:
+    name: development
