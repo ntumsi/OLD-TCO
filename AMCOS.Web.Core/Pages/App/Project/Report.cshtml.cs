@@ -2,12 +2,14 @@ using System.Data;
 using Aspose.Cells;
 using AMCOS.Data.Entities;
 using AMCOS.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NpgsqlTypes;
 
 namespace AMCOS.Web.Core.Pages.App.Project;
 
+[Authorize]
 public class ReportModel : PageModel
 {
     private readonly IConfiguration _configuration;

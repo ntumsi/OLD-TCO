@@ -50,7 +50,7 @@ namespace AMCOS.Logic.Helpers
 
             if (state != QueryExecutionState.SUCCEEDED)
             {
-                throw new Exception("Athena query failed with state: " + state);
+                throw new InvalidOperationException("Athena query failed with state: " + state);
             }
 
             // Get results

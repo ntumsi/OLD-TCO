@@ -9,10 +9,34 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+// Fail fast in non-Development environments if required secrets are missing.
+if (!builder.Environment.IsDevelopment())
+{
+    var authority = configuration["OpenIdConnect:Authority"];
+    var clientId = configuration["OpenIdConnect:ClientId"];
+    var clientSecret = configuration["OpenIdConnect:ClientSecret"];
+    if (string.IsNullOrWhiteSpace(authority) || string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
+    {
+        throw new InvalidOperationException(
+            "OpenIdConnect:Authority, OpenIdConnect:ClientId, and OpenIdConnect:ClientSecret must all be set " +
+            "via environment variables (OpenIdConnect__Authority, etc.) before running in a non-Development environment.");
+    }
+
+    var connString = configuration.GetConnectionString("AmcosPostgres")
+        ?? configuration.GetConnectionString("AmcosEF")
+        ?? configuration.GetConnectionString("AmcosAdo");
+    if (string.IsNullOrWhiteSpace(connString))
+    {
+        throw new InvalidOperationException(
+            "A database connection string (ConnectionStrings__AmcosPostgres, ConnectionStrings__AmcosEF, or " +
+            "ConnectionStrings__AmcosAdo) must be set via environment variable before running in a non-Development environment.");
+    }
+}
+
 var postgresConnection = configuration.GetConnectionString("AmcosPostgres")
     ?? configuration.GetConnectionString("AmcosEF")
     ?? configuration.GetConnectionString("AmcosAdo")
-    ?? "Host=localhost;Database=amcos;Username=amcos_user;******";
+    ?? string.Empty;
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(postgresConnection));
 builder.Services.AddDistributedMemoryCache();

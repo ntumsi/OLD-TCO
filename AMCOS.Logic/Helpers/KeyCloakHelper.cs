@@ -132,7 +132,7 @@ namespace AMCOS.Logic.Helpers
                                 }
                             }
                         }
-                        context.Exception = new Exception("Authentication session has expired or is invalid.");
+                        context.Exception = new InvalidOperationException("Authentication session has expired or is invalid.");
                         return Task.FromResult(0);
                     },
 

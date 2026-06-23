@@ -1,10 +1,12 @@
 using AMCOS.Data.ViewModels;
 using AMCOS.Logic;
 using AMCOS.Web.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMCOS.Web.Core.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/project")]
 public class ProjectApiController : ControllerBase
