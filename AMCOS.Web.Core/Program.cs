@@ -31,6 +31,19 @@ if (!builder.Environment.IsDevelopment())
             "A database connection string (ConnectionStrings__AmcosPostgres, ConnectionStrings__AmcosEF, or " +
             "ConnectionStrings__AmcosAdo) must be set via environment variable before running in a non-Development environment.");
     }
+
+    if (string.IsNullOrWhiteSpace(configuration["AllowedHosts"]))
+    {
+        throw new InvalidOperationException(
+            "AllowedHosts must be set to one or more hostnames (e.g. amcos.example.com) via " +
+            "the AllowedHosts environment variable before running in a non-Development environment.");
+    }
+
+    if (string.IsNullOrWhiteSpace(configuration["CaveUrl"]) || string.IsNullOrWhiteSpace(configuration["AmcosUrl"]))
+    {
+        throw new InvalidOperationException(
+            "CaveUrl and AmcosUrl must be set via environment variables before running in a non-Development environment.");
+    }
 }
 
 var postgresConnection = configuration.GetConnectionString("AmcosPostgres")
