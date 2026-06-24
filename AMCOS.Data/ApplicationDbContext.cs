@@ -1,5 +1,7 @@
 using AMCOS.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 
 namespace AMCOS.Data
 {
@@ -16,6 +18,7 @@ namespace AMCOS.Data
 
         private static DbContextOptions<ApplicationDbContext> CreateDefaultOptions()
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
             builder.UseNpgsql(AppConfiguration.GetConnectionString());
             return builder.Options;
@@ -339,6 +342,12 @@ namespace AMCOS.Data
             modelBuilder.Entity<PMProject>().Property(e => e.UserId).HasMaxLength(50);
             modelBuilder.Entity<PMProject>().Property(e => e.ProjectName).HasMaxLength(50);
             modelBuilder.Entity<PMProject>().Property(e => e.ProjectCreator).HasMaxLength(50);
+            modelBuilder.Entity<PMProject>().Property(e => e.ProjectType).HasDefaultValue("Weapons System");
+            modelBuilder.Entity<PMProject>().Property(e => e.YearDuration).HasDefaultValue(5);
+            modelBuilder.Entity<PMProject>().Property(e => e.ReserveDaysInactive).HasDefaultValue(24);
+            modelBuilder.Entity<PMProject>().Property(e => e.ReserveDaysActive).HasDefaultValue(14);
+            modelBuilder.Entity<PMProject>().Property(e => e.CreateDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            modelBuilder.Entity<PMProject>().Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             modelBuilder.Entity<PMReport>().ToTable("PMReport", "webuser");
             modelBuilder.Entity<PMReport>().HasKey(e => e.ReportId);
@@ -429,6 +438,23 @@ namespace AMCOS.Data
 
             modelBuilder.Entity<QuickSightEnvironment>().ToTable("QuickSightEnvironment", "web");
             modelBuilder.Entity<QuickSightEnvironment>().HasKey(e => e.AwsAccountId);
+
+            // PostgreSQL folds unquoted identifiers to lowercase; normalize all EF mappings to match.
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                var tableName = entity.GetTableName()?.ToLower();
+                var schema = entity.GetSchema()?.ToLower();
+                entity.SetTableName(tableName);
+                entity.SetSchema(schema);
+
+                if (tableName == null) continue;
+                var storeObject = StoreObjectIdentifier.Table(tableName, schema);
+                foreach (var prop in entity.GetProperties())
+                {
+                    var configured = prop.GetColumnName(storeObject) ?? prop.Name;
+                    prop.SetColumnName(configured.ToLower());
+                }
+            }
 
             base.OnModelCreating(modelBuilder);
         }

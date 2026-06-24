@@ -2,9 +2,29 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
 @{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="alert alert-secondary">
-    Admin migration placeholder. Role-based navigation is active; admin feature parity still requires dedicated Razor Pages and controllers.
+<h4>Admin Dashboards</h4>
+<div class="row row-cols-1 row-cols-md-3 g-3 mt-1">
+    @foreach (var (slug, title) in new[] {
+        ("lite-usage",     "AMCOS Lite Usage"),
+        ("user-logins",    "User Logins"),
+        ("user-approvals", "User Approvals"),
+        ("active-users",   "Active Users"),
+        ("cost-compare",   "Cost Compare"),
+        ("helpspot",       "HelpSpot Data"),
+        ("locality-rates", "Locality Rates"),
+        ("pay-schedule",   "Pay Schedule"),
+    })
+    {
+        <div class="col">
+            <a class="card text-decoration-none h-100" asp-page="/Admin/Dashboard" asp-route-slug="@slug">
+                <div class="card-body d-flex align-items-center gap-2">
+                    <i class="bi bi-bar-chart-fill text-primary fs-4"></i>
+                    <span class="fw-semibold">@title</span>
+                </div>
+            </a>
+        </div>
+    }
 </div>

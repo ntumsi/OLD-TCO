@@ -93,3 +93,11 @@ CREATE TABLE warehouse.unitpersonnel (
     CONSTRAINT pk_warehouseunitpersonnel PRIMARY KEY (uic , payplan , categorygroupcode , categorysubgroupcode , locationid , strl , gradelevel , dependentstatus , numberofdependents , unityear , asof )
 );
 
+
+
+-- FK constraints from webuser.pcsproject that reference warehouse.location (created above).
+ALTER TABLE webuser.pcsproject
+    ADD CONSTRAINT fk__pcsproject__originationid__location
+        FOREIGN KEY (originationid) REFERENCES warehouse.location (locationid),
+    ADD CONSTRAINT fk__pcsproject__destinationid__location
+        FOREIGN KEY (destinationid) REFERENCES warehouse.location (locationid);

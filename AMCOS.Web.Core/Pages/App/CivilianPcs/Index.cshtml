@@ -1,10 +1,565 @@
 @page
-@using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
+@model AMCOS.Web.Core.Pages.App.CivilianPcs.IndexModel
 @{
-    ViewData["Title"] = "Civilian PCS";
+    ViewData["Title"] = "Civilian PCS Calculator";
+    var approps = new[] { "Army CivPay", "Federal OM", "OMA", "OMAR", "OMDW", "OMNG" };
 }
 
-<div class="alert alert-secondary">
-    Civilian PCS migration placeholder. Existing AMCOS logic remains available in referenced projects and can be wired into Razor Pages next.
+<h1 class="mb-3">Civilian Permanent Change of Station</h1>
+
+<!-- Toolbar -->
+<div class="d-flex gap-2 mb-3 flex-wrap">
+    <button type="button" class="btn btn-secondary" id="btn-new" title="Clear all fields and start a new calculation">New Calculation</button>
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#openProjectModal">Open Project</button>
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#saveAsModal">Save As&hellip;</button>
+    <button type="button" class="btn btn-outline-success" id="btn-export">Export</button>
+    <span class="ms-2 align-self-center text-muted small">Project: <strong class="pcs-project-name">&mdash;</strong></span>
+    <span class="ms-auto align-self-center text-success small d-none cal-autosaved">Saved</span>
 </div>
+
+<!-- Hidden state -->
+<input type="hidden" id="AmcosVersionId" value="@Model.AmcosVersionId" />
+<input type="hidden" id="PCSContentCount" value="8" />
+
+<!-- Main content: vertical tab layout -->
+<div class="row g-0">
+    <!-- Tab navigation -->
+    <div class="col-md-3 col-lg-2">
+        <div class="nav flex-column nav-pills me-2" id="pcs-tabs" role="tablist" aria-orientation="vertical">
+            <button class="nav-link active text-start" id="tab-mileage-btn"      data-bs-toggle="pill" data-bs-target="#tab-mileage"      type="button" role="tab">Mileage</button>
+            <button class="nav-link text-start"        id="tab-househunting-btn" data-bs-toggle="pill" data-bs-target="#tab-househunting" type="button" role="tab">House Hunting</button>
+            <button class="nav-link text-start"        id="tab-transportation-btn" data-bs-toggle="pill" data-bs-target="#tab-transportation" type="button" role="tab">Transportation</button>
+            <button class="nav-link text-start"        id="tab-tqse-btn"         data-bs-toggle="pill" data-bs-target="#tab-tqse"         type="button" role="tab">TQSE</button>
+            <button class="nav-link text-start"        id="tab-ght-btn"          data-bs-toggle="pill" data-bs-target="#tab-ght"          type="button" role="tab">GH Transportation</button>
+            <button class="nav-link text-start"        id="tab-mea-btn"          data-bs-toggle="pill" data-bs-target="#tab-mea"          type="button" role="tab">MEA</button>
+            <button class="nav-link text-start"        id="tab-realestate-btn"   data-bs-toggle="pill" data-bs-target="#tab-realestate"   type="button" role="tab">Real Estate/Lease</button>
+            <button class="nav-link text-start"        id="tab-nts-btn"          data-bs-toggle="pill" data-bs-target="#tab-nts"          type="button" role="tab">NTS</button>
+            <button class="nav-link text-start"        id="tab-rita-btn"         data-bs-toggle="pill" data-bs-target="#tab-rita"         type="button" role="tab">RITA</button>
+            <button class="nav-link text-start"        id="tab-grandtotal-btn"   data-bs-toggle="pill" data-bs-target="#tab-grandtotal"   type="button" role="tab">Grand Total</button>
+        </div>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="col-md-9 col-lg-10">
+        <div class="tab-content border rounded p-3" id="pcs-tab-content">
+
+            <!-- 1. Mileage -->
+            <div class="tab-pane fade show active" id="tab-mileage" role="tabpanel">
+                <h5>Mileage</h5><hr />
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Origination</label>
+                        <select id="SourceLocation" class="form-select"></select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Destination</label>
+                        <select id="TargetDestination" class="form-select"></select>
+                    </div>
+                </div>
+                <hr />
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Distance</label>
+                        <div class="input-group">
+                            <input type="text" id="CalculatedDistance" class="form-control text-end" value="0" />
+                            <span class="input-group-text">Miles</span>
+                        </div>
+                        <small class="text-muted">Official DoD distance: <a href="https://dtod.transport.mil/Default.aspx" target="_blank">dtod.transport.mil</a>. AMCOS estimates this distance.</small>
+                    </div>
+                </div>
+                <hr />
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label class="form-label">Inflation (Base/Input Year: <b id="AmcosVersionYear">@(Model.AmcosVersionId > 0 ? Model.AmcosVersionId.ToString()[..4] : "—")</b>)</label>
+                        <select id="ConversionType" name="ConversionType" class="form-select mb-2 pcs-input-rebase">
+                            <option value="ThenToConstant">Then Year to Constant Dollars</option>
+                            <option value="ThenToThen" selected>Then Year to Then Year</option>
+                        </select>
+                        <label class="form-label">Appropriation</label>
+                        <select id="Appropriation" name="Appropriation" class="form-select mb-2">
+                            @foreach (var a in approps) { <option value="@a">@a</option> }
+                        </select>
+                        <label class="form-label">Output/Target Year</label>
+                        <select id="Year" name="Year" class="form-select pcs-input-rebase"></select>
+                    </div>
+                    <div class="col-md-7 mt-4">
+                        <ul>
+                            <li><strong>Constant Dollars:</strong> Normalized for inflation. Use for Cost Analysis.</li>
+                            <li><strong>Then Year Dollars:</strong> Include inflation/escalation. Use for Budgeting.</li>
+                            <li>Inflation rate: ~<span id="JicInflationRate">0.000000</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 2. House Hunting -->
+            <div class="tab-pane fade" id="tab-househunting" role="tabpanel">
+                <h5>House Hunting Trip</h5><hr />
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="row align-items-center mb-3">
+                            <div class="col-8"><label class="form-label mb-0">Number of Full Days for House Hunting</label></div>
+                            <div class="col-4"><input type="text" id="NumberOfDaysHunting" class="form-control text-end pcs-input-field" value="0" /></div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-8"><label class="form-label mb-0">Spouse?</label></div>
+                            <div class="col-4"><input type="checkbox" id="HouseHuntingHaveSpouse" class="form-check-input pcs-input-field" /></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><ul>
+                        <li>Calculation adds travel days — do not include them here.</li>
+                        <li>Days determined by AO per DoD FMR 7000.14 Vol 09 and DODI 515431.</li>
+                    </ul></div>
+                </div>
+                <table class="table table-sm table-bordered w-auto">
+                    <thead class="table-dark">
+                        <tr><th>Per Diem Rate Per Day (Destination)</th><th class="text-end">Lodging</th><th class="text-end">MI&amp;E</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Self Per Diem</td><td id="SelfLodgingPerDiem" class="text-end">$0.00</td><td id="SelfMIEPerDiem" class="text-end">$0.00</td></tr>
+                        <tr><td>Spouse Per Diem*</td><td id="SpouseLodgingPerDiem" class="text-end">$0.00</td><td id="SpouseMIEPerDiem" class="text-end">$0.00</td></tr>
+                    </tbody>
+                </table>
+                <p class="text-muted small">*Spouse per diem is <span id="SpousePerDiemRate">0</span>% of the full per diem.&nbsp;<span id="SelfPerDiemRate" style="display:none">0</span></p>
+                <div class="border-top pt-2 mt-2"><strong>Subtotal (House Hunting): <span id="HouseHuntingTotalCell">$0.00</span></strong></div>
+                <input type="hidden" id="HouseHuntingTotal" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="House Hunting Trip" />
+                <div class="mt-2"><small class="text-decoration-underline">Policy References</small>
+                    <ul class="small"><li>JTR Section 054005 — <a href="https://www.defensetravel.dod.mil/Docs/perdiem/JTR.pdf" target="_blank">JTR.pdf</a></li></ul>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 3. Transportation -->
+            <div class="tab-pane fade" id="tab-transportation" role="tabpanel">
+                <h5>Transportation Expense</h5><hr />
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="row align-items-center mb-3">
+                            <div class="col-7"><label class="form-label mb-0">Total Mileage</label></div>
+                            <div class="col-5"><input type="text" id="POVMileage" class="form-control text-end" value="0" /></div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-7"><label class="form-label mb-0">Dependent(s)? <small>(child or adult)</small></label></div>
+                            <div class="col-5"><input type="text" id="TransportationDependents" class="form-control text-end pcs-input-field" value="0" /></div>
+                        </div>
+                        <table class="table table-sm table-bordered w-auto mt-3">
+                            <thead class="table-dark"><tr><th colspan="2">Mileage Rate</th></tr></thead>
+                            <tbody>
+                                <tr><td>Self</td><td id="MileageReimbursement" class="text-end">$0.00</td></tr>
+                                <tr><td>Dependents</td><td id="DependantMileageReimbursement" class="text-end">$0.00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6"><ul>
+                        <li>Mode of transportation determined by the AO.</li>
+                        <li>Rate: $<span id="PCSMaltRate">0.00</span>/Mile as of January 1, <span id="TransportationVersionYear">&mdash;</span> per DTMO MALT.</li>
+                    </ul></div>
+                </div>
+                <hr />
+                <div class="d-flex align-items-center gap-3 border-top pt-2">
+                    <strong>Subtotal (Transportation):</strong>
+                    <div class="input-group" style="max-width:200px">
+                        <span class="input-group-text">$</span>
+                        <input type="text" id="TransportationSubTotal" class="form-control text-end pcs-input-field" value="0.00" />
+                    </div>
+                </div>
+                <input type="hidden" id="TransportationSubTotalValue" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="Transportation Expense" />
+                <div class="mt-2"><small class="text-decoration-underline">Policy References</small>
+                    <ul class="small"><li>JTR Sections 050101, 053802</li></ul>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 4. TQSE -->
+            <div class="tab-pane fade" id="tab-tqse" role="tabpanel">
+                <h5>Temporary Quarters Subsistence Expense (TQSE)</h5><hr />
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="row align-items-center mb-3">
+                            <div class="col-8"><label class="form-label mb-0">Number of Full Days for TQSE</label></div>
+                            <div class="col-4"><input type="text" id="NumberDaysTQSE" class="form-control text-end pcs-input-field" value="0" /></div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-8"><label class="form-label mb-0">Dependent(s)? <small>(child or adult)</small></label></div>
+                            <div class="col-4"><input type="text" id="TQSEDependents" class="form-control text-end pcs-input-field" value="0" /></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><ul>
+                        <li>Calculation adds travel days — do not include them here.</li>
+                        <li>TQSE days determined by AO per DoD JTR.</li>
+                        <li>TQSE should also include Foreign Transfer Allowance (FTA).</li>
+                    </ul></div>
+                </div>
+                <table class="table table-sm table-bordered w-auto">
+                    <thead class="table-dark">
+                        <tr><th>Per Diem Rate Per Day (Destination)</th><th class="text-end">Lodging</th><th class="text-end">MI&amp;E</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Self Per Diem*</td><td id="TQSESelfPerDiemLodging" class="text-end">$0.00</td><td id="TQSESelfPerDiemMIE" class="text-end">$0.00</td></tr>
+                        <tr><td>Dependent Per Diem**</td><td id="TQSESpousePerDiemLodging" class="text-end">$0.00</td><td id="TQSESpousePerDiemMIE" class="text-end">$0.00</td></tr>
+                    </tbody>
+                </table>
+                <p class="text-muted small">
+                    *Civilian per diem: <span id="TQSEPerDiemRate">0.00</span> &times; max rate.<br />
+                    **Dependent per diem: <span id="TQSESpousePerDiemRate">0.00</span> &times; max rate.
+                </p>
+                <div class="border-top pt-2 mt-2"><strong>Subtotal (TQSE): <span id="TQSETotalValue">$0.00</span></strong></div>
+                <input type="hidden" id="TQSETotal" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="Temporary Quarters Subsistence Expense" />
+                <div class="mt-2"><small class="text-decoration-underline">Policy References</small>
+                    <ul class="small"><li><a href="https://www.govinfo.gov/content/pkg/CFR-2012-title41-vol4/xml/CFR-2012-title41-vol4-part302-id829-subpartC.xml" target="_blank">CFR 302 SubpartC</a></li></ul>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 5. GH Transportation -->
+            <div class="tab-pane fade" id="tab-ght" role="tabpanel">
+                <h5>Goods / Home Transportation</h5><hr />
+                <p>The government provides reimbursement for either household goods or mobile home transportation.</p>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input pcs-input-field" type="radio" name="TransportationType" id="TransportationTypeGoods" value="Goods" checked />
+                        <label class="form-check-label" for="TransportationTypeGoods">Household Goods</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input pcs-input-field" type="radio" name="TransportationType" id="TransportationTypeHome" value="Home" />
+                        <label class="form-check-label" for="TransportationTypeHome">Mobile Home Transportation</label>
+                    </div>
+                </div>
+                <hr />
+                <div id="house-hold-goods">
+                    <h6 class="mb-3">Household Goods</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Total Mileage</label>
+                            <div class="input-group mb-2"><input type="text" id="HHGTotalMileage" class="form-control text-end pcs-input-field" value="0" /><span class="input-group-text">Miles</span></div>
+                            <label class="form-label">Total Weight</label>
+                            <div class="input-group mb-1"><input type="text" id="HHGTotalWeight" class="form-control text-end pcs-input-field" value="0" /><span class="input-group-text">Lbs.</span></div>
+                            <small class="text-danger" id="HHGTotalWeightWarning"></small>
+                            <label class="form-label mt-2">Est. Cost per Pound</label>
+                            <div class="input-group mb-2"><span class="input-group-text">$</span><input type="text" id="HHGEstimatedCostPerPound" class="form-control text-end pcs-input-field" value="0.00" /></div>
+                            <label class="form-label">Est. Cost per Mile</label>
+                            <div class="input-group mb-2"><span class="input-group-text">$</span><input type="text" id="HHGEstimatedCostPerMile" class="form-control text-end pcs-input-field" value="0.00" /></div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Max weight at no cost: <span id="HHGMaxWeight">0</span> lbs.</li>
+                                <li>Est. Cost/mile: $<span id="HHGEstimatedCostPerMileValue">0.00</span>, Est. Cost/lb: $<span id="HHGEstimatedCostPerPoundValue">0.00</span></li>
+                            </ul>
+                            <table class="table table-sm table-bordered w-auto mt-3">
+                                <thead class="table-dark"><tr><th colspan="2">Cost Estimations</th></tr></thead>
+                                <tbody>
+                                    <tr><td>By Total Miles</td><td id="HHGCostByTotalMiles" class="text-end">$0.00</td></tr>
+                                    <tr><td>By Total Weight</td><td id="HHGCostByTotalWeight" class="text-end">$0.00</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="border-top pt-2 mt-2"><strong>Subtotal (HHG): <span id="SubtotalHHG">$0.00</span></strong></div>
+                </div>
+                <div id="mobile-home-transportation" style="display:none">
+                    <h6 class="mb-3">Mobile Home Transportation</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Total Mileage</label>
+                            <div class="input-group mb-2"><input type="text" id="MobileHomeTotalMileage" class="form-control text-end pcs-input-field" value="0" /><span class="input-group-text">Miles</span></div>
+                            <label class="form-label">Est. Cost per Mile</label>
+                            <div class="input-group mb-2"><span class="input-group-text">$</span><input type="text" id="MobileHomeEstCostPerMile" class="form-control text-end pcs-input-field" value="0.00" /></div>
+                        </div>
+                        <div class="col-md-6"><ul>
+                            <li>Est. cost: $<span id="MobileHomeEstCostPerMileValue">0.00</span>/mile</li>
+                            <li>Requires certification per CFR 302-10.3.</li>
+                        </ul></div>
+                    </div>
+                    <div class="border-top pt-2 mt-2"><strong>Subtotal (Mobile Home): <span id="MobileHomeSubtotal">$0.00</span></strong></div>
+                </div>
+                <input type="hidden" id="GHTransportationTotal" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="Goods / Home Transportation" />
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 6. MEA -->
+            <div class="tab-pane fade" id="tab-mea" role="tabpanel">
+                <h5>Miscellaneous Expense Allowance (MEA)</h5><hr />
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="fw-bold mb-1">No Supporting Documentation</div>
+                        <ul>
+                            <li>$<span id="MEACivilian">0.00</span> or 1 week&rsquo;s pay (lesser) &mdash; Civilian</li>
+                            <li>$<span id="MEACivilianAndSpouse">0.00</span> or 2 weeks&rsquo; pay (lesser) &mdash; Civilian &amp; Spouse</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fw-bold mb-1">Supporting Documentation</div>
+                        <ul>
+                            <li>Receipts required (≤ 1 week basic pay) &mdash; Civilian</li>
+                            <li>Receipts required (≤ 2 weeks basic pay) &mdash; Civilian &amp; Spouse</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr />
+                <div class="row align-items-center mb-3">
+                    <div class="col-4"><label class="form-label mb-0">Spouse?</label></div>
+                    <div class="col-2"><input type="checkbox" id="MEAHasSpouse" class="form-check-input" /></div>
+                </div>
+                <div class="d-flex align-items-center gap-3 border-top pt-2 mt-2">
+                    <strong>Subtotal (MEA):</strong>
+                    <div class="input-group" style="max-width:200px">
+                        <span class="input-group-text">$</span>
+                        <input type="text" id="MEASubtotal" class="form-control text-end" value="0.00" />
+                    </div>
+                </div>
+                <input type="hidden" id="MEASubtotalValue" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="Misc. Expense Allowance" />
+                <div class="mt-2"><small class="text-decoration-underline">Policy References</small>
+                    <ul class="small"><li>JTR Section 0541 and FTR Part 302-16</li></ul>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 7. Real Estate / Lease -->
+            <div class="tab-pane fade" id="tab-realestate" role="tabpanel">
+                <h5>Real Estate / Lease Allowance</h5><hr />
+                <p>The government provides reimbursement for home sale/purchase or early lease termination.</p>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input pcs-input-field" type="radio" name="RealEstateOrLease" id="RealEstateOption" value="RealEstate" checked />
+                        <label class="form-check-label" for="RealEstateOption">Real Estate Allowance</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input pcs-input-field" type="radio" name="RealEstateOrLease" id="LeaseOption" value="Lease" />
+                        <label class="form-check-label" for="LeaseOption">Unexpired Lease (UEL) Reimbursement</label>
+                    </div>
+                </div>
+                <hr />
+                <div id="Real-Estate">
+                    <h6 class="mb-3">Real Estate Allowance</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Old Residence Sale Price</label>
+                            <div class="input-group mb-2"><span class="input-group-text">$</span><input type="text" id="SalePriceAmount" class="form-control text-end pcs-input-field" value="0.00" /></div>
+                            <label class="form-label">Refund of Sale Price</label>
+                            <div class="input-group mb-3"><input type="text" id="SalePriceRefund" class="form-control text-end pcs-input-field" value="0.00" /><span class="input-group-text">%</span></div>
+                            <label class="form-label">New Residence Purchase Price</label>
+                            <div class="input-group mb-2"><span class="input-group-text">$</span><input type="text" id="PurchasePriceAmount" class="form-control text-end pcs-input-field" value="0.00" /></div>
+                            <label class="form-label">Refund of Purchase Price</label>
+                            <div class="input-group mb-2"><input type="text" id="PurchasePriceRefund" class="form-control text-end pcs-input-field" value="0.00" /><span class="input-group-text">%</span></div>
+                        </div>
+                        <div class="col-md-6"><ul>
+                            <li>AMCOS assumes 8% and 3% as planning percentages.</li>
+                            <li>Max Sale Price refund: 10%. Max Purchase Price refund: 5%.</li>
+                        </ul></div>
+                    </div>
+                    <div class="border-top pt-2 mt-2"><strong>Subtotal (Real Estate): <span id="RealEstateSubtotalValue">$0.00</span></strong></div>
+                    <div class="mt-2"><small class="text-decoration-underline">Policy References</small><ul class="small"><li>JTR Section 054502</li></ul></div>
+                </div>
+                <div id="Unexpired-Lease" style="display:none">
+                    <h6 class="mb-3">Unexpired Lease (UEL) Reimbursement</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">UEL Amount</label>
+                            <div class="input-group mb-3"><span class="input-group-text">$</span><input type="text" id="UELAmount" class="form-control text-end pcs-input-field" value="0.00" /></div>
+                        </div>
+                        <div class="col-md-6"><ul><li>Reimbursement prorated when lease is not in employee&rsquo;s name.</li></ul></div>
+                    </div>
+                    <div class="border-top pt-2 mt-2"><strong>Subtotal (UEL): <span id="UELTotalValue">$0.00</span></strong></div>
+                    <div class="mt-2"><small class="text-decoration-underline">Policy References</small><ul class="small"><li>JTR Section 054507</li></ul></div>
+                </div>
+                <input type="hidden" id="RealEstateLeaseTotal" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="Real Estate / Lease Allowance" />
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 8. NTS -->
+            <div class="tab-pane fade" id="tab-nts" role="tabpanel">
+                <h5>Non-Temporary Storage (NTS)</h5><hr />
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="row align-items-center mb-3">
+                            <div class="col-9"><label class="form-label mb-0">Is the Permanent Duty Station Isolated?</label></div>
+                            <div class="col-3"><input type="checkbox" id="IsIsolatedDutyStation" class="form-check-input" /></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><ul>
+                        <li>If moved to isolated location, Government pays storage up to 3 years.</li>
+                        <li>Default: 300 sqft for 2 years at ~$0.90/sqft/month.</li>
+                    </ul></div>
+                </div>
+                <hr />
+                <div class="d-flex align-items-center gap-3 border-top pt-2">
+                    <strong>Subtotal (NTS):</strong>
+                    <div class="input-group" style="max-width:200px">
+                        <span class="input-group-text">$</span>
+                        <input type="text" id="NTSSubtotal" class="form-control text-end pcs-input-field" value="0.00" disabled />
+                    </div>
+                </div>
+                <input type="hidden" id="NTSSubtotalValue" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="Non-Temporary Storage" />
+                <div class="mt-2"><small class="text-decoration-underline">Policy References</small>
+                    <ul class="small"><li>JTR Section 054306</li></ul>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 9. RITA -->
+            <div class="tab-pane fade" id="tab-rita" role="tabpanel">
+                <h5>Relocation Income Tax Allowance (RITA)</h5><hr />
+                <p>Costs <u>include</u> Withholding Tax Allowance (WTA).</p>
+                <input type="hidden" name="DefaultFederalTaxRate" value="0" />
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        @foreach (var (lbl, fid, def) in new[] {
+                            ("Estimated Federal Income Tax Rate", "FederalTaxRate", "22.00"),
+                            ("Estimated Social Security Tax Rate", "SocialSecurityTaxRate", "6.20"),
+                            ("Estimated Medicare Tax Rate", "MedicareTaxRate", "1.45"),
+                            ("Estimated State Tax Rate", "StateTaxRate", "0.00"),
+                            ("Estimated County Tax Rate", "CountyTaxRate", "0.00"),
+                            ("Estimated City Tax Rate", "CityTaxRate", "0.00")
+                        })
+                        {
+                            <label class="form-label">@lbl</label>
+                            <div class="input-group mb-2">
+                                <input type="text" id="@fid" class="form-control text-center pcs-input-field" value="@def" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        }
+                        <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="_civPCS.SetDefaultTax()">Set Default</button>
+                    </div>
+                    <div class="col-md-7">
+                        <ul class="mt-3">
+                            <li>Assumed 22% federal, 6.2% SS, 1.45% Medicare. Source: <a href="https://www.dfas.mil/CivilianEmployees/civrelo/Civilian-Moving-Expenses-Tax-Deduction/Current-PCS-Travel/" target="_blank">dfas.mil</a></li>
+                            <li>State/local tax impact is an estimate; actual amounts may vary.</li>
+                        </ul>
+                        <div class="p-2 border rounded mt-2"><strong>Total Tax Rate: <span id="TotalTaxRate">0.00</span>%</strong></div>
+                    </div>
+                </div>
+                <table class="table table-sm table-bordered">
+                    <tbody>
+                        <tr><td>House Hunting Trip</td>             <td class="text-end"><span id="HouseHuntingTotalLabel">0.00</span> &times; <span name="TaxBracketLabel"></span></td><td>=</td><td class="text-end"><span id="HouseHuntingRITA">0.00</span></td></tr>
+                        <tr><td>Transportation Expense</td>         <td class="text-end"><span id="TransportationSubTotalLabel">0.00</span> &times; <span name="TaxBracketLabel"></span></td><td>=</td><td class="text-end"><span id="TransportationRITA">0.00</span></td></tr>
+                        <tr><td>TQSE</td>                           <td class="text-end"><span id="TQSESubtotalLabel">0.00</span> &times; <span name="TaxBracketLabel"></span></td><td>=</td><td class="text-end"><span id="TQSERITA">0.00</span></td></tr>
+                        <tr><td>Goods / Home Transportation</td>    <td class="text-end"><span id="GHTransportationTotalLabel">0.00</span> &times; <span name="TaxBracketLabel"></span></td><td>=</td><td class="text-end"><span id="GHTransportationRITA">0.00</span></td></tr>
+                        <tr><td>MEA</td>                            <td class="text-end"><span id="MEASubtotalLabel">0.00</span> &times; <span name="TaxBracketLabel"></span></td><td>=</td><td class="text-end"><span id="MEARITA">0.00</span></td></tr>
+                        <tr><td>Real Estate / Lease Allowance</td>  <td class="text-end"><span id="RealEstateLeaseTotalLabel">0.00</span> &times; <span name="TaxBracketLabel"></span></td><td>=</td><td class="text-end"><span id="RealEstateLeaseRITA">0.00</span></td></tr>
+                        <tr><td>Non-Temporary Storage</td>          <td class="text-end"><span id="NTSSubtotalLabel">0.00</span> &times; <span name="TaxBracketLabel"></span></td><td>=</td><td class="text-end"><span id="NTSRITA">0.00</span></td></tr>
+                    </tbody>
+                </table>
+                <div class="border-top pt-2 mt-2"><strong>Subtotal (RITA): <span id="RITASubtotalValue">$0.00</span></strong></div>
+                <input type="hidden" id="RITASubtotal" class="summary-item-value" value="0" />
+                <input type="hidden" class="summary-item-title" value="Relocation Income Tax Allowance" />
+                <div class="mt-2"><small class="text-decoration-underline">Policy References</small>
+                    <ul class="small"><li>FTR GSA Bulletin 18-05, 302-1.1 dated May 14, 2018</li></ul>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsNextTab()">Next &rsaquo;</button>
+                </div>
+            </div>
+
+            <!-- 10. Grand Total -->
+            <div class="tab-pane fade" id="tab-grandtotal" role="tabpanel">
+                <h5>Grand Total</h5><hr />
+                <table class="table table-sm table-bordered" id="pcs-summary-table"></table>
+                <div class="border-top pt-2 mt-2"><strong>Grand Total: <span id="GrandTotal">$0.00</span></strong></div>
+                <div class="d-flex justify-content-end mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="PcsPrevTab()">&lsaquo; Prev</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Open Project Modal -->
+<div class="modal fade" id="openProjectModal" tabindex="-1" aria-labelledby="openProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="openProjectModalLabel">Open Saved Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="OpenProjectModel">
+                    <table class="table table-striped table-sm table-view-project">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="cursor:pointer" onclick="ViewProjectSort('projectName')">Project Name <span data-column="projectName"></span></th>
+                                <th style="cursor:pointer" onclick="ViewProjectSort('projectSaveDate')">Saved <span data-column="projectSaveDate"></span></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody name="ViewProjectBody">
+                            @foreach (var p in Model.InitialProjects)
+                            {
+                                <tr class="selectable-row">
+                                    <td class="selectable-project">@p.Name</td>
+                                    <td class="selectable-project">@p.SaveDate</td>
+                                    <td class="text-end"><a class="cal-row-delete" title="Delete" value="@p.Name" style="cursor:pointer">&#x1F5D1;</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="OpenProjectClick('openProjectModal')">Open</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save As Modal -->
+<div class="modal fade" id="saveAsModal" tabindex="-1" aria-labelledby="saveAsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveAsModalLabel">Save Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Project Name</label>
+                <input type="text" id="SaveAsProjectName" class="form-control" placeholder="Enter project name" maxlength="100" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary"
+                    onclick="SaveAsClick(); bootstrap.Modal.getInstance(document.getElementById('saveAsModal')).hide()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/standalone/selectize.min.js"></script>
+    <script src="~/dist/js/pcs-civilian.js"></script>
+}

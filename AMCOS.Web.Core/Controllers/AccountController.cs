@@ -22,4 +22,14 @@ public class AccountController : Controller
         var properties = new AuthenticationProperties { RedirectUri = "/" };
         return SignOut(properties, CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
     }
+
+    [HttpPost("keepalive")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [ValidateAntiForgeryToken]
+    public IActionResult KeepAlive()
+    {
+        // Touching the cookie auth middleware renews the sliding expiration.
+        var timeout = (int)TimeSpan.FromMinutes(15).TotalSeconds;
+        return Ok(new { AuthenticationTimeout = timeout });
+    }
 }

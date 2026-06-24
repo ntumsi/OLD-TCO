@@ -3112,7 +3112,7 @@ BEGIN
     IF EXISTS (SELECT 1 FROM tmp_projectinventory) THEN
         v_sql := 'pmcategoryname, uic as "UIC", payplan, categorygroupcode, categorysubgroupcode';
         v_groupby := 'pmcategoryname, uic, payplan, categorygroupcode, categorysubgroupcode';
-        IF EXISTS (SELECT 1 FROM tmp_projectinventory WHERE payplan IN (''NE'',''NO'',''NWO'',''RE'',''RO'',''RWO'')) THEN
+        IF EXISTS (SELECT 1 FROM tmp_projectinventory WHERE payplan IN ('NE','NO','NWO','RE','RO','RWO')) THEN
             v_sql := v_sql || ', activedutydays';
             v_groupby := v_groupby || ', activedutydays';
         END IF;

@@ -618,7 +618,7 @@ CREATE TABLE lookup.wage_occupationalseries (
 
 -- Source: AMCOS.AMCOS2020_MAR/lookup/Tables/WeaponSystem.sql
 CREATE TABLE lookup.weaponsystem (
-    weaponsystemid integer GENERATED ALWAYS AS IDENTITY (START WITH -1 INCREMENT BY 1) NOT NULL,
+    weaponsystemid integer GENERATED ALWAYS AS IDENTITY (START WITH -1 INCREMENT BY 1 MINVALUE -2147483648) NOT NULL,
     weaponsystemname varchar(50) NULL,
     amcosversionidstart integer NULL,
     amcosversionidend integer NOT NULL,

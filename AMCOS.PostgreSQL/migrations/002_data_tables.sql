@@ -199,3 +199,14 @@ CREATE TABLE data.fmswebsacspersonnel (
     CONSTRAINT pk_fmswebsacspersonnel PRIMARY KEY (id )
 );
 
+-- dataload schema tables
+CREATE TABLE dataload.singlevalues (
+    payplan varchar(10) NOT NULL,
+    paramname varchar(100) NOT NULL,
+    paramvalue numeric(26, 6) NOT NULL,
+    paramdesc varchar(500) NULL,
+    amcosversionid integer NOT NULL,
+    comments varchar(300) NULL,
+    CONSTRAINT pk_singlevalues PRIMARY KEY (payplan, paramname, amcosversionid)
+);
+

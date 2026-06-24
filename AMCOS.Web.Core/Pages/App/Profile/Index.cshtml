@@ -1,0 +1,133 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Profile.IndexModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h1>My Profile</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @Model.StatusMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.LoadError))
+{
+    <div class="alert alert-danger">@Model.LoadError</div>
+}
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="alert alert-danger" style="display:@(ViewContext.ModelState.IsValid ? "none" : "")"></div>
+
+    <div class="card mb-4">
+        <div class="card-header">Account Information</div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">User ID</dt>
+                <dd class="col-sm-9"><code>@Model.DisplayUserId</code></dd>
+                <dt class="col-sm-3">First Name</dt>
+                <dd class="col-sm-9">@Model.FirstName</dd>
+                <dt class="col-sm-3">Last Name</dt>
+                <dd class="col-sm-9">@Model.LastName</dd>
+                <dt class="col-sm-3">Army Account Type</dt>
+                <dd class="col-sm-9">@Model.ArmyAccountType</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Army Rank / Grade</div>
+        <div class="card-body row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="ArmyRank">Rank / Grade</label>
+                @{
+                    var ranks = (Model.ArmyAccountType ?? string.Empty).Equals("MILITARY", StringComparison.OrdinalIgnoreCase)
+                        ? AMCOS.Web.Core.Pages.App.Profile.IndexModel.MilitaryRanks
+                        : AMCOS.Web.Core.Pages.App.Profile.IndexModel.CivilianRanks;
+                }
+                <select id="ArmyRank" name="ArmyRank" class="form-select" onchange="onRankChange()">
+                    <option value="">(Select)</option>
+                    @foreach (var r in ranks)
+                    {
+                        <option value="@r" selected="@(Model.ArmyRank == r ? "selected" : null)">@r</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6" id="rankOtherGroup" style="display:@(Model.ArmyRank == "Other (Specify)" ? "" : "none")">
+                <label class="form-label" for="ArmyRankOther">Specify Rank</label>
+                <input id="ArmyRankOther" name="ArmyRankOther" class="form-control" value="@Model.ArmyRankOther" maxlength="100" />
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Contact &amp; Organization</div>
+        <div class="card-body row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="Email">Email <span class="text-danger">*</span></label>
+                <input id="Email" name="Email" type="email" class="form-control" value="@Model.Email" maxlength="75" required />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="Prefix">Name Prefix <span class="text-danger">*</span></label>
+                <select id="Prefix" name="Prefix" class="form-select" required>
+                    <option value="">(Select)</option>
+                    @foreach (var p in new[] { "Mr.", "Ms.", "Mrs." })
+                    {
+                        <option value="@p" selected="@(Model.Prefix == p ? "selected" : null)">@p</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="Macom">Organization <span class="text-danger">*</span></label>
+                <select id="Macom" name="Macom" class="form-select" required>
+                    <option value="">(Select)</option>
+                    @foreach (var (value, text) in Model.Organizations)
+                    {
+                        <option value="@value" selected="@(Model.Macom == value ? "selected" : null)">@text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="OfficeName">Office Name <span class="text-danger">*</span></label>
+                <input id="OfficeName" name="OfficeName" class="form-control" value="@Model.OfficeName" maxlength="100" required />
+            </div>
+            <div class="col-md-6" id="companyNameGroup" style="display:@(Model.ArmyRank.EndsWith("CTR") ? "" : "none")">
+                <label class="form-label" for="CompanyName">Company Name <span class="text-danger">*</span></label>
+                <input id="CompanyName" name="CompanyName" class="form-control" value="@Model.CompanyName" maxlength="100" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="ComPhone">USA Phone #</label>
+                <input id="ComPhone" name="ComPhone" class="form-control" value="@Model.ComPhone" maxlength="50"
+                       pattern="^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+                       title="U.S. phone format: (555) 555-5555" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="InternationalNo">International Phone #</label>
+                <input id="InternationalNo" name="InternationalNo" class="form-control" value="@Model.InternationalNo" maxlength="30" />
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </div>
+</form>
+
+@section Scripts {
+<script>
+function onRankChange() {
+    const rank = document.getElementById('ArmyRank').value;
+    const isOther = rank === 'Other (Specify)';
+    const isCtr = rank.endsWith('CTR');
+    document.getElementById('rankOtherGroup').style.display = isOther ? '' : 'none';
+    document.getElementById('companyNameGroup').style.display = isCtr ? '' : 'none';
+}
+// Sync on load in case of validation failure re-render
+document.addEventListener('DOMContentLoaded', onRankChange);
+</script>
+}

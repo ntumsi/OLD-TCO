@@ -2,7 +2,9 @@ namespace AMCOS.Data.Entities
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.EntityFrameworkCore;
 
+    [PrimaryKey(nameof(Appn), nameof(CostElementCategory), nameof(CostElementId), nameof(CostElementName))]
     [Table("compare.CostsProduction")]
     public class CostsGPProd
     {
@@ -24,22 +26,18 @@ namespace AMCOS.Data.Entities
         [StringLength(10)]
         public string PersonnelNumber { get; set; }
 
-        [Key]
         [Column(Order = 0)]
         [StringLength(25)]
         public string Appn { get; set; }
 
-        [Key]
         [Column(Order = 1)]
         [StringLength(50)]
         public string CostElementCategory { get; set; }
 
-        [Key]
         [Column(Order = 2)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CostElementId { get; set; }
 
-        [Key]
         [Column(Order = 3)]
         [StringLength(300)]
         public string CostElementName { get; set; }

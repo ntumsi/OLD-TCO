@@ -1,0 +1,97 @@
+@page
+@model AMCOS.Web.Core.Pages.Admin.InventoryModel
+@{
+    ViewData["Title"] = "Inventory Comparison";
+}
+
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">Inventory Comparison — Development vs Production</div>
+            <div class="card-body">
+                <form method="get" class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Pay Plan</label>
+                        <input name="PayPlan" class="form-control" value="@Model.PayPlan" placeholder="e.g. AE" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Group</label>
+                        <input name="Group" class="form-control" value="@Model.Group" placeholder="e.g. ALL" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">SubGroup</label>
+                        <input name="SubGroup" class="form-control" value="@Model.SubGroup" placeholder="e.g. ALL" />
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Compare</button>
+                    </div>
+                </form>
+
+                @if (!string.IsNullOrWhiteSpace(Model.LoadError))
+                {
+                    <div class="alert alert-danger">@Model.LoadError</div>
+                }
+                else if (!string.IsNullOrWhiteSpace(Model.PayPlan))
+                {
+                    <h6 class="mb-3">Pay Plan: <strong>@Model.PayPlan</strong> &nbsp; Group: <strong>@Model.Group</strong> &nbsp; SubGroup: <strong>@Model.SubGroup</strong></h6>
+                    if (!Model.Rows.Any())
+                    {
+                        <div class="alert alert-info">No data found for the selected filters.</div>
+                    }
+                    else
+                    {
+                        <table class="table table-sm table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Grade</th>
+                                    <th class="text-end">Development</th>
+                                    <th class="text-end">Production</th>
+                                    <th class="text-end">Difference</th>
+                                    <th class="text-end">Diff %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Model.Rows)
+                                {
+                                    <tr>
+                                        <td>@row.GradeLabel</td>
+                                        <td class="text-end">@row.Development.ToString("N0")</td>
+                                        <td class="text-end">@row.Production.ToString("N0")</td>
+                                        <td class="text-end @(row.Diff < 0 ? "text-danger" : "")">
+                                            @(row.Diff < 0 ? $"({Math.Abs(row.Diff).ToString("N0")})" : row.Diff == 0 ? "" : row.Diff.ToString("N0"))
+                                        </td>
+                                        <td class="text-end @(row.DiffPct < 0 ? "text-danger" : "")">
+                                            @if (row.DiffPct == null) { <span>_</span> }
+                                            else if (row.DiffPct == 0) { <span></span> }
+                                            else if (row.DiffPct < 0) { <span>(@(Math.Abs(row.DiffPct.Value).ToString("P2")))</span> }
+                                            else { <span>@row.DiffPct.Value.ToString("P2")</span> }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            @if (Model.Totals != null)
+                            {
+                                <tfoot class="table-secondary fw-bold">
+                                    <tr>
+                                        <td>Total</td>
+                                        <td class="text-end">@Model.Totals.Development.ToString("N0")</td>
+                                        <td class="text-end">@Model.Totals.Production.ToString("N0")</td>
+                                        <td class="text-end @(Model.Totals.Diff < 0 ? "text-danger" : "")">
+                                            @(Model.Totals.Diff < 0 ? $"({Math.Abs(Model.Totals.Diff).ToString("N0")})" : Model.Totals.Diff == 0 ? "" : Model.Totals.Diff.ToString("N0"))
+                                        </td>
+                                        <td class="text-end @(Model.Totals.DiffPct < 0 ? "text-danger" : "")">
+                                            @if (Model.Totals.DiffPct == null) { <span>_</span> }
+                                            else if (Model.Totals.DiffPct == 0) { <span></span> }
+                                            else if (Model.Totals.DiffPct < 0) { <span>(@(Math.Abs(Model.Totals.DiffPct.Value).ToString("P2")))</span> }
+                                            else { <span>@Model.Totals.DiffPct.Value.ToString("P2")</span> }
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            }
+                        </table>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

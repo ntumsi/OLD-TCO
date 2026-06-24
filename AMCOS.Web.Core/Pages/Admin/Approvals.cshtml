@@ -1,0 +1,98 @@
+@page
+@model AMCOS.Web.Core.Pages.Admin.ApprovalsModel
+@{
+    ViewData["Title"] = "Pending User Approvals";
+}
+
+<h1>Pending User Approvals</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @Model.StatusMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.EmailPreview))
+{
+    <div class="alert alert-secondary" role="alert">
+        <strong>Email preview (Development only):</strong><br />
+        @Model.EmailPreview
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.LoadError))
+{
+    <div class="alert alert-danger">@Model.LoadError</div>
+}
+
+<div class="card">
+    <div class="card-header">Approval Queue</div>
+    <div class="card-body p-0">
+        @if (!Model.PendingUsers.Any())
+        {
+            <div class="alert alert-info m-3 mb-0">No pending approvals.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-sm align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Office</th>
+                            <th>Organization</th>
+                            <th>Account Type</th>
+                            <th>Rank</th>
+                            <th>Company</th>
+                            <th>Last Login</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var u in Model.PendingUsers)
+                        {
+                            var parts = u.UserInfo?.Split(',') ?? Array.Empty<string>();
+                            var userId = parts.Length > 0 ? parts[0] : string.Empty;
+                            <tr>
+                                <td>@u.UserName</td>
+                                <td>@u.UserEmail</td>
+                                <td>@u.UserPhone</td>
+                                <td>@u.UserOfficeName</td>
+                                <td>@u.UserMacom</td>
+                                <td>@u.UserAccountType</td>
+                                <td>@u.UserArmyRank</td>
+                                <td>@u.UserCompanyName</td>
+                                <td>@u.UserLastLogin?.ToString("g")</td>
+                                <td class="text-end text-nowrap">
+                                    <form method="post" asp-page-handler="Approve" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="userId" value="@userId" />
+                                        <input type="hidden" name="userName" value="@u.UserName" />
+                                        <input type="hidden" name="email" value="@u.UserEmail" />
+                                        <button type="submit" class="btn btn-sm btn-success"
+                                                onclick="return confirm('Approve @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(u.UserName ?? string.Empty))? This will activate their account.')">
+                                            Approve
+                                        </button>
+                                    </form>
+                                    <form method="post" asp-page-handler="Deny" class="d-inline ms-1">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="userId" value="@userId" />
+                                        <input type="hidden" name="userName" value="@u.UserName" />
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Deny @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(u.UserName ?? string.Empty))? This will mark their request as denied.')">
+                                            Deny
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,1203 @@
+@page "{projectId:int}"
+@model AMCOS.Web.Core.Pages.App.Project.DetailsModel
+@{
+    ViewData["Title"] = Model.CurrentProject is null
+        ? "Project Details"
+        : $"Project: {Model.CurrentProject.ProjectName}";
+}
+
+@* ── Error / missing project ──────────────────────────────────────────────── *@
+@if (!string.IsNullOrWhiteSpace(Model.LoadError))
+{
+    <div class="alert alert-danger">@Model.LoadError</div>
+    <a href="/App/Project" class="btn btn-secondary">Back to Projects</a>
+    return;
+}
+
+@* ── Page header ──────────────────────────────────────────────────────────── *@
+<div class="card mb-3">
+    <div class="card-body py-2">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <h4 class="mb-0">@Model.CurrentProject!.ProjectName</h4>
+                @if (!string.IsNullOrWhiteSpace(Model.CurrentProject.Description))
+                {
+                    <small class="text-muted">@Model.CurrentProject.Description</small>
+                }
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+                <span class="badge bg-secondary fs-6">
+                    Start: @Model.CurrentProject.YearStart
+                </span>
+                <span class="badge bg-secondary fs-6">
+                    Duration: @Model.CurrentProject.YearDuration yr@(Model.CurrentProject.YearDuration == 1 ? "" : "s")
+                </span>
+                <a href="/App/Project" class="btn btn-sm btn-outline-secondary">Back to Projects</a>
+                <button type="button" id="btnViewReport" class="btn btn-sm btn-success">
+                    View Report
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Status message (from TempData) *@
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @Model.StatusMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@* ── Four-tab wizard replacement ─────────────────────────────────────────── *@
+<ul class="nav nav-tabs mb-3" id="projectTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tab-properties" data-bs-toggle="tab"
+                data-bs-target="#pane-properties" type="button" role="tab">Properties</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-addunit" data-bs-toggle="tab"
+                data-bs-target="#pane-addunit" type="button" role="tab">Add Unit (Optional)</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-facesandspaces" data-bs-toggle="tab"
+                data-bs-target="#pane-facesandspaces" type="button" role="tab">Faces &amp; Spaces</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-output" data-bs-toggle="tab"
+                data-bs-target="#pane-output" type="button" role="tab">Output</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="projectTabContent">
+
+    @* ═══════════════════════════════════════════════════════════════════════
+       TAB 1 — PROPERTIES
+       ══════════════════════════════════════════════════════════════════════ *@
+    <div class="tab-pane fade show active" id="pane-properties" role="tabpanel">
+        <div class="card">
+            <div class="card-body">
+                <p>The Properties page establishes initial settings for the project.<br />
+                   <strong>The Project Name may be modified here by editing the text and clicking Save.</strong>
+                </p>
+                <form method="post" asp-page-handler="UpdateProperties" class="row g-3" style="max-width:600px">
+                    <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-12">
+                        <label asp-for="EditProjectName" class="form-label fw-semibold">Project Name</label>
+                        <input asp-for="EditProjectName" class="form-control" required />
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="EditProjectDescription" class="form-label fw-semibold">Description</label>
+                        <textarea asp-for="EditProjectDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EditYearStart" class="form-label fw-semibold">Start Year</label>
+                        <input asp-for="EditYearStart" type="number"
+                               min="@Model.MinimumStartYear" max="@Model.MaximumStartYear"
+                               class="form-control" required />
+                        <div class="form-text">Must be within the next 30 years (@Model.MinimumStartYear – @Model.MaximumStartYear).</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EditYearDuration" class="form-label fw-semibold">Project Duration (years)</label>
+                        <input asp-for="EditYearDuration" type="number" min="1" max="30"
+                               class="form-control" required />
+                        <div class="form-text">1 – 30 years.</div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Save Properties</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @* ═══════════════════════════════════════════════════════════════════════
+       TAB 2 — ADD UNIT (OPTIONAL)
+       ══════════════════════════════════════════════════════════════════════ *@
+    <div class="tab-pane fade" id="pane-addunit" role="tabpanel">
+        <div class="card">
+            <div class="card-body">
+                <p>If you do not need to add an entire unit, skip to <strong>Faces &amp; Spaces</strong>
+                   to add positions individually.</p>
+
+                <div class="row g-3 mb-3" style="max-width:500px">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="uicInput">Unit Identification Code (UIC)</label>
+                        <div class="input-group">
+                            <input type="text" id="uicInput" class="form-control text-uppercase"
+                                   placeholder="e.g. WAAA01" maxlength="10" />
+                            <button type="button" class="btn btn-outline-primary" id="btnLookupUnit">Lookup</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="unitFeedback" class="mb-3"></div>
+
+                <!-- Unit Summary -->
+                <div id="unitSummarySection" class="d-none mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-header bg-light fw-semibold">
+                            Unit Summary — Pay Plan / Location
+                        </div>
+                        <div class="card-body p-2">
+                            <div id="unitPersonnelDetail" class="table-responsive"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pay Plan exclusion -->
+                <div id="payPlanExclusionSection" class="d-none mb-3">
+                    <label class="form-label fw-semibold">Exclude Pay Plans (check to omit from project)</label>
+                    <div id="payPlanCheckboxes" class="d-flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Project Action -->
+                <div id="projectActionSection" class="d-none mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-header bg-light fw-semibold">
+                            Project Action
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted small">Select the action you would like taken regarding your existing project.</p>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="operation"
+                                       id="opReplace" value="Replace" checked />
+                                <label class="form-check-label" for="opReplace">Replace the main project</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="operation"
+                                       id="opAppend" value="Append" />
+                                <label class="form-check-label" for="opAppend">Append to the main project</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="operation"
+                                       id="opSubproject" value="Subproject" />
+                                <label class="form-check-label" for="opSubproject">
+                                    Add this unit as a sub-project with name:
+                                    <input type="text" id="newSubprojectNameInput"
+                                           class="form-control form-control-sm d-inline-block ms-2"
+                                           style="width:200px" placeholder="Sub-project name" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unit Location -->
+                <div id="unitLocationSection" class="d-none mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-header bg-light fw-semibold">Unit Location</div>
+                        <div class="card-body">
+                            <p class="text-muted small">
+                                Select whether AMCOS should change the entire location of the unit.
+                                If AMCOS does not have data for the chosen installation it will fall back
+                                to the reassignment priority shown below.
+                            </p>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="unitLocation"
+                                       id="locUnchanged" value="Unchanged" checked />
+                                <label class="form-check-label" for="locUnchanged">Leave the location unchanged</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="unitLocation"
+                                       id="locNationalAverage" value="National Average" />
+                                <label class="form-check-label" for="locNationalAverage">Use a National Average</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="unitLocation"
+                                       id="locChange" value="Change" />
+                                <label class="form-check-label" for="locChange">Choose a new location</label>
+                            </div>
+                            <select id="locationChangeList" class="form-select mt-2 d-none" style="max-width:300px"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fiscal Years (MTOE only) -->
+                <div id="fiscalYearsSection" class="d-none mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-header bg-light fw-semibold">Fiscal Years</div>
+                        <div class="card-body">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="projectInventoryYear"
+                                       id="fySync" value="Sync" checked />
+                                <label class="form-check-label" for="fySync">
+                                    Sync your project's years to the SACS' years
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="projectInventoryYear"
+                                       id="fyFreeze" value="Freeze" />
+                                <label class="form-check-label" for="fyFreeze">
+                                    Freeze the data at year:
+                                    <select id="mtoeUnitYearList" class="form-select form-select-sm d-inline-block ms-2"
+                                            style="width:120px"></select>
+                                </label>
+                            </div>
+                            <div id="mtoeSyncExtend" class="d-none mt-3">
+                                <p class="fw-semibold small">
+                                    Your project extends beyond the available FYs in the SACS file. Do you want to:
+                                </p>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="projectExtendsSacsYears"
+                                           id="extLastMtoe" value="Last MTOE" checked />
+                                    <label class="form-check-label" for="extLastMtoe">
+                                        Freeze project years beyond the current SACS at the last available MTOE year
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="projectExtendsSacsYears"
+                                           id="extOtoe" value="OTOE" />
+                                    <label class="form-check-label" for="extOtoe">
+                                        Use the Objective TOE (OTOE) for years beyond the SACS years
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contractor Overhead -->
+                <div id="contractorOverheadSection" class="d-none mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-header bg-light fw-semibold">Contractor Cost Estimate Overhead</div>
+                        <div class="card-body">
+                            <label class="form-label" for="contractorOverheadPct">Overhead Percentage</label>
+                            <input type="number" id="contractorOverheadPct" class="form-control"
+                                   style="max-width:150px" value="150" min="0" max="1000" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div id="addUnitSubmitSection" class="d-none">
+                    <button type="button" class="btn btn-primary" id="btnAddUnit">Add Unit to Project</button>
+                    <div id="addUnitStatus" class="mt-2"></div>
+                </div>
+
+                <hr />
+                <p><strong>Note:</strong> AMCOS may not have a cost for certain scenarios as our costs are based on
+                   inventory. In those cases, we will add the personnel to your project using the following priority:</p>
+                <ol>
+                    <li>Unit driven location(s) but Group average</li>
+                    <li>Unit driven location(s) but Pay Plan average</li>
+                    <li>All locations (average) and Unit driven Subgroup(s)</li>
+                    <li>All locations (average) and Group average</li>
+                    <li>All locations (average) and Pay Plan average</li>
+                    <li>A zero cost</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    @* ═══════════════════════════════════════════════════════════════════════
+       TAB 3 — FACES & SPACES
+       ══════════════════════════════════════════════════════════════════════ *@
+    <div class="tab-pane fade" id="pane-facesandspaces" role="tabpanel">
+        <div class="card">
+            <div class="card-body">
+                <h5>Faces and Spaces — Personnel Inventory Input</h5>
+                <p class="text-danger fw-semibold small">
+                    NOTE: No output will be generated if no inventory is provided.
+                </p>
+                <p class="small">Edit any Year's inventory and commit changes by clicking the <strong>Update</strong> button.</p>
+
+                <!-- Category tabs -->
+                <div id="categoryTabsWrapper" class="mb-3">
+                    <div id="categoryTabs" class="d-flex flex-wrap gap-1 mb-2">
+                        <span class="text-muted small">Loading categories…</span>
+                    </div>
+                </div>
+
+                <!-- Inventory grid -->
+                <div id="inventoryGridStatus" class="alert alert-info d-none"></div>
+                <div id="inventoryGridWrapper" class="table-responsive mb-2"></div>
+
+                <div class="d-flex gap-2 mb-4">
+                    <button type="button" class="btn btn-primary" id="btnUpdateInventory">Update</button>
+                    <div id="updateInventoryStatus" class="small align-self-center"></div>
+                </div>
+
+                <hr />
+
+                <!-- Add Requirement form -->
+                <h6 class="fw-semibold">Add Position to Current Category</h6>
+                <p class="small text-muted">
+                    <strong>NOTE:</strong> If you are unable to select a particular skill, there was no inventory
+                    reported for that skill at the end of the previous fiscal year.
+                </p>
+
+                <div class="row g-3 mb-3" id="addRequirementForm" style="max-width:900px">
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqPayPlan">Pay Plan</label>
+                        <input id="reqPayPlan" class="form-control text-uppercase"
+                               placeholder="e.g. GS, WG, CCE" maxlength="10" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqGroup">Group Code</label>
+                        <input id="reqGroup" class="form-control" placeholder="-1 = All" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqSubgroup">Subgroup Code</label>
+                        <input id="reqSubgroup" class="form-control" placeholder="-1 = All" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqCareerProgram">Career Program</label>
+                        <input id="reqCareerProgram" class="form-control" placeholder="-1 = All" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqLocationId">Location Id</label>
+                        <input id="reqLocationId" type="number" class="form-control" value="-1" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqLocationText">Location Text</label>
+                        <input id="reqLocationText" class="form-control" placeholder="-1 = All" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqSTRL">STRL</label>
+                        <input id="reqSTRL" class="form-control" placeholder="-1 = N/A" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqGradeLevel">Grade Level</label>
+                        <input id="reqGradeLevel" type="number" class="form-control" value="1" min="1" max="20" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqDependentStatus">Dependent Status</label>
+                        <input id="reqDependentStatus" class="form-control" placeholder="-1 = N/A" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqNumDependents">Number of Dependents</label>
+                        <input id="reqNumDependents" type="number" class="form-control" value="-1" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqActiveDutyDays">Active Duty Days</label>
+                        <input id="reqActiveDutyDays" type="number" class="form-control"
+                               value="15" min="15" max="365" />
+                        <div class="form-text">Default 15 days (two-week annual drill). Reserve/Guard pay plans only.</div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="reqOverheadPct">Overhead %</label>
+                        <input id="reqOverheadPct" type="number" class="form-control"
+                               value="0" min="0" max="200" step="0.01" />
+                        <div class="form-text">CCE pay plan only.</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">
+                            Inventory (one value per project year — @Model.CurrentProject!.YearDuration year@(Model.CurrentProject.YearDuration == 1 ? "" : "s")
+                            starting @Model.CurrentProject.YearStart)
+                        </label>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered" id="insertInventoryTable">
+                                <thead class="table-dark">
+                                    <tr id="insertInventoryHeaders"></tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="insertInventoryInputs"></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-success" id="btnInsertRequirement">Insert</button>
+                        <span id="insertRequirementMsg" class="ms-2 text-danger small"></span>
+                    </div>
+                </div>
+
+                <hr />
+
+                <!-- Sub-project management -->
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <h6 class="fw-semibold">Add, Rename, or Remove Sub-Project Names (PN)</h6>
+                        <p class="small text-muted">To rename the parent project use the Properties tab.</p>
+
+                        <div class="mb-3" style="max-width:350px">
+                            <label class="form-label">New Sub-Project Name</label>
+                            <div class="input-group">
+                                <input type="text" id="newSubprojectField" class="form-control"
+                                       placeholder="Enter name" maxlength="100" />
+                                <button type="button" class="btn btn-outline-success"
+                                        id="btnCreateSubproject">Create</button>
+                            </div>
+                            <div id="createSubprojectMsg" class="form-text text-danger"></div>
+                        </div>
+
+                        <div id="renameDeleteSection" class="mb-3" style="max-width:400px">
+                            <label class="form-label">Rename or Remove Sub-Project</label>
+                            <select id="subprojectSelect" class="form-select mb-2"></select>
+                            <div id="renamePanel" class="d-none mb-2">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">New Name</span>
+                                    <input type="text" id="renameInput" class="form-control" maxlength="100" />
+                                    <button type="button" class="btn btn-primary" id="btnSaveRename">Save</button>
+                                    <button type="button" class="btn btn-secondary" id="btnCancelRename">Cancel</button>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                        id="btnRenameSubproject">Rename</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                        id="btnDeleteSubproject">Remove</button>
+                            </div>
+                            <div id="subprojectManageMsg" class="form-text text-danger mt-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <h6 class="fw-semibold">Copy Between a Project and Sub-Project</h6>
+                        <p class="small text-muted">
+                            At times it may be useful to copy an entire project's manpower requirements between a
+                            Project and Sub-Project.
+                        </p>
+                        <ul class="small">
+                            <li>A Sub-Project must already exist before you can copy to it.</li>
+                            <li>First select the <strong>destination</strong> category tab above.</li>
+                            <li>Then select the <strong>source</strong> category below and click Copy.</li>
+                        </ul>
+                        <div style="max-width:350px">
+                            <label class="form-label">Copy Positions From:</label>
+                            <select id="copyCategorySelect" class="form-select mb-2"></select>
+                            <button type="button" class="btn btn-outline-primary" id="btnCopyCategory">Copy</button>
+                            <div id="copyCategoryMsg" class="form-text text-danger mt-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @* ═══════════════════════════════════════════════════════════════════════
+       TAB 4 — OUTPUT
+       ══════════════════════════════════════════════════════════════════════ *@
+    <div class="tab-pane fade" id="pane-output" role="tabpanel">
+        <div class="card">
+            <div class="card-body">
+                <h5>Output</h5>
+                <p>Output builds a personnel summary report based on requirements set by the user.</p>
+                <p>Select one or more Pay Plan / Sub-Project combinations to include in the report.</p>
+
+                <div class="d-flex gap-3 mb-2">
+                    <button type="button" class="btn btn-sm btn-link p-0" id="btnCheckAllOutput">
+                        Check all
+                    </button>
+                    <button type="button" class="btn btn-sm btn-link p-0" id="btnUncheckAllOutput">
+                        Remove all checks
+                    </button>
+                </div>
+
+                <div id="outputStatus" class="alert alert-info">
+                    Loading output data…
+                </div>
+
+                <div id="outputTableWrapper" class="table-responsive mb-3"></div>
+
+                <button type="button" class="btn btn-success" id="btnBuildReport">Build Report</button>
+                <div id="buildReportMsg" class="mt-2 text-danger small"></div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /tab-content -->
+
+@* ── Expose server values to JavaScript ──────────────────────────────────── *@
+<script id="pageData" type="application/json">
+{
+    "projectId": @Model.ProjectId,
+    "projectStartYear": @Model.CurrentProject!.YearStart,
+    "projectDuration": @Model.CurrentProject.YearDuration
+}
+</script>
+
+@section Scripts {
+<script>
+/* ============================================================================
+   Project Manager Details — fetch-based interactions
+   ============================================================================ */
+(() => {
+    'use strict';
+
+    // ── Shared state ──────────────────────────────────────────────────────────
+    const PAGE = JSON.parse(document.getElementById('pageData').textContent);
+    const antiForgeryToken = () =>
+        document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? '';
+
+    let activeCategoryId = null;
+    let activeCategoryName = null;
+    let allCategories = [];    // [{categoryId, categoryName}, …]
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function postJson(handler, data) {
+        return fetch(`?handler=${handler}&projectId=${PAGE.projectId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': antiForgeryToken()
+            },
+            body: JSON.stringify(data)
+        }).then(async r => {
+            const json = await r.json();
+            if (!r.ok) throw new Error(json.error ?? `HTTP ${r.status}`);
+            return json;
+        });
+    }
+
+    function getJson(handler, params = {}) {
+        const qs = new URLSearchParams({ handler, projectId: PAGE.projectId, ...params });
+        return fetch(`?${qs}`).then(async r => {
+            const json = await r.json();
+            if (!r.ok) throw new Error(json.error ?? `HTTP ${r.status}`);
+            return json;
+        });
+    }
+
+    function setStatus(el, msg, variant = 'info') {
+        if (!el) return;
+        el.className = `alert alert-${variant}`;
+        el.textContent = msg;
+        el.classList.remove('d-none');
+    }
+
+    function clearStatus(el) {
+        if (!el) return;
+        el.textContent = '';
+        el.className = 'small align-self-center';
+        el.classList.add('d-none');
+    }
+
+    // ── "View Report" button ─────────────────────────────────────────────────
+    document.getElementById('btnViewReport').addEventListener('click', () => {
+        window.location.href = `/App/Project/Report?projectId=${PAGE.projectId}`;
+    });
+
+    // ── Build insert-inventory header row ────────────────────────────────────
+    (function buildInsertTable() {
+        const hdr = document.getElementById('insertInventoryHeaders');
+        const inp = document.getElementById('insertInventoryInputs');
+        if (!hdr || !inp) return;
+        for (let y = 0; y < PAGE.projectDuration; y++) {
+            const year = PAGE.projectStartYear + y;
+            hdr.insertAdjacentHTML('beforeend', `<th class="text-center">${year}</th>`);
+            inp.insertAdjacentHTML('beforeend',
+                `<td><input type="number" class="form-control form-control-sm inv-insert-cell"
+                            data-year="${y}" min="0" max="99999" value="0"
+                            style="width:72px" /></td>`);
+        }
+    })();
+
+    /* ========================================================================
+       TAB 2 — ADD UNIT
+       ====================================================================== */
+    const uicInput             = document.getElementById('uicInput');
+    const btnLookupUnit        = document.getElementById('btnLookupUnit');
+    const unitFeedback         = document.getElementById('unitFeedback');
+    const unitSummarySection   = document.getElementById('unitSummarySection');
+    const unitPersonnelDetail  = document.getElementById('unitPersonnelDetail');
+    const payPlanExclusionSec  = document.getElementById('payPlanExclusionSection');
+    const payPlanCheckboxes    = document.getElementById('payPlanCheckboxes');
+    const projectActionSec     = document.getElementById('projectActionSection');
+    const unitLocationSec      = document.getElementById('unitLocationSection');
+    const locationChangeList   = document.getElementById('locationChangeList');
+    const fiscalYearsSec       = document.getElementById('fiscalYearsSection');
+    const mtoeUnitYearList     = document.getElementById('mtoeUnitYearList');
+    const mtoeSyncExtend       = document.getElementById('mtoeSyncExtend');
+    const contractorOverheadSec= document.getElementById('contractorOverheadSection');
+    const addUnitSubmitSec     = document.getElementById('addUnitSubmitSection');
+    const addUnitStatus        = document.getElementById('addUnitStatus');
+
+    let unitPersonnelData = [];
+    let isMtoeUnit = false;
+
+    btnLookupUnit.addEventListener('click', lookupUnit);
+    uicInput.addEventListener('keydown', e => { if (e.key === 'Enter') lookupUnit(); });
+
+    document.querySelectorAll('input[name="unitLocation"]').forEach(r => {
+        r.addEventListener('change', () => {
+            locationChangeList.classList.toggle('d-none', r.value !== 'Change' || !r.checked);
+        });
+    });
+
+    document.querySelectorAll('input[name="projectInventoryYear"]').forEach(r => {
+        r.addEventListener('change', () => {
+            mtoeSyncExtend.classList.toggle('d-none', document.getElementById('fySync').checked);
+        });
+    });
+
+    async function lookupUnit() {
+        const uic = uicInput.value.trim().toUpperCase();
+        if (!uic) { unitFeedback.innerHTML = '<div class="alert alert-warning">Please enter a UIC.</div>'; return; }
+
+        unitFeedback.innerHTML = '<div class="alert alert-info">Looking up unit…</div>';
+        [unitSummarySection, payPlanExclusionSec, projectActionSec,
+         unitLocationSec, fiscalYearsSec, contractorOverheadSec,
+         addUnitSubmitSec].forEach(el => el.classList.add('d-none'));
+
+        try {
+            const data = await getJson('UnitPersonnel', { uic, projectStartYear: PAGE.projectStartYear });
+            unitPersonnelData = data;
+
+            if (!data || data.length === 0) {
+                unitFeedback.innerHTML = '<div class="alert alert-warning">No personnel data found for that UIC.</div>';
+                return;
+            }
+
+            isMtoeUnit = data[0].authorizationDocument === 'MTOE';
+            unitFeedback.innerHTML = '';
+
+            // Personnel table
+            const payPlans = [...new Set(data.map(r => r.payPlan))].sort();
+            const locations = [...new Set(data.map(r => r.location))].sort();
+
+            let tbl = `<table class="table table-sm table-bordered table-striped">
+                <thead class="table-dark"><tr><th>Pay Plan</th><th>Location</th><th>Inventory</th></tr></thead><tbody>`;
+            data.forEach(r => {
+                tbl += `<tr><td>${esc(r.payPlan)}</td><td>${esc(r.location)}</td><td>${r.inventory}</td></tr>`;
+            });
+            tbl += '</tbody></table>';
+            unitPersonnelDetail.innerHTML = tbl;
+            unitSummarySection.classList.remove('d-none');
+
+            // Pay plan checkboxes
+            payPlanCheckboxes.innerHTML = '';
+            payPlans.forEach(pp => {
+                payPlanCheckboxes.insertAdjacentHTML('beforeend',
+                    `<div class="form-check form-check-inline">
+                        <input class="form-check-input pp-exclude" type="checkbox"
+                               id="pp_${pp}" value="${esc(pp)}" />
+                        <label class="form-check-label" for="pp_${pp}">${esc(pp)}</label>
+                    </div>`);
+            });
+            payPlanExclusionSec.classList.remove('d-none');
+
+            // Location change list
+            locationChangeList.innerHTML = '<option value="">-- All Locations --</option>';
+            locations.forEach(loc => {
+                locationChangeList.insertAdjacentHTML('beforeend',
+                    `<option value="${esc(loc)}">${esc(loc)}</option>`);
+            });
+
+            // MTOE fiscal years
+            if (isMtoeUnit) {
+                const years = await getJson('UnitYears', { uic });
+                mtoeUnitYearList.innerHTML = '';
+                years.forEach(y => {
+                    mtoeUnitYearList.insertAdjacentHTML('beforeend',
+                        `<option value="${esc(y.value)}">${esc(y.text)}</option>`);
+                });
+                fiscalYearsSec.classList.remove('d-none');
+                contractorOverheadSec.classList.remove('d-none');
+            }
+
+            projectActionSec.classList.remove('d-none');
+            unitLocationSec.classList.remove('d-none');
+            addUnitSubmitSec.classList.remove('d-none');
+
+        } catch (err) {
+            unitFeedback.innerHTML = `<div class="alert alert-danger">Error: ${esc(err.message)}</div>`;
+        }
+    }
+
+    document.getElementById('btnAddUnit').addEventListener('click', async () => {
+        const uic = uicInput.value.trim().toUpperCase();
+        if (!uic) { setStatus(addUnitStatus, 'UIC is required.', 'warning'); return; }
+
+        const operation = document.querySelector('input[name="operation"]:checked')?.value ?? 'Replace';
+        const newSubprojectName = document.getElementById('newSubprojectNameInput').value.trim();
+        if (operation === 'Subproject' && !newSubprojectName) {
+            setStatus(addUnitStatus, 'Please enter a sub-project name.', 'warning'); return;
+        }
+
+        // Collect excluded pay plans
+        const excluded = [...document.querySelectorAll('.pp-exclude:checked')]
+            .map(cb => cb.value).join(',');
+
+        // Unit location
+        const locRadio = document.querySelector('input[name="unitLocation"]:checked');
+        let unitLocation = locRadio?.value ?? 'Unchanged';
+        if (unitLocation === 'Change') {
+            unitLocation = locationChangeList.value || 'Change';
+        }
+
+        // MTOE options
+        let mtoeInventoryYear = '';
+        let projectExtendsSacsYears = 'Last MTOE';
+        if (isMtoeUnit) {
+            const fyRadio = document.querySelector('input[name="projectInventoryYear"]:checked');
+            if (fyRadio?.value === 'Freeze') {
+                mtoeInventoryYear = mtoeUnitYearList.value;
+            }
+            const extRadio = document.querySelector('input[name="projectExtendsSacsYears"]:checked');
+            projectExtendsSacsYears = extRadio?.value ?? 'Last MTOE';
+        }
+
+        const contractorOverheadPct = parseFloat(document.getElementById('contractorOverheadPct').value) || 0;
+
+        // Determine target categoryId for Append
+        const catId = activeCategoryId ?? 0;
+
+        setStatus(addUnitStatus, 'Adding unit…');
+        try {
+            const result = await postJson('AddUnit', {
+                uic,
+                operation,
+                newSubprojectName: newSubprojectName || null,
+                categoryId: catId,
+                excludedPayPlans: excluded || null,
+                unitLocation,
+                mtoeInventoryYear: mtoeInventoryYear || null,
+                projectExtendsSacsYears,
+                contractorOverheadPercent: contractorOverheadPct
+            });
+            if (result.success) {
+                setStatus(addUnitStatus,
+                    'Unit added successfully. Switch to Faces & Spaces to see the results.', 'success');
+                await refreshCategories();
+            } else {
+                setStatus(addUnitStatus, result.message ?? 'Failed to add unit.', 'danger');
+            }
+        } catch (err) {
+            setStatus(addUnitStatus, `Error: ${esc(err.message)}`, 'danger');
+        }
+    });
+
+    /* ========================================================================
+       TAB 3 — FACES & SPACES
+       ====================================================================== */
+
+    // ── Category tabs ─────────────────────────────────────────────────────────
+    const categoryTabsEl      = document.getElementById('categoryTabs');
+    const inventoryGridStatus = document.getElementById('inventoryGridStatus');
+    const inventoryGridWrap   = document.getElementById('inventoryGridWrapper');
+    const updateInvStatus     = document.getElementById('updateInventoryStatus');
+
+    async function refreshCategories() {
+        try {
+            const cats = await getJson('Categories');
+            allCategories = cats;
+            renderCategoryTabs(cats);
+            populateSubprojectSelects(cats);
+            if (cats.length > 0) {
+                const target = activeCategoryId
+                    ? (cats.find(c => c.categoryId === activeCategoryId) ?? cats[0])
+                    : cats[0];
+                await selectCategory(target.categoryId, target.categoryName);
+            } else {
+                inventoryGridWrap.innerHTML = '<div class="alert alert-light border">No categories found.</div>';
+            }
+        } catch (err) {
+            categoryTabsEl.innerHTML = `<div class="alert alert-danger">Failed to load categories: ${esc(err.message)}</div>`;
+        }
+    }
+
+    function renderCategoryTabs(cats) {
+        categoryTabsEl.innerHTML = '';
+        cats.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn btn-sm ' +
+                (cat.categoryId === activeCategoryId ? 'btn-warning' : 'btn-outline-secondary');
+            btn.textContent = cat.categoryName;
+            btn.dataset.catId   = cat.categoryId;
+            btn.dataset.catName = cat.categoryName;
+            btn.addEventListener('click', () => selectCategory(cat.categoryId, cat.categoryName));
+            categoryTabsEl.appendChild(btn);
+        });
+    }
+
+    async function selectCategory(categoryId, categoryName) {
+        activeCategoryId   = categoryId;
+        activeCategoryName = categoryName;
+        renderCategoryTabs(allCategories);
+        await loadInventoryGrid(categoryId);
+    }
+
+    // ── Inventory grid ────────────────────────────────────────────────────────
+    async function loadInventoryGrid(categoryId) {
+        inventoryGridWrap.innerHTML = '';
+        setStatus(inventoryGridStatus, 'Loading inventory…');
+        try {
+            const skills = await getJson('Skills', { categoryId });
+            clearStatus(inventoryGridStatus);
+            inventoryGridStatus.classList.add('d-none');
+
+            if (!skills || skills.length === 0) {
+                inventoryGridWrap.innerHTML =
+                    '<div class="alert alert-light border">No inventory found for this category.</div>';
+                return;
+            }
+
+            // Build year header columns
+            const years = Array.from({ length: PAGE.projectDuration },
+                (_, i) => PAGE.projectStartYear + i);
+
+            let tbl = `<table class="table table-sm table-bordered align-middle" style="min-width:900px">
+                <thead class="table-success">
+                    <tr>
+                        <th>UIC</th><th>Pay Plan</th><th>Group</th><th>Subgroup</th>
+                        <th>Career Prog</th><th>Location</th><th>STRL</th>
+                        <th>Dep Status</th><th>Dep #</th><th>Active Days</th>
+                        <th>OH%</th><th>Grade</th>`;
+            years.forEach(y => { tbl += `<th class="text-center">${y}</th>`; });
+            tbl += `<th>Delete</th></tr></thead><tbody>`;
+
+            skills.forEach(s => {
+                // Build inventory map (year index → amount)
+                const invMap = {};
+                (s.inventory ?? []).forEach(i => { invMap[i.year] = i.amount; });
+
+                tbl += `<tr data-skill-id="${s.skillId}">
+                    <td>${esc(s.uic ?? '')}</td>
+                    <td>${esc(s.payPlan)}</td>
+                    <td>${esc(s.categoryGroupCode)}</td>
+                    <td>${esc(s.categorySubgroupCode)}</td>
+                    <td>${esc(s.careerProgramNumber)}</td>
+                    <td>${esc(s.location)}</td>
+                    <td>${esc(s.strl ?? s.sTRL ?? '')}</td>
+                    <td>${esc(s.dependentStatus)}</td>
+                    <td>${esc(String(s.numberOfDependents))}</td>
+                    <td>${esc(s.activeDutyDays)}</td>
+                    <td>${esc(s.overheadPercent)}</td>
+                    <td>${esc(s.grade)}</td>`;
+
+                years.forEach((_, idx) => {
+                    const amt = invMap[idx] ?? 0;
+                    tbl += `<td><input type="number" class="form-control form-control-sm inv-year-cell"
+                                       data-year="${idx}" min="0" max="99999" value="${amt}"
+                                       style="width:72px" /></td>`;
+                });
+
+                tbl += `<td class="text-center">
+                    <input class="form-check-input skill-delete-chk" type="checkbox" title="Mark for delete" />
+                </td></tr>`;
+            });
+
+            tbl += '</tbody></table>';
+            inventoryGridWrap.innerHTML = tbl;
+
+        } catch (err) {
+            setStatus(inventoryGridStatus, `Failed to load inventory: ${esc(err.message)}`, 'danger');
+        }
+    }
+
+    // Update button — bulk-save all rows at once
+    document.getElementById('btnUpdateInventory').addEventListener('click', async () => {
+        const rows = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')];
+        if (rows.length === 0) return;
+
+        // Collect delete-checked rows first
+        const deleteRows = rows.filter(r =>
+            r.querySelector('.skill-delete-chk')?.checked);
+
+        if (deleteRows.length > 0) {
+            if (!confirm(`Delete ${deleteRows.length} checked row(s)?`)) return;
+            for (const row of deleteRows) {
+                const skillId = parseInt(row.dataset.skillId, 10);
+                await postJson('DeleteSkill', { skillId });
+                row.remove();
+            }
+            updateInvStatus.textContent = 'Deleted selected rows.';
+        }
+
+        // Collect remaining rows
+        const remaining = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')];
+        const payload = remaining.map(row => {
+            const skillId = parseInt(row.dataset.skillId, 10);
+            const cells = [...row.querySelectorAll('.inv-year-cell')];
+            // Fill to projectDuration, defaulting to 0
+            const inventory = Array.from({ length: PAGE.projectDuration }, (_, i) => {
+                const cell = cells.find(c => parseInt(c.dataset.year, 10) === i);
+                return cell ? (parseInt(cell.value, 10) || 0) : 0;
+            });
+            return { skillId, inventory };
+        });
+
+        try {
+            await postJson('BulkUpdateInventory', { rows: payload });
+            updateInvStatus.textContent = 'Inventory saved.';
+            updateInvStatus.className = 'small text-success align-self-center';
+        } catch (err) {
+            updateInvStatus.textContent = `Error: ${esc(err.message)}`;
+            updateInvStatus.className = 'small text-danger align-self-center';
+        }
+    });
+
+    // ── Add Requirement (insert new skill row) ────────────────────────────────
+    document.getElementById('btnInsertRequirement').addEventListener('click', async () => {
+        const msgEl = document.getElementById('insertRequirementMsg');
+        msgEl.textContent = '';
+
+        if (!activeCategoryId) {
+            msgEl.textContent = 'Please select a category first.'; return;
+        }
+
+        const inv = [...document.querySelectorAll('.inv-insert-cell')]
+            .map(inp => parseInt(inp.value, 10) || 0);
+
+        if (inv.every(v => v === 0)) {
+            msgEl.textContent = 'The sum of inventory for all years must be greater than zero.'; return;
+        }
+
+        const req = {
+            categoryId:           activeCategoryId,
+            payPlan:              document.getElementById('reqPayPlan').value.trim().toUpperCase(),
+            categoryGroupCode:    document.getElementById('reqGroup').value.trim() || '-1',
+            categorySubgroupCode: document.getElementById('reqSubgroup').value.trim() || '-1',
+            careerProgramNumber:  document.getElementById('reqCareerProgram').value.trim() || '-1',
+            locationId:           parseInt(document.getElementById('reqLocationId').value, 10) || -1,
+            locationText:         document.getElementById('reqLocationText').value.trim() || '-1',
+            strl:                 document.getElementById('reqSTRL').value.trim() || '-1',
+            gradeLevel:           parseInt(document.getElementById('reqGradeLevel').value, 10) || 1,
+            dependentStatus:      document.getElementById('reqDependentStatus').value.trim() || '-1',
+            numberOfDependents:   parseInt(document.getElementById('reqNumDependents').value, 10) || -1,
+            activeDutyDays:       parseInt(document.getElementById('reqActiveDutyDays').value, 10) || 15,
+            overheadPercent:      parseFloat(document.getElementById('reqOverheadPct').value) || 0,
+            inventory:            inv
+        };
+
+        if (!req.payPlan) { msgEl.textContent = 'Pay Plan is required.'; return; }
+
+        try {
+            const result = await postJson('AddRequirement', req);
+            if (result.success) {
+                msgEl.className = 'ms-2 text-success small';
+                msgEl.textContent = 'Requirement added.';
+                await loadInventoryGrid(activeCategoryId);
+                // Clear insert row
+                document.querySelectorAll('.inv-insert-cell').forEach(el => el.value = '0');
+            } else {
+                msgEl.textContent = result.message ?? 'Failed to insert requirement.';
+            }
+        } catch (err) {
+            msgEl.textContent = `Error: ${esc(err.message)}`;
+        }
+    });
+
+    // ── Subproject management ─────────────────────────────────────────────────
+    function populateSubprojectSelects(cats) {
+        const sel   = document.getElementById('subprojectSelect');
+        const copy  = document.getElementById('copyCategorySelect');
+
+        sel.innerHTML  = '';
+        copy.innerHTML = '';
+
+        cats.forEach(cat => {
+            sel.insertAdjacentHTML('beforeend',
+                `<option value="${cat.categoryId}" data-name="${esc(cat.categoryName)}">${esc(cat.categoryName)}</option>`);
+            // Copy dropdown: only show others (not active)
+            if (cat.categoryId !== activeCategoryId) {
+                copy.insertAdjacentHTML('beforeend',
+                    `<option value="${cat.categoryId}">${esc(cat.categoryName)}</option>`);
+            }
+        });
+
+        document.getElementById('renameDeleteSection').classList.toggle('d-none', cats.length === 0);
+    }
+
+    document.getElementById('btnCreateSubproject').addEventListener('click', async () => {
+        const msgEl = document.getElementById('createSubprojectMsg');
+        const input = document.getElementById('newSubprojectField');
+        const name  = input.value.trim();
+        msgEl.textContent = '';
+        if (!name) { msgEl.textContent = 'Name is required.'; return; }
+
+        try {
+            const result = await postJson('AddSubproject', { name });
+            if (result.success) {
+                input.value = '';
+                await refreshCategories();
+            } else {
+                msgEl.textContent = result.message ?? 'Failed to create sub-project.';
+            }
+        } catch (err) {
+            msgEl.textContent = `Error: ${esc(err.message)}`;
+        }
+    });
+
+    document.getElementById('btnDeleteSubproject').addEventListener('click', async () => {
+        const msgEl = document.getElementById('subprojectManageMsg');
+        const sel   = document.getElementById('subprojectSelect');
+        const catId = parseInt(sel.value, 10);
+        if (!catId) return;
+        if (!confirm(`Remove sub-project "${sel.options[sel.selectedIndex].text}"?`)) return;
+
+        try {
+            const result = await postJson('DeleteSubproject', { categoryId: catId });
+            if (result.success) {
+                if (activeCategoryId === catId) activeCategoryId = null;
+                await refreshCategories();
+            } else {
+                msgEl.textContent = result.message ?? 'Failed to remove.';
+            }
+        } catch (err) {
+            msgEl.textContent = `Error: ${esc(err.message)}`;
+        }
+    });
+
+    document.getElementById('btnRenameSubproject').addEventListener('click', () => {
+        const sel = document.getElementById('subprojectSelect');
+        document.getElementById('renameInput').value =
+            sel.options[sel.selectedIndex]?.text ?? '';
+        document.getElementById('renamePanel').classList.remove('d-none');
+        document.getElementById('subprojectManageMsg').textContent = '';
+    });
+
+    document.getElementById('btnCancelRename').addEventListener('click', () => {
+        document.getElementById('renamePanel').classList.add('d-none');
+    });
+
+    document.getElementById('btnSaveRename').addEventListener('click', async () => {
+        const msgEl   = document.getElementById('subprojectManageMsg');
+        const sel     = document.getElementById('subprojectSelect');
+        const oldName = sel.options[sel.selectedIndex]?.text ?? '';
+        const newName = document.getElementById('renameInput').value.trim();
+        if (!newName || newName === oldName) {
+            document.getElementById('renamePanel').classList.add('d-none'); return;
+        }
+
+        try {
+            const result = await postJson('RenameSubproject', { oldName, newName });
+            if (result.success) {
+                document.getElementById('renamePanel').classList.add('d-none');
+                await refreshCategories();
+            } else {
+                msgEl.textContent = result.message ?? 'Rename failed.';
+            }
+        } catch (err) {
+            msgEl.textContent = `Error: ${esc(err.message)}`;
+        }
+    });
+
+    document.getElementById('btnCopyCategory').addEventListener('click', async () => {
+        const msgEl        = document.getElementById('copyCategoryMsg');
+        const fromSel      = document.getElementById('copyCategorySelect');
+        const fromCatId    = parseInt(fromSel.value, 10);
+        if (!fromCatId || !activeCategoryId || fromCatId === activeCategoryId) {
+            msgEl.textContent = 'Select a source category that is different from the active one.'; return;
+        }
+
+        msgEl.textContent = '';
+        try {
+            const result = await postJson('CopyCategory', {
+                fromCategoryId: fromCatId,
+                toCategoryId:   activeCategoryId
+            });
+            if (result.success) {
+                await loadInventoryGrid(activeCategoryId);
+                msgEl.className = 'form-text text-success mt-1';
+                msgEl.textContent = 'Copy complete.';
+            } else {
+                msgEl.className = 'form-text text-danger mt-1';
+                msgEl.textContent = result.message ?? 'Copy failed.';
+            }
+        } catch (err) {
+            msgEl.className = 'form-text text-danger mt-1';
+            msgEl.textContent = `Error: ${esc(err.message)}`;
+        }
+    });
+
+    /* ========================================================================
+       TAB 4 — OUTPUT
+       ====================================================================== */
+    const outputStatus       = document.getElementById('outputStatus');
+    const outputTableWrapper = document.getElementById('outputTableWrapper');
+    let outputData = [];
+
+    async function loadOutputTab() {
+        setStatus(outputStatus, 'Loading output data…');
+        outputTableWrapper.innerHTML = '';
+        try {
+            const outputs = await getJson('Outputs');
+            outputData = outputs;
+            clearStatus(outputStatus);
+            outputStatus.classList.add('d-none');
+
+            if (!outputs || outputs.length === 0) {
+                outputStatus.classList.remove('d-none');
+                setStatus(outputStatus, 'No output data found. Add inventory in Faces & Spaces first.', 'warning');
+                return;
+            }
+
+            let tbl = `<table class="table table-sm table-bordered table-striped">
+                <thead class="table-success">
+                    <tr><th>Pay Plan</th><th>Sub-Project Name</th><th class="text-center">Include In Report</th></tr>
+                </thead><tbody>`;
+
+            outputs.forEach((o, idx) => {
+                tbl += `<tr>
+                    <td>${esc(o.payPlan)}</td>
+                    <td>${esc(o.category)}</td>
+                    <td class="text-center">
+                        <input class="form-check-input output-chk" type="checkbox"
+                               data-category-id="${o.categoryId}" data-pay-plan="${esc(o.payPlan)}"
+                               id="outChk${idx}" />
+                    </td>
+                </tr>`;
+            });
+
+            tbl += '</tbody></table>';
+            outputTableWrapper.innerHTML = tbl;
+
+        } catch (err) {
+            setStatus(outputStatus, `Failed to load outputs: ${esc(err.message)}`, 'danger');
+        }
+    }
+
+    document.getElementById('btnCheckAllOutput').addEventListener('click', () => {
+        outputTableWrapper.querySelectorAll('.output-chk').forEach(cb => cb.checked = true);
+    });
+
+    document.getElementById('btnUncheckAllOutput').addEventListener('click', () => {
+        outputTableWrapper.querySelectorAll('.output-chk').forEach(cb => cb.checked = false);
+    });
+
+    document.getElementById('btnBuildReport').addEventListener('click', async () => {
+        const msgEl  = document.getElementById('buildReportMsg');
+        const checked = [...outputTableWrapper.querySelectorAll('.output-chk:checked')];
+        if (checked.length === 0) {
+            msgEl.textContent = 'Please select at least one Pay Plan / Sub-Project combination.'; return;
+        }
+
+        msgEl.textContent = '';
+        const items = checked.map(cb => ({
+            categoryId: parseInt(cb.dataset.categoryId, 10),
+            payPlan:    cb.dataset.payPlan
+        }));
+
+        try {
+            const result = await postJson('BuildReport', { outputItems: items });
+            if (result.success) {
+                window.location.href = result.reportUrl;
+            } else {
+                msgEl.textContent = result.message ?? 'Failed to build report.';
+            }
+        } catch (err) {
+            msgEl.textContent = `Error: ${esc(err.message)}`;
+        }
+    });
+
+    // ── Load content when tabs are first shown ────────────────────────────────
+    document.getElementById('tab-facesandspaces').addEventListener('shown.bs.tab', async () => {
+        if (allCategories.length === 0) await refreshCategories();
+    });
+
+    document.getElementById('tab-output').addEventListener('shown.bs.tab', async () => {
+        if (outputData.length === 0) await loadOutputTab();
+    });
+
+    // ── Utility: HTML-escape ──────────────────────────────────────────────────
+    function esc(s) {
+        if (s === null || s === undefined) return '';
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+})();
+</script>
+}

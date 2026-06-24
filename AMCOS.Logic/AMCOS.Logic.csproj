@@ -36,8 +36,8 @@
     <Compile Remove="Helpers\KeyCloakHelper.cs" />
     <Compile Remove="Helpers\SameSiteCookieHelper.cs" />
     <Compile Remove="Helpers\SecurityHelper.cs" />
-    <Compile Remove="QuickSight.cs" />
     <Compile Remove="WebControlUtil.cs" />
+
   </ItemGroup>
 
   <ItemGroup>

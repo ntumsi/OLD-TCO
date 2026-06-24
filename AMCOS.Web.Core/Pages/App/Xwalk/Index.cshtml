@@ -1,10 +1,20 @@
 @page
+@model AMCOS.Web.Core.Pages.App.Xwalk.IndexModel
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @{
     ViewData["Title"] = "Xwalk";
 }
 
-<div class="alert alert-secondary">
-    Xwalk migration placeholder. The legacy crosswalk workflow still needs to be ported from WebForms/MVC assets into Razor Pages and Core APIs.
-</div>
+<h4>Pay Plan Crosswalk</h4>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-info">@Model.ErrorMessage</div>
+}
+else if (Model.EmbedUrl != null)
+{
+    <div style="height: 85vh;">
+        <iframe src="@Model.EmbedUrl" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+}

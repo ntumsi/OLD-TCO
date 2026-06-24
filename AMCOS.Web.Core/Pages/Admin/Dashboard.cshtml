@@ -1,0 +1,18 @@
+@page "{slug}"
+@model AMCOS.Web.Core.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = Model.DashboardTitle;
+}
+
+<h4>@Model.DashboardTitle</h4>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-warning">@Model.ErrorMessage</div>
+}
+else if (Model.EmbedUrl != null)
+{
+    <div id="dashboard-container" style="height: 85vh;">
+        <iframe id="qs-iframe" src="@Model.EmbedUrl" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+}

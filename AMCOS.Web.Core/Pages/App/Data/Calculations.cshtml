@@ -1,0 +1,136 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Data.CalculationsModel
+@{
+    ViewData["Title"] = "Cost Element Data Dictionary";
+}
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">Filters</div>
+            <div class="card-body row g-3">
+                @if (!string.IsNullOrWhiteSpace(Model.LoadError))
+                {
+                    <div class="alert alert-warning">@Model.LoadError</div>
+                }
+                <div class="col-12">
+                    <label class="form-label" for="payPlan">Pay Plan</label>
+                    <select id="payPlan" class="form-select">
+                        <option value="">-- Select --</option>
+                        @foreach (var (value, text) in Model.PayPlans)
+                        {
+                            <option value="@value">@text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="appn">APPN</label>
+                    <select id="appn" class="form-select" disabled>
+                        <option value="">-- Select pay plan first --</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="category">Category</label>
+                    <select id="category" class="form-select" disabled>
+                        <option value="">-- Select APPN first --</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="element">Element</label>
+                    <select id="element" class="form-select" disabled>
+                        <option value="">-- Select category first --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">Cost Element Details</div>
+            <div class="card-body">
+                <div id="detailsPlaceholder" class="text-muted">Select all filters to view cost element details.</div>
+                <table id="detailsTable" class="table table-bordered" style="display:none">
+                    <tbody>
+                        <tr><th style="width:200px">Cost Element Name</th><td id="dName"></td></tr>
+                        <tr><th>Description</th><td id="dDescription"></td></tr>
+                        <tr><th>Business Logic</th><td id="dBusinessLogic"></td></tr>
+                        <tr><th>Basis of Computation</th><td id="dBasisOfComputation"></td></tr>
+                        <tr><th>Source</th><td id="dSource"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(() => {
+    const payPlan = document.getElementById('payPlan');
+    const appn = document.getElementById('appn');
+    const category = document.getElementById('category');
+    const element = document.getElementById('element');
+    const table = document.getElementById('detailsTable');
+    const placeholder = document.getElementById('detailsPlaceholder');
+
+    async function load(handler, params, target, prompt) {
+        target.innerHTML = `<option value="">-- ${prompt} --</option>`;
+        target.disabled = true;
+        const qs = new URLSearchParams(params).toString();
+        const res = await fetch(`?handler=${handler}&${qs}`);
+        const items = await res.json();
+        items.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v; opt.textContent = v;
+            target.appendChild(opt);
+        });
+        target.disabled = false;
+    }
+
+    async function loadDetails() {
+        if (!payPlan.value || !appn.value || !category.value || !element.value) {
+            table.style.display = 'none';
+            placeholder.style.display = '';
+            return;
+        }
+        const qs = new URLSearchParams({ payPlan: payPlan.value, appn: appn.value, category: category.value, element: element.value }).toString();
+        const res = await fetch(`?handler=Details&${qs}`);
+        const d = await res.json();
+        if (!d) return;
+        document.getElementById('dName').textContent = d.name ?? '';
+        document.getElementById('dDescription').textContent = d.description ?? '';
+        document.getElementById('dBusinessLogic').textContent = d.businessLogic ?? '';
+        document.getElementById('dBasisOfComputation').textContent = d.basisOfComputation ?? '';
+        document.getElementById('dSource').textContent = d.source ?? '';
+        placeholder.style.display = 'none';
+        table.style.display = '';
+    }
+
+    payPlan.addEventListener('change', async () => {
+        appn.innerHTML = '<option value="">-- Loading... --</option>';
+        category.innerHTML = '<option value="">-- Select APPN first --</option>'; category.disabled = true;
+        element.innerHTML = '<option value="">-- Select category first --</option>'; element.disabled = true;
+        table.style.display = 'none'; placeholder.style.display = '';
+        if (!payPlan.value) { appn.disabled = true; return; }
+        await load('Appns', { payPlan: payPlan.value }, appn, 'Select APPN');
+    });
+
+    appn.addEventListener('change', async () => {
+        category.innerHTML = '<option value="">-- Loading... --</option>';
+        element.innerHTML = '<option value="">-- Select category first --</option>'; element.disabled = true;
+        table.style.display = 'none'; placeholder.style.display = '';
+        if (!appn.value) { category.disabled = true; return; }
+        await load('Categories', { payPlan: payPlan.value, appn: appn.value }, category, 'Select category');
+    });
+
+    category.addEventListener('change', async () => {
+        element.innerHTML = '<option value="">-- Loading... --</option>';
+        table.style.display = 'none'; placeholder.style.display = '';
+        if (!category.value) { element.disabled = true; return; }
+        await load('Elements', { payPlan: payPlan.value, appn: appn.value, category: category.value }, element, 'Select element');
+    });
+
+    element.addEventListener('change', loadDetails);
+})();
+</script>
+}

@@ -1,0 +1,249 @@
+/* ==========================================================================
+   AMCOS brand theme
+   Modernized brand layer on top of Bootstrap 5, derived from the legacy
+   AMCOS.Web color scheme (AMCOS.Web/src/css/AMCOS.css).
+
+   Legacy palette:
+     #2F372F  Army green   (header / nav / panels)
+     #000000  Black        (pre-header / footer)
+     #0f6938  Accent green (highlights / primary actions)
+     #008fd8 / #0075cf     Blue accents (interactive / links)
+     #B5B5B5  Gray borders
+     #FFFFFF  White text
+   ========================================================================== */
+
+:root {
+    /* Brand palette */
+    --amcos-green: #2F372F;          /* primary army green */
+    --amcos-green-dark: #232a23;
+    --amcos-green-light: #3c463c;
+    --amcos-accent: #0f6938;         /* accent green */
+    --amcos-accent-dark: #0b4f2a;
+    --amcos-accent-light: #15824a;
+    --amcos-black: #000000;
+    --amcos-blue: #008fd8;
+    --amcos-blue-dark: #0075cf;
+    --amcos-border: #B5B5B5;
+    --amcos-white: #FFFFFF;
+    --amcos-bg: #f5f5f5;
+
+    /* Bootstrap variable overrides (theme-wide) */
+    --bs-primary: var(--amcos-accent);
+    --bs-primary-rgb: 15, 105, 56;
+    --bs-link-color: var(--amcos-blue-dark);
+    --bs-link-color-rgb: 0, 117, 207;
+    --bs-link-hover-color: var(--amcos-accent);
+    --bs-link-hover-color-rgb: 15, 105, 56;
+    --bs-body-font-family: Arial, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    font-family: var(--bs-body-font-family);
+    background-color: var(--amcos-bg);
+    color: #212529;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--amcos-green);
+}
+
+a {
+    color: var(--amcos-blue-dark);
+}
+
+a:hover {
+    color: var(--amcos-accent);
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Header / navigation (army green)
+   -------------------------------------------------------------------------- */
+.amcos-navbar {
+    background-color: var(--amcos-green) !important;
+    box-shadow: 0 3px 5px 0 rgba(107, 107, 107, 0.55);
+    border-bottom: 3px solid var(--amcos-accent);
+}
+
+.amcos-navbar .navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--amcos-white) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.amcos-navbar .navbar-brand .amcos-brand-mark {
+    display: inline-block;
+    width: 0.65rem;
+    height: 1.35rem;
+    border-radius: 2px;
+    background: var(--amcos-accent);
+}
+
+.amcos-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 600;
+}
+
+.amcos-navbar .nav-link:hover,
+.amcos-navbar .nav-link:focus {
+    color: var(--amcos-white) !important;
+}
+
+.amcos-navbar .nav-link.active,
+.amcos-navbar .nav-item.active > .nav-link {
+    color: var(--amcos-white) !important;
+    border-bottom: 2px solid var(--amcos-accent);
+}
+
+/* Branded dropdown menus */
+.amcos-navbar .dropdown-menu {
+    background-color: var(--amcos-green);
+    border: 1px solid var(--amcos-border);
+    border-radius: 0 0 0.375rem 0.375rem;
+}
+
+.amcos-navbar .dropdown-item {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+.amcos-navbar .dropdown-item:hover,
+.amcos-navbar .dropdown-item:focus {
+    background-color: var(--amcos-accent);
+    color: var(--amcos-white);
+}
+
+.amcos-navbar .dropdown-divider {
+    border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn-primary,
+.btn-amcos {
+    --bs-btn-bg: var(--amcos-accent);
+    --bs-btn-border-color: var(--amcos-accent);
+    --bs-btn-hover-bg: var(--amcos-accent-dark);
+    --bs-btn-hover-border-color: var(--amcos-accent-dark);
+    --bs-btn-active-bg: var(--amcos-accent-dark);
+    --bs-btn-active-border-color: var(--amcos-accent-dark);
+    --bs-btn-disabled-bg: var(--amcos-accent);
+    --bs-btn-disabled-border-color: var(--amcos-accent);
+    color: var(--amcos-white);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--amcos-accent);
+    --bs-btn-border-color: var(--amcos-accent);
+    --bs-btn-hover-bg: var(--amcos-accent);
+    --bs-btn-hover-border-color: var(--amcos-accent);
+    --bs-btn-active-bg: var(--amcos-accent);
+    --bs-btn-active-border-color: var(--amcos-accent);
+}
+
+.btn-secondary {
+    --bs-btn-bg: var(--amcos-green);
+    --bs-btn-border-color: var(--amcos-green);
+    --bs-btn-hover-bg: var(--amcos-green-dark);
+    --bs-btn-hover-border-color: var(--amcos-green-dark);
+    --bs-btn-active-bg: var(--amcos-green-dark);
+    --bs-btn-active-border-color: var(--amcos-green-dark);
+}
+
+/* --------------------------------------------------------------------------
+   Surfaces: cards, panels, tables
+   -------------------------------------------------------------------------- */
+.card {
+    border-color: #e4e4e4;
+}
+
+.card-header {
+    background-color: var(--amcos-green);
+    color: var(--amcos-white);
+    font-weight: 700;
+}
+
+/* Accent panel header variant */
+.card-header-accent {
+    background-color: var(--amcos-accent);
+    color: var(--amcos-white);
+}
+
+.table > thead {
+    background-color: var(--amcos-green);
+    color: var(--amcos-white);
+}
+
+.table > thead th {
+    border-color: var(--amcos-green-light);
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: rgba(15, 105, 56, 0.06);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--amcos-accent);
+    border-bottom-color: var(--amcos-white);
+    font-weight: 700;
+}
+
+.badge-amcos {
+    background-color: var(--amcos-accent);
+    color: var(--amcos-white);
+}
+
+/* Forms */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--amcos-accent-light);
+    box-shadow: 0 0 0 0.2rem rgba(15, 105, 56, 0.2);
+}
+
+/* Site alert (carried over from legacy) */
+.site-alert {
+    background-color: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffe69c;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   Footer (black, legacy parity)
+   -------------------------------------------------------------------------- */
+.amcos-footer {
+    flex-shrink: 0;
+    background-color: var(--amcos-black);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9em;
+    border-top: 3px solid var(--amcos-accent);
+}
+
+.amcos-footer a {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.amcos-footer a:hover {
+    color: var(--amcos-white);
+}

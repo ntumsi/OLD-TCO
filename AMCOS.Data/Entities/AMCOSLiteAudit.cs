@@ -1,27 +1,25 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMCOS.DataAccess.Entities
 {
+    [PrimaryKey(nameof(UserId), nameof(CreateDate), nameof(PageAction), nameof(PageElement))]
     [Table("webuser.AMCOSLiteAudit")]
     public partial class AMCOSLiteAudit
     {
-        [Key]
         [Column(Order = 0)]
         [StringLength(50)]
         public string UserId { get; set; }
 
-        [Key]
         [Column(Order = 1)]
         public DateTime CreateDate { get; set; }
 
-        [Key]
         [Column(Order = 2)]
         [StringLength(50)]
         public string PageAction { get; set; }
 
-        [Key]
         [Column(Order = 3)]
         [StringLength(50)]
         public string PageElement { get; set; }

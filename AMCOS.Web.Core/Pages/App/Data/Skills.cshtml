@@ -1,0 +1,115 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Data.SkillsModel
+@{
+    ViewData["Title"] = "Skills Browser";
+}
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">Filters</div>
+            <div class="card-body row g-3">
+                @if (!string.IsNullOrWhiteSpace(Model.LoadError))
+                {
+                    <div class="alert alert-warning">@Model.LoadError</div>
+                }
+                <div class="col-12">
+                    <label class="form-label" for="payPlan">Pay Plan</label>
+                    <select id="payPlan" class="form-select">
+                        <option value="">-- Select --</option>
+                        @foreach (var (value, text) in Model.PayPlans)
+                        {
+                            <option value="@value">@value — @text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="group">Group</label>
+                    <select id="group" class="form-select" disabled>
+                        <option value="">-- Select pay plan first --</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="subgroup">SubGroup</label>
+                    <select id="subgroup" class="form-select" disabled>
+                        <option value="">-- Select group first --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">Skill Details</div>
+            <div class="card-body">
+                <div id="detailsPlaceholder" class="text-muted">Select all filters to view skill details.</div>
+                <table id="detailsTable" class="table table-bordered" style="display:none">
+                    <tbody>
+                        <tr><th style="width:200px">Group</th><td id="dGroupCode"></td></tr>
+                        <tr><th>Group Description</th><td id="dGroupDesc"></td></tr>
+                        <tr><th>Subgroup</th><td id="dSubgroupCode"></td></tr>
+                        <tr><th>Subgroup Description</th><td id="dSubgroupDesc"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(() => {
+    const payPlan = document.getElementById('payPlan');
+    const group = document.getElementById('group');
+    const subgroup = document.getElementById('subgroup');
+    const table = document.getElementById('detailsTable');
+    const placeholder = document.getElementById('detailsPlaceholder');
+
+    async function load(handler, params, target, prompt) {
+        target.innerHTML = `<option value="">-- ${prompt} --</option>`;
+        target.disabled = true;
+        const res = await fetch(`?handler=${handler}&${new URLSearchParams(params)}`);
+        const items = await res.json();
+        items.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v; opt.textContent = v;
+            target.appendChild(opt);
+        });
+        target.disabled = false;
+    }
+
+    async function loadDetails() {
+        if (!payPlan.value || !group.value || !subgroup.value) {
+            table.style.display = 'none'; placeholder.style.display = '';
+            return;
+        }
+        const res = await fetch(`?handler=Details&${new URLSearchParams({ payPlan: payPlan.value, group: group.value, subgroup: subgroup.value })}`);
+        const d = await res.json();
+        if (!d) return;
+        document.getElementById('dGroupCode').textContent = d.groupCode ?? '';
+        document.getElementById('dGroupDesc').textContent = d.groupDescription ?? '';
+        document.getElementById('dSubgroupCode').textContent = d.subgroupCode ?? '';
+        document.getElementById('dSubgroupDesc').textContent = d.subgroupDescription ?? '';
+        placeholder.style.display = 'none';
+        table.style.display = '';
+    }
+
+    payPlan.addEventListener('change', async () => {
+        group.innerHTML = '<option value="">-- Loading... --</option>';
+        subgroup.innerHTML = '<option value="">-- Select group first --</option>'; subgroup.disabled = true;
+        table.style.display = 'none'; placeholder.style.display = '';
+        if (!payPlan.value) { group.disabled = true; return; }
+        await load('Groups', { payPlan: payPlan.value }, group, 'Select group');
+    });
+
+    group.addEventListener('change', async () => {
+        subgroup.innerHTML = '<option value="">-- Loading... --</option>';
+        table.style.display = 'none'; placeholder.style.display = '';
+        if (!group.value) { subgroup.disabled = true; return; }
+        await load('Subgroups', { payPlan: payPlan.value, group: group.value }, subgroup, 'Select subgroup');
+    });
+
+    subgroup.addEventListener('change', loadDetails);
+})();
+</script>
+}

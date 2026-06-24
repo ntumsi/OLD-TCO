@@ -137,9 +137,26 @@ CREATE TABLE webuser.pcsproject (
     tqsedependents integer NULL,
     transportationdependents integer NULL,
     CONSTRAINT pk_pcsproject PRIMARY KEY (userid , projectname ),
-    CONSTRAINT fk__pcsproject__destinationid__location FOREIGN KEY (destinationid) REFERENCES warehouse.location (locationid),
-    CONSTRAINT fk__pcsproject__originationid__location FOREIGN KEY (originationid) REFERENCES warehouse.location (locationid),
     CONSTRAINT fk__pcsproject__userid__amcosuser FOREIGN KEY (userid) REFERENCES webuser.amcosuser (userid)
+);
+-- FK to warehouse.location added in 005_warehouse_tables.sql after that table is created.
+
+-- Source: AMCOS.AMCOS2020_MAR/webuser/Tables/PMProject.sql
+CREATE TABLE webuser.pmproject (
+    projectid integer GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL,
+    userid varchar(50) NOT NULL,
+    projectname varchar(50) NOT NULL,
+    yearstart integer NOT NULL,
+    yearduration integer DEFAULT 5 NOT NULL,
+    projectcreator varchar(50) NULL,
+    projecttype varchar(50) DEFAULT 'Weapons System' NOT NULL,
+    reservedaysinactive integer DEFAULT 24 NOT NULL,
+    reservedaysactive integer DEFAULT 14 NOT NULL,
+    createdate timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    lastupdate timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    description varchar(4000) NULL,
+    discountrate double precision NULL,
+    CONSTRAINT pk_pmproject PRIMARY KEY (projectid )
 );
 
 -- Source: AMCOS.AMCOS2020_MAR/webuser/Tables/PMCategory.sql
@@ -186,24 +203,6 @@ CREATE TABLE webuser.pmcategoryskillinventory (
     amount integer NOT NULL,
     CONSTRAINT pk_pmcategoryskillinventory PRIMARY KEY (inventoryid ),
     CONSTRAINT fk_pmcategoryskillinventory_pmcategoryskill FOREIGN KEY (skillid) REFERENCES webuser.pmcategoryskill (skillid)
-);
-
--- Source: AMCOS.AMCOS2020_MAR/webuser/Tables/PMProject.sql
-CREATE TABLE webuser.pmproject (
-    projectid integer GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL,
-    userid varchar(50) NOT NULL,
-    projectname varchar(50) NOT NULL,
-    yearstart integer NOT NULL,
-    yearduration integer DEFAULT 5 NOT NULL,
-    projectcreator varchar(50) NULL,
-    projecttype varchar(50) DEFAULT 'Weapons System' NOT NULL,
-    reservedaysinactive integer DEFAULT 24 NOT NULL,
-    reservedaysactive integer DEFAULT 14 NOT NULL,
-    createdate timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    lastupdate timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    description varchar(4000) NULL,
-    discountrate double precision NULL,
-    CONSTRAINT pk_pmproject PRIMARY KEY (projectid )
 );
 
 -- Source: AMCOS.AMCOS2020_MAR/webuser/Tables/PMReport.sql

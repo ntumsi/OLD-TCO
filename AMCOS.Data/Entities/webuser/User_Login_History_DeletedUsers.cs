@@ -3,16 +3,16 @@ namespace AMCOS.Data.Entities
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.EntityFrameworkCore;
 
+    [PrimaryKey(nameof(UserId), nameof(LoginDateTime))]
     [Table("webuser.User_Login_History_DeletedUsers")]
     public class UserLoginHistoryDeletedUsers
     {
-        [Key]
         [Column(Order = 0)]
         [StringLength(50)]
         public string UserId { get; set; }
 
-        [Key]
         [Column(Order = 1)]
         public DateTime LoginDateTime { get; set; }
 

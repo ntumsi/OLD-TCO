@@ -33,7 +33,7 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             using (var context = new ApplicationDbContext())
             {
-                rowsAffected = context.Database.ExecuteSqlRaw("CALL web.\"PMCopyProject\"(@ProjectId, @ProjectName, @Description)",
+                rowsAffected = context.Database.ExecuteSqlRaw("CALL web.pmcopyproject(@ProjectId, @ProjectName, @Description)",
                     new NpgsqlParameter("@ProjectId", projectId),
                     new NpgsqlParameter("@ProjectName", projectName),
                     new NpgsqlParameter("@Description", projectDescription));
@@ -487,7 +487,7 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             using (var context = new ApplicationDbContext())
             {
-                var sql = "CALL web.\"ProjectAddUnit\"(@CategoryId, @UIC, @NotSelectedPayPlans, @UnitLocation, @MtoeProjectInventoryYear, @MtoeSyncExtendedDurationFillValue, @UserOverheadPercent, @AmcosVersionId, @Debug)";
+                var sql = "CALL web.projectaddunit(@CategoryId, @UIC, @NotSelectedPayPlans, @UnitLocation, @MtoeProjectInventoryYear, @MtoeSyncExtendedDurationFillValue, @UserOverheadPercent, @AmcosVersionId, @Debug)";
                 context.Database.SetCommandTimeout(120);
                 rowsAffected = context.Database.ExecuteSqlRaw(
                     sql,
@@ -664,7 +664,7 @@ namespace AMCOS.Logic
         {
             using (var context = new ApplicationDbContext())
             {
-                context.Database.ExecuteSqlRaw("CALL web.\"DeleteProject\"(@ProjectId)",
+                context.Database.ExecuteSqlRaw("CALL web.deleteproject(@ProjectId)",
                     new NpgsqlParameter("@ProjectId", projectId));
             }
         }

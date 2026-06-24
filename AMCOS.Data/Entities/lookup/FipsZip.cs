@@ -1,17 +1,17 @@
-﻿namespace AMCOS.Data.Entities
+namespace AMCOS.Data.Entities
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.EntityFrameworkCore;
 
+    [PrimaryKey(nameof(FIPSCode), nameof(ZipCode))]
     [Table("lookup.FIPS_ZIP")]
     public class FIPSZip
     {
-        [Key]
         [Column(Order = 0)]
         [StringLength(50)]
         public string FIPSCode { get; set; }
 
-        [Key]
         [Column(Order = 1)]
         [StringLength(5)]
         public string ZipCode { get; set; }

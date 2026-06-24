@@ -9,6 +9,10 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+// Npgsql 6+ requires UTC DateTimes for timestamptz; legacy mode accepts Local/Unspecified
+// (matching SQL Server's timezone-unaware DateTime behaviour in the original codebase).
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Fail fast in non-Development environments if required secrets are missing.
 if (!builder.Environment.IsDevelopment())
 {
@@ -87,6 +91,7 @@ builder.Services
         options.Scope.Add("openid");
         options.Scope.Add("profile");
         options.Scope.Add("email");
+        options.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
         options.CallbackPath = "/signin-oidc";
         options.SignedOutCallbackPath = "/signout-callback-oidc";
         options.Events = new OpenIdConnectEvents
@@ -145,9 +150,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 
 var legacyDistPath = Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, "..", "AMCOS.Web", "dist"));
 if (Directory.Exists(legacyDistPath))

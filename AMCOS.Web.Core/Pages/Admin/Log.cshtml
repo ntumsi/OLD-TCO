@@ -1,0 +1,68 @@
+@page
+@model AMCOS.Web.Core.Pages.Admin.LogModel
+@{
+    ViewData["Title"] = "Application Error Log";
+}
+
+<h1>Application Error Log</h1>
+<p class="text-muted">Showing the latest 200 entries from <code>web.applicationerrorlog</code>.</p>
+
+@if (!string.IsNullOrWhiteSpace(Model.LoadError))
+{
+    <div class="alert alert-danger">@Model.LoadError</div>
+}
+
+@if (Model.SelectedEntry != null)
+{
+    <div class="card mb-4">
+        <div class="card-header">Entry #@Model.SelectedEntry.ErrorId Details</div>
+        <div class="card-body">
+            <table class="table table-bordered table-sm">
+                <tbody>
+                    <tr><th style="width:150px">Error ID</th><td>@Model.SelectedEntry.ErrorId</td></tr>
+                    <tr><th>Time</th><td>@Model.SelectedEntry.ErrorTime?.ToString("u")</td></tr>
+                    <tr><th>User ID</th><td>@Model.SelectedEntry.UserId</td></tr>
+                    <tr><th>Page</th><td>@Model.SelectedEntry.ErrorPage</td></tr>
+                    <tr><th>Detail</th><td><pre class="mb-0" style="white-space:pre-wrap">@Model.SelectedEntry.ErrorDetail</pre></td></tr>
+                </tbody>
+            </table>
+            <a asp-page="./Log" class="btn btn-secondary btn-sm">Back to list</a>
+        </div>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">Log Entries</div>
+    <div class="card-body p-0">
+        @if (!Model.Entries.Any())
+        {
+            <p class="p-3 text-muted mb-0">No log entries found.</p>
+        }
+        else
+        {
+            <table class="table table-sm table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Page</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.Entries)
+                    {
+                        <tr>
+                            <td>@entry.ErrorId</td>
+                            <td>@entry.ErrorTime?.ToString("u")</td>
+                            <td>@entry.UserId</td>
+                            <td class="text-truncate" style="max-width:300px">@entry.ErrorPage</td>
+                            <td><a asp-page="./Log" asp-route-errorId="@entry.ErrorId" class="btn btn-sm btn-outline-secondary">Details</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
