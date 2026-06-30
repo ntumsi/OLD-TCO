@@ -2,6 +2,26 @@
 @model AMCOS.Web.Core.Pages.Admin.UsersModel
 @{
     ViewData["Title"] = "User Management";
+    // Current filter state, emitted as hidden inputs in each POST form so filters survive
+    // role-toggle / delete / export round-trips.
+    string? D(DateTime? d) => d?.ToString("yyyy-MM-dd");
+    var filterFields = new Dictionary<string, string?>
+    {
+        ["FirstName"] = Model.FirstName,
+        ["LastName"] = Model.LastName,
+        ["ArmyRank"] = Model.ArmyRank,
+        ["Macom"] = Model.Macom,
+        ["OfficeName"] = Model.OfficeName,
+        ["CompanyName"] = Model.CompanyName,
+        ["CreatedFrom"] = D(Model.CreatedFrom),
+        ["CreatedTo"] = D(Model.CreatedTo),
+        ["LastLoginFrom"] = D(Model.LastLoginFrom),
+        ["LastLoginTo"] = D(Model.LastLoginTo),
+        ["ApprovedFrom"] = D(Model.ApprovedFrom),
+        ["ApprovedTo"] = D(Model.ApprovedTo),
+        ["DeniedFrom"] = D(Model.DeniedFrom),
+        ["DeniedTo"] = D(Model.DeniedTo),
+    };
 }
 
 <h1 class="mb-4">User Management</h1>
@@ -45,7 +65,41 @@
                 <label asp-for="OfficeName" class="form-label">Office Name</label>
                 <input asp-for="OfficeName" class="form-control" placeholder="Office name" />
             </div>
-            <div class="col-md-2 d-flex gap-2">
+            <div class="col-md-2">
+                <label asp-for="CompanyName" class="form-label">Company</label>
+                <input asp-for="CompanyName" class="form-control" placeholder="Company name" />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Created (from / to)</label>
+                <div class="input-group">
+                    <input asp-for="CreatedFrom" type="date" class="form-control" />
+                    <input asp-for="CreatedTo" type="date" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Last Login (from / to)</label>
+                <div class="input-group">
+                    <input asp-for="LastLoginFrom" type="date" class="form-control" />
+                    <input asp-for="LastLoginTo" type="date" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Approved (from / to)</label>
+                <div class="input-group">
+                    <input asp-for="ApprovedFrom" type="date" class="form-control" />
+                    <input asp-for="ApprovedTo" type="date" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Denied (from / to)</label>
+                <div class="input-group">
+                    <input asp-for="DeniedFrom" type="date" class="form-control" />
+                    <input asp-for="DeniedTo" type="date" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-3 d-flex gap-2">
                 <button type="submit" class="btn btn-primary flex-fill">Search</button>
                 <a asp-page="Users" class="btn btn-outline-secondary flex-fill">Clear</a>
             </div>
@@ -64,11 +118,10 @@
             }
         </span>
         <form method="post" asp-page-handler="Export" class="d-inline">
-            <input type="hidden" name="FirstName"  value="@Model.FirstName" />
-            <input type="hidden" name="LastName"   value="@Model.LastName" />
-            <input type="hidden" name="ArmyRank"   value="@Model.ArmyRank" />
-            <input type="hidden" name="Macom"      value="@Model.Macom" />
-            <input type="hidden" name="OfficeName" value="@Model.OfficeName" />
+            @foreach (var f in filterFields)
+            {
+                <input type="hidden" name="@f.Key" value="@f.Value" />
+            }
             <button type="submit" class="btn btn-sm btn-success">Export to Excel</button>
         </form>
     </div>
@@ -123,31 +176,41 @@
                                         @(user.Role ?? "—")
                                     </span>
                                 </td>
-                                <td class="text-end">
+                                <td class="text-end text-nowrap">
                                     <form method="post" asp-page-handler="ToggleRole" class="d-inline">
                                         @* Hidden filter state so the POST handler can redirect back with active filters. *@
-                                        <input type="hidden" name="userId"     value="@user.UserId" />
-                                        <input type="hidden" name="FirstName"  value="@Model.FirstName" />
-                                        <input type="hidden" name="LastName"   value="@Model.LastName" />
-                                        <input type="hidden" name="ArmyRank"   value="@Model.ArmyRank" />
-                                        <input type="hidden" name="Macom"      value="@Model.Macom" />
-                                        <input type="hidden" name="OfficeName" value="@Model.OfficeName" />
+                                        <input type="hidden" name="userId" value="@user.UserId" />
+                                        @foreach (var f in filterFields)
+                                        {
+                                            <input type="hidden" name="@f.Key" value="@f.Value" />
+                                        }
                                         @if (isSelf)
                                         {
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-outline-secondary"
-                                                    disabled
-                                                    title="You cannot change your own role">
-                                                Toggle Role
-                                            </button>
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary" disabled
+                                                    title="You cannot change your own role">Toggle Role</button>
                                         }
                                         else
                                         {
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-outline-warning"
-                                                    title="Toggle role — currently @(user.Role ?? "unset")">
-                                                Toggle Role
-                                            </button>
+                                            <button type="submit" class="btn btn-sm btn-outline-warning"
+                                                    title="Toggle role — currently @(user.Role ?? "unset")">Toggle Role</button>
+                                        }
+                                    </form>
+                                    <form method="post" asp-page-handler="Delete" class="d-inline"
+                                          onsubmit="return confirm('Permanently delete @user.Name and ALL of their projects, reports and login history? This cannot be undone.');">
+                                        <input type="hidden" name="userId" value="@user.UserId" />
+                                        @foreach (var f in filterFields)
+                                        {
+                                            <input type="hidden" name="@f.Key" value="@f.Value" />
+                                        }
+                                        @if (isSelf)
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary" disabled
+                                                    title="You cannot delete your own account">Delete</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                    title="Permanently delete this user and all their data">Delete</button>
                                         }
                                     </form>
                                 </td>

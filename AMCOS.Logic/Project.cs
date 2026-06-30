@@ -33,7 +33,9 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             using (var context = new ApplicationDbContext())
             {
-                rowsAffected = context.Database.ExecuteSqlRaw("CALL web.pmcopyproject(@ProjectId, @ProjectName, @Description)",
+                // web.pmcopyproject is a FUNCTION (RETURNS void), so it must be invoked with
+                // SELECT, not CALL (CALL is only valid for procedures in PostgreSQL).
+                rowsAffected = context.Database.ExecuteSqlRaw("SELECT web.pmcopyproject(@ProjectId, @ProjectName, @Description)",
                     new NpgsqlParameter("@ProjectId", projectId),
                     new NpgsqlParameter("@ProjectName", projectName),
                     new NpgsqlParameter("@Description", projectDescription));
@@ -487,7 +489,8 @@ namespace AMCOS.Logic
             int rowsAffected = 0;
             using (var context = new ApplicationDbContext())
             {
-                var sql = "CALL web.projectaddunit(@CategoryId, @UIC, @NotSelectedPayPlans, @UnitLocation, @MtoeProjectInventoryYear, @MtoeSyncExtendedDurationFillValue, @UserOverheadPercent, @AmcosVersionId, @Debug)";
+                // web.projectaddunit is a FUNCTION (RETURNS void) — invoke with SELECT, not CALL.
+                var sql = "SELECT web.projectaddunit(@CategoryId, @UIC, @NotSelectedPayPlans, @UnitLocation, @MtoeProjectInventoryYear, @MtoeSyncExtendedDurationFillValue, @UserOverheadPercent, @AmcosVersionId, @Debug)";
                 context.Database.SetCommandTimeout(120);
                 rowsAffected = context.Database.ExecuteSqlRaw(
                     sql,
@@ -664,7 +667,8 @@ namespace AMCOS.Logic
         {
             using (var context = new ApplicationDbContext())
             {
-                context.Database.ExecuteSqlRaw("CALL web.deleteproject(@ProjectId)",
+                // web.deleteproject is a FUNCTION (RETURNS void) — invoke with SELECT, not CALL.
+                context.Database.ExecuteSqlRaw("SELECT web.deleteproject(@ProjectId)",
                     new NpgsqlParameter("@ProjectId", projectId));
             }
         }

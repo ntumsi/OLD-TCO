@@ -6,7 +6,7 @@ namespace AMCOS.DataAccess.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(UserId), nameof(ProjectId))]
-    [Table("webuser.PMProject")]
+    [Table("PMProject", Schema = "webuser")]
     public partial class PMProject
     {
         [Column(Order = 0)]

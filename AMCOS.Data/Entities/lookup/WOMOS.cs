@@ -3,7 +3,7 @@ namespace AMCOS.Data.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("lookup.WOMOS")]
+    [Table("WOMOS", Schema = "lookup")]
     public class WOMOS
     {
         [Key]

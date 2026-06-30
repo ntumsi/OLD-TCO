@@ -75,7 +75,7 @@ public class IndexModel : PageModel
                     CategorySubgroupCode = request.CategorySubgroupCode ?? string.Empty,
                     CareerProgramNumber = request.CareerProgramNumber ?? "-1",
                     LocationId = request.LocationId,
-                    ScienceTechnologyReinventionLaboratory = request.ScienceTechnologyReinventionLaboratory ?? string.Empty,
+                    ScienceTechnologyReinventionLaboratory = string.IsNullOrEmpty(request.ScienceTechnologyReinventionLaboratory) ? "-1" : request.ScienceTechnologyReinventionLaboratory,
                     DependentStatus = request.DependentStatus ?? "-1",
                     NumberOfDependents = request.NumberOfDependents,
                     OverheadPercent = request.OverheadPercent ?? 0,

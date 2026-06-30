@@ -24,15 +24,11 @@ var _valueChangedElementId = null;
 // ── Tab navigation ──────────────────────────────────────────────────────────
 
 function PcsNextTab() {
-    var active = document.querySelector("#pcs-tabs .nav-link.active");
-    if (active && active.parentElement.nextElementSibling) {
-        var next = active.parentElement.nextElementSibling.querySelector(".nav-link");
-        if (next) next.click();
-    } else {
-        var links = document.querySelectorAll("#pcs-tabs .nav-link");
-        for (var i = 0; i < links.length - 1; i++) {
-            if (links[i].classList.contains("active")) { links[i + 1].click(); break; }
-        }
+    // The nav-links are direct <button> children of #pcs-tabs (no <li> wrappers), so advance by
+    // index rather than relying on parentElement siblings.
+    var links = document.querySelectorAll("#pcs-tabs .nav-link");
+    for (var i = 0; i < links.length - 1; i++) {
+        if (links[i].classList.contains("active")) { links[i + 1].click(); break; }
     }
 }
 

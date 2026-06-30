@@ -42,112 +42,45 @@ namespace AMCOS.Logic
         public int LocationId { get; set; }
         public byte GradeLevel { get; set; }
         public int AmcosVersionId { get; set; }
+        // The web.GetPayPlanCrosswalk* functions return (result_set_name, row_data jsonb);
+        // StoredFunction unpacks the jsonb (V1..Vn columns) into a flat DataTable. The old
+        // CommandType.StoredProcedure path produced CALL (invalid on a function).
         public DataTable GetCostsAE()
         {
-            DataTable payPlanCrosswalk = new DataTable();
-            string sqlStatement = "web.GetPayPlanCrosswalkAE";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
-            {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
-                    command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
-                    command.Parameters.AddWithValue("@amcosVersionId", AmcosVersionId);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(payPlanCrosswalk);
-                }
-            }
-            return payPlanCrosswalk;
+            return Helpers.StoredFunction.QueryAsTable("web.GetPayPlanCrosswalkAE",
+                new NpgsqlParameter("@categorySubgroupCode", CategorySubgroupCode),
+                new NpgsqlParameter("@gradeLevel", (short)GradeLevel),
+                new NpgsqlParameter("@amcosVersionId", AmcosVersionId));
         }
         public DataTable GetCostsAO()
         {
-            DataTable payPlanCrosswalk = new DataTable();
-            string sqlStatement = "web.GetPayPlanCrosswalkAO";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
-            {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
-                    command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
-                    command.Parameters.AddWithValue("@amcosVersionId", AmcosVersionId);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(payPlanCrosswalk);
-                }
-            }
-            return payPlanCrosswalk;
+            return Helpers.StoredFunction.QueryAsTable("web.GetPayPlanCrosswalkAO",
+                new NpgsqlParameter("@categorySubgroupCode", CategorySubgroupCode),
+                new NpgsqlParameter("@gradeLevel", (short)GradeLevel),
+                new NpgsqlParameter("@amcosVersionId", AmcosVersionId));
         }
         public DataTable GetCostsAWO()
         {
-            DataTable payPlanCrosswalk = new DataTable();
-            string sqlStatement = "web.GetPayPlanCrosswalkAWO";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
-            {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
-                    command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
-                    command.Parameters.AddWithValue("@amcosVersionId", AmcosVersionId);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(payPlanCrosswalk);
-                }
-            }
-            return payPlanCrosswalk;
+            return Helpers.StoredFunction.QueryAsTable("web.GetPayPlanCrosswalkAWO",
+                new NpgsqlParameter("@categorySubgroupCode", CategorySubgroupCode),
+                new NpgsqlParameter("@gradeLevel", (short)GradeLevel),
+                new NpgsqlParameter("@amcosVersionId", AmcosVersionId));
         }
         public DataTable GetCostsGS()
         {
-            DataTable payPlanCrosswalk = new DataTable();
-            string sqlStatement = "web.GetPayPlanCrosswalkGS";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
-            {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    command.Parameters.AddWithValue("@categorySubgroupCode", CategorySubgroupCode);
-                    command.Parameters.AddWithValue("@gradeLevel", GradeLevel);
-                    command.Parameters.AddWithValue("@LocationId", LocationId);
-                    command.Parameters.AddWithValue("@amcosVersionId", AmcosVersionId);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(payPlanCrosswalk);
-                }
-            }
-            return payPlanCrosswalk;
+            return Helpers.StoredFunction.QueryAsTable("web.GetPayPlanCrosswalkGS",
+                new NpgsqlParameter("@categorySubgroupCode", CategorySubgroupCode),
+                new NpgsqlParameter("@gradeLevel", (short)GradeLevel),
+                new NpgsqlParameter("@LocationId", LocationId),
+                new NpgsqlParameter("@amcosVersionId", AmcosVersionId));
         }
         public DataTable GetCostsWage()
         {
-            DataTable payPlanCrosswalk = new DataTable();
-            string sqlStatement = "web.GetPayPlanCrosswalkWage";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
-            {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    command.Parameters.AddWithValue("@PayPlan", PayPlan);
-                    command.Parameters.AddWithValue("@LocationId", LocationId);
-                    command.Parameters.AddWithValue("@GradeLevel", GradeLevel);
-                    command.Parameters.AddWithValue("@AmcosVersionId", AmcosVersionId);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(payPlanCrosswalk);
-                }
-            }
-            return payPlanCrosswalk;
+            return Helpers.StoredFunction.QueryAsTable("web.GetPayPlanCrosswalkWage",
+                new NpgsqlParameter("@PayPlan", PayPlan),
+                new NpgsqlParameter("@LocationId", LocationId),
+                new NpgsqlParameter("@GradeLevel", (short)GradeLevel),
+                new NpgsqlParameter("@AmcosVersionId", AmcosVersionId));
         }
         public string GetSocDefinition(string occupationCode)
         {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AMCOS.DataAccess.Entities
 {
     [PrimaryKey(nameof(UserId), nameof(CreateDate), nameof(PageAction), nameof(PageElement))]
-    [Table("webuser.AMCOSLiteAudit")]
+    [Table("AMCOSLiteAudit", Schema = "webuser")]
     public partial class AMCOSLiteAudit
     {
         [Column(Order = 0)]

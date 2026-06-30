@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 SACS_HEADER_TABLE = "data.fmswebsacsheader"
 SACS_PERSONNEL_TABLE = "data.fmswebsacspersonnel"
 LOCKPOINT_TABLE = "data.fmsweblockpointtdochdr"
+LOCKPOINT_PERDET_TABLE = "data.fmsweblockpointtperdet"
 UIC_TABLE = "lookup.uic"
 UIC_LOCATION_TABLE = "lookup.uiclocation"
 
@@ -84,6 +85,25 @@ def load_lockpoint(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERS
     return rows
 
 
+def load_lockpoint_perdet(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERSION_ID) -> int:
+    """Load the lockpoint personnel-detail (TPERDET) extract into data.fmsweblockpointtperdet."""
+    source = find_first_existing(
+        Path(data_dir),
+        ["**/FMSWeb/lockpoint/TDA/TPERDET.txt", "**/FMSWeb/lockpoint/**/TPERDET*.txt"],
+    )
+    if not source:
+        raise FileNotFoundError("Could not locate the FMSWeb lockpoint TPERDET source file.")
+    transformed = transform_lockpoint(read_csv_flexible(source), version_id)
+    rows = load_dataframe(
+        transformed,
+        LOCKPOINT_PERDET_TABLE,
+        delete_where_clause="amcosversionid = %s",
+        delete_params=(version_id,),
+    )
+    logger.info("Loaded %s FMSWeb lockpoint personnel-detail rows", rows)
+    return rows
+
+
 def load_uic(data_dir: Path | str = DATA_DIR) -> int:
     source = find_first_existing(Path(data_dir), ["**/FMSWeb/*uic*.txt"])
     if not source:
@@ -116,6 +136,7 @@ def load_fmsweb(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERSION
     results = {
         "sacs": load_sacs(data_dir=data_dir),
         "lockpoint": load_lockpoint(data_dir=data_dir, version_id=version_id),
+        "lockpoint_perdet": load_lockpoint_perdet(data_dir=data_dir, version_id=version_id),
         "uic": load_uic(data_dir=data_dir),
         "uic_locations": load_uic_locations(data_dir=data_dir),
     }

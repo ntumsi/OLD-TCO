@@ -8,7 +8,7 @@ namespace AMCOS.DataAccess.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(FIPSCode), nameof(ZipCode))]
-    [Table("lookup.FIPS_ZIP")]
+    [Table("FIPS_ZIP", Schema = "lookup")]
     public partial class FIPSZip
     {
         [Column(Order = 0)]

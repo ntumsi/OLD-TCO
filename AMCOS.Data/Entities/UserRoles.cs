@@ -5,7 +5,7 @@ namespace AMCOS.DataAccess.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(UserId), nameof(RoleId))]
-    [Table("webuser.User_Roles")]
+    [Table("User_Roles", Schema = "webuser")]
     public partial class UserRoles
     {
         [Column(Order = 0)]

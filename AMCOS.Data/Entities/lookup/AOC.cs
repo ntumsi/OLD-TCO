@@ -3,7 +3,7 @@
 
 namespace AMCOS.Data.Entities
 {
-    [Table("lookup.AOC")]
+    [Table("AOC", Schema = "lookup")]
     public class AOC
     {
         [Key]

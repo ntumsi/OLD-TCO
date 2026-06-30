@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(PayPlan), nameof(WageArea), nameof(Appn), nameof(CostElementCategory), nameof(CostElementName), nameof(CostElementId), nameof(GradeType), nameof(GradeLevel))]
-    [Table("data.vCosts_Test")]
+    [Table("vCosts_Test", Schema = "data")]
     public class VCostsTest
     {
         [Column(Order = 0)]

@@ -1,0 +1,94 @@
+@using AMCOS.Web.Core.Pages.App.Project
+@model System.Data.DataTable?
+@{
+    // CCE per-grade salary threshold (cells in over-limit rows are highlighted, like the legacy report).
+    decimal salaryLimit = ViewData["CceSalaryLimit"] is decimal d ? d : 0m;
+    var yearColumns = ViewData["YearColumns"] as List<string> ?? new List<string>();
+    var yearSet = new HashSet<string>(yearColumns);
+    var hidden = new HashSet<string>(CostReportBuilder.HiddenColumns);
+
+    // Appropriation palette for data-row APPN cells (AMCOS.Logic Appropriation.GetAppropriationColor).
+    var appropColors = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        ["ARMY CIVPAY"] = "#1F8802", ["CIV ARMY CIVPAY"] = "#1F8802",
+        ["MPA"] = "#5D7430", ["MPA NON-PAY"] = "#5D7430",
+        ["OMA"] = "#6A9303", ["OMA_1"] = "#6A9303",
+        ["FEDERAL OM"] = "#00008B", ["FEDERAL OMA"] = "#00008B",
+        ["DOD OMA"] = "#7030A0", ["OMDW"] = "#7030A0",
+        ["NGPA"] = "#74B803", ["NG PA"] = "#74B803", ["OMNG"] = "#8BA103", ["OMNG_1"] = "#8BA103",
+        ["RPA"] = "#5C9303", ["RES PA"] = "#5C9303", ["OMAR"] = "#6E8003", ["OMAR_1"] = "#6E8003",
+        ["CCE"] = "#006D8B"
+    };
+
+    string Currency(object v) =>
+        decimal.TryParse(System.Text.RegularExpressions.Regex.Replace(v?.ToString() ?? "", "[$,]", ""),
+            System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var n)
+            ? n.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+            : (v?.ToString() ?? "");
+}
+@if (Model is null || Model.Columns.Count == 0)
+{
+    <div class="alert alert-light border">No data available.</div>
+}
+else
+{
+    var visible = Model.Columns.Cast<System.Data.DataColumn>().Where(c => !hidden.Contains(c.ColumnName)).ToList();
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle cost-report-table">
+            <thead class="table-dark">
+                <tr>
+                    @foreach (var column in visible)
+                    {
+                        <th>@column.ColumnName</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Rows.Count == 0)
+                {
+                    <tr><td colspan="@visible.Count" class="text-center text-muted">No rows returned.</td></tr>
+                }
+                else
+                {
+                    @foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        var kind = Model.Columns.Contains("RowKind") ? row["RowKind"]?.ToString() : null;
+                        var kindColor = CostReportBuilder.RowKindColor(kind);
+                        var overLimit = Model.Columns.Contains("ExceedsSalaryLimit")
+                            && (row["ExceedsSalaryLimit"]?.ToString() == "1"
+                                || string.Equals(row["ExceedsSalaryLimit"]?.ToString(), "true", StringComparison.OrdinalIgnoreCase));
+                        var isTotal = kindColor is not null;
+                        <tr class="@(isTotal ? "fw-semibold" : "")">
+                            @foreach (var column in visible)
+                            {
+                                var val = row[column];
+                                var isYear = yearSet.Contains(column.ColumnName);
+                                string? bg = null;
+                                string fg = "";
+                                if (kindColor is { } kc)
+                                {
+                                    bg = kc.Bg;
+                                    if (kc.White) fg = "color:#fff;";
+                                }
+                                else if (column.ColumnName == "APPN" && val != System.DBNull.Value
+                                         && appropColors.TryGetValue(val.ToString()!.Trim(), out var ac))
+                                {
+                                    bg = ac;
+                                    fg = "color:#fff;";
+                                }
+                                else if (isYear && overLimit)
+                                {
+                                    bg = "#FFFF99";
+                                }
+                                var style = bg != null ? $"background-color:{bg};{fg}" : "";
+                                var text = val == System.DBNull.Value ? string.Empty
+                                    : (isYear ? Currency(val) : val?.ToString());
+                                <td class="@(isYear ? "text-end" : "")" style="@style">@text</td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}

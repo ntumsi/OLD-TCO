@@ -556,7 +556,8 @@ CREATE TABLE lookup.uiclocation (
 
 -- Source: AMCOS.AMCOS2020_MAR/lookup/Tables/ValidEmailSuffix.sql
 CREATE TABLE lookup.validemailsuffix (
-
+    emailsuffix varchar(25) NOT NULL,
+    CONSTRAINT pk_validemailsuffix PRIMARY KEY (emailsuffix)
 );
 
 -- Source: AMCOS.AMCOS2020_MAR/lookup/Tables/Valid_OPM_Series_GradeLevels.sql

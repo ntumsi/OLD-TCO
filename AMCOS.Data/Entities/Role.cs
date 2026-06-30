@@ -3,7 +3,7 @@ namespace AMCOS.DataAccess.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("lookup.Role")]
+    [Table("Role", Schema = "lookup")]
     public partial class Role
     {
         [StringLength(50)]

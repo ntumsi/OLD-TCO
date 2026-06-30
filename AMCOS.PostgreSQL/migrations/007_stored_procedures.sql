@@ -435,7 +435,7 @@ BEGIN
 SELECT CY,
            MAX(Release) AS Release
     FROM web.amcosversioncy
-    WHERE CY >= p_start
+    WHERE CY::integer >= p_start  -- web.amcosversioncy.cy is text (LEFT of version id); cast for numeric compare
     GROUP BY CY
     ORDER BY CY DESC
     ) src;
@@ -3176,16 +3176,19 @@ CREATE OR REPLACE FUNCTION web.pmreport(
 RETURNS TABLE(result_set_name text, row_data jsonb)
 LANGUAGE plpgsql
 AS $$
+#variable_conflict use_column
 DECLARE
     v_def_from text := 'tmp_costdefault';
     v_osd_from text := 'tmp_costosdcapedodi';
 BEGIN
+    -- Explicit, identical column lists so the three sources UNION cleanly.
+    -- The CCE source carries exceedssalarylimit; the others default it to false.
     CREATE TEMP TABLE tmp_costs ON COMMIT DROP AS
-    SELECT * FROM web.pmcostsbypayplan(p_projectid, p_amcosversionid)
+    SELECT pmcategoryname, uic, payplan, categorygroupcode, categorysubgroupcode, careerprogramnumber, locationid, locationtext, strl, gradelevel, grade::text AS grade, dependentstatus, numberofdependents, activedutydays, overheadpercent, costsummaryname, appn, costelementcategory, costelementname, applyinflation, showorder, costelementid, year, inventory, cost, false AS exceedssalarylimit FROM web.pmcostsbypayplan(p_projectid, p_amcosversionid)
     UNION ALL
-    SELECT * FROM web.pmcostsbypayplanreservecomponents(p_projectid, p_amcosversionid)
+    SELECT pmcategoryname, uic, payplan, categorygroupcode, categorysubgroupcode, careerprogramnumber, locationid, locationtext, strl, gradelevel, grade::text AS grade, dependentstatus, numberofdependents, activedutydays, overheadpercent, costsummaryname, appn, costelementcategory, costelementname, applyinflation, showorder, costelementid, year, inventory, cost, false FROM web.pmcostsbypayplanreservecomponents(p_projectid, p_amcosversionid)
     UNION ALL
-    SELECT * FROM web.pmcostsbypayplancce(p_projectid, p_amcosversionid);
+    SELECT pmcategoryname, uic, payplan, categorygroupcode, categorysubgroupcode, careerprogramnumber, locationid, locationtext, strl, gradelevel, grade::text AS grade, dependentstatus, numberofdependents, activedutydays, overheadpercent, costsummaryname, appn, costelementcategory, costelementname, applyinflation, showorder, costelementid, year, inventory, cost, exceedssalarylimit FROM web.pmcostsbypayplancce(p_projectid, p_amcosversionid);
 
     UPDATE tmp_costs c
     SET cost = c.cost * jir.amount
@@ -3203,12 +3206,12 @@ BEGIN
     SELECT 'pmreport_payload', jsonb_build_object(
         'default_summary', COALESCE((SELECT jsonb_agg(row_data) FROM web.spcrosstab(v_def_from,
             'PMCategoryName as "Sub-Project Name", UIC, PayPlan, CategoryGroupCode, CategorySubgroupCode, LocationText as "Location", GradeLevel, Grade, ActiveDutyDays, ExceedsSalaryLimit, APPN, CostElementCategory as "Category", CostElementName as "Cost Element", ShowOrder',
-            'Year','Year','ROUND(COALESCE(Cost,0),2)',
+            'Year','Year','ROUND(COALESCE(Cost,0)::numeric,2)',
             'PMCategoryName, UIC, PayPlan, CategoryGroupCode, CategorySubgroupCode, LocationText, GradeLevel, Grade, ActiveDutyDays, ExceedsSalaryLimit, APPN, CostElementCategory, CostElementName, ShowOrder',
             'PMCategoryName, UIC, PayPlan, CategoryGroupCode, CategorySubgroupCode, LocationText, GradeLevel, Grade, ActiveDutyDays, ExceedsSalaryLimit, APPN, CostElementCategory, CostElementName, ShowOrder', false)), '[]'::jsonb),
         'osd_cape_dodi_summary', COALESCE((SELECT jsonb_agg(row_data) FROM web.spcrosstab(v_osd_from,
             'PMCategoryName as "Sub-Project Name", UIC, PayPlan, CategoryGroupCode, CategorySubgroupCode, LocationText as "Location", GradeLevel, Grade, ActiveDutyDays, ExceedsSalaryLimit, APPN, CostElementCategory as "Category", CostElementName as "Cost Element", ShowOrder',
-            'Year','Year','ROUND(COALESCE(Cost,0),2)',
+            'Year','Year','ROUND(COALESCE(Cost,0)::numeric,2)',
             'PMCategoryName, UIC, PayPlan, CategoryGroupCode, CategorySubgroupCode, LocationText, GradeLevel, Grade, ActiveDutyDays, ExceedsSalaryLimit, APPN, CostElementCategory, CostElementName, ShowOrder',
             'PMCategoryName, UIC, PayPlan, CategoryGroupCode, CategorySubgroupCode, LocationText, GradeLevel, Grade, ActiveDutyDays, ExceedsSalaryLimit, APPN, CostElementCategory, CostElementName, ShowOrder', false)), '[]'::jsonb)
     );
@@ -3235,6 +3238,7 @@ CREATE OR REPLACE FUNCTION web.getamcoslitecosts(
 RETURNS TABLE(result_set_name text, row_data jsonb)
 LANGUAGE plpgsql
 AS $$
+#variable_conflict use_column
 DECLARE
     v_from text;
     v_select text := 'appngroup, appn, costelementcategory as "Cost Element Category", costelementname as "Cost Element Name", description, showorder';
@@ -3261,7 +3265,7 @@ BEGIN
     SET amount = jir.amount * a.amount
     FROM lookup.jicinflationrates jir
     WHERE p_inflationconversion = jir.conversiontype
-      AND p_inflationyear = jir.year
+      AND p_inflationyear::smallint = jir.year
       AND a.appn = jir.appropriation
       AND a.amcosversionid = jir.amcosversionid
       AND a.applyinflation = true;
@@ -3290,6 +3294,7 @@ CREATE OR REPLACE FUNCTION web.getamcoslitecostsforforces(
 RETURNS TABLE(result_set_name text, row_data jsonb)
 LANGUAGE plpgsql
 AS $$
+#variable_conflict use_column
 BEGIN
     RETURN QUERY
     SELECT 'getamcoslitecostsforforces_payload', jsonb_build_object('label', s.label, 'payload', r.row_data)

@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("lookup.Organization")]
+    [Table("Organization", Schema = "lookup")]
     public class Organization
     {
         [Key]

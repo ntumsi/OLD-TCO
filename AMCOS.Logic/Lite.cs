@@ -416,7 +416,7 @@ namespace AMCOS.Logic
         {
             DataSet ds = new DataSet();
             string[] parameterNames = new string[] { "@PayPlan", "@CostSummaryName", "@CategoryGroupCode", "@CategorySubgroupCode", "@CareerProgramNumber", "@LocationId", "@STRL", "@DependentStatus", "@NumberOfDependents", "@InflationConversion", "@InflationYear", "@AmcosVersionId" };
-            NpgsqlDbType[] parameterTypes = new NpgsqlDbType[] { NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer, NpgsqlDbType.Integer, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer };
+            NpgsqlDbType[] parameterTypes = new NpgsqlDbType[] { NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer, NpgsqlDbType.Text, NpgsqlDbType.Text, NpgsqlDbType.Integer };
             object[] parameterValues = new object[] {PayPlan,CostSummaryName,CategoryGroupCode,CategorySubgroupCode,CareerProgramNumber,LocationId,ScienceTechnologyReinventionLaboratory,DependentStatus,NumberOfDependents,InflationConversionType,InflationYear,AmcosVersionId };
             try
             {

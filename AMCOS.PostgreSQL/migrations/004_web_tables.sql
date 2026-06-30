@@ -43,28 +43,9 @@ CREATE TABLE web.qlikgroup (
 );
 ALTER TABLE web.qlikgroup ADD FOREIGN KEY (qlikapplicationid) REFERENCES web.qlikapplication (id);
 
--- Source: AMCOS.AMCOS2020_MAR/web/Tables/PendingUsers.sql
-CREATE TABLE web.pendingusers (
-    userinfo varchar(50) NOT NULL,
-    username varchar(100) NULL,
-    useremail varchar(100) NULL,
-    userphone varchar(50) NULL,
-    userofficename varchar(100) NULL,
-    usermacom varchar(50) NULL,
-    useraccounttype varchar(50) NULL,
-    userarmyrank varchar(50) NULL,
-    usercompanyname varchar(100) NULL,
-    userlastlogin timestamp NULL,
-    sponsorname varchar(100) NULL,
-    sponsoremail varchar(100) NULL,
-    sponsorphone varchar(50) NULL,
-    sponsorofficename varchar(100) NULL,
-    sponsormacom varchar(50) NULL,
-    sponsoraccounttype varchar(50) NULL,
-    sponsorarmyrank varchar(50) NULL,
-    userstatus varchar(14) NULL,
-    CONSTRAINT pk_pendingusers PRIMARY KEY (userinfo)
-);
+-- NOTE: web.PendingUsers is a VIEW in the source database, not a table. It is
+-- defined in 008_views.sql (over webuser.amcosuser). The placeholder table that
+-- was here has been removed so the view name does not collide.
 
 -- Source: AMCOS.AMCOS2020_MAR/web/Tables/CivLocationPerDiem.sql
 CREATE TABLE web.civlocationperdiem (

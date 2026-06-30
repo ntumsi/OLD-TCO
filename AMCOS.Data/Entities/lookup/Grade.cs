@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(PayPlan), nameof(GradeType), nameof(GradeLevel))]
-    [Table("lookup.Grade")]
+    [Table("Grade", Schema = "lookup")]
     public class Grade
     {
         [Column(Order = 0)]

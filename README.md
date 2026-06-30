@@ -167,7 +167,7 @@ The following items are tracked and require follow-up before or after go-live:
 - **Blocker:** `AMCOS.PostgreSQL/seed/` contains no seed data scripts — lookup and reference data must be exported from the legacy SQL Server database and loaded before the app will function correctly.
 - **Blocker:** `AMCOS.Web/dist/` is not committed — the legacy frontend build artifacts must be generated (`npm install && npx gulp default` in `AMCOS.Web/`) and included in the deployment package.
 - **Blocker:** Xwalk, Civilian PCS, and Admin modules are placeholder pages — full feature implementation is required.
-- **Post-launch:** Session storage uses in-memory cache; swap for Redis-backed `IDistributedCache` for multi-node deployments.
+- **Post-launch:** Session storage **and authentication tickets** use the in-memory `IDistributedCache` (`AddDistributedMemoryCache`). The OIDC auth cookie is kept small by storing the (token-heavy) ticket server-side via `DistributedCacheTicketStore`. In-memory means sessions/logins do **not** survive an app restart and are **not** shared across nodes — swap for a Redis-backed `IDistributedCache` before any multi-node deployment.
 - **Post-launch:** ETL pipeline has no retry/backoff logic or transaction rollback for partial failures.
 - **Post-launch:** ETL test coverage covers only 2 of 40+ loader modules.
 

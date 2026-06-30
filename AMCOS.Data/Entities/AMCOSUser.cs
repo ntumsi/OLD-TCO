@@ -6,7 +6,7 @@ namespace AMCOS.DataAccess.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("webuser.AMCOSUser")]
+    [Table("AMCOSUser", Schema = "webuser")]
     public partial class AMCOSUser
     {
         [Key]

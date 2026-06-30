@@ -6,20 +6,29 @@ import logging
 from pathlib import Path
 
 import pandas as pd
+from psycopg2 import sql
 
-from common.db import fetch_dataframe, load_dataframe
+from common.db import fetch_dataframe, get_connection, load_dataframe, qualified_identifier
 from common.file_utils import ensure_directory, find_first_existing, normalize_columns, read_csv_flexible
 from common.logging_utils import configure_logging
 from config.settings import OUTPUT_DIR
 
 logger = logging.getLogger(__name__)
+# Ordered parent-first so inserts satisfy foreign keys:
+# AMCOSUser <- PMProject <- PMCategory <- PMCategorySkill <- PMCategorySkillInventory,
+# PMCategory <- PMReport, and AMCOSUser <- PCSProject / User_Login_History / AmcosLiteAudit.
+# (aspnet_WebEvent_Events from the legacy SSIS package is not part of the migrated schema.)
 MIGRATE_TABLES = {
     "webuser.AMCOSUser.csv": "webuser.amcosuser",
     "webuser.PMProject.csv": "webuser.pmproject",
-    "webuser.User_Login_History.csv": "webuser.user_login_history",
+    "webuser.PMCategory.csv": "webuser.pmcategory",
+    "webuser.PMCategorySkill.csv": "webuser.pmcategoryskill",
+    "webuser.PMCategorySkillInventory.csv": "webuser.pmcategoryskillinventory",
+    "webuser.PMReport.csv": "webuser.pmreport",
     "webuser.PCSProject.csv": "webuser.pcsproject",
-    "web.ApplicationErrorLog.csv": "web.applicationerrorlog",
+    "webuser.User_Login_History.csv": "webuser.user_login_history",
     "webuser.AmcosLiteAudit.csv": "webuser.amcosliteaudit",
+    "web.ApplicationErrorLog.csv": "web.applicationerrorlog",
 }
 UNIT_PERSONNEL_FILE = "warehouse.UnitPersonnel.csv"
 UNIT_PERSONNEL_TABLE = "warehouse.unitpersonnel"
@@ -42,16 +51,31 @@ def migrate_export(output_dir: Path | str = OUTPUT_DIR) -> dict[str, int]:
     return results
 
 
+def _clear_tables(tables: list[str]) -> None:
+    """Delete all rows from the given tables in reverse (children-first) order."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            for table_name in reversed(tables):
+                cur.execute(
+                    sql.SQL("DELETE FROM {}").format(qualified_identifier(table_name))
+                )
+
+
 def migrate_import(input_dir: Path | str = OUTPUT_DIR) -> dict[str, int]:
     input_root = Path(input_dir)
     results: dict[str, int] = {}
+
+    # Clear the target tables children-first so foreign keys do not block the reload, then insert
+    # parent-first (MIGRATE_TABLES order). This keeps the import re-runnable on a populated database.
+    _clear_tables(list(MIGRATE_TABLES.values()))
+
     for file_name, table_name in MIGRATE_TABLES.items():
         source = find_first_existing(input_root, [file_name, f"**/{file_name}"])
         if not source:
             logger.warning("Skipping missing migration import %s", file_name)
             continue
         transformed = transform_migrated_rows(read_csv_flexible(source))
-        results[file_name] = load_dataframe(transformed, table_name, delete_where_clause="TRUE")
+        results[file_name] = load_dataframe(transformed, table_name)
     logger.info("Imported migration datasets: %s", results)
     return results
 

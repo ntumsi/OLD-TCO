@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(JobSeries), nameof(StateCountry), nameof(FunctionalArea), nameof(CostCenter), nameof(GradeLevel))]
-    [Table("data.GP_Inventory")]
+    [Table("GP_Inventory", Schema = "data")]
     public class GPInventory
     {
         [Column(Order = 0)]

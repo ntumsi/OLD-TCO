@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(LocalityId), nameof(FIPS))]
-    [Table("lookup.LocalityPayArea_FIPS")]
+    [Table("LocalityPayArea_FIPS", Schema = "lookup")]
     public class LocalityPayAreaFIPS
     {
         [Column(Order = 0)]

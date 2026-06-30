@@ -93,7 +93,7 @@ namespace AMCOS.Logic.Helpers
             var queries = query.Split(' ').ToList();
             var zips = new List<string>();
             queries.ForEach(q => { if (int.TryParse(q, out int zip)) { zips.Add(q); } });
-            return ExecuteStoredProcedure("web.GetCivPCSLocationsByQuery", new NpgsqlParameter("@AmcosVersionId", amcosVersionId), new NpgsqlParameter("@query", query), new NpgsqlParameter("@zipcode", zips.Count > 0 ? zips.First() : null)).Tables[0].AsEnumerable().Select(p => new LocationDto()
+            return ExecuteStoredProcedure("web.GetCivPCSLocationsByQuery", new NpgsqlParameter("@AmcosVersionId", amcosVersionId), new NpgsqlParameter("@query", query), new NpgsqlParameter("@zipcode", zips.Count > 0 ? (object)zips.First() : DBNull.Value)).Tables[0].AsEnumerable().Select(p => new LocationDto()
             {
                 Value = p["LocationId"].ToString(),
                 OptionGroup = p["LocationType"].ToString(),
@@ -201,11 +201,44 @@ namespace AMCOS.Logic.Helpers
         {
             if (sourceLocation == null || targetLocation == null) return 0;
 
+            // Coordinates are EF-ignored in the PostgreSQL model (no geography column was migrated
+            // into web.CivLocationPerDiem), so they are null at runtime. Without coordinates we can
+            // not auto-compute the great-circle distance; return 0 so the user supplies the mileage
+            // manually rather than throwing a NullReferenceException during CalculateAll.
+            if (sourceLocation.Coordinates == null || targetLocation.Coordinates == null) return 0;
+
             var distance = sourceLocation.Coordinates.Distance(targetLocation.Coordinates);
             if (distance.HasValue)
                 return (float)(distance.Value / 1609.34); //Convert meters to miles
             else
                 return 0;
+        }
+        /// <summary>
+        /// Geodesic distance in statute miles between two warehouse.Location points using PostGIS
+        /// ST_Distance over the geography column (returns meters on the spheroid). This replaces the
+        /// in-memory coordinate math, which is unavailable in the Core model because
+        /// CivLocationPerDiem.Coordinates is EF-ignored. Returns null when either location has no
+        /// coordinates so the caller can fall back to manual mileage entry.
+        /// </summary>
+        public static int? GetDistanceMiles(int originationId, int destinationId)
+        {
+            if (originationId <= 0 || destinationId <= 0) return null;
+            using (var connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(
+                    @"SELECT ST_Distance(o.coordinates, d.coordinates)
+                      FROM warehouse.location o, warehouse.location d
+                      WHERE o.locationid = @o AND d.locationid = @d
+                        AND o.coordinates IS NOT NULL AND d.coordinates IS NOT NULL", connection))
+                {
+                    command.Parameters.AddWithValue("@o", originationId);
+                    command.Parameters.AddWithValue("@d", destinationId);
+                    var result = command.ExecuteScalar();
+                    if (result == null || result == DBNull.Value) return null;
+                    return (int)Math.Round(Convert.ToDouble(result) / 1609.34);
+                }
+            }
         }
         /// <summary>
         /// Return a single CivLocationPerDiem by locationId
@@ -368,12 +401,11 @@ namespace AMCOS.Logic.Helpers
             //Only update the CalculatedDistance if the location was changed and the calculated miles were not just manually altered.
             if (json.LocationChanged && !json.MileageChanged)
             {
-                if (origination != null && destination != null)
-                    json.CalculatedDistance = Convert.ToInt32(CalculateDistance(origination, destination));
-                else
-                    json.CalculatedDistance = 0;
+                // Compute the great-circle distance geodesically in PostGIS. Falls back to 0 (manual
+                // entry) when either location is missing coordinates.
+                json.CalculatedDistance = GetDistanceMiles(json.OriginationId, json.DestinationId) ?? 0;
                 //Set the miles changed flag to true.  This will automatically be set back to false after calculations are complete.
-                json.MileageChanged = true;               
+                json.MileageChanged = true;
             }
         }
         private static void ProcessHouseHunting(ICivPcsHouseHunting houseHuntingInput, CivLocationPerDiem destination, int amcosVersion, decimal jicInflationRate)
@@ -529,20 +561,12 @@ namespace AMCOS.Logic.Helpers
         }
         private static DataSet ExecuteStoredProcedure(string storedProcedure, params NpgsqlParameter[] parameters)
         {
+            // The web.* functions return (result_set_name text, row_data jsonb); StoredFunction
+            // unpacks the jsonb into a flat DataTable. The old CommandType.StoredProcedure path
+            // produced CALL (invalid on a function) and a two-column result, not the flat shape
+            // these callers consume (row["LocationId"], row["CY"], etc.).
             DataSet dataset = new DataSet();
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
-            {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(storedProcedure, connection))
-                {
-                    command.Parameters.AddRange(parameters);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(dataset);
-                }
-            }
+            dataset.Tables.Add(StoredFunction.QueryAsTable(storedProcedure, parameters));
             return dataset;
         }
     }

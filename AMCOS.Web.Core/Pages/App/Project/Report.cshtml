@@ -81,10 +81,45 @@ else
         </div>
 
         <div class="col-12">
+            @{
+                ViewData["CceSalaryLimit"] = Model.CceSalaryLimit;
+                ViewData["YearColumns"] = Model.Cost?.YearColumns;
+            }
             <div class="card">
-                <div class="card-header">Cost Report</div>
+                <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <span>Cost Report</span>
+                    <span class="small">
+                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#5D7430;border:1px solid #999;"></span> Army</span>
+                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#7030A0;border:1px solid #999;"></span> DoD</span>
+                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#00008B;border:1px solid #999;"></span> Federal</span>
+                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#8BA103;border:1px solid #999;"></span> ARNG/PA</span>
+                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#6E8003;border:1px solid #999;"></span> USAR/OM</span>
+                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#006D8B;border:1px solid #999;"></span> CCE/Contractor</span>
+                        <span><span style="display:inline-block;width:10px;height:10px;background:#FFFF99;border:1px solid #999;"></span> Over CCE limit</span>
+                    </span>
+                </div>
                 <div class="card-body">
-                    @await Html.PartialAsync("_DataTable", Model.CostReport)
+                    @if (Model.Cost is null || Model.Cost.Undiscounted.Rows.Count == 0)
+                    {
+                        <div class="alert alert-light border mb-0">No cost data. Add inventory and build a report selection first.</div>
+                    }
+                    else
+                    {
+                        @if (Model.Cost.HasSpecialPay)
+                        {
+                            <div class="alert alert-info py-2 small">**Cost values are not inflated for the "Average Cost of Special Pays".</div>
+                        }
+                        @if (Model.Cost.CceOverSalaryLimit)
+                        {
+                            <div class="alert alert-warning py-2 small">Highlighted field(s) indicate a value based on a CCE salary greater than @Model.CceSalaryLimit.ToString("C0") per year.</div>
+                        }
+
+                        <h6 class="mb-2">Default Summary <span class="text-muted small">(undiscounted)</span></h6>
+                        @await Html.PartialAsync("_CostReportTable", Model.Cost.Undiscounted)
+
+                        <h6 class="mb-2 mt-4">Discounted Default Summary <span class="text-muted small">(present value)</span></h6>
+                        @await Html.PartialAsync("_CostReportTable", Model.Cost.Discounted)
+                    }
                 </div>
             </div>
         </div>

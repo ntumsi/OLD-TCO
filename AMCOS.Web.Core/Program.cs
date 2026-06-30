@@ -1,9 +1,13 @@
 using System.Security.Claims;
 using AMCOS.Data;
+using AMCOS.Web.Core.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +69,11 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
 });
 
+// Keep the auth cookie small by storing the (token-heavy) ticket server-side in the distributed
+// cache rather than serializing it into the cookie. See DistributedCacheTicketStore for why.
+builder.Services.AddSingleton<ITicketStore, DistributedCacheTicketStore>();
+builder.Services.AddSingleton<IPostConfigureOptions<CookieAuthenticationOptions>, ConfigureCookieTicketStore>();
+
 builder.Services
     .AddAuthentication(options =>
     {
@@ -94,6 +103,12 @@ builder.Services
         options.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
         options.CallbackPath = "/signin-oidc";
         options.SignedOutCallbackPath = "/signout-callback-oidc";
+
+        // SameSite=None without Secure is rejected by modern browsers on plain HTTP.
+        // Lax allows these cookies to travel on the top-level redirect back from Keycloak.
+        options.CorrelationCookie.SameSite = SameSiteMode.Lax;
+        options.NonceCookie.SameSite = SameSiteMode.Lax;
+
         options.Events = new OpenIdConnectEvents
         {
             OnTokenValidated = context =>
@@ -111,12 +126,6 @@ builder.Services
                     {
                         identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
                     }
-
-                    var idToken = context.TokenEndpointResponse?.IdToken;
-                    if (!string.IsNullOrWhiteSpace(idToken) && !identity.HasClaim(claim => claim.Type == "id_token"))
-                    {
-                        identity.AddClaim(new Claim("id_token", idToken));
-                    }
                 }
 
                 return Task.CompletedTask;
@@ -124,22 +133,22 @@ builder.Services
             OnRemoteFailure = context =>
             {
                 context.HandleResponse();
-                context.Response.Redirect("/Error");
+                var msg = Uri.EscapeDataString(context.Failure?.Message ?? "OIDC authentication failed");
+                context.Response.Redirect($"/Error?msg={msg}");
                 return Task.CompletedTask;
             },
-            OnRedirectToIdentityProviderForSignOut = context =>
+            OnRedirectToIdentityProviderForSignOut = async context =>
             {
-                var idTokenHint = context.HttpContext.User.FindFirst("id_token")?.Value;
+                var idTokenHint = await context.HttpContext.GetTokenAsync("id_token");
                 if (!string.IsNullOrWhiteSpace(idTokenHint))
                 {
                     context.ProtocolMessage.IdTokenHint = idTokenHint;
                 }
-
-                return Task.CompletedTask;
             }
         };
     });
 
+builder.Services.AddAntiforgery(o => o.HeaderName = "RequestVerificationToken");
 builder.Services.AddAuthorization();
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
@@ -153,6 +162,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+// Serve the Core project's own wwwroot first so its assets (e.g. /dist/js/pcs-civilian.js) take
+// precedence. The legacy AMCOS.Web/dist folder is registered afterwards as a *fallback* only — it
+// supplies assets that have not yet been migrated into Core's wwwroot. Registering it first (as it
+// was) shadowed Core's updated copies with the stale legacy versions.
+app.UseStaticFiles();
+
 var legacyDistPath = Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, "..", "AMCOS.Web", "dist"));
 if (Directory.Exists(legacyDistPath))
 {
@@ -163,8 +178,45 @@ if (Directory.Exists(legacyDistPath))
     });
 }
 
-app.UseStaticFiles();
+// Serve the legacy public documents (release notes, tutorials, fact sheets) referenced by the
+// migrated pages (e.g. the home page's "AMCOS Release/Update History" PDF) at /Public.
+var legacyPublicPath = Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, "..", "AMCOS.Web", "Public"));
+if (Directory.Exists(legacyPublicPath))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(legacyPublicPath),
+        RequestPath = "/Public"
+    });
+}
+
 app.UseRouting();
+
+// Clean up orphaned auth-cookie chunks left over from the pre-ticket-store cookie format.
+// A genuinely chunked cookie has a base value of "chunks-N"; with the server-side ticket store
+// the base auth cookie is never chunked, so any ".AspNetCore.CookiesCn" seen alongside a
+// non-chunked (or dropped) base cookie is stale. Left in place, ~8 KB of stale chunks re-inflate
+// the Cookie header past the request-header size limit, causing the real (small) auth cookie to
+// be dropped and the user to be logged out on every request — an unrecoverable login loop.
+// Expiring the orphans lets the browser self-heal on the next request.
+app.Use(async (context, next) =>
+{
+    var cookies = context.Request.Cookies;
+    if (cookies.ContainsKey(".AspNetCore.CookiesC1"))
+    {
+        var baseIsChunked = cookies.TryGetValue(".AspNetCore.Cookies", out var baseVal)
+            && baseVal.StartsWith("chunks-", StringComparison.Ordinal);
+        if (!baseIsChunked)
+        {
+            for (var i = 1; cookies.ContainsKey($".AspNetCore.CookiesC{i}"); i++)
+            {
+                context.Response.Cookies.Delete($".AspNetCore.CookiesC{i}");
+            }
+        }
+    }
+    await next();
+});
+
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();

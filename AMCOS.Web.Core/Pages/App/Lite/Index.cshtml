@@ -30,11 +30,11 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="categoryGroupCode">Category Group</label>
-                        <input id="categoryGroupCode" name="CategoryGroupCode" class="form-control" />
+                        <input id="categoryGroupCode" name="CategoryGroupCode" class="form-control" value="-1" />
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="categorySubgroupCode">Category Subgroup</label>
-                        <input id="categorySubgroupCode" name="CategorySubgroupCode" class="form-control" />
+                        <input id="categorySubgroupCode" name="CategorySubgroupCode" class="form-control" value="-1" />
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="careerProgramNumber">Career Program</label>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="locationId">Location Id</label>
-                        <input id="locationId" name="LocationId" type="number" class="form-control" value="0" />
+                        <input id="locationId" name="LocationId" type="number" class="form-control" value="-1" />
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="dependentStatus">Dependent Status</label>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="numberOfDependents">Dependents</label>
-                        <input id="numberOfDependents" name="NumberOfDependents" type="number" class="form-control" value="0" />
+                        <input id="numberOfDependents" name="NumberOfDependents" type="number" class="form-control" value="-1" />
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="overheadPercent">Overhead %</label>
@@ -76,11 +76,14 @@
     </div>
     <div class="col-lg-8">
         <div class="card mb-4">
-            <div class="card-header">AMCOS Lite Results</div>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>AMCOS Lite Results</span>
+                <span id="liteLegend" class="small d-none"></span>
+            </div>
             <div class="card-body">
-                <p class="text-muted">This page model calls <code>AMCOS.Logic.Lite</code> and returns JSON through the Razor Pages cost-data handler for JavaScript rendering.</p>
                 <div id="liteStatus" class="alert alert-info">Choose filters and refresh to retrieve cost data.</div>
-                <div id="liteResults" class="table-responsive"></div>
+                <div id="amcosLiteChart" class="mb-3"></div>
+                <div id="liteResults"></div>
             </div>
         </div>
 
@@ -98,42 +101,138 @@
 </div>
 
 @section Scripts {
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
 <script>
 (() => {
     const button = document.getElementById('loadCosts');
     const status = document.getElementById('liteStatus');
     const results = document.getElementById('liteResults');
+    const chartEl = document.getElementById('amcosLiteChart');
+    const legendEl = document.getElementById('liteLegend');
     const form = document.getElementById('liteFilters');
+    const cceSalaryLimit = @Model.CceMaxPayFootnote;  // CCE per-grade salary threshold (legacy yellow highlight)
 
-    function renderTable(table) {
+    // Legacy appropriation palette (AMCOS.Logic Appropriation/PayPlan GetAppropriationColor).
+    const APPROP_COLORS = {
+        'ARMY CIVPAY': '#1F8802', 'CIV ARMY CIVPAY': '#1F8802',
+        'MPA': '#5D7430', 'MPA NON-PAY': '#5D7430',
+        'OMA': '#6A9303', 'OMA_1': '#6A9303',
+        'FEDERAL OM': '#00008B', 'FEDERAL OMA': '#00008B', 'DOD OMA': '#7030A0', 'OMDW': '#7030A0',
+        'NGPA': '#74B803', 'NG PA': '#74B803', 'OMNG': '#8BA103', 'OMNG_1': '#8BA103',
+        'RPA': '#5C9303', 'RES PA': '#5C9303', 'OMAR': '#6E8003', 'OMAR_1': '#6E8003',
+        'CCE': '#006D8B', 'TOTAL': '#DEDFDE'
+    };
+    const WEAPON_COLOR = '#FFA500';      // weapon-system / cost-element-structure highlight
+    const SALARY_LIMIT_COLOR = '#FFFF99'; // CCE over-salary-limit highlight
+
+    function appropColor(value) {
+        if (value == null) return null;
+        return APPROP_COLORS[String(value).trim().toUpperCase()] || null;
+    }
+    function isNumeric(v) { return v !== null && v !== '' && !isNaN(Number(String(v).replace(/[$,]/g, ''))); }
+    function num(v) { return Number(String(v).replace(/[$,]/g, '')); }
+    function looksLikeMoney(h) { return /amount|cost|pay|rate|\$/i.test(h) || /^E\d|^O\d|^W\d|GS\d|^\d/i.test(h); }
+
+    function renderTable(table, isCce) {
         if (!table || !table.rows || table.rows.length === 0) {
-            return '<div class="alert alert-light border">No data returned.</div>';
+            return '<div class="alert alert-light border mb-3">No data returned for this grid.</div>';
         }
-
         const headers = Object.keys(table.rows[0]);
         const head = headers.map(h => `<th>${h}</th>`).join('');
-        const body = table.rows.map(row => `<tr>${headers.map(h => `<td>${row[h] ?? ''}</td>`).join('')}</tr>`).join('');
-        return `<table class="table table-sm table-striped table-bordered"><thead class="table-dark"><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+        const body = table.rows.map(row => {
+            // Weapon-system manpower rows are highlighted across the row (legacy orange).
+            const rowText = headers.map(h => String(row[h] ?? '')).join(' ').toUpperCase();
+            const isWeapon = rowText.includes('WEAPON SYSTEM');
+            const cells = headers.map(h => {
+                const val = row[h];
+                let bg = appropColor(val);
+                if (!bg && isWeapon) bg = WEAPON_COLOR;
+                if (!bg && isCce && isNumeric(val) && cceSalaryLimit > 0 && num(val) > cceSalaryLimit) bg = SALARY_LIMIT_COLOR;
+                const style = bg ? ` style="background-color:${bg};color:#fff;"` : '';
+                return `<td${style}>${val ?? ''}</td>`;
+            }).join('');
+            return `<tr>${cells}</tr>`;
+        }).join('');
+        return `<div class="table-responsive mb-3"><table class="table table-sm table-bordered align-middle mb-0">`
+             + `<thead class="table-dark"><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+    }
+
+    function prettyName(name, i) {
+        if (!name || /^Table\d+$/i.test(name)) return i === 0 ? 'Cost Detail' : `Grid ${i + 1}`;
+        // result_set_name values are lowercase keys; humanize.
+        return name.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, c => c.toUpperCase());
+    }
+
+    // Build a cost-by-grade chart from the primary grid (numeric columns = grades, label = first text column).
+    function buildChart(table, payPlan, summary) {
+        chartEl.innerHTML = '';
+        if (payPlan === 'CCE') { chartEl.innerHTML = '<div class="text-muted small">Graph is not available for Contractor Cost Estimate.</div>'; return; }
+        if (summary && summary !== 'Default') { chartEl.innerHTML = '<div class="text-muted small">Graph is only available for the Default cost summary.</div>'; return; }
+        if (!table || !table.rows || table.rows.length === 0 || typeof c3 === 'undefined') return;
+
+        const headers = Object.keys(table.rows[0]);
+        const gradeCols = headers.filter(h => table.rows.every(r => r[h] == null || isNumeric(r[h])) && looksLikeMoney(h));
+        const labelCol = headers.find(h => !gradeCols.includes(h)) || headers[0];
+        if (gradeCols.length === 0) return;
+
+        const columns = [['x', ...gradeCols]];
+        table.rows.forEach(r => {
+            const label = String(r[labelCol] ?? 'Series');
+            if (/total/i.test(label)) return; // exclude total rows from the series
+            columns.push([label, ...gradeCols.map(g => (r[g] == null ? 0 : num(r[g])))]);
+        });
+        try {
+            c3.generate({
+                bindto: '#amcosLiteChart',
+                size: { height: 420 },
+                data: { x: 'x', columns: columns, type: 'bar' },
+                axis: { x: { type: 'category' }, y: { tick: { format: d3.format('$,.0f') } } },
+                grid: { y: { lines: [{ value: 0 }] } }
+            });
+        } catch (e) { chartEl.innerHTML = `<div class="text-muted small">Chart unavailable: ${e.message}</div>`; }
+    }
+
+    function renderLegend() {
+        const items = [
+            ['Active OMA/MPA', '#6A9303'], ['Federal OM', '#00008B'], ['DoD OMDW', '#7030A0'],
+            ['ARNG', '#8BA103'], ['USAR', '#6E8003'], ['CCE', '#006D8B'],
+            ['Weapon System', WEAPON_COLOR], ['Over CCE salary limit', SALARY_LIMIT_COLOR]
+        ];
+        legendEl.innerHTML = items.map(([t, c]) =>
+            `<span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:${c};border:1px solid #999;"></span> ${t}</span>`).join('');
+        legendEl.classList.remove('d-none');
     }
 
     button.addEventListener('click', async () => {
         status.className = 'alert alert-info';
         status.textContent = 'Loading cost data...';
         results.innerHTML = '';
+        chartEl.innerHTML = '';
 
         const params = new URLSearchParams(new FormData(form));
+        const payPlan = form.querySelector('#payPlan')?.value;
+        const summary = form.querySelector('#costSummaryName')?.value;
 
         try {
             const response = await fetch(`?handler=CostData&${params.toString()}`);
-            if (!response.ok) {
-                throw new Error(`Request failed with ${response.status}`);
+            if (!response.ok) throw new Error(`Request failed with ${response.status}`);
+            const payload = await response.json();
+            const tables = payload.tables ?? [];
+            const isCce = payPlan === 'CCE';
+
+            if (tables.length === 0) {
+                results.innerHTML = '<div class="alert alert-light border">No data returned.</div>';
+            } else {
+                results.innerHTML = tables.map((t, i) =>
+                    `<h6 class="mt-3">${prettyName(t.name, i)}</h6>` + renderTable(t, isCce)).join('');
+                buildChart(tables[0], payPlan, summary);
+                renderLegend();
             }
 
-            const payload = await response.json();
-            const primaryTable = payload.tables?.[0];
-            results.innerHTML = renderTable(primaryTable);
             status.className = 'alert alert-success';
-            status.textContent = `Loaded ${payload.tables?.length ?? 0} table(s) from AMCOS.Logic.Lite.`;
+            status.textContent = `Loaded ${tables.length} grid(s) from AMCOS.Logic.Lite.`;
         } catch (error) {
             status.className = 'alert alert-danger';
             status.textContent = error.message;

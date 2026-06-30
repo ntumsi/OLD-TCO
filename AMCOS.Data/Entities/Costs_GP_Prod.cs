@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(Appn), nameof(CostElementCategory), nameof(CostElementId), nameof(CostElementName))]
-    [Table("compare.CostsProduction")]
+    [Table("CostsProduction", Schema = "compare")]
     public class CostsGPProd
     {
         [StringLength(5)]

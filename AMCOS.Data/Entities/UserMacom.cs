@@ -5,7 +5,7 @@ namespace AMCOS.DataAccess.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(MACOM), nameof(MACOM_Name), nameof(Description))]
-    [Table("webuser.User_Macom")]
+    [Table("User_Macom", Schema = "webuser")]
     public partial class UserMACOM
     {
         [Column(Order = 0)]

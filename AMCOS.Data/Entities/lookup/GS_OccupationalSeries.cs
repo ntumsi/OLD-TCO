@@ -3,7 +3,7 @@ namespace AMCOS.Data.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("lookup.GS_OccupationalSeries")]
+    [Table("GS_OccupationalSeries", Schema = "lookup")]
     public class GSOccupationalSeries
     {
         [Key]

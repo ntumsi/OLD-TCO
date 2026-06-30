@@ -16,9 +16,11 @@ var AMCOS = {
             AMCOS.validatingSession = false;
             if (res.ok) {
                 return res.json().then(function (data) {
-                    if (data.AuthenticationTimeout) {
-                        AMCOS.setNewExpirationTime(data.AuthenticationTimeout);
-                        AMCOS.sessionDurationSeconds = data.AuthenticationTimeout;
+                    // ASP.NET Core serializes JSON as camelCase by default.
+                    var timeout = data.authenticationTimeout ?? data.AuthenticationTimeout;
+                    if (timeout) {
+                        AMCOS.setNewExpirationTime(timeout);
+                        AMCOS.sessionDurationSeconds = timeout;
                     }
                     AMCOS.startTimers();
                 });
@@ -104,9 +106,10 @@ var AMCOS = {
                 AMCOS.validatingSession = false;
                 if (res.ok) {
                     return res.json().then(function (data) {
-                        if (data.AuthenticationTimeout) {
-                            AMCOS.setNewExpirationTime(data.AuthenticationTimeout);
-                            AMCOS.sessionDurationSeconds = data.AuthenticationTimeout;
+                        var timeout = data.authenticationTimeout ?? data.AuthenticationTimeout;
+                        if (timeout) {
+                            AMCOS.setNewExpirationTime(timeout);
+                            AMCOS.sessionDurationSeconds = timeout;
                         }
                     });
                 }

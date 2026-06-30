@@ -107,7 +107,9 @@ Every active SSIS package in the repository is now replaced by a Python module.
 | `AMCOS.SSIS.ExportForRelease.dtsx` | `datasync/export_data.py` |
 | `AMCOS.SSIS.ExportRawFromDev.dtsx` | `datasync/export_data.py` |
 
-> **Note:** `AMCOS.SSIS.DeployFixes.dtsx`, `AMCOS.SSIS.Enlisted-91C-Fix.dtsx`, and `AMCOS.SSIS.Migrate17C-Fix.dtsx` are one-time data-correction packages that do not have ongoing operational equivalents; they are intentionally omitted.
+> **Note:** the one-time data-correction packages `AMCOS.SSIS.DeployFixes.dtsx`, `AMCOS.SSIS.Enlisted-91C-Fix.dtsx`, and `AMCOS.SSIS.Migrate17C-Fix.dtsx` have direct Python equivalents (`datasync/deploy_fixes.py`, `datasync/enlisted_fix.py`, `datasync/migrate_fix.py`) but are kept out of the main orchestration since they target specific historical release cycles.
+>
+> **Coverage corrections (verified against the PostgreSQL schema):** `datasync/migrate.py` now also migrates `webuser.PMCategory`, `PMCategorySkill`, `PMCategorySkillInventory`, and `PMReport`; `datasync/import_raw.py` now includes `crunch.Costs_NO` (military) and `crunch.Costs_CY` / `crunch.Costs_GFEBS` (civilian); `dataload/gfebs.py` now loads `lookup.gfebs_fundscenter`; `dataload/fmsweb.py` now loads `data.fmsweblockpointtperdet`. SSIS targets not carried into the migrated schema (`load_payschedule.PaySchedule_Wage`, `xwalk.FIPS_WageArea`, `PaySchedule.DCPASNfRaw`, the DMDC inventory reject/warrant/invalid-MOS staging tables, and `dbo.aspnet_WebEvent_Events`) have no Python loader by design.
 
 ### Legacy replacements
 

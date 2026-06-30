@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AMCOS.Data.Entities
 {
     [PrimaryKey(nameof(PayPlan), nameof(Branch), nameof(WOMOS), nameof(CostElementId), nameof(GradeType), nameof(GradeLevel), nameof(WeaponSystemId))]
-    [Table("crunch.Costs_AWO")]
+    [Table("Costs_AWO", Schema = "crunch")]
     public class CostsAWO
     {
         [Required]

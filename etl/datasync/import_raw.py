@@ -14,7 +14,9 @@ from config.settings import OUTPUT_DIR
 
 logger = logging.getLogger(__name__)
 CRUNCH_CIVILIAN_FILES = {
+    "crunch.Costs_CY.csv": "crunch.costs_cy",
     "crunch.Costs_G.csv": "crunch.costs_g",
+    "crunch.Costs_GFEBS.csv": "crunch.costs_gfebs",
     "crunch.Costs_SES.csv": "crunch.costs_ses",
     "crunch.Costs_Wage.csv": "crunch.costs_wage",
     "crunch.Costs_G_Overseas.csv": "crunch.costs_g_overseas",
@@ -25,6 +27,7 @@ CRUNCH_MILITARY_FILES = {
     "crunch.Costs_AO.csv": "crunch.costs_ao",
     "crunch.Costs_AWO.csv": "crunch.costs_awo",
     "crunch.Costs_NE.csv": "crunch.costs_ne",
+    "crunch.Costs_NO.csv": "crunch.costs_no",
     "crunch.Costs_NWO.csv": "crunch.costs_nwo",
     "crunch.Costs_RE.csv": "crunch.costs_re",
     "crunch.Costs_RO.csv": "crunch.costs_ro",

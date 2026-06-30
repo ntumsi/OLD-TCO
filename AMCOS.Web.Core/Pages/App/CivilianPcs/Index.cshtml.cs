@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using System.Text.Json;
-using Aspose.Cells;
 using AMCOS.Data.DataTransferObjects;
 using AMCOS.Logic;
 using AMCOS.Logic.Helpers;
@@ -92,58 +91,18 @@ public class IndexModel : PageModel
         return new JsonResult(PcsPropertyHelper.OpenProject(projectName, uid), JsonOpts);
     }
 
-    public IActionResult OnGetExport(string projectName, [FromServices] IWebHostEnvironment env)
+    public IActionResult OnGetExport(string projectName)
     {
         var uid = UserId();
         if (uid == null) return NotFound();
         var json = PcsPropertyHelper.OpenProject(projectName, uid);
         if (json == null) return NotFound();
 
-        var licensePath = Path.Combine(env.ContentRootPath, "Licenses", "Aspose.Cells.lic");
-        if (System.IO.File.Exists(licensePath))
-        {
-            var lic = new License();
-            lic.SetLicense(licensePath);
-        }
-
-        var workbook = new Workbook();
-        var ws = workbook.Worksheets[0];
-        ws.Name = "Civilian PCS";
-        int row = 0;
-
-        ws.Cells[row, 0].PutValue("Civilian Permanent Change of Station");
-        ws.Cells[row, 0].GetStyle().Font.IsBold = true;
-        row += 2;
-
-        void AddRow(string label, decimal value)
-        {
-            ws.Cells[row, 0].PutValue(label);
-            ws.Cells[row, 1].PutValue((double)value);
-            row++;
-        }
-
-        AddRow("Origination ID", json.OriginationId);
-        AddRow("Destination ID", json.DestinationId);
-        AddRow("Distance (Miles)", json.CalculatedDistance);
-        row++;
-        AddRow("House Hunting Total", json.HouseHuntingTotal);
-        AddRow("Transportation Subtotal", json.TransportationSubTotal);
-        AddRow("TQSE Total", json.TQSETotal);
-        AddRow("GH Transportation Total", json.GHTransportationTotal);
-        AddRow("MEA Subtotal", json.MEASubtotal);
-        AddRow("Real Estate/Lease Total", json.RealEstateLeaseTotal);
-        AddRow("NTS Subtotal", json.NTSSubtotal);
-        AddRow("RITA Subtotal", json.RITASubtotal);
-        row++;
-        ws.Cells[row, 0].PutValue("Grand Total");
-        ws.Cells[row, 0].GetStyle().Font.IsBold = true;
-        ws.Cells[row, 1].PutValue((double)json.GrandTotal);
-        ws.Cells[row, 1].GetStyle().Font.IsBold = true;
-
-        ws.AutoFitColumns();
-
+        // Reuse the shared, attribute-driven exporter so the spreadsheet matches the legacy report:
+        // one worksheet per [ForExport] section, with per-component breakdowns and styling — not just
+        // the grand totals the previous hand-rolled sheet produced.
         using var ms = new MemoryStream();
-        workbook.Save(ms, SaveFormat.Xlsx);
+        CivPcsExportHelper.ExportToExcel(ms, json, "Civilian Permanent Change of Station");
         return File(ms.ToArray(),
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             projectName + ".xlsx");

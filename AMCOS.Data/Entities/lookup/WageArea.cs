@@ -3,7 +3,7 @@ namespace AMCOS.Data.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("lookup.WageArea")]
+    [Table("WageArea", Schema = "lookup")]
     public class WageArea
     {
         [Key]

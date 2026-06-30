@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AMCOS.Data.Entities
 {
-    [Table("web.ApplicationErrorLog")]
+    [Table("ApplicationErrorLog", Schema = "web")]
     public class ApplicationErrorLog
     {
         [Key]

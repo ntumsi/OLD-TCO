@@ -3,7 +3,7 @@ namespace AMCOS.DataAccess.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("webuser.PMCategorySkillInventory")]
+    [Table("PMCategorySkillInventory", Schema = "webuser")]
     public partial class PMCategorySkillInventory
     {
         public int Id { get; set; }

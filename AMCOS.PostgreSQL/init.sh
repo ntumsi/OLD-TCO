@@ -102,7 +102,9 @@ for f in \
     "$SCRIPT_DIR/migrations/003_webuser_tables.sql" \
     "$SCRIPT_DIR/migrations/004_web_tables.sql" \
     "$SCRIPT_DIR/migrations/005_warehouse_tables.sql" \
+    "$SCRIPT_DIR/migrations/005b_costengine_tables.sql" \
     "$SCRIPT_DIR/migrations/006_functions.sql" \
+    "$SCRIPT_DIR/migrations/006b_costengine_functions.sql" \
     "$SCRIPT_DIR/migrations/007_stored_procedures.sql" \
     "$SCRIPT_DIR/migrations/008_views.sql"
 do

@@ -39,6 +39,33 @@ public class UsersModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string? OfficeName { get; set; }
 
+    [BindProperty(SupportsGet = true)]
+    public string? CompanyName { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? CreatedFrom { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? CreatedTo { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? LastLoginFrom { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? LastLoginTo { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? ApprovedFrom { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? ApprovedTo { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? DeniedFrom { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? DeniedTo { get; set; }
+
     // ── Page-state properties ────────────────────────────────────────────────
 
     public List<UserRow> Users { get; private set; } = new();
@@ -113,12 +140,15 @@ public class UsersModel : PageModel
         LoadOrganizations();
         RunSearch();
 
-        var licensePath = Path.Combine(_environment.ContentRootPath, "Licenses", "Aspose.Cells.lic");
-        if (System.IO.File.Exists(licensePath))
+        try
         {
-            var license = new License();
-            license.SetLicense(licensePath);
+            var licensePath = Path.Combine(_environment.ContentRootPath, "Licenses", "Aspose.Cells.lic");
+            if (System.IO.File.Exists(licensePath))
+            {
+                new License().SetLicense(licensePath);
+            }
         }
+        catch { /* expired/mismatched Aspose license -> evaluation mode, still exports */ }
 
         var workbook = new Workbook();
         workbook.Worksheets.Clear();
@@ -234,6 +264,29 @@ public class UsersModel : PageModel
                 sql.Append(" AND u.officename ILIKE @officeName");
                 parameters.Add(new NpgsqlParameter("@officeName", $"%{OfficeName.Trim()}%"));
             }
+            if (!string.IsNullOrWhiteSpace(CompanyName))
+            {
+                sql.Append(" AND u.companyname ILIKE @companyName");
+                parameters.Add(new NpgsqlParameter("@companyName", $"%{CompanyName.Trim()}%"));
+            }
+            // Date-range filters (To is inclusive of the whole day). Mirrors the legacy userlist filters.
+            void AddDateRange(string col, DateTime? from, DateTime? to, string key)
+            {
+                if (from.HasValue)
+                {
+                    sql.Append($" AND {col} >= @{key}From");
+                    parameters.Add(new NpgsqlParameter($"@{key}From", from.Value));
+                }
+                if (to.HasValue)
+                {
+                    sql.Append($" AND {col} < @{key}To + interval '1 day'");
+                    parameters.Add(new NpgsqlParameter($"@{key}To", to.Value.Date));
+                }
+            }
+            AddDateRange("u.datecreated", CreatedFrom, CreatedTo, "created");
+            AddDateRange("u.lastlogin", LastLoginFrom, LastLoginTo, "lastlogin");
+            AddDateRange("u.lastapproveddate", ApprovedFrom, ApprovedTo, "approved");
+            AddDateRange("u.lastdenieddate", DeniedFrom, DeniedTo, "denied");
 
             sql.Append(
                 " GROUP BY u.userid, name, u.email, u.armyrank, u.macom, u.companyname," +
@@ -281,8 +334,83 @@ public class UsersModel : PageModel
         LastName,
         ArmyRank,
         Macom,
-        OfficeName
+        OfficeName,
+        CompanyName,
+        CreatedFrom,
+        CreatedTo,
+        LastLoginFrom,
+        LastLoginTo,
+        ApprovedFrom,
+        ApprovedTo,
+        DeniedFrom,
+        DeniedTo
     };
+
+    /// <summary>
+    /// Permanently deletes a user and all of their dependent data (projects and their
+    /// categories/skills/inventory/reports, PCS projects, and login history), in dependency
+    /// order within a transaction. Mirrors the legacy admin "Delete user" capability
+    /// (UpdateMyProfile.aspx btnDelete). There are no ON DELETE CASCADE FKs, so children
+    /// must be removed first.
+    /// </summary>
+    public IActionResult OnPostDelete(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            StatusMessage = "No user specified.";
+            return RedirectToPage(BuildFilterRouteValues());
+        }
+
+        // Guard: an admin cannot delete their own account.
+        if (string.Equals(userId, ResolveCurrentUser()?.UserId, StringComparison.OrdinalIgnoreCase))
+        {
+            StatusMessage = "You cannot delete your own account.";
+            return RedirectToPage(BuildFilterRouteValues());
+        }
+
+        try
+        {
+            using var conn = OpenConnection();
+            using var tx = conn.BeginTransaction();
+
+            void Exec(string sql)
+            {
+                using var cmd = new NpgsqlCommand(sql, conn, tx);
+                cmd.Parameters.Add(new NpgsqlParameter("@uid", userId));
+                cmd.ExecuteNonQuery();
+            }
+
+            // Children first (FK order), then the user.
+            Exec(@"DELETE FROM webuser.pmcategoryskillinventory WHERE skillid IN (
+                       SELECT sk.skillid FROM webuser.pmcategoryskill sk
+                       JOIN webuser.pmcategory c ON c.categoryid = sk.categoryid
+                       JOIN webuser.pmproject p ON p.projectid = c.projectid
+                       WHERE p.userid = @uid)");
+            Exec(@"DELETE FROM webuser.pmreport WHERE categoryid IN (
+                       SELECT c.categoryid FROM webuser.pmcategory c
+                       JOIN webuser.pmproject p ON p.projectid = c.projectid
+                       WHERE p.userid = @uid)");
+            Exec(@"DELETE FROM webuser.pmcategoryskill WHERE categoryid IN (
+                       SELECT c.categoryid FROM webuser.pmcategory c
+                       JOIN webuser.pmproject p ON p.projectid = c.projectid
+                       WHERE p.userid = @uid)");
+            Exec(@"DELETE FROM webuser.pmcategory WHERE projectid IN (
+                       SELECT projectid FROM webuser.pmproject WHERE userid = @uid)");
+            Exec("DELETE FROM webuser.pmproject WHERE userid = @uid");
+            Exec("DELETE FROM webuser.pcsproject WHERE userid = @uid");
+            Exec("DELETE FROM webuser.user_login_history WHERE userid = @uid");
+            Exec("DELETE FROM webuser.amcosuser WHERE userid = @uid");
+
+            tx.Commit();
+            StatusMessage = $"User '{userId}' and all associated data were deleted.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Could not delete user: {ex.Message}";
+        }
+
+        return RedirectToPage(BuildFilterRouteValues());
+    }
 
     private AMCOSUser? ResolveCurrentUser()
     {

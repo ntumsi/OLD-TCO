@@ -13,3 +13,10 @@
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
     </p>
 }
+
+@if (!string.IsNullOrEmpty(Model.AuthError))
+{
+    <div class="alert alert-warning mt-3">
+        <strong>Authentication error:</strong> @Model.AuthError
+    </div>
+}

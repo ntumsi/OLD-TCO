@@ -26,8 +26,17 @@ namespace AMCOS.Logic.Helpers
             if (data == null)
                 return;
 
-            var license = new License();
-            license.SetLicense("Licenses/Aspose.Cells.lic");
+            // The bundled Aspose.Cells.lic predates the Aspose DLL build and SetLicense throws on it.
+            // An expired/missing license must not abort the export — Aspose falls back to evaluation
+            // mode, which still produces a usable workbook.
+            try
+            {
+                if (System.IO.File.Exists("Licenses/Aspose.Cells.lic"))
+                {
+                    new License().SetLicense("Licenses/Aspose.Cells.lic");
+                }
+            }
+            catch { /* evaluation mode */ }
             var workbook = new Workbook();
 
             var sections = GetDataSetFromObject(data).ToList();

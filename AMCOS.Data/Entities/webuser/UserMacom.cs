@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(MACOM), nameof(MACOM_Name), nameof(Description))]
-    [Table("webuser.User_Macom")]
+    [Table("User_Macom", Schema = "webuser")]
     public class UserMACOM
     {
         [Column(Order = 0)]

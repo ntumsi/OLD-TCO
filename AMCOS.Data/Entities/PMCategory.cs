@@ -5,7 +5,7 @@ namespace AMCOS.DataAccess.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(UserId), nameof(ProjectId), nameof(CategoryId))]
-    [Table("webuser.PMCategory")]
+    [Table("PMCategory", Schema = "webuser")]
     public partial class PMCategory
     {
         [Column(Order = 0)]

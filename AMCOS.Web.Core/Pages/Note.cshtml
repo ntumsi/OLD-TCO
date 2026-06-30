@@ -1,0 +1,45 @@
+@page
+@model AMCOS.Web.Core.Pages.NoteModel
+@{
+    ViewData["Title"] = "News";
+}
+
+<h1 class="h3 mb-3">AMCOS News</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.Notice))
+{
+    <div class="alert alert-info">@Model.Notice</div>
+}
+
+@foreach (var item in Model.Items)
+{
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">@item.Title</span>
+            @if (!string.IsNullOrWhiteSpace(item.Category))
+            {
+                <span class="badge bg-secondary">@item.Category</span>
+            }
+        </div>
+        <div class="card-body">
+            @if (!string.IsNullOrWhiteSpace(item.Description))
+            {
+                <p class="mb-2">@item.Description</p>
+            }
+            @if (!string.IsNullOrWhiteSpace(item.Content))
+            {
+                <div class="mb-2">@Html.Raw(item.Content)</div>
+            }
+            <div class="d-flex justify-content-between">
+                @if (!string.IsNullOrWhiteSpace(item.PubDate))
+                {
+                    <small class="text-muted">@item.PubDate</small>
+                }
+                @if (!string.IsNullOrWhiteSpace(item.Link))
+                {
+                    <a href="@item.Link" target="_blank" rel="noopener">Read more</a>
+                }
+            </div>
+        </div>
+    </div>
+}

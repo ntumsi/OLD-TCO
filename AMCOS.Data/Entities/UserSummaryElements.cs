@@ -5,7 +5,7 @@ namespace AMCOS.DataAccess.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(UserId), nameof(ProjectId), nameof(SummaryId), nameof(CostElementId))]
-    [Table("webuser.User_SummaryElements")]
+    [Table("User_SummaryElements", Schema = "webuser")]
     public partial class UserSummaryElements
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

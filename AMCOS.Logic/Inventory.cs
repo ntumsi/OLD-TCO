@@ -81,51 +81,27 @@ namespace AMCOS.Logic
         }
         public DataTable GetInventoryOther()
         {
-            DataTable inventory = new DataTable();
-            string sqlStatement = "web.getInventory";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
+            // web.getInventory is a function returning (result_set_name, row_data jsonb);
+            // StoredFunction unpacks the (dynamic-shape pivot) jsonb into a flat DataTable.
+            DataTable inventory = Helpers.StoredFunction.QueryAsTable("web.getInventory",
+                new NpgsqlParameter("@PayPlan", PayPlan),
+                new NpgsqlParameter("@CategoryGroupCode", CategoryGroupCode),
+                new NpgsqlParameter("@CategorySubgroupCode", CategorySubgroupCode),
+                new NpgsqlParameter("@AmcosVersionId", AmcosVersionId));
+            if (PayPlan != "CCE")
             {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    command.Parameters.AddWithValue("@PayPlan", PayPlan);
-                    command.Parameters.AddWithValue("@CategoryGroupCode", CategoryGroupCode);
-                    command.Parameters.AddWithValue("@CategorySubgroupCode", CategorySubgroupCode);
-                    command.Parameters.AddWithValue("@AmcosVersionId", AmcosVersionId);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(inventory);
-                    if (PayPlan != "CCE")
-                    {
-                        inventory.Columns.Add(new DataColumn("Total", Type.GetType("System.String")));
-                    }
-                }
+                inventory.Columns.Add(new DataColumn("Total", Type.GetType("System.String")));
             }
 
             return inventory;
         }
         public DataTable GetInventoryWage()
         {
-            DataTable inventory = new DataTable();
-            string sqlStatement = "web.GetInventoryWage";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(AppConfiguration.GetConnectionString()))
-            {
-                connection.Open();
-                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
-                using (NpgsqlCommand command = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    command.Parameters.AddWithValue("@PayPlan", PayPlan);
-                    command.Parameters.AddWithValue("@LocationId", LocationId);
-                    command.Parameters.AddWithValue("@AmcosVersionId", AmcosVersionId);
-                    command.CommandType = CommandType.StoredProcedure;
-                    adapter.SelectCommand = command;
-                    adapter.Fill(inventory);
-                    inventory.Columns.Add(new DataColumn("Total", Type.GetType("System.String")));
-                }
-            }
+            DataTable inventory = Helpers.StoredFunction.QueryAsTable("web.GetInventoryWage",
+                new NpgsqlParameter("@PayPlan", PayPlan),
+                new NpgsqlParameter("@LocationId", LocationId),
+                new NpgsqlParameter("@AmcosVersionId", AmcosVersionId));
+            inventory.Columns.Add(new DataColumn("Total", Type.GetType("System.String")));
 
             return inventory;
         }

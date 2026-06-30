@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(Appn), nameof(CostElementCategory), nameof(CostElementName), nameof(CostElementId))]
-    [Table("data.vCosts_Prod")]
+    [Table("vCosts_Prod", Schema = "data")]
     public class VCostsProd
     {
         [StringLength(5)]

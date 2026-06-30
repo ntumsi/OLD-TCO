@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(PayPlan), nameof(CategoryGroupCode), nameof(CategorySubgroupCode), nameof(TableNumber_Area), nameof(Quality), nameof(GradeType), nameof(GradeLevel), nameof(YOS), nameof(Inventory))]
-    [Table("load_inventory.Inventory_Production")]
+    [Table("Inventory_Production", Schema = "load_inventory")]
     public class InventoryProduction
     {
         [Column(Order = 0)]

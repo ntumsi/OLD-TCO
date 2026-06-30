@@ -5,7 +5,7 @@ namespace AMCOS.Data.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(Code), nameof(GradeType))]
-    [Table("lookup.CMF_Branch_FA")]
+    [Table("CMF_Branch_FA", Schema = "lookup")]
     public class CMFBranchFA
     {
         [Column(Order = 0)]

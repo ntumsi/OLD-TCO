@@ -6,7 +6,7 @@ namespace AMCOS.DataAccess.Entities
     using Microsoft.EntityFrameworkCore;
 
     [PrimaryKey(nameof(UserId), nameof(LoginDateTime))]
-    [Table("webuser.User_Login_History")]
+    [Table("User_Login_History", Schema = "webuser")]
     public partial class UserLoginHistory
     {
         [Column(Order = 0)]

@@ -9,11 +9,13 @@ namespace AMCOS.Web.Core.Pages;
 public class ErrorModel : PageModel
 {
     public string? RequestId { get; set; }
+    public string? AuthError { get; set; }
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-    public void OnGet()
+    public void OnGet(string? msg = null)
     {
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        AuthError = msg;
     }
 }

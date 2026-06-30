@@ -3,7 +3,7 @@ namespace AMCOS.DataAccess.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("webuser.PMReport")]
+    [Table("PMReport", Schema = "webuser")]
     public partial class PMReport
     {
         public int Id { get; set; }

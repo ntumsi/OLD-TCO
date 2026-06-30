@@ -3,7 +3,7 @@ namespace AMCOS.Data.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("lookup.AMCOSVersion")]
+    [Table("AMCOSVersion", Schema = "lookup")]
     public class AMCOSVersion
     {
         public int Id { get; set; }

@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 FUNCTIONAL_AREA_TABLE = "lookup.gfebs_functionalarea"
 ACTIVITY_TYPE_TABLE = "lookup.gfebs_activitytype"
 COST_CENTER_TABLE = "lookup.gfebs_costcenter"
+FUNDS_CENTER_TABLE = "lookup.gfebs_fundscenter"
 CLEANED_TABLE = "load_gfebs.cleaned"
 REJECTED_TABLE = "load_gfebs.rejected"
 SOURCE_PATTERNS = ["**/GFEBS/AD.csv", "**/GFEBS/*.csv"]
@@ -57,7 +58,7 @@ def load_gfebs(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERSION_
     if not sources:
         raise FileNotFoundError("Could not locate GFEBS source files beneath AMCOS_DATA_DIR.")
 
-    lookup_frames = {"functional_area": [], "activity_type": [], "cost_center": []}
+    lookup_frames = {"functional_area": [], "activity_type": [], "cost_center": [], "funds_center": []}
     staging_frames: list[pd.DataFrame] = []
     for source in sources:
         lower_name = source.name.lower()
@@ -65,12 +66,14 @@ def load_gfebs(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERSION_
             lookup_frames["functional_area"].append(_transform_lookup(read_csv_flexible(source), version_id))
         elif "activity" in lower_name:
             lookup_frames["activity_type"].append(_transform_lookup(read_csv_flexible(source), version_id))
+        elif "fundscenter" in lower_name or "funds_center" in lower_name:
+            lookup_frames["funds_center"].append(_transform_lookup(read_csv_flexible(source), version_id))
         elif "costcenter" in lower_name or "cost_center" in lower_name:
             lookup_frames["cost_center"].append(_transform_lookup(read_csv_flexible(source), version_id))
         else:
             staging_frames.append(_transform_staging(read_csv_flexible(source), version_id, source.name))
 
-    results = {"functional_area": 0, "activity_type": 0, "cost_center": 0, "cleaned": 0, "rejected": 0}
+    results = {"functional_area": 0, "activity_type": 0, "cost_center": 0, "funds_center": 0, "cleaned": 0, "rejected": 0}
     if lookup_frames["functional_area"]:
         results["functional_area"] = load_dataframe(
             pd.concat(lookup_frames["functional_area"], ignore_index=True),
@@ -89,6 +92,13 @@ def load_gfebs(data_dir: Path | str = DATA_DIR, version_id: str = AMCOS_VERSION_
         results["cost_center"] = load_dataframe(
             pd.concat(lookup_frames["cost_center"], ignore_index=True),
             COST_CENTER_TABLE,
+            delete_where_clause="amcosversionid = %s",
+            delete_params=(version_id,),
+        )
+    if lookup_frames["funds_center"]:
+        results["funds_center"] = load_dataframe(
+            pd.concat(lookup_frames["funds_center"], ignore_index=True),
+            FUNDS_CENTER_TABLE,
             delete_where_clause="amcosversionid = %s",
             delete_params=(version_id,),
         )

@@ -1,0 +1,20 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Data.VisualizationModel
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@{
+    ViewData["Title"] = Model.DashboardTitle;
+}
+
+<h4>@Model.DashboardTitle</h4>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-info">@Model.ErrorMessage</div>
+}
+else if (Model.EmbedUrl != null)
+{
+    <div style="height: 85vh;">
+        <iframe src="@Model.EmbedUrl" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+}
