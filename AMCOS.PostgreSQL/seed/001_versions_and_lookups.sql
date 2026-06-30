@@ -27,32 +27,42 @@ INSERT INTO lookup.payplan
     (payplan, amcosversionidstart, amcosversionidend, displaytitle, grouptitle,
      description, categorygrouplabel, categorysubgrouplabel,
      includearmycareerprograms, displaysequence, versionintroduced)
+-- Pay-plan codes follow the legacy taxonomy used by the cost engine
+-- (analysis.getpayplans), AMCOS.Logic.Lite.payPlanType, and the Lite UI
+-- (object-payplan.js): active military AE/AO/AWO, civilian GS/GG/GP/SES/CCE,
+-- wage WG/WL/WS, lab-demo DB, acq-demo NH, NAF CY.
 VALUES
-    ('MO', 1, 999999, 'Military Officer',  'Military', 'Commissioned Officer', 'Branch', 'Area of Concentration', FALSE, 1.00, 202401),
-    ('MW', 1, 999999, 'Warrant Officer',   'Military', 'Warrant Officer',      'Branch', 'WO Military Occupational Specialty', FALSE, 1.10, 202401),
-    ('ME', 1, 999999, 'Military Enlisted', 'Military', 'Enlisted Soldier',     'CMF',    'Military Occupational Specialty', FALSE, 1.20, 202401),
-    ('GS', 1, 999999, 'General Schedule',  'Civilian', 'GS Civilian',          'Occupational Group', 'Occupational Series', TRUE,  2.00, 202401),
-    ('SES',1, 999999, 'Senior Executive',  'Civilian', 'Senior Executive Service', 'Occupational Group', 'Occupational Series', TRUE, 2.10, 202401),
-    ('WG', 1, 999999, 'Wage Grade',        'Civilian', 'Federal Wage System - Worker', 'Wage Occupational Group', 'Wage Occupational Series', FALSE, 2.20, 202401),
-    ('WL', 1, 999999, 'Wage Leader',       'Civilian', 'Federal Wage System - Leader', 'Wage Occupational Group', 'Wage Occupational Series', FALSE, 2.30, 202401),
-    ('WS', 1, 999999, 'Wage Supervisor',   'Civilian', 'Federal Wage System - Supervisor', 'Wage Occupational Group', 'Wage Occupational Series', FALSE, 2.40, 202401)
+    ('AE',  1, 999999, 'Active Enlisted (AE)',         'Military', 'Active Duty Enlisted',        'Career Management Field (CMF)', 'Military Occupational Specialty (MOS)', FALSE, 1.00, 202401),
+    ('AO',  1, 999999, 'Active Officer (AO)',          'Military', 'Active Duty Officer',         'Branch', 'Area of Concentration', FALSE, 1.10, 202401),
+    ('AWO', 1, 999999, 'Active Warrant Officer (AWO)', 'Military', 'Active Duty Warrant Officer', 'Branch', 'WO Military Occupational Specialty', FALSE, 1.20, 202401),
+    ('GS',  1, 999999, 'General Schedule',  'Civilian', 'GS Civilian',          'Occupational Group', 'Occupational Series', TRUE,  2.00, 202401),
+    ('GG',  1, 999999, 'Intelligence Personnel (GG)', 'Civilian', 'GG Intelligence', 'Occupational Group', 'Occupational Series', TRUE, 2.05, 202401),
+    ('GP',  1, 999999, 'Physicians and Dentists (GP)','Civilian', 'GP Physicians and Dentists', 'Occupational Group', 'Occupational Series', TRUE, 2.07, 202401),
+    ('SES', 1, 999999, 'Senior Executive',  'Civilian', 'Senior Executive Service', 'Occupational Group', 'Occupational Series', TRUE, 2.10, 202401),
+    ('CCE', 1, 999999, 'Contractor Cost Estimate (CCE)', 'Civilian', 'Contractor Cost Estimate', 'SOC Major Group', 'Detailed Occupation', FALSE, 2.15, 202401),
+    ('WG',  1, 999999, 'Wage Grade',        'Civilian', 'Federal Wage System - Worker', 'Wage Occupational Group', 'Wage Occupational Series', FALSE, 2.20, 202401),
+    ('WL',  1, 999999, 'Wage Leader',       'Civilian', 'Federal Wage System - Leader', 'Wage Occupational Group', 'Wage Occupational Series', FALSE, 2.30, 202401),
+    ('WS',  1, 999999, 'Wage Supervisor',   'Civilian', 'Federal Wage System - Supervisor', 'Wage Occupational Group', 'Wage Occupational Series', FALSE, 2.40, 202401),
+    ('DB',  1, 999999, 'Lab Demo Engineer/Scientist (DB)', 'Civilian', 'Laboratory Demonstration', 'Occupational Group', 'Occupational Series', TRUE, 4.00, 202401),
+    ('NH',  1, 999999, 'Acq Demo Bus Mgmt (NH)', 'Civilian', 'Acquisition Demonstration', 'Occupational Group', 'Occupational Series', TRUE, 4.10, 202401),
+    ('CY',  1, 999999, 'NAF Child & Youth (CY)', 'Civilian', 'Non-Appropriated Fund', 'Wage Occupational Group', 'Wage Occupational Series', FALSE, 4.20, 202401)
 ON CONFLICT (payplan, amcosversionidend) DO NOTHING;
 
 -- --------------------------------------------------------------------------
 -- Grades (payplan, gradetype, gradelevel)
 --   gradetype: O = Officer, W = Warrant, E = Enlisted, C = Civilian
 -- --------------------------------------------------------------------------
--- Military Officer O1..O10
+-- Active Officer (AO) O1..O10
 INSERT INTO lookup.grade (payplan, gradetype, gradelevel, careertrainingwindowyears, amcosversionidstart, amcosversionidend)
-SELECT 'MO', 'O', g, NULL, 1, 999999 FROM generate_series(1, 10) AS g
+SELECT 'AO', 'O', g, NULL, 1, 999999 FROM generate_series(1, 10) AS g
 ON CONFLICT (payplan, gradetype, gradelevel, amcosversionidend) DO NOTHING;
--- Warrant Officer W1..W5
+-- Active Warrant Officer (AWO) W1..W5
 INSERT INTO lookup.grade (payplan, gradetype, gradelevel, careertrainingwindowyears, amcosversionidstart, amcosversionidend)
-SELECT 'MW', 'W', g, NULL, 1, 999999 FROM generate_series(1, 5) AS g
+SELECT 'AWO', 'W', g, NULL, 1, 999999 FROM generate_series(1, 5) AS g
 ON CONFLICT (payplan, gradetype, gradelevel, amcosversionidend) DO NOTHING;
--- Enlisted E1..E9
+-- Active Enlisted (AE) E1..E9
 INSERT INTO lookup.grade (payplan, gradetype, gradelevel, careertrainingwindowyears, amcosversionidstart, amcosversionidend)
-SELECT 'ME', 'E', g, NULL, 1, 999999 FROM generate_series(1, 9) AS g
+SELECT 'AE', 'E', g, NULL, 1, 999999 FROM generate_series(1, 9) AS g
 ON CONFLICT (payplan, gradetype, gradelevel, amcosversionidend) DO NOTHING;
 -- General Schedule GS1..GS15
 INSERT INTO lookup.grade (payplan, gradetype, gradelevel, careertrainingwindowyears, amcosversionidstart, amcosversionidend)

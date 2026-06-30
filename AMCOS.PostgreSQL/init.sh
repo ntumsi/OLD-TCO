@@ -118,7 +118,8 @@ if [[ "$RUN_SEED" == true ]]; then
         "$SCRIPT_DIR/seed/001_versions_and_lookups.sql" \
         "$SCRIPT_DIR/seed/002_cost_elements.sql" \
         "$SCRIPT_DIR/seed/003_warehouse_and_web.sql" \
-        "$SCRIPT_DIR/seed/004_demo_users_and_project.sql"
+        "$SCRIPT_DIR/seed/004_demo_users_and_project.sql" \
+        "$SCRIPT_DIR/seed/005_amcos_lite_coverage.sql"
     do
         run_sql "$f"
     done

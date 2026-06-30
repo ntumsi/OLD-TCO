@@ -26,6 +26,7 @@ earlier ones (e.g. projects reference users and warehouse locations):
 \i seed/002_cost_elements.sql
 \i seed/003_warehouse_and_web.sql
 \i seed/004_demo_users_and_project.sql
+\i seed/005_amcos_lite_coverage.sql
 ```
 
 Or from a shell:
@@ -34,7 +35,8 @@ Or from a shell:
 for f in seed/001_versions_and_lookups.sql \
          seed/002_cost_elements.sql \
          seed/003_warehouse_and_web.sql \
-         seed/004_demo_users_and_project.sql; do
+         seed/004_demo_users_and_project.sql \
+         seed/005_amcos_lite_coverage.sql; do
     psql "$AMCOS_DB_CONNECTION" -v ON_ERROR_STOP=1 -f "$f"
 done
 ```
@@ -47,6 +49,7 @@ done
 | `002_cost_elements.sql` | `lookup.costelement`, `lookup.costsummary`, and `lookup.costsummaryelement` — composite Army cost elements per pay-plan family and their rollup membership |
 | `003_warehouse_and_web.sql` | `warehouse` schema (locations, categories, location-by-category, joint inflation calculator, unit personnel) and `web` schema (`payplantag`, `qlikapplication`) |
 | `004_demo_users_and_project.sql` | `webuser` schema: demo users + login history, a sample Project Manager project (categories → skills → inventory → report), and a sample Civilian PCS estimate |
+| `005_amcos_lite_coverage.sql` | AMCOS Lite filter coverage: seeds `warehouse.category` + correctly-keyed `warehouse.locationbycategory` (incl. STRL) for the pay plans defined in `001`, so every filter cascade (Pay Plan → Category → Location → STRL / Dependent Status / Number of Dependents) populates. Filter coverage only — not the deep `web.getcosts` inputs |
 
 ## Conventions
 

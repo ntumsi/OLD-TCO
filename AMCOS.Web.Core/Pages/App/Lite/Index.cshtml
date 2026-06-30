@@ -2,7 +2,26 @@
 @model AMCOS.Web.Core.Pages.App.Lite.IndexModel
 @{
     ViewData["Title"] = "AMCOS Lite";
+    // Pay plans grouped by their option group (military / civilian) for the dropdown.
+    // GroupTitle comes from lookup.payplan as "Military"/"Civilian" — normalise case.
+    var payPlanGroups = Model.PayPlans
+        .GroupBy(p => string.IsNullOrWhiteSpace(p.OptionGroup) ? "other" : p.OptionGroup.ToLowerInvariant())
+        .OrderBy(g => g.Key == "military" ? 0 : g.Key == "civilian" ? 1 : 2);
+    string GroupLabel(string key) => key switch
+    {
+        "military" => "Military",
+        "civilian" => "Civilian",
+        _ => "Other"
+    };
 }
+
+<div class="reportPage">
+    <h1 class="h3">AMCOS Lite</h1>
+    <p class="text-muted">
+        This tool allows you to view costs for specified personnel. Choose a pay plan, then narrow by
+        category and location; the available filters change based on the pay plan you select.
+    </p>
+</div>
 
 <div class="row g-4">
     <div class="col-lg-4">
@@ -13,87 +32,138 @@
                 {
                     <div class="alert alert-warning">@Model.LoadError</div>
                 }
-                <form id="liteFilters" class="row g-3">
+                <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label" for="payPlan">Pay Plan</label>
-                        <select id="payPlan" name="PayPlan" class="form-select">
-                            <option value="">Select pay plan</option>
-                            @foreach (var payPlan in Model.PayPlans)
+                        <label class="form-label" for="payPlanList">Pay Plan</label>
+                        <select id="payPlanList" class="form-select">
+                            <option value="-1">Select a Pay Plan</option>
+                            @foreach (var group in payPlanGroups)
                             {
-                                <option value="@payPlan.Value">@payPlan.Text</option>
+                                <optgroup label="@GroupLabel(group.Key)">
+                                    @foreach (var payPlan in group)
+                                    {
+                                        <option value="@payPlan.Value">@payPlan.Text</option>
+                                    }
+                                </optgroup>
                             }
                         </select>
                     </div>
-                    <div class="col-12">
-                        <label class="form-label" for="costSummaryName">Summary</label>
-                        <input id="costSummaryName" name="CostSummaryName" class="form-control" value="Default" />
+
+                    <div class="col-12 d-none" id="costSummaryFilter">
+                        <label class="form-label" for="costSummaryList">Summary</label>
+                        <select id="costSummaryList" class="form-select"></select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="categoryGroupCode">Category Group</label>
-                        <input id="categoryGroupCode" name="CategoryGroupCode" class="form-control" value="-1" />
+
+                    <div class="col-12 d-none" id="categoryFilter">
+                        <label class="form-label" for="categoryList">Category</label>
+                        <select id="categoryList" class="form-select"></select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="categorySubgroupCode">Category Subgroup</label>
-                        <input id="categorySubgroupCode" name="CategorySubgroupCode" class="form-control" value="-1" />
+
+                    <div class="col-12 d-none" id="locationFilter">
+                        <label class="form-label" for="locationList">Locality / Location</label>
+                        <select id="locationList" class="form-select" disabled></select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="careerProgramNumber">Career Program</label>
-                        <input id="careerProgramNumber" name="CareerProgramNumber" class="form-control" value="-1" />
+
+                    <div class="col-12 d-none" id="strlFilter">
+                        <label class="form-label" for="strlList">Science &amp; Technology Reinvention Laboratory</label>
+                        <select id="strlList" class="form-select"></select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="locationId">Location Id</label>
-                        <input id="locationId" name="LocationId" type="number" class="form-control" value="-1" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="dependentStatus">Dependent Status</label>
-                        <input id="dependentStatus" name="DependentStatus" class="form-control" value="-1" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="numberOfDependents">Dependents</label>
-                        <input id="numberOfDependents" name="NumberOfDependents" type="number" class="form-control" value="-1" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="overheadPercent">Overhead %</label>
-                        <input id="overheadPercent" name="OverheadPercent" type="number" step="0.01" class="form-control" value="0" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="inflationYear">Inflation Year</label>
-                        <input id="inflationYear" name="InflationYear" class="form-control" value="@Model.DefaultYear" />
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label" for="inflationConversionType">Inflation Conversion</label>
-                        <select id="inflationConversionType" name="InflationConversionType" class="form-select">
-                            <option value="ThenToThen">Then Year to Then Year</option>
-                            <option value="ThenToConstant">Then Year to Constant Dollars</option>
+
+                    <div class="col-12 d-none" id="dependentStatusFilter">
+                        <label class="form-label" for="dependentStatusList">Dependent Status</label>
+                        <select id="dependentStatusList" class="form-select">
+                            <option value="-1">Select a Dependent Status</option>
+                            <option value="average">Average</option>
+                            <option value="with">With Dependents</option>
+                            <option value="without">Without Dependents</option>
                         </select>
                     </div>
-                    <div class="col-12">
-                        <button type="button" id="loadCosts" class="btn btn-primary">Refresh Cost Table</button>
+
+                    <div class="col-12 d-none" id="numberOfDependentsFilter">
+                        <label class="form-label" for="numberOfDependentsList">Number of Dependents</label>
+                        <select id="numberOfDependentsList" class="form-select">
+                            <option value="-1">Number of Dependents</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
                     </div>
-                </form>
+
+                    <div class="col-12 d-none" id="overheadPercentFilter">
+                        <label class="form-label" for="overheadPercent">Overhead Percentage</label>
+                        <div class="input-group">
+                            <input id="overheadPercent" type="number" min="0" max="200" step="0.01" class="form-control" value="0" />
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <div class="form-text">Enter a number between 0 and 200.</div>
+                    </div>
+
+                    <div class="col-12 d-none" id="inflationFilter">
+                        <label class="form-label" for="inflationConversionTypeList">Inflation (Base/Input Year: <strong>@Model.DefaultYear</strong>)</label>
+                        <select id="inflationConversionTypeList" class="form-select mb-2">
+                            <option value="ThenToThen" selected>Then Year to Then Year</option>
+                            <option value="ThenToConstant">Then Year to Constant Dollars</option>
+                        </select>
+                        <label class="form-label" for="inflationYearList">Output / Target Year</label>
+                        <select id="inflationYearList" class="form-select"></select>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="button" id="showCostsButton" class="btn btn-warning w-100 fw-bold">
+                            Refresh Cost Table
+                        </button>
+                        <div class="form-text">
+                            You <strong>must</strong> click <em>Refresh Cost Table</em> to retrieve the selected data.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="col-lg-8">
-        <div class="card mb-4">
+        <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>AMCOS Lite Results</span>
                 <span id="liteLegend" class="small d-none"></span>
             </div>
             <div class="card-body">
                 <div id="liteStatus" class="alert alert-info">Choose filters and refresh to retrieve cost data.</div>
+
+                <div id="weaponSystemWarning" class="alert alert-danger d-none">
+                    The Special Pay Scales listed in AMCOS show all of the occupations, grade levels, and locations
+                    where the Special Scale applies. If you can find exactly what you are looking for with respect to
+                    the occupation, grade level, and location in the table below, then it is covered by the Special
+                    Scale and this table should be used. If not, use the GS pay plan to find the correct data.
+                </div>
+
                 <div id="amcosLiteChart" class="mb-3"></div>
                 <div id="liteResults"></div>
+
+                <ul class="small text-muted mt-3">
+                    <li>Only use Contractor Cost Estimate (CCE) if there is not an existing or similar contract available.</li>
+                    <li>Need a list of all the locality rates, or the locality rate for a specific ZIP code? Use the Data tab &rarr; ZIP Code tool.</li>
+                    <li>AMCOS is in compliance with OSD DODI 7041.04.</li>
+                    <li id="gfebsSelectAllWarning" class="d-none">
+                        When selecting <strong>All</strong> from a drop down, AMCOS returns the average of all available
+                        Cost Elements (CEs). Not all CEs may apply to your analysis (e.g., Non-Foreign COLA or Overseas
+                        Allowances) &mdash; they only apply to positions located in areas that receive these benefits.
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <div class="card">
+        <div class="card d-none" id="cceNote">
             <div class="card-header">CCE note</div>
             <div class="card-body">
                 <ul class="mb-0">
-                    <li>The highlighted salary threshold in the legacy app was @Model.CceMaxPayFootnote.ToString("C0").</li>
+                    <li>The highlighted salary threshold indicates a wage greater than @Model.CceMaxPayFootnote.ToString("C0") per year.</li>
                     <li>Wages and salaries accounted for @Model.CceWagesAndSalaries of employer compensation costs.</li>
-                    <li>Benefits ratio: @Model.CceBenefitsAll.</li>
+                    <li>The average cost of benefits accounts for the remaining @Model.CceBenefitsAll of employer compensation.</li>
+                    <li>A value of negative one [($1.00)] indicates a wage estimate is not available.</li>
                 </ul>
             </div>
         </div>
@@ -101,143 +171,16 @@
 </div>
 
 @section Scripts {
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
-<script>
-(() => {
-    const button = document.getElementById('loadCosts');
-    const status = document.getElementById('liteStatus');
-    const results = document.getElementById('liteResults');
-    const chartEl = document.getElementById('amcosLiteChart');
-    const legendEl = document.getElementById('liteLegend');
-    const form = document.getElementById('liteFilters');
-    const cceSalaryLimit = @Model.CceMaxPayFootnote;  // CCE per-grade salary threshold (legacy yellow highlight)
-
-    // Legacy appropriation palette (AMCOS.Logic Appropriation/PayPlan GetAppropriationColor).
-    const APPROP_COLORS = {
-        'ARMY CIVPAY': '#1F8802', 'CIV ARMY CIVPAY': '#1F8802',
-        'MPA': '#5D7430', 'MPA NON-PAY': '#5D7430',
-        'OMA': '#6A9303', 'OMA_1': '#6A9303',
-        'FEDERAL OM': '#00008B', 'FEDERAL OMA': '#00008B', 'DOD OMA': '#7030A0', 'OMDW': '#7030A0',
-        'NGPA': '#74B803', 'NG PA': '#74B803', 'OMNG': '#8BA103', 'OMNG_1': '#8BA103',
-        'RPA': '#5C9303', 'RES PA': '#5C9303', 'OMAR': '#6E8003', 'OMAR_1': '#6E8003',
-        'CCE': '#006D8B', 'TOTAL': '#DEDFDE'
-    };
-    const WEAPON_COLOR = '#FFA500';      // weapon-system / cost-element-structure highlight
-    const SALARY_LIMIT_COLOR = '#FFFF99'; // CCE over-salary-limit highlight
-
-    function appropColor(value) {
-        if (value == null) return null;
-        return APPROP_COLORS[String(value).trim().toUpperCase()] || null;
-    }
-    function isNumeric(v) { return v !== null && v !== '' && !isNaN(Number(String(v).replace(/[$,]/g, ''))); }
-    function num(v) { return Number(String(v).replace(/[$,]/g, '')); }
-    function looksLikeMoney(h) { return /amount|cost|pay|rate|\$/i.test(h) || /^E\d|^O\d|^W\d|GS\d|^\d/i.test(h); }
-
-    function renderTable(table, isCce) {
-        if (!table || !table.rows || table.rows.length === 0) {
-            return '<div class="alert alert-light border mb-3">No data returned for this grid.</div>';
-        }
-        const headers = Object.keys(table.rows[0]);
-        const head = headers.map(h => `<th>${h}</th>`).join('');
-        const body = table.rows.map(row => {
-            // Weapon-system manpower rows are highlighted across the row (legacy orange).
-            const rowText = headers.map(h => String(row[h] ?? '')).join(' ').toUpperCase();
-            const isWeapon = rowText.includes('WEAPON SYSTEM');
-            const cells = headers.map(h => {
-                const val = row[h];
-                let bg = appropColor(val);
-                if (!bg && isWeapon) bg = WEAPON_COLOR;
-                if (!bg && isCce && isNumeric(val) && cceSalaryLimit > 0 && num(val) > cceSalaryLimit) bg = SALARY_LIMIT_COLOR;
-                const style = bg ? ` style="background-color:${bg};color:#fff;"` : '';
-                return `<td${style}>${val ?? ''}</td>`;
-            }).join('');
-            return `<tr>${cells}</tr>`;
-        }).join('');
-        return `<div class="table-responsive mb-3"><table class="table table-sm table-bordered align-middle mb-0">`
-             + `<thead class="table-dark"><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
-    }
-
-    function prettyName(name, i) {
-        if (!name || /^Table\d+$/i.test(name)) return i === 0 ? 'Cost Detail' : `Grid ${i + 1}`;
-        // result_set_name values are lowercase keys; humanize.
-        return name.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, c => c.toUpperCase());
-    }
-
-    // Build a cost-by-grade chart from the primary grid (numeric columns = grades, label = first text column).
-    function buildChart(table, payPlan, summary) {
-        chartEl.innerHTML = '';
-        if (payPlan === 'CCE') { chartEl.innerHTML = '<div class="text-muted small">Graph is not available for Contractor Cost Estimate.</div>'; return; }
-        if (summary && summary !== 'Default') { chartEl.innerHTML = '<div class="text-muted small">Graph is only available for the Default cost summary.</div>'; return; }
-        if (!table || !table.rows || table.rows.length === 0 || typeof c3 === 'undefined') return;
-
-        const headers = Object.keys(table.rows[0]);
-        const gradeCols = headers.filter(h => table.rows.every(r => r[h] == null || isNumeric(r[h])) && looksLikeMoney(h));
-        const labelCol = headers.find(h => !gradeCols.includes(h)) || headers[0];
-        if (gradeCols.length === 0) return;
-
-        const columns = [['x', ...gradeCols]];
-        table.rows.forEach(r => {
-            const label = String(r[labelCol] ?? 'Series');
-            if (/total/i.test(label)) return; // exclude total rows from the series
-            columns.push([label, ...gradeCols.map(g => (r[g] == null ? 0 : num(r[g])))]);
-        });
-        try {
-            c3.generate({
-                bindto: '#amcosLiteChart',
-                size: { height: 420 },
-                data: { x: 'x', columns: columns, type: 'bar' },
-                axis: { x: { type: 'category' }, y: { tick: { format: d3.format('$,.0f') } } },
-                grid: { y: { lines: [{ value: 0 }] } }
-            });
-        } catch (e) { chartEl.innerHTML = `<div class="text-muted small">Chart unavailable: ${e.message}</div>`; }
-    }
-
-    function renderLegend() {
-        const items = [
-            ['Active OMA/MPA', '#6A9303'], ['Federal OM', '#00008B'], ['DoD OMDW', '#7030A0'],
-            ['ARNG', '#8BA103'], ['USAR', '#6E8003'], ['CCE', '#006D8B'],
-            ['Weapon System', WEAPON_COLOR], ['Over CCE salary limit', SALARY_LIMIT_COLOR]
-        ];
-        legendEl.innerHTML = items.map(([t, c]) =>
-            `<span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:${c};border:1px solid #999;"></span> ${t}</span>`).join('');
-        legendEl.classList.remove('d-none');
-    }
-
-    button.addEventListener('click', async () => {
-        status.className = 'alert alert-info';
-        status.textContent = 'Loading cost data...';
-        results.innerHTML = '';
-        chartEl.innerHTML = '';
-
-        const params = new URLSearchParams(new FormData(form));
-        const payPlan = form.querySelector('#payPlan')?.value;
-        const summary = form.querySelector('#costSummaryName')?.value;
-
-        try {
-            const response = await fetch(`?handler=CostData&${params.toString()}`);
-            if (!response.ok) throw new Error(`Request failed with ${response.status}`);
-            const payload = await response.json();
-            const tables = payload.tables ?? [];
-            const isCce = payPlan === 'CCE';
-
-            if (tables.length === 0) {
-                results.innerHTML = '<div class="alert alert-light border">No data returned.</div>';
-            } else {
-                results.innerHTML = tables.map((t, i) =>
-                    `<h6 class="mt-3">${prettyName(t.name, i)}</h6>` + renderTable(t, isCce)).join('');
-                buildChart(tables[0], payPlan, summary);
-                renderLegend();
-            }
-
-            status.className = 'alert alert-success';
-            status.textContent = `Loaded ${tables.length} grid(s) from AMCOS.Logic.Lite.`;
-        } catch (error) {
-            status.className = 'alert alert-danger';
-            status.textContent = error.message;
-        }
-    });
-})();
-</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" />
+    <script>
+        window._defaultYear = '@Model.DefaultYear';
+        window._userId = '@(User.Identity?.Name ?? string.Empty)';
+        window._baseApiUrl = '/api';
+        window._cceMaxPayFootnote = @Model.CceMaxPayFootnote.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+    <script src="~/dist/js/object-payplan.js"></script>
+    <script src="~/dist/js/object-inflationyear.js"></script>
+    <script src="~/dist/js/amcos-lite.js" asp-append-version="true"></script>
 }

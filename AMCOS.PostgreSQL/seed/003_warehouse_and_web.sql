@@ -33,10 +33,10 @@ INSERT INTO warehouse.category
      careerprogramnumber, careerprogramdescription, careerprogramdisplay)
 SELECT v.payplan, v.cgc, v.cgd, v.cgdisp, v.csc, v.csd, v.csdisp, v.cpn, v.cpd, v.cpdisp
 FROM (VALUES
-    ('ME', '11', 'Infantry CMF',            'CMF 11 - Infantry',          '11B', 'Infantryman',            '11B - Infantryman',            '00', 'Not Applicable', 'N/A'),
-    ('ME', '13', 'Field Artillery CMF',     'CMF 13 - Field Artillery',   '13B', 'Cannon Crewmember',      '13B - Cannon Crewmember',      '00', 'Not Applicable', 'N/A'),
-    ('ME', '25', 'Signal CMF',              'CMF 25 - Signal',            '25B', 'IT Specialist',          '25B - IT Specialist',          '00', 'Not Applicable', 'N/A'),
-    ('MO', '11', 'Infantry Branch',         'Infantry',                   '11A', 'Infantry, General',      '11A - Infantry, General',      '00', 'Not Applicable', 'N/A'),
+    ('AE', '11', 'Infantry CMF',            'CMF 11 - Infantry',          '11B', 'Infantryman',            '11B - Infantryman',            '00', 'Not Applicable', 'N/A'),
+    ('AE', '13', 'Field Artillery CMF',     'CMF 13 - Field Artillery',   '13B', 'Cannon Crewmember',      '13B - Cannon Crewmember',      '00', 'Not Applicable', 'N/A'),
+    ('AE', '25', 'Signal CMF',              'CMF 25 - Signal',            '25B', 'IT Specialist',          '25B - IT Specialist',          '00', 'Not Applicable', 'N/A'),
+    ('AO', '11', 'Infantry Branch',         'Infantry',                   '11A', 'Infantry, General',      '11A - Infantry, General',      '00', 'Not Applicable', 'N/A'),
     ('GS', '2200','Information Technology', 'IT Occupational Group',       '2210','IT Management',          '2210 - IT Management',         '34', 'IT Management',  'CP-34 IT Management'),
     ('GS', '0300','General Administrative', 'Admin Occupational Group',    '0343','Program Analysis',       '0343 - Program Analysis',      '11', 'Comptroller',    'CP-11 Comptroller')
 ) AS v(payplan, cgc, cgd, cgdisp, csc, csd, csdisp, cpn, cpd, cpdisp)
@@ -91,9 +91,9 @@ INSERT INTO warehouse.unitpersonnel
 SELECT 'WABCAA', '1st Bn, Sample Regiment', v.payplan, v.cgc, v.csc, l.locationid,
        'Fort Liberty, NC', 'TOE', v.gradelevel, 'With Dependents', 2, 365, v.inv, '2025', '20250301'
 FROM (VALUES
-    ('ME', '11', '11B', 4::smallint, 40),
-    ('ME', '11', '11B', 5::smallint, 25),
-    ('MO', '11', '11A', 3::smallint, 6)
+    ('AE', '11', '11B', 4::smallint, 40),
+    ('AE', '11', '11B', 5::smallint, 25),
+    ('AO', '11', '11A', 3::smallint, 6)
 ) AS v(payplan, cgc, csc, gradelevel, inv)
 CROSS JOIN LATERAL (
     SELECT locationid FROM warehouse.location WHERE displayname = 'Fort Liberty, NC' LIMIT 1
@@ -111,14 +111,20 @@ WHERE NOT EXISTS (
 -- web.payplantag (tags used to group pay plans in the UI)
 -- --------------------------------------------------------------------------
 INSERT INTO web.payplantag (payplan, tag) VALUES
-    ('MO', 'Military'),
-    ('MW', 'Military'),
-    ('ME', 'Military'),
+    ('AE', 'Military'),
+    ('AO', 'Military'),
+    ('AWO','Military'),
     ('GS', 'Civilian'),
+    ('GG', 'Civilian'),
+    ('GP', 'Civilian'),
     ('SES','Civilian'),
+    ('CCE','Civilian'),
     ('WG', 'Civilian'),
     ('WL', 'Civilian'),
-    ('WS', 'Civilian')
+    ('WS', 'Civilian'),
+    ('DB', 'Civilian'),
+    ('NH', 'Civilian'),
+    ('CY', 'Civilian')
 ON CONFLICT (payplan, tag) DO NOTHING;
 
 -- --------------------------------------------------------------------------

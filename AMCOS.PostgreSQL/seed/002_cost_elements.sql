@@ -17,20 +17,20 @@ SELECT v.payplan, v.appropriationgroup, v.appn, v.costelementcategory, v.costele
        v.model, v.locality, v.showorder, TRUE, v.applyinflation,
        v.islocationspecific, 1, 999999
 FROM (VALUES
-    -- Military (MO/MW/ME share the same composite military pay elements)
-    ('ME', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Pay',                     1, FALSE, 10, TRUE,  FALSE),
-    ('ME', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Housing',   1, TRUE,  20, TRUE,  TRUE),
-    ('ME', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Subsistence',1, FALSE, 30, TRUE,  FALSE),
-    ('ME', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Incentive and Special Pays',    1, FALSE, 40, TRUE,  FALSE),
-    ('ME', 'Military Benefits','MILPERS', 'Benefits',           'Retired Pay Accrual',           1, FALSE, 50, TRUE,  FALSE),
-    ('ME', 'Military Benefits','MILPERS', 'Benefits',           'Medicare-Eligible Retiree Health',1, FALSE, 60, TRUE,  FALSE),
-    ('ME', 'Training',         'O&M',     'Training',           'Permanent Change of Station',   1, FALSE, 70, TRUE,  FALSE),
-    ('MO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Pay',                     1, FALSE, 10, TRUE,  FALSE),
-    ('MO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Housing',   1, TRUE,  20, TRUE,  TRUE),
-    ('MO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Subsistence',1, FALSE, 30, TRUE,  FALSE),
-    ('MO', 'Military Benefits','MILPERS', 'Benefits',           'Retired Pay Accrual',           1, FALSE, 50, TRUE,  FALSE),
-    ('MW', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Pay',                     1, FALSE, 10, TRUE,  FALSE),
-    ('MW', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Housing',   1, TRUE,  20, TRUE,  TRUE),
+    -- Military (AE/AO/AWO share the same composite military pay elements)
+    ('AE', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Pay',                     1, FALSE, 10, TRUE,  FALSE),
+    ('AE', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Housing',   1, TRUE,  20, TRUE,  TRUE),
+    ('AE', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Subsistence',1, FALSE, 30, TRUE,  FALSE),
+    ('AE', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Incentive and Special Pays',    1, FALSE, 40, TRUE,  FALSE),
+    ('AE', 'Military Benefits','MILPERS', 'Benefits',           'Retired Pay Accrual',           1, FALSE, 50, TRUE,  FALSE),
+    ('AE', 'Military Benefits','MILPERS', 'Benefits',           'Medicare-Eligible Retiree Health',1, FALSE, 60, TRUE,  FALSE),
+    ('AE', 'Training',         'O&M',     'Training',           'Permanent Change of Station',   1, FALSE, 70, TRUE,  FALSE),
+    ('AO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Pay',                     1, FALSE, 10, TRUE,  FALSE),
+    ('AO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Housing',   1, TRUE,  20, TRUE,  TRUE),
+    ('AO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Subsistence',1, FALSE, 30, TRUE,  FALSE),
+    ('AO', 'Military Benefits','MILPERS', 'Benefits',           'Retired Pay Accrual',           1, FALSE, 50, TRUE,  FALSE),
+    ('AWO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Pay',                     1, FALSE, 10, TRUE,  FALSE),
+    ('AWO', 'Military Pay',     'MILPERS', 'Pay and Allowances', 'Basic Allowance for Housing',   1, TRUE,  20, TRUE,  TRUE),
     -- Civilian (GS)
     ('GS', 'Civilian Pay',     'O&M',     'Pay',                'Base Salary',                   1, FALSE, 10, FALSE, FALSE),
     ('GS', 'Civilian Pay',     'O&M',     'Pay',                'Locality Pay',                  1, TRUE,  20, TRUE,  TRUE),
@@ -56,9 +56,9 @@ WHERE NOT EXISTS (
 INSERT INTO lookup.costsummary (payplan, name, amcosversionidstart, amcosversionidend)
 SELECT v.payplan, v.name, 1, 999999
 FROM (VALUES
-    ('ME', 'Military Composite Rate'),
-    ('MO', 'Military Composite Rate'),
-    ('MW', 'Military Composite Rate'),
+    ('AE', 'Military Composite Rate'),
+    ('AO', 'Military Composite Rate'),
+    ('AWO', 'Military Composite Rate'),
     ('GS', 'Civilian Composite Rate'),
     ('WG', 'Wage Grade Composite Rate')
 ) AS v(payplan, name)

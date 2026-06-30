@@ -70,9 +70,9 @@ CROSS JOIN LATERAL (
     SELECT locationid FROM warehouse.location WHERE displayname = 'Fort Liberty, NC' LIMIT 1
 ) l
 CROSS JOIN (VALUES
-    ('ME', '11', '11B', 4::smallint),
-    ('ME', '11', '11B', 5::smallint),
-    ('MO', '11', '11A', 3::smallint)
+    ('AE', '11', '11B', 4::smallint),
+    ('AE', '11', '11B', 5::smallint),
+    ('AO', '11', '11A', 3::smallint)
 ) AS v(payplan, cgc, csc, gradelevel)
 WHERE p.userid = 'analyst.demo'
   AND p.projectname = 'Sample Weapons System Project'
@@ -99,14 +99,14 @@ WHERE p.userid = 'analyst.demo'
 
 -- A report definition tied to the Operators category
 INSERT INTO webuser.pmreport (categoryid, payplan)
-SELECT c.categoryid, 'ME'
+SELECT c.categoryid, 'AE'
 FROM webuser.pmcategory c
 JOIN webuser.pmproject p ON p.projectid = c.projectid
 WHERE p.userid = 'analyst.demo'
   AND p.projectname = 'Sample Weapons System Project'
   AND c.categoryname = 'Operators'
   AND NOT EXISTS (
-      SELECT 1 FROM webuser.pmreport r WHERE r.categoryid = c.categoryid AND r.payplan = 'ME'
+      SELECT 1 FROM webuser.pmreport r WHERE r.categoryid = c.categoryid AND r.payplan = 'AE'
   );
 
 -- --------------------------------------------------------------------------
