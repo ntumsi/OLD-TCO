@@ -87,9 +87,9 @@ ON CONFLICT (conversiontype, baseyear, targetyear, appropriation) DO NOTHING;
 INSERT INTO warehouse.unitpersonnel
     (uic, uictitle, payplan, categorygroupcode, categorysubgroupcode, locationid,
      locationtext, strl, gradelevel, dependentstatus, numberofdependents,
-     activedutydays, inventory, unityear, asof)
+     activedutydays, inventory, unityear, asof, authorizationdocument)
 SELECT 'WABCAA', '1st Bn, Sample Regiment', v.payplan, v.cgc, v.csc, l.locationid,
-       'Fort Liberty, NC', 'TOE', v.gradelevel, 'With Dependents', 2, 365, v.inv, '2025', '20250301'
+       'Fort Liberty, NC', 'TOE', v.gradelevel, 'With Dependents', 2, 365, v.inv, '2025', '20250301', 'MTOE'
 FROM (VALUES
     ('AE', '11', '11B', 4::smallint, 40),
     ('AE', '11', '11B', 5::smallint, 25),

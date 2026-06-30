@@ -145,15 +145,12 @@ namespace AMCOS.Logic
                 string unitType = context.UnitPersonnel.AsNoTracking()
                     .Where(c => c.UIC == unitIdentificationCode)
                     .Select(c => c.AuthorizationDocument)
-                    .First();
+                    .FirstOrDefault();
 
-                if (unitType.Contains("TDA"))
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
+                // Real units always carry an authorization document, but guard against a
+                // missing/NULL value (e.g. partial demo data) — calling .Contains on null
+                // here threw a NullReferenceException that failed the entire unit lookup.
+                return !string.IsNullOrEmpty(unitType) && unitType.Contains("TDA");
             }
         }
         private bool IsMtoe(string unitIdentificationCode)
@@ -310,9 +307,20 @@ namespace AMCOS.Logic
                     UserId = UserId,
                     ProjectName = ProjectName,
                     YearStart = YearStart,
-                    Description = Description                    
+                    Description = Description
                 };
                 context.PMProject.Add(pmProject);
+                context.SaveChanges();
+
+                // Create the default "main" category named after the project. The legacy
+                // app always had this category (GetMainCategoryId matches it by name, and
+                // web.PMGetCategories treats the project-named category as the main bucket),
+                // so without it Faces & Spaces shows no tabs and positions cannot be added.
+                context.PMCategory.Add(new PMCategory
+                {
+                    ProjectId = pmProject.ProjectId,
+                    CategoryName = ProjectName
+                });
                 context.SaveChanges();
             }
         }
@@ -502,7 +510,10 @@ namespace AMCOS.Logic
                     new NpgsqlParameter("@MtoeSyncExtendedDurationFillValue", mtoeSyncExtendedDuration),
                     new NpgsqlParameter("@UserOverheadPercent", userOverheadPercent),
                     new NpgsqlParameter("@AmcosVersionId", amcosVersionId),
-                    new NpgsqlParameter("@Debug", (object)0));
+                    // web.projectaddunit's p_debug is BOOLEAN; passing integer 0 makes the
+                    // function signature unresolvable ("function does not exist") and silently
+                    // fails every Add Unit. Must be a real bool. (p_debug=true skips the insert.)
+                    new NpgsqlParameter("@Debug", false));
             }
             return rowsAffected;
         }

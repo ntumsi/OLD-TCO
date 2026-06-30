@@ -128,9 +128,14 @@
                         <label class="form-label fw-semibold" for="uicInput">Unit Identification Code (UIC)</label>
                         <div class="input-group">
                             <input type="text" id="uicInput" class="form-control text-uppercase"
-                                   placeholder="e.g. WAAA01" maxlength="10" />
+                                   list="uicOptions" autocomplete="off"
+                                   placeholder="Select or type a UIC" maxlength="10" />
                             <button type="button" class="btn btn-outline-primary" id="btnLookupUnit">Lookup</button>
                         </div>
+                        @* Populated from /api/units so users can discover available units
+                           (parity with the legacy searchable unit dropdown). *@
+                        <datalist id="uicOptions"></datalist>
+                        <div class="form-text">Choose a unit from the list, then click <strong>Lookup</strong>.</div>
                     </div>
                 </div>
 
@@ -331,57 +336,53 @@
                 </p>
 
                 <div class="row g-3 mb-3" id="addRequirementForm" style="max-width:900px">
-                    <div class="col-md-3">
+                    @* Cascading, pay-plan-driven selects (driven by ~/dist/js/project-manager.js).
+                       Fields appear/populate as upstream selections are made, exactly like AMCOS Lite. *@
+                    <div class="col-md-4" id="reqPayPlanWrap">
                         <label class="form-label" for="reqPayPlan">Pay Plan</label>
-                        <input id="reqPayPlan" class="form-control text-uppercase"
-                               placeholder="e.g. GS, WG, CCE" maxlength="10" />
+                        <select id="reqPayPlan" class="form-select"><option value="-1">Select a Pay Plan</option></select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="reqGroup">Group Code</label>
-                        <input id="reqGroup" class="form-control" placeholder="-1 = All" />
+                    <div class="col-md-4 d-none" id="reqCategoryWrap">
+                        <label class="form-label" for="reqCategory">Category</label>
+                        <select id="reqCategory" class="form-select"></select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="reqSubgroup">Subgroup Code</label>
-                        <input id="reqSubgroup" class="form-control" placeholder="-1 = All" />
+                    <div class="col-md-4 d-none" id="reqLocationWrap">
+                        <label class="form-label" for="reqLocation">Location</label>
+                        <select id="reqLocation" class="form-select" disabled></select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="reqCareerProgram">Career Program</label>
-                        <input id="reqCareerProgram" class="form-control" placeholder="-1 = All" />
+                    <div class="col-md-4 d-none" id="reqStrlWrap">
+                        <label class="form-label" for="reqSTRL">Science &amp; Technology Reinvention Laboratory</label>
+                        <select id="reqSTRL" class="form-select"></select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="reqLocationId">Location Id</label>
-                        <input id="reqLocationId" type="number" class="form-control" value="-1" />
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="reqLocationText">Location Text</label>
-                        <input id="reqLocationText" class="form-control" placeholder="-1 = All" />
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="reqSTRL">STRL</label>
-                        <input id="reqSTRL" class="form-control" placeholder="-1 = N/A" />
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="reqGradeLevel">Grade Level</label>
-                        <input id="reqGradeLevel" type="number" class="form-control" value="1" min="1" max="20" />
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4 d-none" id="reqDependentStatusWrap">
                         <label class="form-label" for="reqDependentStatus">Dependent Status</label>
-                        <input id="reqDependentStatus" class="form-control" placeholder="-1 = N/A" />
+                        <select id="reqDependentStatus" class="form-select">
+                            <option value="-1">-- N/A --</option>
+                            <option value="average">Average</option>
+                            <option value="with">With Dependents</option>
+                            <option value="without">Without Dependents</option>
+                        </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4 d-none" id="reqNumDependentsWrap">
                         <label class="form-label" for="reqNumDependents">Number of Dependents</label>
-                        <input id="reqNumDependents" type="number" class="form-control" value="-1" />
+                        <select id="reqNumDependents" class="form-select">
+                            <option value="-1">-- N/A --</option>
+                            <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                        </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4 d-none" id="reqGradeWrap">
+                        <label class="form-label" for="reqGradeLevel">Grade Level</label>
+                        <select id="reqGradeLevel" class="form-select"></select>
+                    </div>
+                    <div class="col-md-4 d-none" id="reqActiveDutyDaysWrap">
                         <label class="form-label" for="reqActiveDutyDays">Active Duty Days</label>
-                        <input id="reqActiveDutyDays" type="number" class="form-control"
-                               value="15" min="15" max="365" />
+                        <input id="reqActiveDutyDays" type="number" class="form-control" value="15" min="15" max="365" />
                         <div class="form-text">Default 15 days (two-week annual drill). Reserve/Guard pay plans only.</div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4 d-none" id="reqOverheadWrap">
                         <label class="form-label" for="reqOverheadPct">Overhead %</label>
-                        <input id="reqOverheadPct" type="number" class="form-control"
-                               value="0" min="0" max="200" step="0.01" />
+                        <input id="reqOverheadPct" type="number" class="form-control" value="0" min="0" max="200" step="0.01" />
                         <div class="form-text">CCE pay plan only.</div>
                     </div>
                     <div class="col-12">
@@ -508,11 +509,19 @@
 {
     "projectId": @Model.ProjectId,
     "projectStartYear": @Model.CurrentProject!.YearStart,
-    "projectDuration": @Model.CurrentProject.YearDuration
+    "projectDuration": @Model.CurrentProject.YearDuration,
+    "amcosVersionId": @Model.AmcosVersionId
 }
 </script>
 
 @section Scripts {
+<script>
+    // Globals consumed by the Add Position cascade (project-manager.js).
+    window._baseApiUrl = '/api';
+    window._amcosVersionId = @Model.AmcosVersionId;
+</script>
+<script src="~/dist/js/object-payplan.js"></script>
+<script src="~/dist/js/project-manager.js" asp-append-version="true"></script>
 <script>
 /* ============================================================================
    Project Manager Details — fetch-based interactions
@@ -613,6 +622,22 @@
 
     btnLookupUnit.addEventListener('click', lookupUnit);
     uicInput.addEventListener('keydown', e => { if (e.key === 'Enter') lookupUnit(); });
+
+    // Populate the UIC suggestion list so units are discoverable (parity with the
+    // legacy searchable unit dropdown) rather than requiring a UIC be known by heart.
+    (async () => {
+        try {
+            const res = await fetch('/api/units', { headers: { Accept: 'application/json' } });
+            if (!res.ok) return;
+            const units = await res.json();
+            const dl = document.getElementById('uicOptions');
+            if (dl) {
+                dl.innerHTML = units
+                    .map(u => `<option value="${esc(u.value)}">${esc(u.text)}</option>`)
+                    .join('');
+            }
+        } catch { /* manual entry still works if the lookup is unavailable */ }
+    })();
 
     document.querySelectorAll('input[name="unitLocation"]').forEach(r => {
         r.addEventListener('change', () => {
@@ -735,8 +760,17 @@
 
         const contractorOverheadPct = parseFloat(document.getElementById('contractorOverheadPct').value) || 0;
 
-        // Determine target categoryId for Append
+        // Append targets the active sub-project. Categories load lazily when the
+        // Faces & Spaces tab is first shown, so ensure they're loaded here too —
+        // otherwise an Append done straight from the Add Unit tab would have no target.
+        if (operation === 'Append' && !activeCategoryId) {
+            await refreshCategories();
+        }
         const catId = activeCategoryId ?? 0;
+        if (operation === 'Append' && !catId) {
+            setStatus(addUnitStatus, 'No sub-project to append to. Open Faces & Spaces and select one first.', 'warning');
+            return;
+        }
 
         setStatus(addUnitStatus, 'Adding unit…');
         try {
@@ -940,24 +974,34 @@
             msgEl.textContent = 'The sum of inventory for all years must be greater than zero.'; return;
         }
 
+        // Resolved selection comes from the cascade (project-manager.js); the parsed
+        // group/subgroup/career and location id/text live on window.pmRequirement.
+        const r = window.pmRequirement || {};
+        const payPlanVal = document.getElementById('reqPayPlan').value || '-1';
+        if (!payPlanVal || payPlanVal === '-1') { msgEl.textContent = 'Pay Plan is required.'; return; }
+
+        const gradeSel = document.getElementById('reqGradeLevel');
+        const gradeVisible = !document.getElementById('reqGradeWrap')?.classList.contains('d-none');
+        let gradeLevel = parseInt(gradeSel?.value, 10);
+        if (gradeVisible && (!gradeLevel || gradeLevel < 1)) { msgEl.textContent = 'Please select a Grade Level.'; return; }
+        if (!gradeLevel || gradeLevel < 1) gradeLevel = 1;
+
         const req = {
             categoryId:           activeCategoryId,
-            payPlan:              document.getElementById('reqPayPlan').value.trim().toUpperCase(),
-            categoryGroupCode:    document.getElementById('reqGroup').value.trim() || '-1',
-            categorySubgroupCode: document.getElementById('reqSubgroup').value.trim() || '-1',
-            careerProgramNumber:  document.getElementById('reqCareerProgram').value.trim() || '-1',
-            locationId:           parseInt(document.getElementById('reqLocationId').value, 10) || -1,
-            locationText:         document.getElementById('reqLocationText').value.trim() || '-1',
-            strl:                 document.getElementById('reqSTRL').value.trim() || '-1',
-            gradeLevel:           parseInt(document.getElementById('reqGradeLevel').value, 10) || 1,
-            dependentStatus:      document.getElementById('reqDependentStatus').value.trim() || '-1',
-            numberOfDependents:   parseInt(document.getElementById('reqNumDependents').value, 10) || -1,
-            activeDutyDays:       parseInt(document.getElementById('reqActiveDutyDays').value, 10) || 15,
-            overheadPercent:      parseFloat(document.getElementById('reqOverheadPct').value) || 0,
+            payPlan:              payPlanVal,
+            categoryGroupCode:    r.categoryGroupCode ?? '-1',
+            categorySubgroupCode: r.categorySubgroupCode ?? '-1',
+            careerProgramNumber:  r.careerProgramNumber ?? '-1',
+            locationId:           r.locationId ?? -1,
+            locationText:         r.locationText ?? '-1',
+            strl:                 r.strl ?? '-1',
+            gradeLevel:           gradeLevel,
+            dependentStatus:      r.dependentStatus ?? '-1',
+            numberOfDependents:   r.numberOfDependents ?? -1,
+            activeDutyDays:       r.activeDutyDays ?? 15,
+            overheadPercent:      r.overheadPercent ?? 0,
             inventory:            inv
         };
-
-        if (!req.payPlan) { msgEl.textContent = 'Pay Plan is required.'; return; }
 
         try {
             const result = await postJson('AddRequirement', req);
@@ -965,8 +1009,9 @@
                 msgEl.className = 'ms-2 text-success small';
                 msgEl.textContent = 'Requirement added.';
                 await loadInventoryGrid(activeCategoryId);
-                // Clear insert row
+                // Clear insert row + reset the cascade for the next position
                 document.querySelectorAll('.inv-insert-cell').forEach(el => el.value = '0');
+                window.pmResetRequirement?.();
             } else {
                 msgEl.textContent = result.message ?? 'Failed to insert requirement.';
             }

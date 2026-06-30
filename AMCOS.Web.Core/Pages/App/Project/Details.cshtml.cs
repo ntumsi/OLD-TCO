@@ -30,6 +30,9 @@ public class DetailsModel : PageModel
     public int MinimumStartYear { get; private set; }
     public int MaximumStartYear { get; private set; }
 
+    /// <summary>Exposed to the Add Position cascade JS for the grade-level lookup.</summary>
+    public int AmcosVersionId => GetAmcosVersionId();
+
     [TempData]
     public string? StatusMessage { get; set; }
 

@@ -94,13 +94,17 @@
                             @foreach (var project in Model.Projects)
                             {
                                 <tr>
-                                    <td>@project.ProjectName</td>
+                                    <td>
+                                        <a asp-page="/App/Project/Details" asp-route-projectId="@project.ProjectId">@project.ProjectName</a>
+                                    </td>
                                     <td>@project.Description</td>
                                     <td>@project.YearStart</td>
                                     <td>@project.LastUpdate.ToString("g")</td>
-                                    <td class="text-end">
-                                        <a class="btn btn-sm btn-primary" asp-page="/App/Project/Report" asp-route-projectId="@project.ProjectId">Report</a>
-                                        <form method="post" asp-page-handler="Delete" class="d-inline">
+                                    <td class="text-end text-nowrap">
+                                        <a class="btn btn-sm btn-primary" asp-page="/App/Project/Details" asp-route-projectId="@project.ProjectId">Open</a>
+                                        <a class="btn btn-sm btn-outline-secondary" asp-page="/App/Project/Report" asp-route-projectId="@project.ProjectId">Report</a>
+                                        <form method="post" asp-page-handler="Delete" class="d-inline"
+                                              onsubmit="return confirm('Delete this project and all its data?');">
                                             <input type="hidden" name="projectId" value="@project.ProjectId" />
                                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                         </form>

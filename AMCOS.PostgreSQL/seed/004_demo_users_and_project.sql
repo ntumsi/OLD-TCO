@@ -48,7 +48,9 @@ WHERE NOT EXISTS (
 INSERT INTO webuser.pmcategory (projectid, categoryname)
 SELECT p.projectid, v.categoryname
 FROM webuser.pmproject p
-CROSS JOIN (VALUES ('Operators'), ('Maintainers')) AS v(categoryname)
+-- The project-named category is the default "main" bucket every project carries
+-- (matches Project.AddProject + GetMainCategoryId); 'Operators'/'Maintainers' are sub-projects.
+CROSS JOIN (VALUES ('Sample Weapons System Project'), ('Operators'), ('Maintainers')) AS v(categoryname)
 WHERE p.userid = 'analyst.demo'
   AND p.projectname = 'Sample Weapons System Project'
   AND NOT EXISTS (
