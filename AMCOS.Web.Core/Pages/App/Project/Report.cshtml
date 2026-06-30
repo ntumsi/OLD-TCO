@@ -34,9 +34,11 @@ else
                 <div class="card-header">Report Properties</div>
                 <div class="card-body">
                     <dl class="row mb-0">
+                        <dt class="col-sm-3">Project Creator</dt><dd class="col-sm-9">@Model.ProjectDetails.ProjectCreator</dd>
+                        <dt class="col-sm-3">Create Date</dt><dd class="col-sm-9">@Model.ProjectDetails.CreateDate.ToString("g")</dd>
+                        <dt class="col-sm-3">Last Update</dt><dd class="col-sm-9">@Model.ProjectDetails.LastUpdate.ToString("g")</dd>
                         <dt class="col-sm-3">Project Name</dt><dd class="col-sm-9">@Model.ProjectDetails.ProjectName</dd>
                         <dt class="col-sm-3">Description</dt><dd class="col-sm-9">@Model.ProjectDetails.Description</dd>
-                        <dt class="col-sm-3">Project Creator</dt><dd class="col-sm-9">@Model.ProjectDetails.ProjectCreator</dd>
                         <dt class="col-sm-3">Start Year</dt><dd class="col-sm-9">@Model.ProjectDetails.YearStart</dd>
                         <dt class="col-sm-3">Duration</dt><dd class="col-sm-9">@Model.ProjectDetails.YearDuration</dd>
                     </dl>
