@@ -63,13 +63,14 @@
                                 </ul>
                             </li>
                         }
-                        @* Legacy "Help Docs" equivalent — kept at the end of the bar, expanded with the migrated Help/News/Resources additions. *@
-                        <li class="nav-item"><a class="nav-link" asp-page="/Help">Help</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-page="/Notes">Release Notes</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-page="/Note">News</a></li>
+                        @* Legacy "Help Docs" equivalent — Help, Release Notes, and News now live at the top of Resources. *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resources</a>
                             <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" asp-page="/Help">Help</a></li>
+                                <li><a class="dropdown-item" asp-page="/Notes">Release Notes</a></li>
+                                <li><a class="dropdown-item" asp-page="/Note">News</a></li>
+                                <li><hr class="dropdown-divider" /></li>
                                 <li><h6 class="dropdown-header">Primary Documents</h6></li>
                                 <li><a class="dropdown-item" href="~/Public/AMCOS CBA Guide.pdf" target="_blank">Cost Benefit Analysis Guide</a></li>
                                 <li><a class="dropdown-item" href="~/Public/AMCOS Fact Sheet.pdf" target="_blank">Fact Sheet</a></li>
