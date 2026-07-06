@@ -1,4 +1,27 @@
 services:
+  # Application database (PostgreSQL + PostGIS) — use this instead of a local
+  # PostgreSQL install. Matches the dev connection string in
+  # AMCOS.Web.Core/appsettings.json (Host=localhost;Database=amcos;Username=postgres;Password=postgr3s).
+  # PostGIS is required: migrations/000_schemas.sql runs CREATE EXTENSION postgis.
+  amcos-db:
+    image: postgis/postgis:16-3.4
+    container_name: amcos-db
+    environment:
+      POSTGRES_DB: amcos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgr3s
+    ports:
+      - "5432:5432"
+    volumes:
+      - amcos_db_data:/var/lib/postgresql/data
+      # Mounted read-only so init.sh (migrations + seed) can be run inside the container.
+      - ./AMCOS.PostgreSQL:/amcos-sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d amcos"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   keycloak-db:
     image: postgres:16-alpine
     container_name: amcos-keycloak-db
@@ -52,4 +75,5 @@ services:
         condition: service_healthy
 
 volumes:
+  amcos_db_data:
   keycloak_db_data:

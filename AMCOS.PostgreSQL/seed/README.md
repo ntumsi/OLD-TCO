@@ -52,7 +52,7 @@ done
 | `003_warehouse_and_web.sql` | `warehouse` schema (locations, categories, location-by-category, joint inflation calculator, unit personnel) and `web` schema (`payplantag`, `qlikapplication`) |
 | `004_demo_users_and_project.sql` | `webuser` schema: demo users + login history, a sample Project Manager project (categories → skills → inventory → report), and a sample Civilian PCS estimate |
 | `005_amcos_lite_coverage.sql` | AMCOS Lite filter coverage: seeds `warehouse.category` + correctly-keyed `warehouse.locationbycategory` (incl. STRL) for the pay plans defined in `001`, so every filter cascade (Pay Plan → Category → Location → STRL / Dependent Status / Number of Dependents) populates. Filter coverage only — not the deep `web.getcosts` inputs |
-| `006_costfact_grades.sql` | Grade-level coverage for the Lite + Project Manager cascades: generates `crunch.costs_*` rows (which the `data.costs` view exposes) keyed to the `005` categories/locations, so the **Grade** dropdown populates for AE/AO/AWO, GS/GG/GP, SES, WG/WL/WS, DB/NH, CY. Representative amounts only (not a full cost load); CCE is excluded (separate `data.costscce` path) |
+| `006_costfact_grades.sql` | **AMCOS Lite cost data** (also feeds grade dropdowns + the PM cost report). Seeds cost elements for pay plans lacking them, a `'Default'` cost summary + membership per pay plan, `jicinflationrates` for the APPNs used, and per-cost-element `crunch.costs_*` rows (one per element × grade, placed on the correct location branch by `islocationspecific`) — so `web.getamcoslitecosts` returns a populated crosstab. Covers AE/AO/AWO, GS/GG/GP, SES, WG/WL/WS, DB/NH, CY with representative amounts; CCE is excluded (separate `data.costscce` / `BLS_OES` path) |
 
 ## Conventions
 

@@ -87,6 +87,9 @@ public class IndexModel : PageModel
                 dataSet = lite.GetCosts(User.Identity?.Name ?? "migration-user");
             }
 
+            // DataAccessUtility.ExecuteStoredProcDataSet already expands the
+            // (result_set_name, row_data jsonb) payload into one DataTable per result set
+            // (e.g. "costs"), so the tables here are the display-ready cost grids.
             return new JsonResult(new
             {
                 tables = dataSet.Tables.Cast<DataTable>().Select((table, index) => new

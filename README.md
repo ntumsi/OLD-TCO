@@ -49,13 +49,24 @@ This takes a fresh Windows machine from zero to a running, logged-in app: Postgr
 | Tool | Install | Notes |
 |---|---|---|
 | **.NET 8 SDK** | `winget install Microsoft.DotNet.SDK.8` | Verify with `dotnet --version` (should print `8.x`). |
-| **PostgreSQL 14+ with PostGIS** | [EDB installer](https://www.postgresql.org/download/windows/) | During install run **Application Stack Builder** and add the **PostGIS Bundle** — the migrations run `CREATE EXTENSION postgis`. Set the `postgres` superuser password to `postgr3s` to match the default dev connection string. Ensure `psql` is on `PATH` (e.g. `C:\Program Files\PostgreSQL\16\bin`). |
-| **Docker Desktop** | `winget install Docker.DockerDesktop` | Runs the local Keycloak (OIDC) container. Start it before step 4. |
+| **Docker Desktop** | `winget install Docker.DockerDesktop` | Runs the local **database** and **Keycloak** containers. This is the recommended way to get the database — no PostgreSQL install needed. Start it before steps 2 and 4. |
+| **PostgreSQL 14+ with PostGIS** *(only if NOT using the Docker DB)* | [EDB installer](https://www.postgresql.org/download/windows/) | Alternative to the Docker database. During install run **Application Stack Builder** and add the **PostGIS Bundle** — the migrations run `CREATE EXTENSION postgis`. Set the `postgres` superuser password to `postgr3s` to match the default dev connection string. Ensure `psql` is on `PATH` (e.g. `C:\Program Files\PostgreSQL\16\bin`). |
 | **Git for Windows** (optional) | `winget install Git.Git` | Provides Git Bash, which can run the `init.sh` DB helper. Pure-PowerShell steps are given too. |
 
-### 2. Create the database
+### 2. Start the database
 
-The dev connection string in `AMCOS.Web.Core/appsettings.json` is `Host=localhost;Database=amcos;Username=postgres;Password=postgr3s`. Create the database (PostGIS is enabled automatically by the migrations):
+The dev connection string in `AMCOS.Web.Core/appsettings.json` is `Host=localhost;Database=amcos;Username=postgres;Password=postgr3s`. Choose **one** of the following.
+
+**Option A — Docker (recommended; no local PostgreSQL install needed).** With Docker Desktop running:
+
+```powershell
+cd D:\OLD-TCO
+docker compose up -d amcos-db
+```
+
+This starts PostgreSQL 16 **with PostGIS** at `localhost:5432` with database `amcos`, user `postgres`, password `postgr3s` — already matching the connection string. Data persists in the `amcos_db_data` Docker volume (`docker compose down -v` wipes it). The `amcos-db` container also mounts this repo's `AMCOS.PostgreSQL/` at `/amcos-sql`, so you can run the migrations/seed inside it (step 3).
+
+**Option B — local PostgreSQL install.** Install PostgreSQL + the PostGIS bundle (see prerequisites), then create the database:
 
 ```powershell
 $env:PGPASSWORD = "postgr3s"
@@ -66,14 +77,13 @@ $env:PGPASSWORD = "postgr3s"
 
 ### 3. Apply migrations + seed data
 
-**Option A — Git Bash** (uses the bundled helper; applies every migration then every seed file, including demo users and AMCOS Lite filter coverage):
+**If you used Docker (Option A)** — run the bundled helper **inside the container** (no `psql` needed on your machine); it applies every migration then every seed file:
 
-```bash
-cd /d/OLD-TCO
-./AMCOS.PostgreSQL/init.sh            # add --fresh to drop & recreate the DB first
+```powershell
+docker compose exec amcos-db bash /amcos-sql/init.sh
 ```
 
-**Option B — PowerShell** (no Git Bash; runs the same files in the same order):
+**If you used a local install (Option B)** — Git Bash: `./AMCOS.PostgreSQL/init.sh` (add `--fresh` to drop & recreate first). Or, with no Git Bash, PowerShell:
 
 ```powershell
 $env:PGPASSWORD = "postgr3s"
@@ -85,12 +95,12 @@ $files = @(
   "migrations\005b_costengine_tables.sql","migrations\006_functions.sql","migrations\006b_costengine_functions.sql",
   "migrations\007_stored_procedures.sql","migrations\008_views.sql",
   "seed\001_versions_and_lookups.sql","seed\002_cost_elements.sql","seed\003_warehouse_and_web.sql",
-  "seed\004_demo_users_and_project.sql","seed\005_amcos_lite_coverage.sql"
+  "seed\004_demo_users_and_project.sql","seed\005_amcos_lite_coverage.sql","seed\006_costfact_grades.sql"
 )
 foreach ($f in $files) { & $psql -U postgres -h localhost -d amcos -v ON_ERROR_STOP=1 -f "$root\$f" }
 ```
 
-The seed scripts are **idempotent** (safe to re-run). They load representative lookups, AMCOS Lite filter coverage (pay plans → categories → locations), and two demo app users (`admin.demo`, `analyst.demo`). Details: `AMCOS.PostgreSQL/seed/README.md`.
+The seed scripts are **idempotent** (safe to re-run). They load representative lookups, AMCOS Lite filter + cost data (pay plans → categories → locations → grade crosstab), and two demo app users (`admin.demo`, `analyst.demo`). Details: `AMCOS.PostgreSQL/seed/README.md`.
 
 ### 4. Start Keycloak (OIDC login)
 

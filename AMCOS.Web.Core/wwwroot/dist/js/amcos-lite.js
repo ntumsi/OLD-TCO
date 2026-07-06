@@ -387,24 +387,90 @@
     const appropColor = v => v == null ? null : (APPROP_COLORS[String(v).trim().toUpperCase()] || null);
     const isNumeric = v => v !== null && v !== '' && !isNaN(Number(String(v).replace(/[$,]/g, '')));
     const num = v => Number(String(v).replace(/[$,]/g, ''));
-    const looksLikeMoney = h => /amount|cost|pay|rate|\$/i.test(h) || /^E\d|^O\d|^W\d|GS\d|^\d/i.test(h);
+    // Grade/cost columns in the crosstab: any 1-3 letter grade prefix + number
+    // (E1/O10/W5 military, GS15/GG1/WG9/DB5 civilian), plain numbers, SES MIN/AVG/MAX,
+    // and CCE percentile bands (A_PCT10 … A_MEDIAN).
+    const looksLikeMoney = h => /amount|cost|pay|rate|\$/i.test(h)
+        || /^[A-Za-z]{1,3}\d{1,2}$/.test(h)
+        || /^\d/.test(h)
+        || /^(MIN|AVG|MAX)$/i.test(h)
+        || /^A_(PCT|MEDIAN)/i.test(h);
+
+    // Preferred left-to-right column order; grade columns (GS1…GS15, E1…E9, …) come last.
+    const PREFERRED_COLS = ['Cost Element Name', 'Cost Element Category', 'description', 'showorder', 'appngroup', 'appn'];
+    const isGradeCol = h => /^[A-Za-z]{1,3}\d{1,2}$/.test(h) || /^(MIN|AVG|MAX)$/i.test(h) || /^A_(PCT|MEDIAN)/i.test(h);
+    const gradeNum = h => { const m = h.match(/\d+/); return m ? parseInt(m[0], 10) : 0; };
+    function orderHeaders(all) {
+        const lead = PREFERRED_COLS.filter(h => all.includes(h));
+        const grades = all.filter(h => isGradeCol(h) && !lead.includes(h)).sort((a, b) => gradeNum(a) - gradeNum(b));
+        const rest = all.filter(h => !lead.includes(h) && !grades.includes(h));
+        return [...lead, ...rest, ...grades];
+    }
+
+    const round2 = v => Math.round((Number(v) || 0) * 100) / 100;
+
+    // Appends "combined totals by APPN" rows (plus a grand total) to the bottom of a cost
+    // crosstab — one row per appropriation summing its cost elements per grade, mirroring the
+    // legacy Appropriation Group summary. No-op for grids without grade columns / an appn field.
+    function appendAppnTotals(table) {
+        if (!table || !table.rows || table.rows.length === 0) return table;
+        const keys = Object.keys(table.rows[0]);
+        const gradeCols = keys.filter(isGradeCol);
+        if (gradeCols.length === 0 || !keys.includes('appn')) return table;
+        const nameCol = keys.includes('Cost Element Name') ? 'Cost Element Name' : keys[0];
+
+        const order = [];
+        const groups = new Map();
+        table.rows.forEach(r => {
+            if (r._total) return;
+            const appn = String(r.appn ?? '').trim();
+            if (!appn) return;
+            if (!groups.has(appn)) { groups.set(appn, { appngroup: r.appngroup, sums: {} }); order.push(appn); }
+            const g = groups.get(appn);
+            gradeCols.forEach(gc => { const v = num(r[gc]); if (!isNaN(v)) g.sums[gc] = (g.sums[gc] || 0) + v; });
+        });
+        if (order.length === 0) return table;
+
+        const totals = [];
+        const grand = {};
+        order.forEach(appn => {
+            const g = groups.get(appn);
+            const row = { [nameCol]: `${appn} Total`, appn, appngroup: g.appngroup, _total: 'appn' };
+            gradeCols.forEach(gc => { row[gc] = round2(g.sums[gc] || 0); grand[gc] = (grand[gc] || 0) + (g.sums[gc] || 0); });
+            totals.push(row);
+        });
+        if (order.length > 1) {
+            const row = { [nameCol]: 'TOTAL APPN COST SUMMARY', _total: 'grand' };
+            gradeCols.forEach(gc => { row[gc] = round2(grand[gc] || 0); });
+            totals.push(row);
+        }
+        return { ...table, rows: [...table.rows, ...totals] };
+    }
 
     function renderTable(table, isCce) {
         if (!table || !table.rows || table.rows.length === 0) return '<div class="alert alert-light border mb-3">No data returned for this grid.</div>';
-        const headers = Object.keys(table.rows[0]);
+        const headers = orderHeaders(Object.keys(table.rows.find(r => !r._total) ?? table.rows[0]));
         const head = headers.map(h => `<th>${h}</th>`).join('');
         const body = table.rows.map(row => {
+            const totalKind = row._total; // 'appn' | 'grand' | undefined
             const rowText = headers.map(h => String(row[h] ?? '')).join(' ').toUpperCase();
             const isWeapon = rowText.includes('WEAPON SYSTEM');
             const cells = headers.map(h => {
                 const val = row[h];
-                let bg = appropColor(val);
-                if (!bg && isWeapon) bg = WEAPON_COLOR;
-                if (!bg && isCce && isNumeric(val) && cceSalaryLimit > 0 && num(val) > cceSalaryLimit) bg = SALARY_LIMIT_COLOR;
-                const style = bg ? ` style="background-color:${bg};color:#fff;"` : '';
+                let bg = null, fg = '';
+                if (totalKind) {
+                    bg = totalKind === 'grand' ? '#343a40' : '#dee2e6';
+                    fg = totalKind === 'grand' ? 'color:#fff;' : '';
+                } else {
+                    bg = appropColor(val);
+                    if (!bg && isWeapon) bg = WEAPON_COLOR;
+                    if (!bg && isCce && isNumeric(val) && cceSalaryLimit > 0 && num(val) > cceSalaryLimit) bg = SALARY_LIMIT_COLOR;
+                    if (bg) fg = 'color:#fff;';
+                }
+                const style = bg ? ` style="background-color:${bg};${fg}"` : '';
                 return `<td${style}>${val ?? ''}</td>`;
             }).join('');
-            return `<tr>${cells}</tr>`;
+            return `<tr${totalKind ? ' class="fw-bold"' : ''}>${cells}</tr>`;
         }).join('');
         return `<div class="table-responsive mb-3"><table class="table table-sm table-bordered align-middle mb-0">`
             + `<thead class="table-dark"><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
@@ -486,8 +552,10 @@
             if (tables.length === 0) {
                 results.innerHTML = '<div class="alert alert-light border">No data returned.</div>';
             } else {
-                results.innerHTML = tables.map((t, i) => `<h6 class="mt-3">${prettyName(t.name, i)}</h6>` + renderTable(t, isCce)).join('');
-                buildChart(tables[0], costsFilter.payPlan, costsFilter.costSummaryName);
+                // Append combined totals-by-APPN rows to the bottom of each cost grid.
+                const withTotals = tables.map(appendAppnTotals);
+                results.innerHTML = withTotals.map((t, i) => `<h6 class="mt-3">${prettyName(t.name, i)}</h6>` + renderTable(t, isCce)).join('');
+                buildChart(withTotals[0], costsFilter.payPlan, costsFilter.costSummaryName);
                 renderLegend();
             }
             status.className = 'alert alert-success';

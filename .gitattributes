@@ -3,6 +3,10 @@
 ###############################################################################
 * text=auto
 
+# Shell scripts must stay LF so they run inside Linux containers (e.g. the
+# amcos-db PostGIS container runs AMCOS.PostgreSQL/init.sh via bash).
+*.sh text eol=lf
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
