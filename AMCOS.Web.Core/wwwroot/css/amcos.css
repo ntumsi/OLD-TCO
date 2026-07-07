@@ -90,12 +90,24 @@ a:hover {
     gap: 0.5rem;
 }
 
-.amcos-navbar .navbar-brand .amcos-brand-mark {
-    display: inline-block;
-    width: 0.65rem;
-    height: 1.35rem;
-    border-radius: 2px;
-    background: var(--amcos-accent);
+/* Masthead logos — Army star (left), AMCOS wordmark (brand), ASA (FM&C) seal (right).
+   Sizes echo the legacy AMCOS.css header proportions, scaled to fit the navbar. */
+.amcos-navbar .amcos-logo-army {
+    height: 44px;
+    width: auto;
+}
+
+.amcos-navbar .amcos-logo-amcos {
+    height: 52px;
+    width: auto;
+    object-fit: scale-down;
+}
+
+.amcos-navbar .amcos-logo-asafm {
+    height: 48px;
+    width: auto;
+    border-radius: 50%;
+    background: var(--amcos-white);
 }
 
 .amcos-navbar .nav-link {
@@ -246,4 +258,19 @@ a:hover {
 
 .amcos-footer a:hover {
     color: var(--amcos-white);
+}
+
+/* "Open Project" modal (Civilian PCS / project pickers) — make rows pickable
+   with clear hover + selected feedback. Target <td> so it overrides table-striped. */
+.table-view-project tbody tr.selectable-row {
+    cursor: pointer;
+}
+
+.table-view-project tbody tr.selectable-row:hover > td {
+    background-color: #e7f1ff;
+}
+
+.table-view-project tbody tr.cal-row-selected > td {
+    background-color: #0d6efd;
+    color: #fff;
 }

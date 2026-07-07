@@ -741,5 +741,18 @@ $(document).ready(function () {
         el.addEventListener("click", function () { HandleProjectRowClick(this); });
     });
 
+    // Double-click a project row to select and open it in one step. Delegated on the
+    // container so it also covers rows re-rendered after a sort.
+    var openContainer = document.getElementById("OpenProjectModel");
+    if (openContainer) {
+        openContainer.addEventListener("dblclick", function (e) {
+            var row = e.target.closest(".selectable-row");
+            if (row && !e.target.closest(".cal-row-delete")) {
+                HandleProjectRowClick(row);
+                OpenProjectClick("openProjectModal");
+            }
+        });
+    }
+
     LoadSummaryTable();
 });

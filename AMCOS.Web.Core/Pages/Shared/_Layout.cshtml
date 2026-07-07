@@ -13,7 +13,11 @@
     <header class="mb-4">
         <nav class="navbar navbar-expand-lg amcos-navbar navbar-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-page="/Index"><span class="amcos-brand-mark"></span>AMCOS</a>
+                @* Masthead branding mirrors the legacy _Header.vbhtml: Army star (not linked) + AMCOS wordmark linking home. *@
+                <img src="~/dist/img/army.png" alt="U.S. Army" class="amcos-logo-army me-2" />
+                <a class="navbar-brand p-0 me-3 d-inline-flex align-items-center" asp-page="/Index" title="Return to AMCOS Home Page">
+                    <img src="~/dist/img/amcos.png" alt="AMCOS" class="amcos-logo-amcos" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -99,7 +103,10 @@
                         </li>
                     </ul>
                     <div class="d-flex align-items-center gap-3 text-white">
-                        <a href="https://www.asafm.army.mil" target="_blank" rel="noopener" class="nav-link p-0" title="Open the ASA (FM&amp;C) Portal in a new window.">ASA (FM&amp;C)</a>
+                        @* ASA (FM&C) seal (DASA.png) top-right, linking to the portal — matches the legacy header. *@
+                        <a href="https://www.asafm.army.mil" target="_blank" rel="noopener" class="nav-link p-0 d-inline-flex align-items-center" title="Open the ASA (FM&amp;C) Portal in a new window.">
+                            <img src="~/dist/img/DASA.png" alt="ASA (FM&amp;C)" class="amcos-logo-asafm" />
+                        </a>
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <a asp-page="/App/Profile/Index" class="btn btn-outline-secondary btn-sm">
