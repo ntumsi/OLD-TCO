@@ -37,12 +37,37 @@ services:
       timeout: 5s
       retries: 5
 
+  # One-shot realm importer. Runs BEFORE Keycloak starts and (re)imports every
+  # realm JSON in ./keycloak with --override=true, so the `cave` realm and its
+  # `amcos-local` client are synced from keycloak/cave-realm.json on EVERY
+  # `docker compose up` — even when keycloak_db_data already exists or the realm
+  # file was edited. This replaces the start-time `--import-realm` flag, which
+  # only imports on a first boot against an empty DB and silently skips an
+  # existing realm (the cause of the "Client not found" error on a dirty volume).
+  keycloak-config:
+    image: quay.io/keycloak/keycloak:26.2
+    container_name: amcos-keycloak-config
+    command:
+      - import
+      - --dir=/opt/keycloak/data/import
+      - --override=true
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak_password
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import:ro
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
+    restart: "no"
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.2
     container_name: amcos-keycloak
     command:
       - start-dev
-      - --import-realm
     environment:
       # Admin credentials for the Keycloak master realm
       KEYCLOAK_ADMIN: admin
@@ -65,14 +90,26 @@ services:
 
       # HTTP (no TLS for local dev)
       KC_HTTP_ENABLED: "true"
+
+      # Expose /health/ready so `docker compose up --wait` can block until login is actually up.
+      KC_HEALTH_ENABLED: "true"
     ports:
       - "8180:8080"
-    volumes:
-      # Realm import: Keycloak auto-imports any realm JSON placed in this directory
-      - ./keycloak:/opt/keycloak/data/import
     depends_on:
       keycloak-db:
         condition: service_healthy
+      # Do not start until the realm/client import has completed successfully,
+      # so Keycloak never comes up serving a realm without the amcos-local client.
+      keycloak-config:
+        condition: service_completed_successfully
+    healthcheck:
+      # The Keycloak image ships no curl/wget; use bash's /dev/tcp to confirm the
+      # HTTP port is accepting connections (kc.sh runs on bash, so it is present).
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo ok || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
 volumes:
   amcos_db_data:

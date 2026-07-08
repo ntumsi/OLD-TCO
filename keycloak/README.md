@@ -15,15 +15,21 @@ docker compose up -d
 ```
 
 Keycloak will be available at:  
-`http://localhost:8080/auth`
+`http://localhost:8180/auth`
 
-The `cave` realm and its test users are imported automatically on first startup.
+The `cave` realm and its test users are (re)imported automatically on **every**
+`docker compose up` by the one-shot `keycloak-config` service, which runs
+`kc.sh import --override=true` before Keycloak starts. Editing `cave-realm.json`
+and re-running `docker compose up -d` is enough to apply the change — no volume
+reset needed. (Because the import overrides, any users/clients you create by hand
+in the admin console are wiped on the next `up`; put anything you want to keep in
+`cave-realm.json`.)
 
 ---
 
 ## Keycloak Admin Console
 
-| URL | `http://localhost:8080/auth/admin` |
+| URL | `http://localhost:8180/auth/admin` |
 |-----|-------------------------------------|
 | Username | `admin` |
 | Password | `admin` |
@@ -45,7 +51,7 @@ Update your local `Web.config` (AMCOS.Web) or `appsettings.json` (AMCOS.Web.Core
 
 | Setting | Value |
 |---|---|
-| `KeyCloakAuthority` / `Authority` | `http://localhost:8080/auth/realms/cave` |
+| `KeyCloakAuthority` / `Authority` | `http://localhost:8180/auth/realms/cave` |
 | `KeyCloakClientId` / `ClientId` | `amcos-local` |
 | `KeyCloakClientSecret` / `ClientSecret` | `local-dev-secret` |
 | `AmcosUrl` | `https://localhost:5001/signin-oidc` (or your local callback URL) |
@@ -73,7 +79,7 @@ Set `KeyCloakClientSecret` in `secureAppSettings`:
 ```json
 {
   "OpenIdConnect": {
-    "Authority": "http://localhost:8080/auth/realms/cave",
+    "Authority": "http://localhost:8180/auth/realms/cave",
     "ClientId": "amcos-local",
     "ClientSecret": "local-dev-secret"
   },
@@ -85,7 +91,7 @@ Set `KeyCloakClientSecret` in `secureAppSettings`:
 }
 ```
 
-> **Note:** If your local app runs on a different port, update the redirect URIs in the `amcos-local` client via the Keycloak admin console or edit `cave-realm.json` before starting Keycloak.
+> **Note:** If your local app runs on a different port, add its redirect URI to the `amcos-local` client in `cave-realm.json` and re-run `docker compose up -d` — the `keycloak-config` importer re-applies the realm with `--override=true`, so the change takes effect without a volume reset.
 
 ---
 
@@ -111,5 +117,9 @@ docker compose down -v
 - **Protocol mappers**: `roles`, `groups`, `department`, `accountType` claims — matching what `KeyCloakHelper.cs` expects
 - **Test users**: `admin.user` (admin) and `test.user` (standard user)
 
-To make changes, either edit the JSON before first startup or use the admin console and re-export the realm via:  
-**Realm Settings → Action → Partial export**
+To make changes, edit `cave-realm.json` and run `docker compose up -d` — the
+`keycloak-config` importer re-applies the realm with `--override=true` on every
+startup, so edits take effect immediately (no volume reset). To capture changes
+made in the admin console back into the file, re-export via
+**Realm Settings → Action → Partial export** (note: un-exported console changes
+are overwritten on the next `up`).
