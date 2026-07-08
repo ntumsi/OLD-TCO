@@ -57,14 +57,23 @@ This takes a fresh Windows machine from zero to a running, logged-in app: Postgr
 
 The dev connection string in `AMCOS.Web.Core/appsettings.json` is `Host=localhost;Database=amcos;Username=postgres;Password=postgr3s`. Choose **one** of the following.
 
-**Option A — Docker (recommended; no local PostgreSQL install needed).** With Docker Desktop running:
+**Option A — Docker (recommended; no local PostgreSQL install needed).** With Docker Desktop running, bring up the entire backend — database **and** Keycloak, fully migrated, seeded, and with the OIDC client imported — with a single command:
 
 ```powershell
 cd D:\OLD-TCO
-docker compose up -d amcos-db
+docker compose up -d
 ```
 
-This starts PostgreSQL 16 **with PostGIS** at `localhost:5432` with database `amcos`, user `postgres`, password `postgr3s` — already matching the connection string. Data persists in the `amcos_db_data` Docker volume (`docker compose down -v` wipes it). The `amcos-db` container also mounts this repo's `AMCOS.PostgreSQL/` at `/amcos-sql`, so you can run the migrations/seed inside it (step 3).
+This starts and prepares everything the app needs, with **no manual migrate/seed step**:
+
+- **`amcos-db`** — PostgreSQL 16 **with PostGIS** at `localhost:5432` (db `amcos`, user `postgres`, password `postgr3s`), matching the dev connection string. Data persists in the `amcos_db_data` volume (`docker compose down -v` wipes it).
+- **`amcos-db-init`** — one-shot: applies every migration then seed file on first run; automatically skipped once the schema exists.
+- **`keycloak`** — Keycloak at `http://localhost:8180/auth` (login users in step 4).
+- **`keycloak-config`** — one-shot: (re)imports the `cave` realm + `amcos-local` client from `keycloak/cave-realm.json` on **every** `up` (`--override=true`), so a "Client not found" from a stale volume can't happen.
+
+First run takes ~45–60s (DB migrate/seed + realm import). Check readiness with `docker compose ps`: `amcos-db` and `keycloak` show **healthy**; the two one-shot `*-init` / `*-config` containers show **Exited (0)** once done.
+
+> **On the Docker path (Option A), steps 3 and 4 below are handled automatically — skip to step 5.** (`docker compose up -d --wait` also works but returns a non-zero exit code when the one-shot init containers exit — a known Compose quirk, not a failure. Prefer plain `docker compose up -d` and confirm with `docker compose ps`.)
 
 **Option B — local PostgreSQL install.** Install PostgreSQL + the PostGIS bundle (see prerequisites), then create the database:
 
@@ -75,13 +84,11 @@ $env:PGPASSWORD = "postgr3s"
 
 > If your `postgres` password isn't `postgr3s`, either change it to match, or update the three `ConnectionStrings` in `appsettings.json` (or set `ConnectionStrings__AmcosPostgres`).
 
-### 3. Apply migrations + seed data
+> **Option B covers only the database.** Keycloak has no local install path — it always runs in Docker. Step 4 has a Keycloak-only command that starts Keycloak **without** the `amcos-db` container, so it won't clash with your local PostgreSQL on port 5432.
 
-**If you used Docker (Option A)** — run the bundled helper **inside the container** (no `psql` needed on your machine); it applies every migration then every seed file:
+### 3. Apply migrations + seed data (local install / Option B only)
 
-```powershell
-docker compose exec amcos-db bash /amcos-sql/init.sh
-```
+**If you used Docker (Option A)** this already ran automatically via the `amcos-db-init` service in step 2 — **nothing to do here**. (To force a re-seed later: `docker compose run --rm amcos-db-init`, or run `docker compose exec amcos-db bash /amcos-sql/init.sh` for a plain re-run.)
 
 **If you used a local install (Option B)** — Git Bash: `./AMCOS.PostgreSQL/init.sh` (add `--fresh` to drop & recreate first). Or, with no Git Bash, PowerShell:
 
@@ -104,14 +111,17 @@ The seed scripts are **idempotent** (safe to re-run). They load representative l
 
 ### 4. Start Keycloak (OIDC login)
 
-The app signs users in against a local Keycloak realm. With Docker Desktop running:
+The app signs users in against a local Keycloak realm that runs in Docker (there is no local Keycloak install path).
 
-```powershell
-cd D:\OLD-TCO
-docker compose up -d
-```
+- **If you used Docker for the database (Option A):** step 2's `docker compose up -d` already started Keycloak — **nothing to do**, skip to step 5.
+- **If you used a local PostgreSQL install (Option B):** start **only** the Keycloak services. This pulls in `keycloak-db` and the `keycloak-config` importer via `depends_on`, but does **not** start the `amcos-db` container — so there is no conflict with your local PostgreSQL on port 5432:
 
-This starts Keycloak at `http://localhost:8180/auth` and auto-imports the **`cave`** realm (`keycloak/cave-realm.json`) with client `amcos-local` and two login users (password **`Password1!`** for both):
+  ```powershell
+  cd D:\OLD-TCO
+  docker compose up -d keycloak
+  ```
+
+Either way, Keycloak is available at `http://localhost:8180/auth` with the **`cave`** realm (`keycloak/cave-realm.json`) imported — client `amcos-local` and two login users (password **`Password1!`** for both):
 
 | Username | Realm role |
 |---|---|
@@ -119,8 +129,8 @@ This starts Keycloak at `http://localhost:8180/auth` and auto-imports the **`cav
 | `test.user` | `amcos-user` |
 
 - Admin console: `http://localhost:8180/auth/admin` (`admin` / `admin`).
-- First start takes ~20–30s; check readiness with `docker compose logs -f keycloak` (wait for "started").
-- Stop with `docker compose down` (add `-v` to also wipe the realm database).
+- The realm is re-imported with `--override=true` on every `up`, so editing `keycloak/cave-realm.json` and re-running `docker compose up -d` applies the change with no volume reset. (Un-exported changes made by hand in the admin console are overwritten on the next `up`.)
+- Stop with `docker compose down` (add `-v` to also wipe both databases).
 
 ### 5. Run the web app
 
@@ -135,10 +145,11 @@ Open **`http://localhost:5050`**, click **Login**, and sign in as `admin.user` /
 
 | Symptom | Cause / fix |
 |---|---|
-| `No connection could be made ... localhost:8180` or `IDX20803: Unable to obtain configuration` | Keycloak isn't running. Run `docker compose up -d` (step 4) and retry. |
+| `No connection could be made ... localhost:8180` or `IDX20803: Unable to obtain configuration` | Keycloak isn't running. Start it with `docker compose up -d` (Docker DB, Option A) or `docker compose up -d keycloak` (local PostgreSQL, Option B), then retry. |
+| `Bind for 0.0.0.0:5432 failed: port is already allocated` | You're on Option B (local PostgreSQL already on 5432) but started the **full** stack, which also runs `amcos-db`. Start only Keycloak instead: `docker compose up -d keycloak`. |
 | `extension "postgis" is not available` | The PostGIS Bundle wasn't installed. Re-run EDB **Stack Builder**, add the PostGIS bundle, then re-run the migrations. |
 | `password authentication failed for user "postgres"` | Local `postgres` password isn't `postgr3s` — change it to match or update `ConnectionStrings`. |
-| Empty AMCOS Lite filters | Seed step 3 didn't run (or ran before migrations). Re-run step 3. |
+| Empty AMCOS Lite filters | Seed step 3 didn't run (or ran before migrations). On Docker, `docker compose run --rm amcos-db-init`; on a local install, re-run step 3. |
 | Port `5050` already in use | Change `applicationUrl` in `AMCOS.Web.Core/Properties/launchSettings.json`, and add the new redirect URI to `keycloak/cave-realm.json`. |
 
 ---

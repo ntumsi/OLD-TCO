@@ -22,6 +22,42 @@ services:
       timeout: 5s
       retries: 5
 
+  # One-shot database initialiser. Waits for amcos-db to be healthy, then applies
+  # every migration and seed file via AMCOS.PostgreSQL/init.sh — but ONLY when the
+  # AMCOS schema is not already present (guard query below), so it is a no-op on
+  # subsequent `up`s and never fails against an already-populated database. This
+  # removes the previously manual `docker compose exec amcos-db bash /amcos-sql/init.sh`
+  # step, so `docker compose up` leaves Postgres migrated + seeded and ready to use.
+  amcos-db-init:
+    image: postgis/postgis:16-3.4
+    container_name: amcos-db-init
+    environment:
+      PGHOST: amcos-db
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: postgr3s
+      PGDATABASE: amcos
+    volumes:
+      - ./AMCOS.PostgreSQL:/amcos-sql:ro
+    depends_on:
+      amcos-db:
+        condition: service_healthy
+    restart: "no"
+    entrypoint:
+      - bash
+      - -c
+      - |
+        set -euo pipefail
+        # $$ escapes compose interpolation so the shell sees a single $.
+        applied=$$(psql -tAc "SELECT count(*) FROM pg_tables WHERE schemaname IN ('lookup','data','webuser','web','warehouse')")
+        applied=$${applied//[[:space:]]/}
+        if [ "$$applied" -gt 0 ]; then
+          echo "AMCOS schema already present ($$applied tables) - skipping migrations/seed."
+        else
+          echo "Empty database detected - applying migrations and seed data..."
+          bash /amcos-sql/init.sh --host amcos-db
+        fi
+
   keycloak-db:
     image: postgres:16-alpine
     container_name: amcos-keycloak-db
