@@ -1,6 +1,6 @@
 # Cost-Crunch Engine → PostgreSQL Porting Plan
 
-_Status: Phase 0 in progress (2026-07-09). Strategy chosen: port the legacy SQL Server crunch procedures to native PostgreSQL, fully retiring SQL Server._
+_Status: **STRUCTURAL PORT COMPLETE (2026-07-09)** — all 4 phases ported. 44 crunch procedures + 15 functions + 5 warehouse populate procs + the CrunchAll orchestrator, all compiling, with the full `000→008` migration sequence applying from scratch. What remains is the DATA layer: run the Python ETL to load the input tables, resolve the gradelevel type coupling (below), then a numeric-validation pass against the legacy engine. Strategy: native PostgreSQL plpgsql, fully retiring SQL Server._
 
 ## Background
 
@@ -92,7 +92,7 @@ names before a real crunch run — case matters, see open issue #4): `data.known
 |---|---|---|---|
 | **2 — Pay-schedule / civilian / inventory** ✅ COMPLETE (25/25) | see Phase-2 status below | 25 | ~16,800 |
 | **3 — Complex military cost procs** ✅ COMPLETE (8/8) | see Phase-3 status below | 8 | ~22,900 |
-| **4 — Orchestrator + warehouse populate** | CrunchAll + warehouse.UpdateLocationId / PopulateCategory / PopulateLocationByCategory / PopulateUnitPersonnel / PopulatePPXwalk | 6 | ~3,800 |
+| **4 — Orchestrator + warehouse populate** ✅ COMPLETE (6/6) | see Phase-4 status below | 6 | ~3,800 |
 
 ### Phase 2 status (in progress) — `migrations/006e_crunch_procs_phase2.sql`
 
@@ -140,6 +140,23 @@ writes all nine `crunch.Costs_*`. 13 self-join rewrites; two window-function CTE
 hand-reviewed line-by-line and cannot be execution-tested without the full `load_training.*` ETL
 pipeline — it needs real-data validation more than any other proc (a documented follow-up, not a
 claim of verified numeric faithfulness).
+
+### Phase 4 status — COMPLETE (6/6)
+
+- **`006j_warehouse_populate_procs.sql`:** the 5 `warehouse.*` post-crunch populate procs
+  (`updatelocationid` [PostGIS `ST_SetSRID(ST_MakePoint(lon,lat),4326)::geography`],
+  `populatecategory`, `populatelocationbycategory`, `populateunitpersonnel`, `populateppxwalk`)
+  that rebuild the category/location/unit-personnel/pay-plan-crosswalk tables driving the app's
+  dropdowns and Project Manager.
+- **`006k_crunchall.sql`:** the `crunch.crunchall` orchestrator — 45 `CALL`s in dependency order,
+  each timed into `analysis.crunchtime` (`005f`), with the `p_whichtorun` family selector preserved.
+  Compiling it validated **all 45 CALL targets + named arguments** against the real signatures
+  (including the two renamed inventory procs `CrunchWASSInventory`→`crunchinventorywass`,
+  `CrunchDMDCInventory`→`crunchinventorydmdc`). Verified it executes (early-returns on an invalid
+  version via the validate guard).
+
+**Whole engine now ports and applies cleanly from scratch (26 migrations).** The only remaining
+work is the data layer — the two items below.
 
 ### ⚠ #1 runtime blocker before any real crunch run: gradelevel type
 

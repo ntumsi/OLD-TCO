@@ -106,6 +106,7 @@ for f in \
     "$SCRIPT_DIR/migrations/005c_crunch_intermediate_tables.sql" \
     "$SCRIPT_DIR/migrations/005d_payschedule_processed_tables.sql" \
     "$SCRIPT_DIR/migrations/005e_crunch_temp_tables.sql" \
+    "$SCRIPT_DIR/migrations/005f_analysis_crunchtime.sql" \
     "$SCRIPT_DIR/migrations/006_functions.sql" \
     "$SCRIPT_DIR/migrations/006b_costengine_functions.sql" \
     "$SCRIPT_DIR/migrations/006c_crunch_helper_functions.sql" \
@@ -115,6 +116,8 @@ for f in \
     "$SCRIPT_DIR/migrations/006f_crunch_payschedule_procs.sql" \
     "$SCRIPT_DIR/migrations/006h_crunch_cost_procs_phase3.sql" \
     "$SCRIPT_DIR/migrations/006i_crunch_costoftraining.sql" \
+    "$SCRIPT_DIR/migrations/006j_warehouse_populate_procs.sql" \
+    "$SCRIPT_DIR/migrations/006k_crunchall.sql" \
     "$SCRIPT_DIR/migrations/007_stored_procedures.sql" \
     "$SCRIPT_DIR/migrations/008b_payschedules_view.sql" \
     "$SCRIPT_DIR/migrations/008_views.sql" \
