@@ -170,3 +170,46 @@ SELECT userid, logindatetime FROM (VALUES
     ('active.manager',  now() - interval '5 days')
 ) t(userid, logindatetime)
 WHERE NOT EXISTS (SELECT 1 FROM webuser.user_login_history h WHERE h.userid = t.userid);
+
+-- =====================================================================
+-- 8. AMCOS Lite summary-dropdown coverage.
+--    The Lite summary dropdown (object-payplan.js) offers the 9 military pay
+--    plans five options: Default, Training, Weapon System Manpower, Detailed,
+--    Ancillary. Only 'Default' was seeded, so the other four returned an EMPTY
+--    cost table (web.getcosts filters WHERE cs.name = <chosen>). Seed the four
+--    missing summaries (copying Default's element membership, subset per summary
+--    so each shows something distinct) so every option returns a real cost view:
+--      * Weapon System Manpower / Detailed → full element set (WSM also renders
+--        the extra Army CES / Weapon System columns via the stored proc).
+--      * Training  → first half of the elements.
+--      * Ancillary → second half (and the JS suppresses its Total row).
+-- =====================================================================
+WITH names(name, subset) AS (VALUES
+        ('Weapon System Manpower','all'),
+        ('Detailed','all'),
+        ('Training','first'),
+        ('Ancillary','second')),
+     mil(payplan) AS (VALUES ('AE'),('AO'),('AWO'),('NE'),('NO'),('NWO'),('RE'),('RO'),('RWO')),
+     ins AS (
+        INSERT INTO lookup.costsummary (payplan, name, amcosversionidstart, amcosversionidend)
+        SELECT m.payplan, n.name, 1, 999999
+        FROM mil m CROSS JOIN names n
+        WHERE NOT EXISTS (SELECT 1 FROM lookup.costsummary cs WHERE cs.payplan = m.payplan AND cs.name = n.name)
+        RETURNING summaryid, payplan, name
+     ),
+     def_elems AS (
+        SELECT def.payplan, cse.costelementid,
+               row_number() OVER (PARTITION BY def.payplan ORDER BY cse.costelementid) AS rn,
+               count(*)     OVER (PARTITION BY def.payplan) AS cnt
+        FROM lookup.costsummary def
+        JOIN lookup.costsummaryelement cse ON cse.summaryid = def.summaryid
+        WHERE def.name = 'Default'
+     )
+INSERT INTO lookup.costsummaryelement (summaryid, costelementid, amcosversionidstart, amcosversionidend)
+SELECT ins.summaryid, de.costelementid, 1, 999999
+FROM ins
+JOIN names n     ON n.name = ins.name
+JOIN def_elems de ON de.payplan = ins.payplan
+WHERE (n.subset = 'all')
+   OR (n.subset = 'first'  AND de.rn <= ceil(de.cnt::numeric / 2))
+   OR (n.subset = 'second' AND de.rn >  ceil(de.cnt::numeric / 2));

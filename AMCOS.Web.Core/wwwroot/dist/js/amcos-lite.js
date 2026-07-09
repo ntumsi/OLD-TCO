@@ -414,6 +414,10 @@
     // legacy Appropriation Group summary. No-op for grids without grade columns / an appn field.
     function appendAppnTotals(table) {
         if (!table || !table.rows || table.rows.length === 0) return table;
+        // Legacy parity: the Ancillary summary is NOT summed (its sub-elements aren't
+        // additive) — the legacy app suppressed the Total row + appropriation grid and
+        // warned the user (see alertForAllCostSummary). Skip totals for Ancillary.
+        if (costsFilter.costSummaryName === 'Ancillary') return table;
         const keys = Object.keys(table.rows[0]);
         const gradeCols = keys.filter(isGradeCol);
         if (gradeCols.length === 0 || !keys.includes('appn')) return table;
