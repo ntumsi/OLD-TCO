@@ -10,6 +10,17 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
+// Load a local .env file (KEY=VALUE lines) into environment variables when one is present, so a
+// new/deployed environment can supply every required setting from a single file instead of
+// exporting each variable on the command line. Values use the ASP.NET double-underscore
+// convention for nested keys, e.g. OpenIdConnect__ClientId=amcos-local. Already-set environment
+// variables win (fill-if-missing), and everything then feeds the normal configuration via the
+// default AddEnvironmentVariables() below.
+// NOTE: In Development you normally need NO .env and NO env vars at all — appsettings.Development.json
+// already provides these. Do not leave stray OpenIdConnect__* variables set, or they will override
+// appsettings.Development.json and can cause a Keycloak "Client not found".
+LoadDotEnv();
+
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
@@ -225,3 +236,42 @@ app.MapControllers();
 app.MapRazorPages();
 
 app.Run();
+
+// Minimal .env loader (no external dependency). Reads the first .env found in the current working
+// directory or the app base directory; parses simple KEY=VALUE lines (supports # comments, blank
+// lines, and optional surrounding quotes). Existing environment variables are never overwritten.
+static void LoadDotEnv()
+{
+    foreach (var dir in new[] { Directory.GetCurrentDirectory(), AppContext.BaseDirectory })
+    {
+        var path = Path.Combine(dir, ".env");
+        if (!File.Exists(path))
+        {
+            continue;
+        }
+
+        foreach (var raw in File.ReadAllLines(path))
+        {
+            var line = raw.Trim();
+            if (line.Length == 0 || line.StartsWith('#'))
+            {
+                continue;
+            }
+
+            var idx = line.IndexOf('=');
+            if (idx <= 0)
+            {
+                continue;
+            }
+
+            var key = line[..idx].Trim();
+            var value = line[(idx + 1)..].Trim().Trim('"');
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(key)))
+            {
+                Environment.SetEnvironmentVariable(key, value);
+            }
+        }
+
+        return; // first .env found wins
+    }
+}

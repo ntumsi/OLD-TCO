@@ -145,6 +145,7 @@ Open **`http://localhost:5050`**, click **Login**, and sign in as `admin.user` /
 
 | Symptom | Cause / fix |
 |---|---|
+| Keycloak **"Client not found"** at login — even in Development | A stray `OpenIdConnect__ClientId` (or `__Authority`) **environment variable** is overriding `appsettings.Development.json` (env vars win over the config file). Clear it and use a fresh shell: `Remove-Item Env:OpenIdConnect__ClientId,Env:OpenIdConnect__Authority,Env:OpenIdConnect__ClientSecret -ErrorAction SilentlyContinue`. Also clear any persistent ones: `[Environment]::SetEnvironmentVariable('OpenIdConnect__ClientId',$null,'User')`. In Development you should set **none** of these — the config file supplies them. Confirm with `Get-ChildItem env: \| ? Name -like 'OpenIdConnect__*'` (should be empty). |
 | `No connection could be made ... localhost:8180` or `IDX20803: Unable to obtain configuration` | Keycloak isn't running. Start it with `docker compose up -d` (Docker DB, Option A) or `docker compose up -d keycloak` (local PostgreSQL, Option B), then retry. |
 | `Bind for 0.0.0.0:5432 failed: port is already allocated` | You're on Option B (local PostgreSQL already on 5432) but started the **full** stack, which also runs `amcos-db`. Start only Keycloak instead: `docker compose up -d keycloak`. |
 | `extension "postgis" is not available` | The PostGIS Bundle wasn't installed. Re-run EDB **Stack Builder**, add the PostGIS bundle, then re-run the migrations. |
@@ -171,6 +172,39 @@ All secrets are injected via environment variables. ASP.NET Core maps `__`-delim
 | `AmcosUrl` | Callback URL for this application (`/signin-oidc`) |
 
 The application will **fail to start** in non-Development environments if `OpenIdConnect__Authority`, `OpenIdConnect__ClientId`, `OpenIdConnect__ClientSecret`, or a database connection string are missing.
+
+> **Config precedence (important):** these settings resolve in order `appsettings.json` → `appsettings.{Environment}.json` → **environment variables** → command line, where later wins. So an environment variable **overrides** `appsettings.Development.json` even when running as Development. If you set `OpenIdConnect__ClientId` once (e.g. while testing a non-Development run) and leave it set, it will keep overriding the local dev client and produce a Keycloak **"Client not found"**. For local Development, set **none** of these variables and let `appsettings.Development.json` supply them.
+
+#### Using a `.env` file instead of setting variables individually
+
+Rather than exporting each variable, drop a **`.env`** file next to the app (`AMCOS.Web.Core/.env`) with `KEY=VALUE` lines — `Program.cs` loads it on startup. Copy the committed template to get started:
+
+```powershell
+cd D:\OLD-TCO\AMCOS.Web.Core
+Copy-Item .env.example .env    # then edit values as needed
+dotnet run
+```
+
+- Keys use the same `__` convention (e.g. `OpenIdConnect__ClientId=amcos-local`). See [`.env.example`](AMCOS.Web.Core/.env.example) for the full list.
+- The loader is **fill-if-missing**: a variable already set in the shell/OS takes precedence over the `.env` file, and the file is ignored if it doesn't exist.
+- `.env` is **git-ignored** (it may hold secrets); only `.env.example` is committed.
+- **For local Development you don't need a `.env` at all** — `appsettings.Development.json` already points at the local Docker Keycloak and Postgres. Use `.env` for staging/production-style runs where you'd otherwise export the variables by hand.
+
+> This app `.env` (`AMCOS.Web.Core/.env`) and the Docker Compose `.env` (below) are **separate files** read by different tools from different folders — they don't collide.
+
+### Configuring the Docker stack (Compose `.env`)
+
+The container settings in `docker-compose.yml` (image tags, DB names/users/passwords, the host ports for Postgres `5432` and Keycloak `8180`, and the Keycloak admin login) are all parameterized as `${VAR:-default}`. The defaults reproduce the values documented above, so **`docker compose up` needs no `.env`**. To override any of them (e.g. a port already in use), copy the template at the repo root and edit it:
+
+```powershell
+cd D:\OLD-TCO
+Copy-Item .env.example .env    # Compose auto-reads ./.env; edit the values you want to change
+docker compose up -d
+```
+
+- See [`.env.example`](.env.example) for every overridable variable.
+- `KEYCLOAK_HTTP_PORT` sets both the published port **and** the token-issuer port together; if you change it, also update the app's `OpenIdConnect__Authority` and the redirect URIs in `keycloak/cave-realm.json`.
+- Like the app `.env`, the root `.env` is git-ignored; only `.env.example` is committed.
 
 ### Required environment variables (ETL)
 
