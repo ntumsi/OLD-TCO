@@ -90,7 +90,7 @@ names before a real crunch run — case matters, see open issue #4): `data.known
 
 | Phase | Scope | Procs | ~Lines |
 |---|---|---|---|
-| **2 — Pay-schedule / civilian / inventory** *(15/25 done)* | see Phase-2 status below | 25 | ~16,800 |
+| **2 — Pay-schedule / civilian / inventory** ✅ COMPLETE (25/25) | see Phase-2 status below | 25 | ~16,800 |
 | **3 — Complex military cost procs** | CostOfSelectiveRetentionBonus, CostOfRecruiting, CostOfMilAverages, CostOfOverseas, CostOfOfficerAcquisition, CostOfBAHandCOLA, CostOfSpecialPays, **CostOfTraining (14,730 lines + its `crunch_temp.*` schema)**; + the 3 recursive helpers + get1daycosts | 8 | ~22,900 |
 | **4 — Orchestrator + warehouse populate** | CrunchAll + warehouse.UpdateLocationId / PopulateCategory / PopulateLocationByCategory / PopulateUnitPersonnel / PopulatePPXwalk | 6 | ~3,800 |
 
@@ -100,6 +100,7 @@ names before a real crunch run — case matters, see open issue #4): `data.known
 - *Wave 1 (foundational):* `armybudget`, `dmdcpay`, `jointinflationcalculator`, `loadgsaperdiem`, `calculatepayplanminmax`, `createtimeingradetable`.
 - *Wave 2 (inventory):* `crunchinventorywass`, `crunchinventorydmdc`, `crunchdmdcvantageinventory`.
 - *Wave 3 (civilian cost):* `crunchcy`, `crunchnf`, `crunchses`, `crunchgseries`, `crunchwage`, `crunchgfebs` (the last also writes `crunch.inventory_gfebs`; two PIVOTs → FILTER, a PERCENTILE_CONT window → ordered-set aggregate).
+- *Wave 4 (pay-schedule processing + utility, in `006f`):* `crunchpayschedulegseries/cy/nf/ca/ex/ig/wage/gp/dseriesnseries` (9) + `copyvalues` (cursor→FOR loop, inner cursor→`string_agg`, dynamic `EXEC`→`EXECUTE format()` with `%I` for case-safe identifiers). Needed new schema: `005d` creates the 4 processed `"PaySchedule".*` tables + 4 raw input tables, and `008b` creates the `data.payschedules` union view (the civilian crunches read it; a view resolves relations at CREATE time, so those tables had to exist first). `CrunchPayScheduleWage` UNPIVOT → LATERAL VALUES.
 
 Wired into `init.sh`; all 15 compile; full `000→008` applies from scratch (25 crunch procedures total with Phase 1). Execution-tested (stub-and-rollback) the 4 procs whose inputs exist — `dmdcpay`, `jointinflationcalculator`, `createtimeingradetable`, `crunchnf` — which **caught + fixed 3 real varchar/smallint bugs**: JIC FY→`lookup.jicinflationrates.year` (`::smallint`), `createtimeingradetable` `data.inventory.gradelevel`→int temp (`::integer`), and `crunchnf` `data.inventory.gradelevel = payband` (`::smallint`). The rest depend on ETL inputs (`dataload.*`, `"PaySchedule".*`, `load_inventory.*`, `"load_GFEBS".*`, `xwalk.*`, `data.payschedules`) — execution/numeric validation deferred to real data. **Watch:** the same `data.inventory.gradelevel` is varchar (view unions a text GFEBS branch); any join to a smallint grade in CY/SES/GSeries/Wage/GFEBS likely needs the same `::smallint` cast at real-data time.
 
@@ -112,10 +113,11 @@ DDL shows a single `amcosversionid`) and references an unconfirmed `"POS"."711"`
 preserved two source bugs (an always-false CIV-ALL predicate; a scalar SES subquery that errors
 if >1 Annual row per payplan).
 
-**Remaining (10/25):** pay-schedule processing `CrunchPaySchedule{GSeries,CY,NF,CA,EX,IG,Wage,GP,
-DSeriesNSeries}` (9) — these produce the processed pay tables (`"PaySchedule".*`,
-`crunch.Opm*Processed`, `crunch.NfPayProcessed`) the civilian crunches read; utility `CopyValues`
-(1, cursor + dynamic SQL — low priority).
+**Phase 2 COMPLETE (25/25).** All compile; `data.payschedules` view creates; full `000→008`
+applies from scratch (35 crunch procedures total). Execution-tested one representative
+pay-schedule proc (`crunchpayscheduleex`) via stub-and-rollback. Remaining runtime risks are
+the ETL-input coupling already documented (varchar `gradelevel`/`step` casts; the many
+`"PaySchedule".*_raw` / `dataload.*` / `load_inventory.*` inputs the ETL must load).
 
 Each phase: port DDL/procs → apply to a throwaway DB → validate outputs against the legacy engine's numbers for a known `AmcosVersionId` (requires the Python ETL to have loaded the input schemas below).
 
