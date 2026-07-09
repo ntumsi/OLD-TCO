@@ -91,7 +91,7 @@ names before a real crunch run — case matters, see open issue #4): `data.known
 | Phase | Scope | Procs | ~Lines |
 |---|---|---|---|
 | **2 — Pay-schedule / civilian / inventory** ✅ COMPLETE (25/25) | see Phase-2 status below | 25 | ~16,800 |
-| **3 — Complex military cost procs** | CostOfSelectiveRetentionBonus, CostOfRecruiting, CostOfMilAverages, CostOfOverseas, CostOfOfficerAcquisition, CostOfBAHandCOLA, CostOfSpecialPays, **CostOfTraining (14,730 lines + its `crunch_temp.*` schema)**; + the 3 recursive helpers + get1daycosts | 8 | ~22,900 |
+| **3 — Complex military cost procs** *(7/8 done)* | see Phase-3 status below | 8 | ~22,900 |
 | **4 — Orchestrator + warehouse populate** | CrunchAll + warehouse.UpdateLocationId / PopulateCategory / PopulateLocationByCategory / PopulateUnitPersonnel / PopulatePPXwalk | 6 | ~3,800 |
 
 ### Phase 2 status (in progress) — `migrations/006e_crunch_procs_phase2.sql`
@@ -118,6 +118,37 @@ applies from scratch (35 crunch procedures total). Execution-tested one represen
 pay-schedule proc (`crunchpayscheduleex`) via stub-and-rollback. Remaining runtime risks are
 the ETL-input coupling already documented (varchar `gradelevel`/`step` casts; the many
 `"PaySchedule".*_raw` / `dataload.*` / `load_inventory.*` inputs the ETL must load).
+
+### Phase 3 status — `migrations/006h_crunch_cost_procs_phase3.sql` (7/8 done)
+
+**Foundation added:** the `crunch_temp` schema + its 25 staging tables (`005e`); the 3 recursive
+MOS-tree helpers + `get1daycosts` (`006g`, resolving the last two Phase-0 deferrals); and the
+`data.knowninventory` view (`008c`) that both Phase-1 and Phase-3 military procs read.
+
+**Ported (7/8):** `costofselectiveretentionbonus`, `costofrecruiting`, `costofofficeracquisition`,
+`costofbasicallowanceforhousingandcola` (2 PIVOTs → FILTER), `costofspecialpays`, `costofoverseas`
+(ROUND integer-division preserved), `costofmilaverages`. Each also writes its `crunch_temp.*`
+staging tables where the source does. All compile; full `000→008` applies from scratch
+(**42 crunch procedures + 15 functions**). Many self-join / LEFT-JOIN→correlated-subquery rewrites
+and several preserved source bugs are documented inline.
+
+**REMAINING (1/8): `CostOfTraining`** (14,730 lines) — its own dedicated sub-effort. It stages into
+~11 `crunch_temp.*` tables (ATRM/ATRRS/Training_xwalk_*/TrainingCosts*), has 422 INSERTs, 23 window
+functions, and calls the recursive training helpers. Note: the 005e DDL conversion normalized
+bracketed source columns (`[Modal Grade]`→`modal_grade`, `[Flying Hours]`→`flying_hours`,
+`[TMW/EGRAD]`→`tmw_egrad`, `[OMA CIV]`→`oma_civ`, `[OMA Non-Pay]`→`oma_non_pay`) — the port must use
+these names.
+
+### ⚠ #1 runtime blocker before any real crunch run: gradelevel type
+
+`data.inventory.gradelevel` (and therefore `data.knowninventory.gradelevel`) is **varchar** — the
+008 view unions a text GFEBS branch. The military cost procs read it into smallint/integer grade
+columns, so at real-data time they need `::smallint` casts (found+fixed 3 such spots by execution
+testing: jic, createtimeingradetable, crunchnf). This is systemic across the Phase-1/3 military
+procs and must be resolved (per-proc casts, or a typed `data.knowninventory` that casts grade for
+the numeric-grade pay-plan families) alongside loading the ETL inputs, before the engine produces
+real numbers. Structural port + schema are complete and apply cleanly; this is the data-layer
+reconciliation step.
 
 Each phase: port DDL/procs → apply to a throwaway DB → validate outputs against the legacy engine's numbers for a known `AmcosVersionId` (requires the Python ETL to have loaded the input schemas below).
 
