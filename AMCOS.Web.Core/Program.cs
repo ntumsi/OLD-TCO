@@ -235,6 +235,18 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapRazorPages();
 
+// Startup diagnostic: log the EFFECTIVE OIDC configuration (after all sources — appsettings,
+// appsettings.Development.json, environment variables, .env — are merged) so an override coming
+// from a stray env var or .env is immediately visible in the console. A wrong/empty ClientSecret
+// makes Keycloak's token exchange fail with "unauthorized_client"; a wrong/empty ClientId yields
+// "Client not found". The secret VALUE is never logged — only whether it is present.
+app.Logger.LogInformation(
+    "OIDC effective config -> Environment={Environment}, Authority={Authority}, ClientId={ClientId}, ClientSecret={ClientSecret}",
+    app.Environment.EnvironmentName,
+    string.IsNullOrWhiteSpace(configuration["OpenIdConnect:Authority"]) ? "(EMPTY)" : configuration["OpenIdConnect:Authority"],
+    string.IsNullOrWhiteSpace(configuration["OpenIdConnect:ClientId"]) ? "(EMPTY)" : configuration["OpenIdConnect:ClientId"],
+    string.IsNullOrWhiteSpace(configuration["OpenIdConnect:ClientSecret"]) ? "(EMPTY!)" : "set");
+
 app.Run();
 
 // Minimal .env loader (no external dependency). Reads the first .env found in the current working
