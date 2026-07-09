@@ -265,9 +265,9 @@ On Windows, follow the [Quick start](#quick-start--local-development-on-windows)
 ./AMCOS.PostgreSQL/init.sh            # flags: --fresh, --no-seed, --host/--port/--db/--user/--password
 ```
 
-To run them by hand, execute the migrations in numeric order — `000` → `001` → `002` → `003` → `004` → `005` → `005b` → `006` → `006b` → `007` → `008` — from `AMCOS.PostgreSQL/migrations/`, then the seed files `001` → `005` from `AMCOS.PostgreSQL/seed/`. The seed scripts are idempotent; see `AMCOS.PostgreSQL/seed/README.md` for what each loads.
+To run them by hand, execute the migrations in numeric order — `000` → `001` → `002` → `003` → `004` → `005` → `005b` → `006` → `006b` → `007` → `008` — from `AMCOS.PostgreSQL/migrations/`, then the seed files `001` → `006` from `AMCOS.PostgreSQL/seed/`. The seed scripts are idempotent; see `AMCOS.PostgreSQL/seed/README.md` for what each loads.
 
-> **Note:** some non-web functions/views carried over from the legacy SQL Server project (`AMCOS.AMCOS2020_MAR`) may still be stubs in `006_functions.sql` / `008_views.sql`; the cost-engine objects live in `005b`/`006b`.
+> **Note:** every `web.*` function and view the running app calls has been ported — `006_functions.sql` (self-contained PM/admin functions) and `006b_costengine_functions.sql` (the ~29 cost-engine functions), plus the views in `008_views.sql` and the cost-engine base tables in `005b_costengine_tables.sql`. What those cost functions *read* — the `crunch.Costs_*` tables — is empty until populated (see "Cost-crunch computation" under Known gaps).
 
 ---
 
@@ -304,14 +304,13 @@ The active CI/CD pipeline is `.gitlab-ci.yml`. `azure-pipelines.yml` is the lega
 
 ## Known gaps (work in progress)
 
-The following items are tracked and require follow-up before or after go-live:
+The following items are tracked and require follow-up before or after go-live. (Several earlier "blockers" — placeholder `006`/`008` migrations, uncommitted `dist/`, placeholder Xwalk/Civilian PCS/Admin pages — have since been **resolved**; the web UI, DB functions/views, and committed `wwwroot/dist` are all in place. See `MIGRATION_PARITY_AUDIT.md` and `PROJECT_MANAGER_GAPS.md` for the detailed resolution history.)
 
-- **Blocker:** `AMCOS.PostgreSQL/migrations/006_functions.sql` and `008_views.sql` are placeholders — non-web SQL Server functions and views need to be converted to PostgreSQL.
-- **Note:** `AMCOS.PostgreSQL/seed/` now ships a representative development/demo dataset (`001`–`005`, loaded by `init.sh`). It is **not** a full production reference load — production lookup/reference data is loaded by the Python ETL pipeline in `etl/`.
-- **Blocker:** `AMCOS.Web/dist/` is not committed — the legacy frontend build artifacts must be generated (`npm install && npx gulp default` in `AMCOS.Web/`) and included in the deployment package.
-- **Blocker:** Xwalk, Civilian PCS, and Admin modules are placeholder pages — full feature implementation is required.
+- **Blocker — Cost-crunch computation (port in progress):** the cost functions read `crunch.Costs_*`, but nothing in this repo *computes* those tables. The Python ETL (`etl/`) only builds staging inputs and shuttles **pre-computed** cost CSVs between environments (`etl/datasync/import_costs.py`); it has no cost-computation stage. The engine lives as ~44 SQL Server stored procedures + 15 functions under `AMCOS.AMCOS2020_MAR/crunch/` (~46k lines). The decision is to **port these to PostgreSQL**; the roadmap, dependency DAG, and phase status are in **`CRUNCH_PORT_PLAN.md`**. Phase 0 (foundation: `005c_crunch_intermediate_tables.sql` + `006c_crunch_helper_functions.sql`) is done; the cost/pay-schedule procs (Phases 1–4) remain. Until they land, `crunch.Costs_*` is empty and real cost math is only exercised by the demo seed (`seed/006_costfact_grades.sql`).
+- **Note:** `AMCOS.PostgreSQL/seed/` ships a representative development/demo dataset (`001`–`006`, loaded by `init.sh`). It is **not** a full production reference load — production lookup/reference data is loaded by the Python ETL pipeline in `etl/`.
 - **Post-launch:** Session storage **and authentication tickets** use the in-memory `IDistributedCache` (`AddDistributedMemoryCache`). The OIDC auth cookie is kept small by storing the (token-heavy) ticket server-side via `DistributedCacheTicketStore`. In-memory means sessions/logins do **not** survive an app restart and are **not** shared across nodes — swap for a Redis-backed `IDistributedCache` before any multi-node deployment.
-- **Post-launch:** ETL pipeline has no retry/backoff logic or transaction rollback for partial failures.
-- **Post-launch:** ETL test coverage covers only 2 of 40+ loader modules.
+- **Post-launch — QuickSight:** the Xwalk, Admin dashboards, and Data → Visualization pages are real QuickSight iframe embeds that degrade to a "not yet configured" message until `QuickSight:AwsAccountId` and the dashboard IDs are set in appsettings.
+- **Post-launch — ETL robustness:** the pipeline has no retry/backoff logic and no cross-table transaction rollback (multi-table loaders can leave partially-committed data); the orchestrator (`etl/dataload/main.py`) also logs loader failures but still exits 0, and ~11 loader modules are not wired into `run_all()`.
+- **Post-launch — test coverage:** ETL tests cover only 2 of ~50 loader modules (transform-only). The .NET `AMCOS.Tests` project currently compiles just `ConfigurationMigrationTests` + `TestMethods` (one real assertion); the ~20 substantive legacy test files on disk are excluded from the build and reference the SQL-Server unit-test framework — they need migration before they run.
 
 See `AMCOS.Web.Core/MIGRATION_NOTES.md` for the full WebForms → ASP.NET Core migration notes.
