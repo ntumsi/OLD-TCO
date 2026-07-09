@@ -114,6 +114,7 @@ for f in \
     "$SCRIPT_DIR/migrations/006e_crunch_procs_phase2.sql" \
     "$SCRIPT_DIR/migrations/006f_crunch_payschedule_procs.sql" \
     "$SCRIPT_DIR/migrations/006h_crunch_cost_procs_phase3.sql" \
+    "$SCRIPT_DIR/migrations/006i_crunch_costoftraining.sql" \
     "$SCRIPT_DIR/migrations/007_stored_procedures.sql" \
     "$SCRIPT_DIR/migrations/008b_payschedules_view.sql" \
     "$SCRIPT_DIR/migrations/008_views.sql" \

@@ -91,7 +91,7 @@ names before a real crunch run — case matters, see open issue #4): `data.known
 | Phase | Scope | Procs | ~Lines |
 |---|---|---|---|
 | **2 — Pay-schedule / civilian / inventory** ✅ COMPLETE (25/25) | see Phase-2 status below | 25 | ~16,800 |
-| **3 — Complex military cost procs** *(7/8 done)* | see Phase-3 status below | 8 | ~22,900 |
+| **3 — Complex military cost procs** ✅ COMPLETE (8/8) | see Phase-3 status below | 8 | ~22,900 |
 | **4 — Orchestrator + warehouse populate** | CrunchAll + warehouse.UpdateLocationId / PopulateCategory / PopulateLocationByCategory / PopulateUnitPersonnel / PopulatePPXwalk | 6 | ~3,800 |
 
 ### Phase 2 status (in progress) — `migrations/006e_crunch_procs_phase2.sql`
@@ -132,12 +132,14 @@ staging tables where the source does. All compile; full `000→008` applies from
 (**42 crunch procedures + 15 functions**). Many self-join / LEFT-JOIN→correlated-subquery rewrites
 and several preserved source bugs are documented inline.
 
-**REMAINING (1/8): `CostOfTraining`** (14,730 lines) — its own dedicated sub-effort. It stages into
-~11 `crunch_temp.*` tables (ATRM/ATRRS/Training_xwalk_*/TrainingCosts*), has 422 INSERTs, 23 window
-functions, and calls the recursive training helpers. Note: the 005e DDL conversion normalized
-bracketed source columns (`[Modal Grade]`→`modal_grade`, `[Flying Hours]`→`flying_hours`,
-`[TMW/EGRAD]`→`tmw_egrad`, `[OMA CIV]`→`oma_civ`, `[OMA Non-Pay]`→`oma_non_pay`) — the port must use
-these names.
+**`CostOfTraining` DONE** (`006i_crunch_costoftraining.sql`, 13,151 lines) — the single largest
+object in the port. Compiles under `check_function_bodies=on`; statement counts match the source
+(420 INSERTs / 86 UPDATEs / 11 TRUNCATEs / 19 DELETEs); stages into 11 `crunch_temp.*` tables and
+writes all nine `crunch.Costs_*`. 13 self-join rewrites; two window-function CTE UPDATEs done via
+`ctid` join; the recursive training helpers called as ported. **Caveat:** a proc this size cannot be
+hand-reviewed line-by-line and cannot be execution-tested without the full `load_training.*` ETL
+pipeline — it needs real-data validation more than any other proc (a documented follow-up, not a
+claim of verified numeric faithfulness).
 
 ### ⚠ #1 runtime blocker before any real crunch run: gradelevel type
 
