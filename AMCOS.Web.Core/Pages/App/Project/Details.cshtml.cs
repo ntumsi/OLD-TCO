@@ -489,8 +489,10 @@ public class DetailsModel : PageModel
                        AppConfiguration.GetConnectionString()))
             {
                 conn.Open();
+                // Unquoted so it resolves to the PG-folded lowercase name (web.projectcategorycount);
+                // double-quoting forces an exact-case match that does not exist and throws at runtime.
                 using var cmd = new Npgsql.NpgsqlCommand(
-                    "SELECT web.\"ProjectCategoryCount\"(@ProjectId, @FromCategoryId, @ToCategoryId)",
+                    "SELECT web.projectcategorycount(@ProjectId, @FromCategoryId, @ToCategoryId)",
                     conn);
                 cmd.Parameters.AddWithValue("@ProjectId", ProjectId);
                 cmd.Parameters.AddWithValue("@FromCategoryId", req.FromCategoryId);
