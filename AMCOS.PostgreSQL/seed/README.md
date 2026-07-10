@@ -28,6 +28,8 @@ earlier ones (e.g. projects reference users and warehouse locations):
 \i seed/004_demo_users_and_project.sql
 \i seed/005_amcos_lite_coverage.sql
 \i seed/006_costfact_grades.sql
+\i seed/007_full_coverage.sql
+\i seed/008_officer_warrant_costs.sql
 ```
 
 Or from a shell:
@@ -38,7 +40,9 @@ for f in seed/001_versions_and_lookups.sql \
          seed/003_warehouse_and_web.sql \
          seed/004_demo_users_and_project.sql \
          seed/005_amcos_lite_coverage.sql \
-         seed/006_costfact_grades.sql; do
+         seed/006_costfact_grades.sql \
+         seed/007_full_coverage.sql \
+         seed/008_officer_warrant_costs.sql; do
     psql "$AMCOS_DB_CONNECTION" -v ON_ERROR_STOP=1 -f "$f"
 done
 ```
