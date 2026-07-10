@@ -14,6 +14,7 @@ vs GridView, Foundation→Bootstrap, EAMS→Keycloak, popup removal — kept by 
 > the transport modernizations** — call out any you'd rather revert.
 
 ## Scope covered
+
 AMCOS Lite · Project Manager (list + Details wizard) · Project Cost Report + Excel export ·
 Civilian PCS · Admin (Users/Approvals/SponsorAction/Inventory/Log/Dashboards) ·
 Data (Calculations/Skills/Visualization) + Xwalk · common (nav/home/resources/profile/auth/
