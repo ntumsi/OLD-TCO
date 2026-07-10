@@ -74,7 +74,10 @@ set chosen from hardcoded pay-plan arrays (the migrated payplantags lacks the fi
 ✅ required-filter validation + ButtonClick per-refresh logging (3d). ➖ pay-plan optgroups
 (cosmetic: 3 groups vs legacy 6 — functional dropdown unchanged) and "plans-with-costs" filter
 (investigator could not substantiate a legacy filter beyond `DisplayTitle != ""`, which the new app
-already applies) left as-is. ⬜ Excel export (3c)._
+already applies) left as-is. ✅ Excel export (3c) — `LiteExportHelper` (Aspose.Cells) + `OnGetExport`
+handler + Download-Excel button: classification banner, AMCOS Lite title, inflation-rate header, filter
+selections, and the shaped cost detail grid. **AMCOS Lite Tier 2 area COMPLETE** apart from the two
+documented exceptions above (appropriation-group grid; cosmetic optgroups)._
 - REMOVED: **Appropriation-Group summary grid** (replaced by generic per-APPN total rows, different grouping key). — `appendAppnTotals` vs `GetAppropriationGroupTable`.
 - REMOVED: **Inflation-rate header table** (percent, column count varies by family) — absent entirely.
 - REMOVED: **Excel/Download export** (formatted xlsx: filter block, summary, inflation table, CCE notes, classification banner) — no export button/endpoint.

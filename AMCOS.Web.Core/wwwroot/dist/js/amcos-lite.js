@@ -371,7 +371,8 @@
         if (blinkFlag) { setButtonColor('#FF3300'); setTimeout(() => setButtonColor('#CCCC00'), 500); blinkHandle = setTimeout(processBlink, 1500); }
         else { setButtonColor(''); clearTimeout(blinkHandle); }
     }
-    function startBlink() { blinkFlag = true; processBlink(); }
+    // A filter change makes the last-loaded grid stale, so hide the export until the next refresh.
+    function startBlink() { blinkFlag = true; hide('exportButton'); processBlink(); }
     function stopBlink() { blinkFlag = false; processBlink(); }
 
     // ---- Cost grid + chart rendering ----
@@ -649,6 +650,7 @@
                 buildChart({ rows: costTable.rows }, costsFilter.payPlan, costsFilter.costSummaryName);
                 renderLegend();
                 await renderInflationHeader();
+                show('exportButton');
             }
             status.className = 'alert alert-success';
             status.textContent = costTable && costTable.rows && costTable.rows.length
@@ -657,6 +659,20 @@
             status.className = 'alert alert-danger';
             status.textContent = error.message;
         }
+    }
+
+    // Downloads the current (last-refreshed) grid as a formatted .xlsx (legacy Download Excel).
+    function exportCosts() {
+        const params = new URLSearchParams({
+            PayPlan: costsFilter.payPlan, CostSummaryName: costsFilter.costSummaryName,
+            CategoryGroupCode: costsFilter.categoryGroupCode, CategorySubgroupCode: costsFilter.categorySubgroupCode,
+            CareerProgramNumber: costsFilter.careerProgramNumber, LocationId: costsFilter.locationId,
+            LocationText: costsFilter.locationText, ScienceTechnologyReinventionLaboratory: costsFilter.scienceTechnologyReinventionLaboratory,
+            DependentStatus: costsFilter.dependentStatus, NumberOfDependents: costsFilter.numberOfDependents,
+            OverheadPercent: costsFilter.overheadPercent, InflationConversionType: costsFilter.inflationConversion,
+            InflationYear: costsFilter.inflationYear
+        });
+        window.location = `?handler=Export&${params.toString()}`;
     }
 
     // ---- Wire up ----
@@ -673,6 +689,7 @@
         bind('inflationYearList', 'change', onInflationYearChange);
         bind('overheadPercent', 'input', onOverheadChange);
         bind('showCostsButton', 'click', loadCosts);
+        bind('exportButton', 'click', exportCosts);
         stopBlink();
     }
 
