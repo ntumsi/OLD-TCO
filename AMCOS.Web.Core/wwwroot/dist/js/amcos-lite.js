@@ -64,6 +64,15 @@
     const show = id => { const e = el(id); if (e) e.classList.remove('d-none'); };
     const hide = id => { const e = el(id); if (e) e.classList.add('d-none'); };
 
+    // Field values may arrive PascalCase (items built client-side in this file) OR camelCase
+    // (the ASP.NET Core /api endpoints serialize CategoryDto/LocationDto etc. as camelCase by
+    // default). Read whichever is present so both sources populate correctly.
+    const field = (obj, name) => {
+        if (obj == null) return undefined;
+        if (obj[name] !== undefined) return obj[name];
+        return obj[name.charAt(0).toLowerCase() + name.slice(1)];
+    };
+
     // Populate a native <select>, optionally grouped into <optgroup>s.
     // groupOrder/groupLabels define optgroup ordering + display labels by key.
     function fill(select, items, { valueField = 'Value', textField = 'Text', groupField = null,
@@ -78,15 +87,15 @@
         }
         const append = (parent, item) => {
             const o = document.createElement('option');
-            o.value = item[valueField];
-            o.textContent = item[textField];
-            if (selected != null && String(item[valueField]) === String(selected)) o.selected = true;
+            o.value = field(item, valueField);
+            o.textContent = field(item, textField);
+            if (selected != null && String(field(item, valueField)) === String(selected)) o.selected = true;
             parent.appendChild(o);
         };
         if (groupField) {
-            const keys = groupOrder.length ? groupOrder : [...new Set(items.map(i => i[groupField]))];
+            const keys = groupOrder.length ? groupOrder : [...new Set(items.map(i => field(i, groupField)))];
             keys.forEach(key => {
-                const groupItems = items.filter(i => i[groupField] === key);
+                const groupItems = items.filter(i => field(i, groupField) === key);
                 if (!groupItems.length) return;
                 const og = document.createElement('optgroup');
                 og.label = groupLabels[key] || key;
