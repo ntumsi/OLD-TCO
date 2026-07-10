@@ -25,7 +25,9 @@ var AMCOS = {
                     AMCOS.startTimers();
                 });
             } else {
-                AMCOS.forceLogout();
+                // Session already invalid — go straight to login (a POST logout would fail
+                // antiforgery, since the request is now anonymous).
+                AMCOS.sessionExpired();
             }
         })
         .catch(function () {
@@ -39,6 +41,8 @@ var AMCOS = {
         AMCOS.checkSessionIntervalId = setInterval(AMCOS.checkSession, 1000);
     },
 
+    // Explicit logout while the session is STILL valid (the modal's "Log Out" button). Posts the
+    // logout form so the OIDC end-session round-trip runs (ends the Keycloak SSO and returns to login).
     forceLogout: function () {
         if (!AMCOS.loggingout) {
             AMCOS.loggingout = true;
@@ -47,6 +51,20 @@ var AMCOS = {
             if (modal) modal.hide();
             var form = document.getElementById('amcos-logout-form');
             if (form) form.submit();
+        }
+    },
+
+    // Session has already EXPIRED (idle timeout or a 401). The auth cookie is gone, so a POST logout
+    // would fail antiforgery and the OIDC end-session would lack id_token_hint (stranding the user on
+    // Keycloak). Just clear local state and hit /account/login, which issues a fresh OIDC challenge.
+    sessionExpired: function () {
+        if (!AMCOS.loggingout) {
+            AMCOS.loggingout = true;
+            clearInterval(AMCOS.checkSessionIntervalId);
+            localStorage.removeItem('sessionExpirationTime');
+            var modal = bootstrap.Modal.getInstance(document.getElementById('SessionExpiringModal'));
+            if (modal) modal.hide();
+            window.location = '/account/login';
         }
     },
 
@@ -62,7 +80,7 @@ var AMCOS = {
 
         if (secondsRemaining <= 0) {
             clearInterval(AMCOS.checkSessionIntervalId);
-            AMCOS.forceLogout();
+            AMCOS.sessionExpired();
             return;
         }
 
@@ -150,7 +168,7 @@ if (typeof $ !== 'undefined') {
         if (xhr.status === 0) {
             window.location.reload(true);
         } else if (xhr.status === 401) {
-            AMCOS.forceLogout();
+            AMCOS.sessionExpired();
         }
     });
 }
