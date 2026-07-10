@@ -94,8 +94,10 @@ documented exceptions above (appropriation-group grid; cosmetic optgroups)._
 ### Project Manager (Add-Unit regressions are in Tier 1; remaining)
 _Status: ✅ restored Duration + Create Date list columns; ✅ insert-inventory default 1 (was 0).
 ⬜ project-list sorting (medium; deferred). ➖ "Report" list action kept (harmless addition).
-⬜ Update-also-deletes-checked-rows and insert re-validation deferred (need a separate Delete control /
-server-side "All group/location" guards)._
+✅ Update/Delete split — the inventory Update button no longer deletes checked rows; a dedicated
+"Delete Checked" button removes them (legacy InventoryGridView Delete command). ⬜ insert
+re-validation deferred (needs the exact legacy validateAddUnit "All group/location" rules to avoid
+over-blocking valid inserts)._
 - REMOVED: project-list **sorting**; **Duration** + **Create Date** columns.
 - ADDED: "Report" action on the list + a "View Report" button that can show a stale/empty report
   without running Build Report.

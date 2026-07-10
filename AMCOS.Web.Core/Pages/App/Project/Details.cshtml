@@ -323,6 +323,7 @@
 
                 <div class="d-flex gap-2 mb-4">
                     <button type="button" class="btn btn-primary" id="btnUpdateInventory">Update</button>
+                    <button type="button" class="btn btn-outline-danger" id="btnDeleteCheckedInventory">Delete Checked</button>
                     <div id="updateInventoryStatus" class="small align-self-center"></div>
                 </div>
 
@@ -949,23 +950,9 @@
         const rows = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')];
         if (rows.length === 0) return;
 
-        // Collect delete-checked rows first
-        const deleteRows = rows.filter(r =>
-            r.querySelector('.skill-delete-chk')?.checked);
-
-        if (deleteRows.length > 0) {
-            if (!confirm(`Delete ${deleteRows.length} checked row(s)?`)) return;
-            for (const row of deleteRows) {
-                const skillId = parseInt(row.dataset.skillId, 10);
-                await postJson('DeleteSkill', { skillId });
-                row.remove();
-            }
-            updateInvStatus.textContent = 'Deleted selected rows.';
-        }
-
-        // Collect remaining rows
-        const remaining = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')];
-        const payload = remaining.map(row => {
+        // Update saves inventory ONLY — it does not delete checked rows (legacy Update ignored the
+        // delete checkboxes; use the dedicated "Delete Checked" button to remove rows).
+        const payload = rows.map(row => {
             const skillId = parseInt(row.dataset.skillId, 10);
             const cells = [...row.querySelectorAll('.inv-year-cell')];
             // Fill to projectDuration, defaulting to 0
@@ -979,6 +966,31 @@
         try {
             await postJson('BulkUpdateInventory', { rows: payload });
             updateInvStatus.textContent = 'Inventory saved.';
+            updateInvStatus.className = 'small text-success align-self-center';
+        } catch (err) {
+            updateInvStatus.textContent = `Error: ${esc(err.message)}`;
+            updateInvStatus.className = 'small text-danger align-self-center';
+        }
+    });
+
+    // Dedicated Delete button — removes only the rows whose delete checkbox is ticked (legacy
+    // InventoryGridView "Delete" command). Update no longer performs deletes.
+    document.getElementById('btnDeleteCheckedInventory').addEventListener('click', async () => {
+        const deleteRows = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')]
+            .filter(r => r.querySelector('.skill-delete-chk')?.checked);
+        if (deleteRows.length === 0) {
+            updateInvStatus.textContent = 'No rows are checked for delete.';
+            updateInvStatus.className = 'small text-warning align-self-center';
+            return;
+        }
+        if (!confirm(`Delete ${deleteRows.length} checked row(s)?`)) return;
+        try {
+            for (const row of deleteRows) {
+                const skillId = parseInt(row.dataset.skillId, 10);
+                await postJson('DeleteSkill', { skillId });
+                row.remove();
+            }
+            updateInvStatus.textContent = 'Deleted selected rows.';
             updateInvStatus.className = 'small text-success align-self-center';
         } catch (err) {
             updateInvStatus.textContent = `Error: ${esc(err.message)}`;
