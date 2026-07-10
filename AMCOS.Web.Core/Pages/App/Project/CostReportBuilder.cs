@@ -32,6 +32,8 @@ public static class CostReportBuilder
     public const string KindContractor = "Contractor";
     public const string KindSubProject = "SubProject";
     public const string KindGrand = "Grand";
+    public const string KindBanner = "Banner";     // black full-width "BEGINNING OF SUB-PROJECT:" divider
+    public const string KindAllAppn = "AllAppn";    // gray combined "Total of All APPNs:" row
 
     /// <summary>Background colour (and whether white text) for a sub-total / total row kind.</summary>
     public static (string Bg, bool White)? RowKindColor(string? kind) => kind switch
@@ -44,6 +46,8 @@ public static class CostReportBuilder
         KindContractor => ("#006D8B", true),
         KindSubProject => ("#D3D3D3", false),
         KindGrand => ("#000000", true),
+        KindBanner => ("#000000", true),
+        KindAllAppn => ("#D3D3D3", false),
         _ => null
     };
 
@@ -146,6 +150,17 @@ public static class CostReportBuilder
             // Sub-Project Total is always present (sum of every costed row in the category).
             AddSubtotal(dt, yearColumns, rows.Where(HasAppn).ToList(),
                 "Sub-Project Total: ", KindSubProject, category, maxSeq + 8);
+
+            // Legacy emits a black full-width "BEGINNING OF SUB-PROJECT:" divider after each
+            // category's total when the report spans more than one sub-project.
+            if (multipleCategories)
+            {
+                var banner = dt.NewRow();
+                if (dt.Columns.Contains("Cost Element")) banner["Cost Element"] = "BEGINNING OF SUB-PROJECT: ";
+                if (dt.Columns.Contains("ShowOrder")) banner["ShowOrder"] = maxSeq + 9;
+                banner["RowKind"] = KindBanner;
+                dt.Rows.Add(banner);
+            }
         }
 
         // 3. Grand totals across all categories (legacy "Total of all …" + "TOTAL APPN COST SUMMARY").
@@ -159,10 +174,16 @@ public static class CostReportBuilder
             AddGrandTotal(dt, yearColumns, KindPa, "Total of all PA APPNs: ", KindPa, baseSeq + 4);
             AddGrandTotal(dt, yearColumns, KindOm, "Total of all OM APPNs: ", KindOm, baseSeq + 5);
             AddGrandTotal(dt, yearColumns, KindContractor, "Total of all Contractor APPNs: ", KindContractor, baseSeq + 6);
-        }
 
-        // Final grand summary: sum of every original costed row across the whole report.
-        {
+            // Gray combined row summing the six per-APPN grand totals (legacy "Total of All APPNs:").
+            var allTotals = dt.Rows.Cast<DataRow>()
+                .Where(r => Str(r, "Cost Element").StartsWith("Total of all ", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            if (allTotals.Count > 0)
+                AddSubtotal(dt, yearColumns, allTotals, "Total of All APPNs: ", KindAllAppn, "", baseSeq + 8);
+
+            // Final grand summary (legacy "TOTAL APPN COST SUMMARY:") — only for multi-category
+            // reports. A single-category report ends at its gray "Sub-Project Total:" row.
             var allCosted = dt.Rows.Cast<DataRow>()
                 .Where(r => Str(r, "RowKind") == KindData && HasAppn(r))
                 .ToList();
@@ -171,6 +192,14 @@ public static class CostReportBuilder
                 var seq = dt.Rows.Cast<DataRow>().Max(r => (int)Dec(r, "ShowOrder")) + 10;
                 AddSubtotal(dt, yearColumns, allCosted, "TOTAL APPN COST SUMMARY: ", KindGrand, "", seq);
             }
+
+            // Legacy turns the divider after the LAST sub-project into the grand summary, so drop the
+            // trailing "BEGINNING OF SUB-PROJECT:" banner (highest ShowOrder) that would precede it.
+            var lastBanner = dt.Rows.Cast<DataRow>()
+                .Where(r => Str(r, "RowKind") == KindBanner)
+                .OrderByDescending(r => Dec(r, "ShowOrder"))
+                .FirstOrDefault();
+            if (lastBanner != null) dt.Rows.Remove(lastBanner);
         }
 
         // 4. Order by ShowOrder so sub-totals fall after their category rows.
@@ -287,7 +316,8 @@ public static class CostReportBuilder
         {
             var ce = nr["Cost Element"]?.ToString() ?? "";
             if (ce.Contains(" MMPA")) ce = ce.Replace(" MMPA", " PA");
-            if (ce.StartsWith("CCE_", StringComparison.Ordinal)) ce = ce[4..];
+            // Legacy strips 5 chars (Substring(5)) — "CCE_" plus the first character after it.
+            if (ce.StartsWith("CCE_", StringComparison.Ordinal) && ce.Length >= 5) ce = ce[5..];
             if (ce == "Avg Cost of Special Pays") ce = "**" + ce; // not inflated – footnoted
             nr["Cost Element"] = ce;
         }

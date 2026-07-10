@@ -100,6 +100,15 @@ documented exceptions above (appropriation-group grid; cosmetic optgroups)._
   ignored delete checkboxes); insert-inventory default `1`→`0`.
 
 ### Project Cost Report (on-screen + Excel)
+_Batch 4 status — **DONE**: ✅ "BEGINNING OF SUB-PROJECT" divider banners (on-screen + export;
+trailing banner dropped like legacy), ✅ gray "Total of All APPNs" combined row, ✅ regulatory notes
+(JIC/14-factor, inflation example, OMB/DoDI on page; +OCONUS-groceries in export), ✅ total-row
+coloring now blanks the columns left of Cost Element, ✅ CCE_ prefix strip 4→5, ✅ salary-limit
+footnote second sentence restored, ✅ collapsible discounted view, ✅ Excel export borders + black
+cost-header + bottom plain "UNCLASSIFIED//FOR OFFICIAL USE ONLY" banner. ➖ REMOVED the ADDED items to
+match legacy: single-category grand-total row now gated to multi-category, in-grid "OMB Discount Rate"
+row lifted to a heading, on-screen color legend removed. ➖ Special-pay note trigger kept data-driven
+(more correct than the legacy `IndexOf>0` session check; not a regression to re-introduce)._
 - REMOVED: **"BEGINNING OF SUB-PROJECT" divider banners**; the gray **"Total of All APPNs"** combined
   row; **expandable/collapsible** discounted view; **all regulatory explanatory notes** (JIC/14-factor,
   inflation-calc example, OMB/DoDI discounting, OCONUS-groceries) on page *and* in the export.

@@ -59,15 +59,56 @@ else
             <div class="card">
                 <div class="card-header">Inflation Factors</div>
                 <div class="card-body">
+                    <p class="small">
+                        The current Joint Inflation Calculator (JIC) found on the OASA (FM&amp;C) website,
+                        <a href="http://asafm.army.mil/offices/CE/Rates.aspx?OfficeCode=1400" target="_blank" rel="noopener">http://asafm.army.mil/offices/CE/Rates.aspx?OfficeCode=1400</a>,
+                        is the source for the fourteen (14) inflation factors built into Project Manager (PM). Each component
+                        (Active, NG, &amp; Reserves) has their own separate set of "MPA", "MPA Non Pay", &amp; "OMA" inflation factors
+                        and Civilian (GS, WG, WL, WS, &amp; SES) positions are only inflated by two inflation factors, "CivPay" or
+                        "OMA". The "MPA" inflation factor is applied to all MPA Appropriation (APPN) cost elements except Permanent
+                        Change of Station (PCS) related cost elements. In this case, the "MPA Non Pay" inflation factor is applied
+                        to a PCS cost element. When AMCOS LITE displays APPN = "OMA" or "Other", the "OMA" inflation factor is
+                        applied to any cost element with either APPN.
+                    </p>
                     @await Html.PartialAsync("_DataTable", Model.InflationFactors)
+                    <div class="border rounded p-2 mt-3 small">
+                        <div class="fw-bold text-decoration-underline">Inflation Calculation Note:</div>
+                        <p class="mb-1">
+                            In Project Manager (PM), the Fiscal Year (FY) costs generated in AMCOS LITE will be referred to as
+                            "BASE YEAR" costs. PM multiplies BASE YEAR costs by the appropriate target year INFLATION FACTOR
+                            generating Future Start Year and/or Future Year Cost Element costs across the entire duration.
+                        </p>
+                        <div class="fw-bold text-decoration-underline">For Example</div>
+                        <p class="mb-1">
+                            The Project Start Year (YearStart) is set to @Model.ProjectDetails.YearStart and the number of years
+                            (YearDuration) is set to 5 years for costing an Active Duty position with the focus on "SALARY" cost element:
+                        </p>
+                        <ul class="mb-0">
+                            <li>@Model.ProjectDetails.YearStart Active Duty Salary = (AMCOS LITE "Avg Cost Base Pay (Military)" BASE YEAR SALARY) * (@Model.ProjectDetails.YearStart Active Duty MPA Inflation Factor)</li>
+                            <li>@(Model.ProjectDetails.YearStart + 1) Active Duty Salary = (AMCOS LITE "Avg Cost Base Pay (Military)" BASE YEAR SALARY) * (@(Model.ProjectDetails.YearStart + 1) Active Duty MPA Inflation Factor)</li>
+                            <li>@(Model.ProjectDetails.YearStart + 2) Active Duty Salary = (AMCOS LITE "Avg Cost Base Pay (Military)" BASE YEAR SALARY) * (@(Model.ProjectDetails.YearStart + 2) Active Duty MPA Inflation Factor)</li>
+                            <li>Repeating the Inflation process until the specified duration completes.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-12">
             <div class="card">
-                <div class="card-header">Discount Factors and Present Value</div>
+                <div class="card-header">Discounting and Present Value Factor (PVF)</div>
                 <div class="card-body">
+                    <p class="small">
+                        Most cost comparison techniques take into consideration the time value of money, that is, a dollar today
+                        is worth some amount less in the future. Discount rates are prepared annually by the Office of Management
+                        and Budget (OMB). OMB Circular A-94 and Department of Defense Instruction (DoDI) 7041.3 require the use of a
+                        discount rate based on the Treasury Department cost of borrowing funds, and reflect the expected cost of
+                        borrowing for 3, 5, 7, 10, 20, and 30 years securities.
+                    </p>
+                    @if (!string.IsNullOrWhiteSpace(Model.DiscountRateHeading))
+                    {
+                        <p class="fw-bold mb-1">@Model.DiscountRateHeading</p>
+                    }
                     @await Html.PartialAsync("_DataTable", Model.DiscountTable)
                 </div>
             </div>
@@ -88,18 +129,7 @@ else
                 ViewData["YearColumns"] = Model.Cost?.YearColumns;
             }
             <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                    <span>Cost Report</span>
-                    <span class="small">
-                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#5D7430;border:1px solid #999;"></span> Army</span>
-                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#7030A0;border:1px solid #999;"></span> DoD</span>
-                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#00008B;border:1px solid #999;"></span> Federal</span>
-                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#8BA103;border:1px solid #999;"></span> ARNG/PA</span>
-                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#6E8003;border:1px solid #999;"></span> USAR/OM</span>
-                        <span class="me-2"><span style="display:inline-block;width:10px;height:10px;background:#006D8B;border:1px solid #999;"></span> CCE/Contractor</span>
-                        <span><span style="display:inline-block;width:10px;height:10px;background:#FFFF99;border:1px solid #999;"></span> Over CCE limit</span>
-                    </span>
-                </div>
+                <div class="card-header">Cost Report</div>
                 <div class="card-body">
                     @if (Model.Cost is null || Model.Cost.Undiscounted.Rows.Count == 0)
                     {
@@ -113,14 +143,19 @@ else
                         }
                         @if (Model.Cost.CceOverSalaryLimit)
                         {
-                            <div class="alert alert-warning py-2 small">Highlighted field(s) indicate a value based on a CCE salary greater than @Model.CceSalaryLimit.ToString("C0") per year.</div>
+                            <div class="alert alert-warning py-2 small">NOTE: The highlighted field(s) indicate a value based on CCE salary greater than @Model.CceSalaryLimit.ToString("C0") per year.  The Contractor APPN Total sums the displayed CCE values but may be greater if your report includes highlighted cells.</div>
                         }
 
                         <h6 class="mb-2">Default Summary <span class="text-muted small">(undiscounted)</span></h6>
                         @await Html.PartialAsync("_CostReportTable", Model.Cost.Undiscounted)
 
-                        <h6 class="mb-2 mt-4">Discounted Default Summary <span class="text-muted small">(present value)</span></h6>
-                        @await Html.PartialAsync("_CostReportTable", Model.Cost.Discounted)
+                        <button class="btn btn-sm btn-outline-secondary mt-4 mb-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#divDiscount" aria-expanded="false" aria-controls="divDiscount">
+                            Discounted Default Summary <span class="text-muted small">(present value)</span>
+                        </button>
+                        <div class="collapse" id="divDiscount">
+                            @await Html.PartialAsync("_CostReportTable", Model.Cost.Discounted)
+                        </div>
                     }
                 </div>
             </div>

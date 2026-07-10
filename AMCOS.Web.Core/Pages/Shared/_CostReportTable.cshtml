@@ -38,6 +38,8 @@
 else
 {
     var visible = Model.Columns.Cast<System.Data.DataColumn>().Where(c => !hidden.Contains(c.ColumnName)).ToList();
+    // Legacy blanks the columns LEFT of the Cost Element column on total/subtotal rows (no fill).
+    var costElementIndex = Math.Max(0, visible.FindIndex(c => c.ColumnName == "Cost Element"));
     <div class="table-responsive">
         <table class="table table-sm table-bordered align-middle cost-report-table">
             <thead class="table-dark">
@@ -58,22 +60,38 @@ else
                     @foreach (System.Data.DataRow row in Model.Rows)
                     {
                         var kind = Model.Columns.Contains("RowKind") ? row["RowKind"]?.ToString() : null;
+
+                        // Full-width black "BEGINNING OF SUB-PROJECT:" divider banner.
+                        if (kind == CostReportBuilder.KindBanner)
+                        {
+                            var label = Model.Columns.Contains("Cost Element") ? row["Cost Element"]?.ToString() : "";
+                            <tr><td colspan="@visible.Count" class="fw-bold" style="background:#000;color:#fff;font-size:larger;">@label</td></tr>
+                            continue;
+                        }
+
                         var kindColor = CostReportBuilder.RowKindColor(kind);
                         var overLimit = Model.Columns.Contains("ExceedsSalaryLimit")
                             && (row["ExceedsSalaryLimit"]?.ToString() == "1"
                                 || string.Equals(row["ExceedsSalaryLimit"]?.ToString(), "true", StringComparison.OrdinalIgnoreCase));
                         var isTotal = kindColor is not null;
                         <tr class="@(isTotal ? "fw-semibold" : "")">
+                            @{ var colIndex = -1; }
                             @foreach (var column in visible)
                             {
+                                colIndex++;
                                 var val = row[column];
                                 var isYear = yearSet.Contains(column.ColumnName);
                                 string? bg = null;
                                 string fg = "";
                                 if (kindColor is { } kc)
                                 {
-                                    bg = kc.Bg;
-                                    if (kc.White) fg = "color:#fff;";
+                                    // Only the Cost Element column and those to its right get the kind
+                                    // color; columns to the left are blanked (legacy report.aspx.vb).
+                                    if (colIndex >= costElementIndex)
+                                    {
+                                        bg = kc.Bg;
+                                        if (kc.White) fg = "color:#fff;";
+                                    }
                                 }
                                 else if (column.ColumnName == "APPN" && val != System.DBNull.Value
                                          && appropColors.TryGetValue(val.ToString()!.Trim(), out var ac))
