@@ -421,6 +421,9 @@ var CivPCS = (function () {
         $("#HouseHuntingTotalCell").text("$" + GetFormattedNumber(res.HouseHuntingTotal, 2));
         $("#HouseHuntingTotal").val(res.HouseHuntingTotal);
         $("#SelfPerDiemRate").text(parseFloat(res.SelfPerDiemRate) * 100);
+        // House-Hunting "Spouse per diem is X%" label (legacy rendered this server-side; the
+        // migrated client-driven page must update it from the response, like SelfPerDiemRate).
+        $("#SpousePerDiemRate").text(parseFloat(res.SpousePerDiemRate) * 100);
         // Transportation
         $("#POVMileage").val(GetFormattedNumber(res.POVMileage, 0));
         $("#TransportationDependents").val(res.TransportationDependents);

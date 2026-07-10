@@ -146,9 +146,13 @@
                             <th>Rank</th>
                             <th>Organization</th>
                             <th>Office</th>
+                            <th>Company</th>
+                            <th>Phone</th>
                             <th>Account Type</th>
                             <th class="text-end">Logins</th>
                             <th>Last Login</th>
+                            <th>Created</th>
+                            <th>Updated</th>
                             <th>Role</th>
                             <th class="text-end">Actions</th>
                         </tr>
@@ -166,11 +170,15 @@
                                 <td>@user.ArmyRank</td>
                                 <td>@user.Macom</td>
                                 <td>@user.OfficeName</td>
+                                <td>@user.CompanyName</td>
+                                <td>@user.Phone</td>
                                 <td>@user.AccountType</td>
                                 <td class="text-end">@user.LoginCount</td>
                                 <td>
                                     <small>@(user.LastLogin.HasValue ? user.LastLogin.Value.ToString("g") : "—")</small>
                                 </td>
+                                <td><small>@(user.DateCreated?.ToString("MM/dd/yyyy") ?? "—")</small></td>
+                                <td><small>@(user.LastUpdate?.ToString("MM/dd/yyyy") ?? "—")</small></td>
                                 <td>
                                     <span class="badge @(isAdmin ? "bg-danger" : "bg-secondary")">
                                         @(user.Role ?? "—")

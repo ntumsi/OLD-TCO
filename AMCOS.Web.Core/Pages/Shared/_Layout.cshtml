@@ -140,6 +140,13 @@
                 <a asp-page="/About">About</a>
             </span>
         </div>
+        <div class="container text-center small pb-3">
+            The security accreditation level of this site is Controlled Unclassified Information (CUI) and below.<br />
+            For questions or suggestions, please
+            <a href="https://www.aesmp.army.mil/csm?id=sc_cat_item&amp;sys_id=faac2dbe9775d69440c7b8021153afee" target="_blank" rel="noopener">click here</a>
+            to contact us. For how to submit a request, see the
+            <a href="~/Public/AESMP User Primer.pdf" target="_blank" rel="noopener">AESMP User Primer</a>.
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -155,6 +162,10 @@
                 <div class="modal-body">
                     Your session will expire in <strong><span id="SessionMinutes">0</span>m <span id="SessionSeconds">00</span>s</strong>.
                     Move your mouse or press a key to stay logged in.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="AMCOS.forceLogout();">Log Out</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="AMCOS.keepSessionAlive();">Stay Logged In</button>
                 </div>
             </div>
         </div>

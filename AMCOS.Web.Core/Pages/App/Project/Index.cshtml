@@ -78,7 +78,9 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Start Year</th>
+                                <th>Duration</th>
                                 <th>Updated</th>
+                                <th>Created</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
@@ -86,7 +88,7 @@
                         @if (Model.Projects.Count == 0)
                         {
                             <tr>
-                                <td colspan="5" class="text-center text-muted">No projects available for the current user.</td>
+                                <td colspan="7" class="text-center text-muted">No projects available for the current user.</td>
                             </tr>
                         }
                         else
@@ -99,7 +101,9 @@
                                     </td>
                                     <td>@project.Description</td>
                                     <td>@project.YearStart</td>
-                                    <td>@project.LastUpdate.ToString("g")</td>
+                                    <td>@project.YearDuration</td>
+                                    <td>@project.LastUpdate.ToString("MM/dd/yyyy")</td>
+                                    <td>@project.CreateDate.ToString("MM/dd/yyyy")</td>
                                     <td class="text-end text-nowrap">
                                         <a class="btn btn-sm btn-primary" asp-page="/App/Project/Details" asp-route-projectId="@project.ProjectId">Open</a>
                                         <a class="btn btn-sm btn-outline-secondary" asp-page="/App/Project/Report" asp-route-projectId="@project.ProjectId">Report</a>
