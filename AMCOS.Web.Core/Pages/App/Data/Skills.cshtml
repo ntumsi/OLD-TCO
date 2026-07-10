@@ -110,6 +110,20 @@
     });
 
     subgroup.addEventListener('change', loadDetails);
+
+    // Auto-select the first option down the cascade so a record shows on load (legacy parity —
+    // the WebForms DropDownLists auto-selected index 0 and bound the first DetailsView record).
+    (async () => {
+        if (payPlan.options.length < 2) return;
+        payPlan.selectedIndex = 1;
+        await load('Groups', { payPlan: payPlan.value }, group, 'Select group');
+        if (group.options.length < 2) return;
+        group.selectedIndex = 1;
+        await load('Subgroups', { payPlan: payPlan.value, group: group.value }, subgroup, 'Select subgroup');
+        if (subgroup.options.length < 2) return;
+        subgroup.selectedIndex = 1;
+        await loadDetails();
+    })();
 })();
 </script>
 }

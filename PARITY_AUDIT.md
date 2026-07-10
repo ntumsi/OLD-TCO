@@ -128,8 +128,9 @@ row lifted to a heading, on-screen color legend removed. ➖ Special-pay note tr
 ### Admin
 _Status: ✅ restored on-screen Company/Phone/Created/Updated columns; ✅ Approved/Denied count label
 ("Approved Count = N" / "Denied Count = N" / "N user records found"); ✅ "N accounts pending" admin
-banner (shown site-wide to admins). ⬜ column sorting, Last-Updated + Login-History date filters,
-phone formatting, HelpSpot downloads deferred (medium effort). ➖ prefix→substring search KEPT
+banner (shown site-wide to admins); ✅ column sorting (whitelisted ORDER BY, filters preserved);
+✅ Last-Updated + Login-History date-range filters; ✅ phone formatting (XXX) XXX-XXXX.
+⬜ HelpSpot file/detail downloads + error-log paging deferred. ➖ prefix→substring search KEPT
 (UX improvement); delete-any-user + Inventory auth KEPT (legitimate)._
 - REMOVED: user-list **"Last Updated"** + **"Login History"** date-range filters; **column sorting**;
   the **Approved/Denied count** reporting; on-screen columns Company/Phone/Created/Updated; phone
@@ -144,8 +145,9 @@ phone formatting, HelpSpot downloads deferred (medium effort). ➖ prefix→subs
 
 ### Data / Xwalk / Visualization
 _Status: ✅ QuickSight "Error"-sentinel guard (Visualization + admin Dashboard show an alert instead
-of a broken iframe). ✅ Skills pay-plan label reverted to description-only. ⬜ default-record-on-load
-(borderline; lazy cascade arguably better UX — deferred). ➖ JS-SDK→iframe transport kept (modernization)._
+of a broken iframe). ✅ Skills pay-plan label reverted to description-only. ✅ default-record-on-load
+(Skills + Cost Elements now auto-select the first cascade chain, legacy parity). ➖ JS-SDK→iframe
+transport kept (modernization)._
 - CHANGED (GENUINE): QuickSight **JS-SDK → bare iframe** (loses SDK event hooks); swallowed exception
   → **broken `<iframe src="Error">`** on AWS failure; **no default record on page load** (legacy
   auto-selected the first cascade option); Skills pay-plan label now `code — desc`.
@@ -156,7 +158,8 @@ of a broken iframe). ✅ Skills pay-plan label reverted to description-only. ⬜
 _Status: ✅ session-warning modal "Stay Logged In" / "Log Out" buttons restored; ✅ footer CUI
 accreditation statement + AESMP contact/primer links restored. ➖ session length KEPT at 15 min
 (deliberate, self-coherent modernization — cookie + keepalive + JS agree; within DoD norms).
-⬜ configurable global banner (lower urgency; needs config + layout injection) deferred._
+✅ configurable global banner restored (ShowUsersBannerNotification / BannerNotificationText in
+appsettings, rendered above the nav)._
 - CHANGED: **session length 10→15 min**; the **session-warning modal lost its "Stay Logged In" /
   "Log Out" buttons** (activity-only extend); **KeepAlive no longer refreshes the anti-forgery token**.
 - REMOVED: configurable **global banner notification**; the footer **CUI accreditation statement** +
