@@ -71,7 +71,10 @@ legacy ARMY/DoD/FEDERAL/PA/OM appropriation-type key `GetAppropriationGroupColor
 require, so it cannot be rebuilt faithfully without a data/proc decision on that classification.
 ✅ inflation-rate header table (3b) — endpoint `OnGetInflationHeader` + client render, family column
 set chosen from hardcoded pay-plan arrays (the migrated payplantags lacks the fine-grained tags).
-⬜ Excel export (3c), filter validation + optgroups + ButtonClick logging (3d)._
+✅ required-filter validation + ButtonClick per-refresh logging (3d). ➖ pay-plan optgroups
+(cosmetic: 3 groups vs legacy 6 — functional dropdown unchanged) and "plans-with-costs" filter
+(investigator could not substantiate a legacy filter beyond `DisplayTitle != ""`, which the new app
+already applies) left as-is. ⬜ Excel export (3c)._
 - REMOVED: **Appropriation-Group summary grid** (replaced by generic per-APPN total rows, different grouping key). — `appendAppnTotals` vs `GetAppropriationGroupTable`.
 - REMOVED: **Inflation-rate header table** (percent, column count varies by family) — absent entirely.
 - REMOVED: **Excel/Download export** (formatted xlsx: filter block, summary, inflation table, CCE notes, classification banner) — no export button/endpoint.

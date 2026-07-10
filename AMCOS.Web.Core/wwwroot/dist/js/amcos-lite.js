@@ -566,20 +566,60 @@
         }
     }
 
+    // Validates every currently-visible required filter (legacy amcos-common.js validateFilters /
+    // isValidX). Hidden filters pass. Surfaces the legacy alert text and blocks the refresh.
+    function validateFilters() {
+        const visible = id => { const e = el(id); return e && !e.classList.contains('d-none'); };
+        if (costsFilter.payPlan === '-1' || costsFilter.payPlan === '') {
+            alert('Please select a pay plan from the list'); return false;
+        }
+        if (visible('categoryFilter')
+            && costsFilter.categoryGroupCode === '-1' && costsFilter.categorySubgroupCode === '-1'
+            && costsFilter.careerProgramNumber === '-1') {
+            alert('Please select an option from the category list'); return false;
+        }
+        if (visible('locationFilter') && costsFilter.locationId === -1) {
+            alert('Please select an option from the location list'); return false;
+        }
+        if (visible('strlFilter')
+            && (costsFilter.scienceTechnologyReinventionLaboratory === '-1' || costsFilter.scienceTechnologyReinventionLaboratory === '')) {
+            alert('Please select a laboratory from the list'); return false;
+        }
+        if (visible('dependentStatusFilter')
+            && (costsFilter.dependentStatus === '-1' || costsFilter.dependentStatus === '')) {
+            alert('Please select a dependent status from the list'); return false;
+        }
+        if (visible('numberOfDependentsFilter')
+            && (isNaN(costsFilter.numberOfDependents) || costsFilter.numberOfDependents === -1)) {
+            alert('Please select the number of dependents from the list'); return false;
+        }
+        if (visible('overheadPercentFilter')) {
+            const ov = el('overheadPercent');
+            if (!ov || ov.value === '' || isNaN(Number(ov.value))) {
+                alert('Please enter an overhead percent'); return false;
+            }
+        }
+        return true;
+    }
+
     async function loadCosts() {
         stopBlink();
         alertForAllCostSummary();
         const status = el('liteStatus'), results = el('liteResults');
+
+        if (!validateFilters()) {
+            status.className = 'alert alert-warning';
+            status.textContent = 'Please complete the required filters.';
+            return;
+        }
+
+        // Per-refresh audit logging (server honors the AmcosLiteLogging mode).
+        logFilter('ShowCostsButton');
+
         status.className = 'alert alert-info';
         status.textContent = 'Loading cost data...';
         results.innerHTML = '';
         el('amcosLiteChart').innerHTML = '';
-
-        if (costsFilter.payPlan === '-1' || costsFilter.payPlan === '') {
-            status.className = 'alert alert-warning';
-            status.textContent = 'Select a pay plan first.';
-            return;
-        }
 
         const params = new URLSearchParams({
             PayPlan: costsFilter.payPlan, CostSummaryName: costsFilter.costSummaryName,
