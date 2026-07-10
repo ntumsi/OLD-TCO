@@ -42,6 +42,14 @@
     const show = id => { const e = el(id); if (e) e.classList.remove('d-none'); };
     const hide = id => { const e = el(id); if (e) e.classList.add('d-none'); };
 
+    // Field values may arrive PascalCase (client-built items) OR camelCase (the ASP.NET Core /api
+    // endpoints serialize PayPlanDto/CategoryDto/LocationDto as camelCase by default). Read either.
+    const field = (obj, name) => {
+        if (obj == null) return undefined;
+        if (obj[name] !== undefined) return obj[name];
+        return obj[name.charAt(0).toLowerCase() + name.slice(1)];
+    };
+
     function fill(select, items, { valueField = 'Value', textField = 'Text', groupField = null,
         groupOrder = [], groupLabels = {}, placeholder = null, disabled = false } = {}) {
         if (!select) return;
@@ -53,13 +61,13 @@
         }
         const append = (parent, item) => {
             const o = document.createElement('option');
-            o.value = item[valueField]; o.textContent = item[textField];
+            o.value = field(item, valueField); o.textContent = field(item, textField);
             parent.appendChild(o);
         };
         if (groupField) {
-            const keys = groupOrder.length ? groupOrder : [...new Set(items.map(i => i[groupField]))];
+            const keys = groupOrder.length ? groupOrder : [...new Set(items.map(i => field(i, groupField)))];
             keys.forEach(key => {
-                const groupItems = items.filter(i => String(i[groupField]).toLowerCase() === String(key).toLowerCase());
+                const groupItems = items.filter(i => String(field(i, groupField)).toLowerCase() === String(key).toLowerCase());
                 if (!groupItems.length) return;
                 const og = document.createElement('optgroup');
                 og.label = groupLabels[key] || key;
