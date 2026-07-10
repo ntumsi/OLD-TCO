@@ -112,10 +112,7 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>
             Results
-            @if (Model.Users.Count > 0)
-            {
-                <span class="badge bg-secondary ms-1">@Model.Users.Count</span>
-            }
+            <span class="badge bg-secondary ms-1">@Model.ResultCountLabel</span>
         </span>
         <form method="post" asp-page-handler="Export" class="d-inline">
             @foreach (var f in filterFields)

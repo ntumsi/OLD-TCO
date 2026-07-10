@@ -127,6 +127,22 @@
         </nav>
     </header>
 
+    @if (User.IsInRole("Admin"))
+    {
+        var pendingCount = 0;
+        try { pendingCount = AMCOS.Logic.UserAdministration.GetPendingUsers().Count; } catch { }
+        if (pendingCount > 0)
+        {
+            <div class="container mt-2">
+                <a asp-page="/Admin/Approvals" class="alert alert-danger d-block text-center mb-0 fw-bold text-decoration-none">
+                    @(pendingCount == 1
+                        ? "There is one AMCOS user account pending!"
+                        : $"There are {pendingCount} AMCOS user accounts pending!")
+                </a>
+            </div>
+        }
+    }
+
     <main class="container pb-4">
         @RenderBody()
     </main>

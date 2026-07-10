@@ -76,6 +76,9 @@ public class UsersModel : PageModel
 
     public string? LoadError { get; private set; }
 
+    /// <summary>Legacy record-count label ("Approved Count = N" / "Denied Count = N" / "N user records found").</summary>
+    public string ResultCountLabel { get; private set; } = "";
+
     /// <summary>UserId of the currently authenticated AMCOS user — used to disable self-role-toggle.</summary>
     public string? CurrentUserId { get; private set; }
 
@@ -104,6 +107,26 @@ public class UsersModel : PageModel
         CurrentUserId = ResolveCurrentUser()?.UserId;
         LoadOrganizations();
         RunSearch();
+        ResultCountLabel = BuildResultCountLabel();
+    }
+
+    // Legacy userlist.aspx.vb:207-276 — when the ONLY active filter is the DASA-CE Approved date
+    // range the count reads "Approved Count = N"; only the Denied range → "Denied Count = N";
+    // otherwise a plain record count.
+    private string BuildResultCountLabel()
+    {
+        var n = Users.Count;
+        var anyText = !string.IsNullOrWhiteSpace(FirstName) || !string.IsNullOrWhiteSpace(LastName)
+            || !string.IsNullOrWhiteSpace(ArmyRank) || !string.IsNullOrWhiteSpace(Macom)
+            || !string.IsNullOrWhiteSpace(OfficeName) || !string.IsNullOrWhiteSpace(CompanyName);
+        var created = CreatedFrom.HasValue || CreatedTo.HasValue;
+        var lastLogin = LastLoginFrom.HasValue || LastLoginTo.HasValue;
+        var approved = ApprovedFrom.HasValue || ApprovedTo.HasValue;
+        var denied = DeniedFrom.HasValue || DeniedTo.HasValue;
+
+        if (approved && !denied && !anyText && !created && !lastLogin) return $"Approved Count = {n}";
+        if (denied && !approved && !anyText && !created && !lastLogin) return $"Denied Count = {n}";
+        return $"{n} user records found";
     }
 
     /// <summary>Toggles the UserRole between "Admin" and "User" for the given userId.</summary>

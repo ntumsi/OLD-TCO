@@ -92,6 +92,10 @@ documented exceptions above (appropriation-group grid; cosmetic optgroups)._
   different message; row sort by `ShowOrder` dropped; renders **all** result sets (incl. intermediates).
 
 ### Project Manager (Add-Unit regressions are in Tier 1; remaining)
+_Status: ✅ restored Duration + Create Date list columns; ✅ insert-inventory default 1 (was 0).
+⬜ project-list sorting (medium; deferred). ➖ "Report" list action kept (harmless addition).
+⬜ Update-also-deletes-checked-rows and insert re-validation deferred (need a separate Delete control /
+server-side "All group/location" guards)._
 - REMOVED: project-list **sorting**; **Duration** + **Create Date** columns.
 - ADDED: "Report" action on the list + a "View Report" button that can show a stale/empty report
   without running Build Report.
@@ -122,6 +126,11 @@ row lifted to a heading, on-screen color legend removed. ➖ Special-pay note tr
   second sentence dropped.
 
 ### Admin
+_Status: ✅ restored on-screen Company/Phone/Created/Updated columns; ✅ Approved/Denied count label
+("Approved Count = N" / "Denied Count = N" / "N user records found"); ✅ "N accounts pending" admin
+banner (shown site-wide to admins). ⬜ column sorting, Last-Updated + Login-History date filters,
+phone formatting, HelpSpot downloads deferred (medium effort). ➖ prefix→substring search KEPT
+(UX improvement); delete-any-user + Inventory auth KEPT (legitimate)._
 - REMOVED: user-list **"Last Updated"** + **"Login History"** date-range filters; **column sorting**;
   the **Approved/Denied count** reporting; on-screen columns Company/Phone/Created/Updated; phone
   formatting; the admin **"N accounts pending" blinking banner**; **HelpSpot file/detail downloads**;
@@ -134,6 +143,9 @@ row lifted to a heading, on-screen color legend removed. ➖ Special-pay note tr
   Dashboards landing page + Sponsor/Inventory nav items.
 
 ### Data / Xwalk / Visualization
+_Status: ✅ QuickSight "Error"-sentinel guard (Visualization + admin Dashboard show an alert instead
+of a broken iframe). ✅ Skills pay-plan label reverted to description-only. ⬜ default-record-on-load
+(borderline; lazy cascade arguably better UX — deferred). ➖ JS-SDK→iframe transport kept (modernization)._
 - CHANGED (GENUINE): QuickSight **JS-SDK → bare iframe** (loses SDK event hooks); swallowed exception
   → **broken `<iframe src="Error">`** on AWS failure; **no default record on page load** (legacy
   auto-selected the first cascade option); Skills pay-plan label now `code — desc`.
@@ -141,6 +153,10 @@ row lifted to a heading, on-screen color legend removed. ➖ Special-pay note tr
   disabled).
 
 ### Common / session
+_Status: ✅ session-warning modal "Stay Logged In" / "Log Out" buttons restored; ✅ footer CUI
+accreditation statement + AESMP contact/primer links restored. ➖ session length KEPT at 15 min
+(deliberate, self-coherent modernization — cookie + keepalive + JS agree; within DoD norms).
+⬜ configurable global banner (lower urgency; needs config + layout injection) deferred._
 - CHANGED: **session length 10→15 min**; the **session-warning modal lost its "Stay Logged In" /
   "Log Out" buttons** (activity-only extend); **KeepAlive no longer refreshes the anti-forgery token**.
 - REMOVED: configurable **global banner notification**; the footer **CUI accreditation statement** +
@@ -149,6 +165,10 @@ row lifted to a heading, on-screen color legend removed. ➖ Special-pay note tr
   conversion-type option order; label wording.
 
 ### Civilian PCS
+_Status: ✅ House-Hunting "Spouse per diem is X%" 0% label bug fixed (#SpousePerDiemRate now updated
+from the response). ➖ distance-via-PostGIS kept (intentional, per [[civpcs-migration-state]]).
+⬜ auto-save-on-tab / arrow-key nav / persistent sidebar deferred (borderline; summary preserved on
+its own tab)._
 - CHANGED (GENUINE): **distance** now from PostGIS `warehouse.location.coordinates` (`ST_Distance`)
   instead of `CivLocationPerDiem` geography — the one number that can silently change.
 - REMOVED: **auto-save on tab switch**; **keyboard navigation** (arrow keys); persistent summary sidebar.
