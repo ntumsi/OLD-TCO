@@ -105,6 +105,53 @@ public class IndexModel : PageModel
         }
     }
 
+    // Active-component pay-plan families (mirrors the hardcoded arrays in amcos-lite.js). Used to
+    // pick the inflation-rate header column set, matching legacy default.aspx.vb PopulateRateHeader.
+    // The migrated payplantags table only carries coarse tags, so we do NOT rely on PayPlan.GetTags.
+    private static readonly string[] ActiveMilitaryPayPlans = { "AE", "AO", "AWO" };
+    private static readonly string[] NationalGuardPayPlans = { "NE", "NO", "NWO" };
+    private static readonly string[] ReservePayPlans = { "RE", "RO", "RWO" };
+
+    // Returns the AMCOS Lite inflation-rate header row for the chosen pay-plan family, as JSON
+    // { headers:[...], row:{col:value} }. Values are fractional inflation rates (formatted client-side).
+    public IActionResult OnGetInflationHeader(string payPlan, string conversionType, string year)
+    {
+        try
+        {
+            var amcosVersionId = GetIntSetting("AmcosVersionId", 202501);
+            var pp = (payPlan ?? string.Empty).ToUpperInvariant();
+
+            // Column list per family (aliased to legacy display labels). Column names must match the
+            // web.getinflationrateheader output casing exactly (unquoted lowercase, or quoted mixed).
+            string cols;
+            if (ActiveMilitaryPayPlans.Contains(pp))
+                cols = "appropriation AS \"Appropriation\", mpa AS \"MPA\", \"MPA Non-Pay\", oma AS \"OMA\", oma_1 AS \"OMA_1\", omdw AS \"OMDW\", \"Federal OM\"";
+            else if (NationalGuardPayPlans.Contains(pp))
+                cols = "appropriation AS \"Appropriation\", ngpa AS \"NGPA\", mpa AS \"MPA\", omng AS \"OMNG\", oma AS \"OMA\", oma_1 AS \"OMA_1\", omng_1 AS \"OMNG_1\"";
+            else if (ReservePayPlans.Contains(pp))
+                cols = "appropriation AS \"Appropriation\", rpa AS \"RPA\", mpa AS \"MPA\", omar AS \"OMAR\", oma AS \"OMA\", oma_1 AS \"OMA_1\", omar_1 AS \"OMAR_1\"";
+            else if (pp == "CCE")
+                cols = "appropriation AS \"Appropriation\", oma AS \"OMA\"";
+            else // Civilian / GFEBS / Wage
+                cols = "appropriation AS \"Appropriation\", \"Army CivPay\", oma AS \"OMA\", \"Federal OM\"";
+
+            var dt = DataAccessUtility.GetDataTableByStaticSql(
+                $"SELECT {cols} FROM web.GetInflationRateHeader(@ConversionType,@Year,@AmcosVersionId);",
+                new[] { "@ConversionType", "@Year", "@AmcosVersionId" },
+                new object[] { conversionType ?? "ThenToThen", year ?? DefaultYear.ToString(), amcosVersionId });
+
+            var headers = dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList();
+            Dictionary<string, object?>? row = dt.Rows.Count > 0
+                ? headers.ToDictionary(h => h, h => dt.Rows[0][h] == DBNull.Value ? null : dt.Rows[0][h])
+                : null;
+            return new JsonResult(new { headers, row });
+        }
+        catch (Exception ex)
+        {
+            return new ObjectResult(new { error = ex.Message }) { StatusCode = 500 };
+        }
+    }
+
     private int GetIntSetting(string key, int defaultValue)
     {
         var value = _configuration[key] ?? _configuration[$"AppSettings:{key}"];

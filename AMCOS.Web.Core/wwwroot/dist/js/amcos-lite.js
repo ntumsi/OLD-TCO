@@ -539,6 +539,33 @@
         legendEl.classList.remove('d-none');
     }
 
+    // Renders the inflation-rate header table (legacy default.aspx PopulateRateHeader). The server
+    // handler picks the column set per pay-plan family; values are fractional and shown as percent.
+    async function renderInflationHeader() {
+        const tbl = el('inflationRatesTable');
+        if (!tbl) return;
+        try {
+            const params = new URLSearchParams({
+                payPlan: costsFilter.payPlan,
+                conversionType: costsFilter.inflationConversion,
+                year: costsFilter.inflationYear
+            });
+            const res = await fetch(`?handler=InflationHeader&${params.toString()}`, { headers: { Accept: 'application/json' } });
+            if (!res.ok) throw new Error();
+            const data = await res.json();
+            if (!data.headers || !data.row) { hide('inflationRatesHeader'); hide('inflationRatesTable'); return; }
+            const pct = v => (v === null || v === '' || isNaN(Number(v))) ? '' : (Number(v) * 100).toFixed(4) + '%';
+            const head = data.headers.map(h => `<th>${h}</th>`).join('');
+            const cells = data.headers.map(h =>
+                `<td>${h === 'Appropriation' ? (data.row[h] ?? '') : pct(data.row[h])}</td>`).join('');
+            tbl.innerHTML = `<table class="table table-sm table-bordered mb-0">`
+                + `<thead class="table-secondary"><tr>${head}</tr></thead><tbody><tr>${cells}</tr></tbody></table>`;
+            show('inflationRatesHeader'); show('inflationRatesTable');
+        } catch {
+            hide('inflationRatesHeader'); hide('inflationRatesTable');
+        }
+    }
+
     async function loadCosts() {
         stopBlink();
         alertForAllCostSummary();
@@ -575,11 +602,13 @@
             const costTable = tables.find(t => t.name === 'costs') ?? tables[0];
             if (!costTable || !costTable.rows || costTable.rows.length === 0) {
                 results.innerHTML = '<div class="alert alert-light border">No data returned.</div>';
+                hide('inflationRatesHeader'); hide('inflationRatesTable');
             } else {
                 const rows = shapeCostTable(costTable.rows, costsFilter.costSummaryName, costsFilter.payPlan);
                 results.innerHTML = renderTable(rows, isCce);
                 buildChart({ rows: costTable.rows }, costsFilter.payPlan, costsFilter.costSummaryName);
                 renderLegend();
+                await renderInflationHeader();
             }
             status.className = 'alert alert-success';
             status.textContent = costTable && costTable.rows && costTable.rows.length

@@ -69,7 +69,9 @@ column-highlight on the sentinel. ➖ grade-header relabeling — already done a
 the migrated `getcosts.appngroup` is a functional grouping (Military Pay/Benefits/Training), not the
 legacy ARMY/DoD/FEDERAL/PA/OM appropriation-type key `GetAppropriationGroupColor`/`GetAppropriationGroupTable`
 require, so it cannot be rebuilt faithfully without a data/proc decision on that classification.
-⬜ inflation table (3b), Excel export (3c), filter validation + optgroups + ButtonClick logging (3d)._
+✅ inflation-rate header table (3b) — endpoint `OnGetInflationHeader` + client render, family column
+set chosen from hardcoded pay-plan arrays (the migrated payplantags lacks the fine-grained tags).
+⬜ Excel export (3c), filter validation + optgroups + ButtonClick logging (3d)._
 - REMOVED: **Appropriation-Group summary grid** (replaced by generic per-APPN total rows, different grouping key). — `appendAppnTotals` vs `GetAppropriationGroupTable`.
 - REMOVED: **Inflation-rate header table** (percent, column count varies by family) — absent entirely.
 - REMOVED: **Excel/Download export** (formatted xlsx: filter block, summary, inflation table, CCE notes, classification banner) — no export button/endpoint.
