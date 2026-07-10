@@ -508,7 +508,8 @@
 <script id="pageData" type="application/json">
 {
     "projectId": @Model.ProjectId,
-    "projectStartYear": @Model.CurrentProject!.YearStart,
+    "projectName": @Json.Serialize(Model.CurrentProject!.ProjectName),
+    "projectStartYear": @Model.CurrentProject.YearStart,
     "projectDuration": @Model.CurrentProject.YearDuration,
     "amcosVersionId": @Model.AmcosVersionId
 }
@@ -639,16 +640,36 @@
         } catch { /* manual entry still works if the lookup is unavailable */ }
     })();
 
+    // Load the installations list for the "Choose a new location" relocation option (parity with
+    // legacy loadUnitLocationList → /api/locations/installations). The option value carries the
+    // installation id ("{id}.installation"); the Add-Unit submit posts that id as the unit location.
+    (async () => {
+        try {
+            const res = await fetch('/api/locations/installations', { headers: { Accept: 'application/json' } });
+            if (!res.ok) return;
+            const installations = await res.json();
+            locationChangeList.innerHTML = '<option value="">-- Select an installation --</option>' +
+                installations.map(i => `<option value="${esc(i.value)}">${esc(i.text)}</option>`).join('');
+        } catch { /* relocation option unavailable if the lookup fails */ }
+    })();
+
     document.querySelectorAll('input[name="unitLocation"]').forEach(r => {
         r.addEventListener('change', () => {
             locationChangeList.classList.toggle('d-none', r.value !== 'Change' || !r.checked);
         });
     });
 
+    // The OTOE / Last-MTOE extend choice is only relevant when the project is Synced to the SACS
+    // years AND the project runs longer than the unit's available SACS years (legacy
+    // project-manager.js displayExtendsYears). Show/hide accordingly — do NOT invert on Sync.
+    function updateSacsExtendVisibility() {
+        const isSync = document.getElementById('fySync').checked;
+        const unitYears = Number(unitPersonnelData[0]?.numUnitYears ?? 0);
+        const showExtend = isSync && Number(PAGE.projectDuration) > unitYears;
+        mtoeSyncExtend.classList.toggle('d-none', !showExtend);
+    }
     document.querySelectorAll('input[name="projectInventoryYear"]').forEach(r => {
-        r.addEventListener('change', () => {
-            mtoeSyncExtend.classList.toggle('d-none', document.getElementById('fySync').checked);
-        });
+        r.addEventListener('change', updateSacsExtendVisibility);
     });
 
     async function lookupUnit() {
@@ -674,7 +695,6 @@
 
             // Personnel table
             const payPlans = [...new Set(data.map(r => r.payPlan))].sort();
-            const locations = [...new Set(data.map(r => r.location))].sort();
 
             let tbl = `<table class="table table-sm table-bordered table-striped">
                 <thead class="table-dark"><tr><th>Pay Plan</th><th>Location</th><th>Inventory</th></tr></thead><tbody>`;
@@ -697,12 +717,9 @@
             });
             payPlanExclusionSec.classList.remove('d-none');
 
-            // Location change list
-            locationChangeList.innerHTML = '<option value="">-- All Locations --</option>';
-            locations.forEach(loc => {
-                locationChangeList.insertAdjacentHTML('beforeend',
-                    `<option value="${esc(loc)}">${esc(loc)}</option>`);
-            });
+            // Contractor Cost Estimate Overhead is keyed to whether the unit carries the CCE pay
+            // plan (legacy adjustUnitOverheadOption), NOT to whether it is an MTOE unit.
+            contractorOverheadSec.classList.toggle('d-none', !payPlans.includes('CCE'));
 
             // MTOE fiscal years
             if (isMtoeUnit) {
@@ -713,7 +730,8 @@
                         `<option value="${esc(y.value)}">${esc(y.text)}</option>`);
                 });
                 fiscalYearsSec.classList.remove('d-none');
-                contractorOverheadSec.classList.remove('d-none');
+                // Set the OTOE / Last-MTOE extend panel to its correct initial state.
+                updateSacsExtendVisibility();
             }
 
             projectActionSec.classList.remove('d-none');
@@ -739,11 +757,21 @@
         const excluded = [...document.querySelectorAll('.pp-exclude:checked')]
             .map(cb => cb.value).join(',');
 
-        // Unit location
-        const locRadio = document.querySelector('input[name="unitLocation"]:checked');
-        let unitLocation = locRadio?.value ?? 'Unchanged';
-        if (unitLocation === 'Change') {
-            unitLocation = locationChangeList.value || 'Change';
+        // Unit location — the backend (web.projectaddunit → getunitpersonnel) expects the literal
+        // 'unchanged', 'national', or a numeric installation id; never a display string.
+        const locChoice = document.querySelector('input[name="unitLocation"]:checked')?.value ?? 'Unchanged';
+        let unitLocation;
+        if (locChoice === 'Change') {
+            const installationId = (locationChangeList.value || '').split('.')[0];
+            if (!installationId) {
+                setStatus(addUnitStatus, 'Please choose a new installation for the unit.', 'warning');
+                return;
+            }
+            unitLocation = installationId;
+        } else if (locChoice === 'National Average') {
+            unitLocation = 'national';
+        } else {
+            unitLocation = 'unchanged';
         }
 
         // MTOE options
@@ -1028,9 +1056,16 @@
         sel.innerHTML  = '';
         copy.innerHTML = '';
 
+        const mainName = (PAGE.projectName ?? '').trim().toLowerCase();
         cats.forEach(cat => {
-            sel.insertAdjacentHTML('beforeend',
-                `<option value="${cat.categoryId}" data-name="${esc(cat.categoryName)}">${esc(cat.categoryName)}</option>`);
+            // The main/default category (named after the project) cannot be renamed or removed
+            // (legacy sourced this dropdown from PMGetCategories, which excludes it), so keep it
+            // out of the rename/delete list — but it stays available for Copy and the tabs.
+            const isMain = (cat.categoryName ?? '').trim().toLowerCase() === mainName;
+            if (!isMain) {
+                sel.insertAdjacentHTML('beforeend',
+                    `<option value="${cat.categoryId}" data-name="${esc(cat.categoryName)}">${esc(cat.categoryName)}</option>`);
+            }
             // Copy dropdown: only show others (not active)
             if (cat.categoryId !== activeCategoryId) {
                 copy.insertAdjacentHTML('beforeend',
@@ -1038,7 +1073,7 @@
             }
         });
 
-        document.getElementById('renameDeleteSection').classList.toggle('d-none', cats.length === 0);
+        document.getElementById('renameDeleteSection').classList.toggle('d-none', sel.options.length === 0);
     }
 
     document.getElementById('btnCreateSubproject').addEventListener('click', async () => {

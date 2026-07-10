@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using AMCOS.Logic;
+using AMCOS.Logic.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -83,6 +84,16 @@ public class SponsorActionModel : PageModel
             cmd.Parameters.AddWithValue("@uid", userId);
             cmd.ExecuteNonQuery();
 
+            // Notify the admin queue that a sponsor approved this applicant (legacy SponsorAction).
+            var sponsor = CurrentSponsor();
+            var body =
+                $"<p>Dear DASA-CE Representative,</p> <p>{userName}'s application for access to the AMCOS " +
+                "was approved by sponsor and is now pending your action.</p> " +
+                SponsorLines(sponsor);
+            SendWorkflowEmail(
+                new[] { _configuration["AmcosAdminEmail"] ?? string.Empty },
+                "AMCOS Access Request - Sponsor Approved", body, sponsor?.Email);
+
             StatusMessage = $"User {userName} approved and moved to admin review.";
         }
         catch (Exception ex)
@@ -104,6 +115,16 @@ public class SponsorActionModel : PageModel
             cmd.Parameters.AddWithValue("@uid", userId);
             cmd.ExecuteNonQuery();
 
+            // Notify the applicant that their sponsor disapproved the request (legacy SponsorAction).
+            var sponsor = CurrentSponsor();
+            var body =
+                $"<p>Dear {userName}, </p> <p>Your application for access to the AMCOS was disapproved by " +
+                "your sponsor.  Please contact your sponsor for further information.</p> " +
+                SponsorLines(sponsor);
+            SendWorkflowEmail(
+                new[] { UserAdministration.GetUserEmail(userId) },
+                "AMCOS Access Request - Sponsor Disapproved", body, sponsor?.Email);
+
             StatusMessage = $"User {userName} denied.";
         }
         catch (Exception ex)
@@ -112,6 +133,25 @@ public class SponsorActionModel : PageModel
         }
 
         return RedirectToPage();
+    }
+
+    private AMCOS.Data.Entities.AMCOSUser? CurrentSponsor() =>
+        (User.Identity as ClaimsIdentity) is { IsAuthenticated: true } id
+            ? UserAdministration.GetCurrentUser(id) : null;
+
+    // The sponsor contact block appended to both sponsor emails (legacy {1}..{5}).
+    private static string SponsorLines(AMCOS.Data.Entities.AMCOSUser? s)
+    {
+        if (s == null) return string.Empty;
+        var fullName = $"{s.FirstName} {s.LastName}".Trim();
+        return $"<p>{fullName} <br /><p>{s.Email} <br /><p>{s.ComPhone} <br /><p>{s.ArmyAccountType} <br /><p>{s.Macom} </p>";
+    }
+
+    private void SendWorkflowEmail(string[] to, string subject, string body, string? from)
+    {
+        var host = _configuration["Smtp:Host"] ?? string.Empty;
+        var port = int.TryParse(_configuration["Smtp:Port"], out var p) ? p : 25;
+        CoreEmailHelper.Send(host, port, from ?? (_configuration["AmcosAdminEmail"] ?? string.Empty), to, subject, body);
     }
 
     private NpgsqlConnection OpenConnection()

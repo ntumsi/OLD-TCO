@@ -23,23 +23,39 @@ session/error/footer/notes).
 
 ## TIER 1 — CRITICAL: functional bugs, security, or wrong numbers (fix first)
 
-| # | Area | Divergence | Effect |
-|---|---|---|---|
-| C1 | Admin · SponsorAction | Sponsor queue matches `sponsoruserid` against the **DoD-ID claim** (`NameIdentifier`) instead of `amcosuser.userid` (`SponsorAction.cshtml.cs:27-45`); the column references `amcosuser.userid`. | Sponsor approval queue **returns no rows** — the sponsor workflow is broken. |
-| C2 | Admin · Approvals/Sponsor | Approval / denial / sponsor-forward / rejection **emails are never sent in production** (only a dev-only preview string) (`Approvals.cshtml.cs:42-79`, `SponsorAction.cshtml.cs:70-109`). | Users & sponsors are never notified; the account-request workflow silently stalls. |
-| C3 | Report | On-screen: CCE rows over the salary limit are **highlighted but never capped/recomputed** (legacy overwrote Salary/Benefits/Overhead with capped values from `Tables(2)`) (`_CostReportTable.cshtml:57-82` vs `report.aspx.vb:417-452`). | **Wrong dollar values displayed** for capped CCE rows. |
-| C4 | Report | Report-selection query dropped the **owner `UserID` filter** — filters on `projectid` only (`Report.cshtml.cs:91-98` vs `report.aspx.vb:1031-1032`). | A project's report can be read without the owner check (**IDOR-class**). |
-| C5 | PM · Add Unit | **Unit relocation broken**: dropdown is populated from the unit's own personnel locations and sends the location **text** (or literal `"Change"`), not an installation **ID** from `/api/locations/installations` (`Details.cshtml:700-705,743-747` vs `amcos-common.js:1199-1215,935`). | "Change location" no longer relocates a unit. |
-| C6 | PM · Add Unit | **CCE overhead input keyed to MTOE**, not to CCE-in-pay-plans (`Details.cshtml:708-717` vs `project-manager.js:146-156`). | Wrong `contractorOverheadPercent` sent for TDA-with-CCE and MTOE-without-CCE units. |
-| C7 | PM · Add Unit | **SACS-extend (OTOE/Last-MTOE) choice inverted** — shown under Freeze, unreachable under Sync; `duration > unitYears` gate lost (`Details.cshtml:648-652` vs `project-manager.js:332-341`). | Sync projects that outrun SACS are silently forced to "Last MTOE". |
-| C8 | PM · Sub-projects | The **main/default category can now be renamed *and* deleted** (dropdowns source `PMGetCategoriesAll`; no main-category guard) (`Details.cshtml.cs:442-477` vs `details.aspx.vb:417-422`). | Renaming/deleting it desyncs `GetMainCategoryId` → **Add-Unit Replace / append-to-main break**. |
-| C9 | Common · News | RSS page reads `wwwroot/Public/rss.xml` (`Note.cshtml.cs:23`) but `/Public` is served from **legacy `AMCOS.Web/Public`** (`Program.cs:194-202`). `wwwroot/Public` doesn't exist. | News page always shows "No news feed available." |
-| C10 | Data · Visualization | Inventory dashboard config key renamed `InventoryDashboardId` → **`VisualizationDashboardId`** (`Visualization.cshtml.cs:21`, `appsettings.json:39`). | A straight config port silently breaks the Inventory dashboard. |
-| C11 | Common · Profile | **Company Name required-validation dropped** for CONTRACTOR accounts (`*` shown, no `required`, no server check) (`Profile/Index.cshtml:99-102`). | A CTR user can save a blank Company Name (legacy blocked it). |
-| C12 | Report | On-screen APPN cell **colors wrong and inconsistent with the export**; `Contractor`↔`CCE` key inverted (`_CostReportTable.cshtml:11-21` vs `report.aspx.vb:458-479`). | Mis-colored appropriations; grid disagrees with the exported workbook. |
-| C13 | Civilian PCS | **Anti-forgery removed** (`[IgnoreAntiforgeryToken]`, no token in JS) (`Index.cshtml.cs:14`). | CSRF protection on PCS save/delete/calc is gone. |
-| C14 | Common · Footer | **Incorrect AMCOS acronym** — "Army Civilian and Military Operational Support" vs the correct "Army Military-Civilian Cost System" (`_Layout.cshtml:136`). | Wrong product name shown site-wide. |
-| C15 | Admin · Users | The hidden self-only "Delete Me for Testing" hook is promoted to a production **"delete any user + cascade"**, with a **different cascade set** (adds `pcsproject`, **omits `PMUserSummary`/`PMUserSummaryElement`**) (`Users.cshtml.cs:356-413` vs `UpdateMyProfile.aspx.vb:97-110`). | New destructive admin capability + orphaned summary rows. |
+**Status legend:** ✅ FIXED (behavioral-parity edit landed) · ➖ no change needed (already correct
+in the migrated app) · ⬜ open.
+
+**Tier 1 — COMPLETE.** Batch 1 (commit `00f309a`): **C1, C4, C9, C10, C11, C14**.
+Batch 2: **C2** (workflow emails restored via `CoreEmailHelper`), **C5/C6/C7** (Add-Unit relocation
+id, CCE-keyed overhead, SACS-extend gate), **C8** (main-category rename/delete guard), **C12** (APPN
+colors), **C13** (CivPCS anti-forgery).
+➖ **C3** — no change: the migrated `web.pmcostsbypayplancce` already caps CCE over-limit costs at
+the DB layer (`v_maxpay*inventory`), so the on-screen values are already correct (and better than
+legacy, which flat-capped the aggregate ignoring inventory). Re-capping in the C# builder would
+re-introduce the legacy defect.
+➖ **C15** — no change: `PMUserSummary`/`PMUserSummaryElement` do not exist in the PostgreSQL schema,
+so the current cascade is already the complete correct set; adding those DELETEs would abort the
+transaction. `pcsproject` is correctly present (CivPCS is ported). Delete-any-user is a deliberate
+admin capability (kept).
+
+| # | ✔ | Area | Divergence | Effect |
+|---|---|---|---|---|
+| C1 | ✅ | Admin · SponsorAction | Sponsor queue matches `sponsoruserid` against the **DoD-ID claim** (`NameIdentifier`) instead of `amcosuser.userid` (`SponsorAction.cshtml.cs:27-45`); the column references `amcosuser.userid`. | Sponsor approval queue **returns no rows** — the sponsor workflow is broken. |
+| C2 | ✅ | Admin · Approvals/Sponsor | Approval / denial / sponsor-forward / rejection **emails are never sent in production** (only a dev-only preview string) (`Approvals.cshtml.cs:42-79`, `SponsorAction.cshtml.cs:70-109`). | Users & sponsors are never notified; the account-request workflow silently stalls. |
+| C3 | ➖ | Report | On-screen: CCE rows over the salary limit are **highlighted but never capped/recomputed** (legacy overwrote Salary/Benefits/Overhead with capped values from `Tables(2)`) (`_CostReportTable.cshtml:57-82` vs `report.aspx.vb:417-452`). | **Wrong dollar values displayed** for capped CCE rows. |
+| C4 | ✅ | Report | Report-selection query dropped the **owner `UserID` filter** — filters on `projectid` only (`Report.cshtml.cs:91-98` vs `report.aspx.vb:1031-1032`). | A project's report can be read without the owner check (**IDOR-class**). |
+| C5 | ✅ | PM · Add Unit | **Unit relocation broken**: dropdown is populated from the unit's own personnel locations and sends the location **text** (or literal `"Change"`), not an installation **ID** from `/api/locations/installations` (`Details.cshtml:700-705,743-747` vs `amcos-common.js:1199-1215,935`). | "Change location" no longer relocates a unit. |
+| C6 | ✅ | PM · Add Unit | **CCE overhead input keyed to MTOE**, not to CCE-in-pay-plans (`Details.cshtml:708-717` vs `project-manager.js:146-156`). | Wrong `contractorOverheadPercent` sent for TDA-with-CCE and MTOE-without-CCE units. |
+| C7 | ✅ | PM · Add Unit | **SACS-extend (OTOE/Last-MTOE) choice inverted** — shown under Freeze, unreachable under Sync; `duration > unitYears` gate lost (`Details.cshtml:648-652` vs `project-manager.js:332-341`). | Sync projects that outrun SACS are silently forced to "Last MTOE". |
+| C8 | ✅ | PM · Sub-projects | The **main/default category can now be renamed *and* deleted** (dropdowns source `PMGetCategoriesAll`; no main-category guard) (`Details.cshtml.cs:442-477` vs `details.aspx.vb:417-422`). | Renaming/deleting it desyncs `GetMainCategoryId` → **Add-Unit Replace / append-to-main break**. |
+| C9 | ✅ | Common · News | RSS page reads `wwwroot/Public/rss.xml` (`Note.cshtml.cs:23`) but `/Public` is served from **legacy `AMCOS.Web/Public`** (`Program.cs:194-202`). `wwwroot/Public` doesn't exist. | News page always shows "No news feed available." |
+| C10 | ✅ | Data · Visualization | Inventory dashboard config key renamed `InventoryDashboardId` → **`VisualizationDashboardId`** (`Visualization.cshtml.cs:21`, `appsettings.json:39`). | A straight config port silently breaks the Inventory dashboard. |
+| C11 | ✅ | Common · Profile | **Company Name required-validation dropped** for CONTRACTOR accounts (`*` shown, no `required`, no server check) (`Profile/Index.cshtml:99-102`). | A CTR user can save a blank Company Name (legacy blocked it). |
+| C12 | ✅ | Report | On-screen APPN cell **colors wrong and inconsistent with the export**; `Contractor`↔`CCE` key inverted (`_CostReportTable.cshtml:11-21` vs `report.aspx.vb:458-479`). | Mis-colored appropriations; grid disagrees with the exported workbook. |
+| C13 | ✅ | Civilian PCS | **Anti-forgery removed** (`[IgnoreAntiforgeryToken]`, no token in JS) (`Index.cshtml.cs:14`). | CSRF protection on PCS save/delete/calc is gone. |
+| C14 | ✅ | Common · Footer | **Incorrect AMCOS acronym** — "Army Civilian and Military Operational Support" vs the correct "Army Military-Civilian Cost System" (`_Layout.cshtml:136`). | Wrong product name shown site-wide. |
+| C15 | ➖ | Admin · Users | The hidden self-only "Delete Me for Testing" hook is promoted to a production **"delete any user + cascade"**, with a **different cascade set** (adds `pcsproject`, **omits `PMUserSummary`/`PMUserSummaryElement`**) (`Users.cshtml.cs:356-413` vs `UpdateMyProfile.aspx.vb:97-110`). | New destructive admin capability + orphaned summary rows. |
 
 ---
 

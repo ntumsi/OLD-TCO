@@ -1,5 +1,18 @@
 "use strict";
 
+// Send the ASP.NET Core anti-forgery token on every state-changing AJAX request so the
+// PageModel's default antiforgery validation passes (the page renders the hidden
+// __RequestVerificationToken input via @Html.AntiForgeryToken()). Mirrors the header used
+// by the Project Details page and the shared keep-alive in site.js.
+$.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+        if (/^(POST|PUT|DELETE)$/i.test(settings.type)) {
+            var token = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (token) xhr.setRequestHeader("RequestVerificationToken", token.value);
+        }
+    }
+});
+
 // ── Utility functions ────────────────────────────────────────────────────────
 
 function FormatAsNumber(val) {

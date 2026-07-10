@@ -17,6 +17,10 @@
     <span class="ms-auto align-self-center text-success small d-none cal-autosaved">Saved</span>
 </div>
 
+<!-- Anti-forgery token: the PCS save/delete/calc/export/sort AJAX POSTs send this as the
+     RequestVerificationToken header (see pcs-civilian.js $.ajaxSetup). -->
+@Html.AntiForgeryToken()
+
 <!-- Hidden state -->
 <input type="hidden" id="AmcosVersionId" value="@Model.AmcosVersionId" />
 <input type="hidden" id="PCSContentCount" value="8" />
