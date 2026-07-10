@@ -75,12 +75,20 @@
                     <table class="table table-striped align-middle">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Start Year</th>
-                                <th>Duration</th>
-                                <th>Updated</th>
-                                <th>Created</th>
+                                @{
+                                    string SortHeader(string label, string col)
+                                    {
+                                        var active = string.Equals(Model.Sort, col, StringComparison.OrdinalIgnoreCase);
+                                        var caret = active ? (string.Equals(Model.Dir, "desc", StringComparison.OrdinalIgnoreCase) ? " ▼" : " ▲") : "";
+                                        return $"<a href=\"?sort={col}&dir={Model.NextDir(col)}\" class=\"text-decoration-none text-reset\">{label}{caret}</a>";
+                                    }
+                                }
+                                <th>@Html.Raw(SortHeader("Name", "name"))</th>
+                                <th>@Html.Raw(SortHeader("Description", "description"))</th>
+                                <th>@Html.Raw(SortHeader("Start Year", "startyear"))</th>
+                                <th>@Html.Raw(SortHeader("Duration", "duration"))</th>
+                                <th>@Html.Raw(SortHeader("Updated", "updated"))</th>
+                                <th>@Html.Raw(SortHeader("Created", "created"))</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
