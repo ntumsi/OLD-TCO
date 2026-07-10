@@ -66,6 +66,12 @@ public class IndexModel : PageModel
         if (string.IsNullOrWhiteSpace(ComPhone) && string.IsNullOrWhiteSpace(InternationalNo))
             ModelState.AddModelError(string.Empty, "At least one phone number is required.");
 
+        // Parity with the legacy RequiredFieldValidator: Company Name is required for contractor
+        // (CTR) accounts. The CTR panel is only shown when the rank ends with "CTR".
+        var rankForValidation = ArmyRank == "Other (Specify)" ? (ArmyRankOther?.Trim() ?? string.Empty) : (ArmyRank ?? string.Empty);
+        if (rankForValidation.EndsWith("CTR", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(CompanyName))
+            ModelState.AddModelError(nameof(CompanyName), "Company Name is required for contractor accounts.");
+
         LoadOrganizations();
 
         try

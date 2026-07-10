@@ -1,6 +1,7 @@
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.Security.Claims;
 using Aspose.Cells;
 using AMCOS.Data.Entities;
 using AMCOS.Logic;
@@ -83,6 +84,21 @@ public class ReportModel : PageModel
             var amcosVersionId = GetIntSetting("AmcosVersionId", 202501);
             var projectLogic = new AMCOS.Logic.Project();
             ProjectDetails = projectLogic.GetProject(ProjectId.Value);
+
+            // Owner check (parity with the legacy report query's `WHERE PMProject.UserID = @uid`):
+            // only the project's owner (or an admin) may view its report — prevents reading another
+            // user's report by guessing the projectId.
+            var currentUser = (User.Identity as ClaimsIdentity) is { IsAuthenticated: true } id
+                ? UserAdministration.GetCurrentUser(id) : null;
+            if (ProjectDetails == null ||
+                (!User.IsInRole("Admin") &&
+                 !string.Equals(ProjectDetails.UserId, currentUser?.UserId, StringComparison.OrdinalIgnoreCase)))
+            {
+                ProjectDetails = null;
+                LoadError = "This report is not available.";
+                return;
+            }
+
             CceSalaryLimit = SingleValue.Get("CCE", "MaxPayFootnote", amcosVersionId);
             ReportSelections = DataAccessUtility.GetDataTableByStaticSql(
                 // PostgreSQL folds unquoted identifiers to lowercase; the migrated tables are

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using AMCOS.Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,8 +25,12 @@ public class SponsorActionModel : PageModel
 
     public void OnGet()
     {
-        var sponsorId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                     ?? User.Identity?.Name;
+        // amcosuser.sponsoruserid references amcosuser.userid — NOT the OIDC DoD-ID claim.
+        // Resolve the current app user (by DoD id / email) and use its UserId, mirroring the
+        // legacy SponsorAction, which keyed the queue on the sponsor's amcosuser.UserId.
+        var sponsorId = (User.Identity as ClaimsIdentity) is { IsAuthenticated: true } id
+            ? UserAdministration.GetCurrentUser(id)?.UserId
+            : null;
 
         if (string.IsNullOrWhiteSpace(sponsorId))
         {

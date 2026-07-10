@@ -18,7 +18,7 @@ public class VisualizationModel : PageModel
 
     private static readonly Dictionary<string, (string ConfigKey, string Title)> Dashboards = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["inventory"]      = ("QuickSight:VisualizationDashboardId", "Inventory"),
+        ["inventory"]      = ("QuickSight:InventoryDashboardId", "Inventory"),
         ["pay-schedule"]   = ("QuickSight:PayScheduleDashboardId",   "Pay Schedule"),
         ["locality-rates"] = ("QuickSight:LocalityRateDashboardId",  "GS Locality Rates by ZIP Code"),
     };

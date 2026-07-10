@@ -20,7 +20,12 @@ public class NoteModel : PageModel
 
     public void OnGet(int? noteId)
     {
-        var path = Path.Combine(_environment.WebRootPath ?? string.Empty, "Public", "rss.xml");
+        // The /Public assets (incl. rss.xml) are served from the legacy AMCOS.Web/Public folder
+        // (Program.cs maps ../AMCOS.Web/Public -> /Public). Read the feed from there, matching where
+        // the RSS <link rel="alternate"> points; fall back to the Core wwwroot/Public copy if present.
+        var legacyPublic = Path.GetFullPath(Path.Combine(_environment.ContentRootPath, "..", "AMCOS.Web", "Public", "rss.xml"));
+        var wwwrootPublic = Path.Combine(_environment.WebRootPath ?? string.Empty, "Public", "rss.xml");
+        var path = System.IO.File.Exists(legacyPublic) ? legacyPublic : wwwrootPublic;
         if (!System.IO.File.Exists(path))
         {
             Notice = "No news feed is currently available.";
