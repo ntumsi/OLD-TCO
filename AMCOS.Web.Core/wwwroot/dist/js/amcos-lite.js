@@ -396,93 +396,110 @@
         || /^(MIN|AVG|MAX)$/i.test(h)
         || /^A_(PCT|MEDIAN)/i.test(h);
 
-    // Preferred left-to-right column order; grade columns (GS1…GS15, E1…E9, …) come last.
-    const PREFERRED_COLS = ['Cost Element Name', 'Cost Element Category', 'description', 'showorder', 'appngroup', 'appn'];
+    // Internal/bookkeeping columns the legacy grid never displays (Description becomes a tooltip).
+    const HIDDEN_COLS = ['showorder', 'appngroup', 'description'];
+    // Preferred left-to-right order (legacy detail grid: APPN, Category, Cost Element Name, then grades).
+    const PREFERRED_COLS = ['appn', 'Cost Element Category', 'Cost Element Name'];
     const isGradeCol = h => /^[A-Za-z]{1,3}\d{1,2}$/.test(h) || /^(MIN|AVG|MAX)$/i.test(h) || /^A_(PCT|MEDIAN)/i.test(h);
     const gradeNum = h => { const m = h.match(/\d+/); return m ? parseInt(m[0], 10) : 0; };
     function orderHeaders(all) {
-        const lead = PREFERRED_COLS.filter(h => all.includes(h));
-        const grades = all.filter(h => isGradeCol(h) && !lead.includes(h)).sort((a, b) => gradeNum(a) - gradeNum(b));
-        const rest = all.filter(h => !lead.includes(h) && !grades.includes(h));
+        const visible = all.filter(h => !HIDDEN_COLS.includes(String(h).toLowerCase()));
+        const lead = PREFERRED_COLS.filter(h => visible.includes(h));
+        const grades = visible.filter(h => isGradeCol(h) && !lead.includes(h)).sort((a, b) => gradeNum(a) - gradeNum(b));
+        const rest = visible.filter(h => !lead.includes(h) && !grades.includes(h));
         return [...lead, ...rest, ...grades];
     }
 
     const round2 = v => Math.round((Number(v) || 0) * 100) / 100;
+    // Currency formatting to match the legacy FormatCurrency: $1,234.00 and ($1,234.00) for negatives.
+    const usdFmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', currencySign: 'accounting' });
+    const fmtMoney = v => usdFmt.format(num(v));
 
-    // Appends "combined totals by APPN" rows (plus a grand total) to the bottom of a cost
-    // crosstab — one row per appropriation summing its cost elements per grade, mirroring the
-    // legacy Appropriation Group summary. No-op for grids without grade columns / an appn field.
-    function appendAppnTotals(table) {
-        if (!table || !table.rows || table.rows.length === 0) return table;
-        // Legacy parity: the Ancillary summary is NOT summed (its sub-elements aren't
-        // additive) — the legacy app suppressed the Total row + appropriation grid and
-        // warned the user (see alertForAllCostSummary). Skip totals for Ancillary.
-        if (costsFilter.costSummaryName === 'Ancillary') return table;
-        const keys = Object.keys(table.rows[0]);
-        const gradeCols = keys.filter(isGradeCol);
-        if (gradeCols.length === 0 || !keys.includes('appn')) return table;
-        const nameCol = keys.includes('Cost Element Name') ? 'Cost Element Name' : keys[0];
+    // Shapes the raw cost rows to match the legacy detail grid (Lite.GetCostTableWithOrder +
+    // CostsGridView row handling): suppress all-zero weapon-training rows, sort by ShowOrder,
+    // add the WEAPON SYSTEM MANPOWER / FEDERAL OM subtotals (Active-military WSM only) and a
+    // single grand Total row for every summary except Ancillary.
+    const NAME_COL = 'Cost Element Name';
+    function shapeCostTable(rows, summary, payPlan) {
+        if (!rows || rows.length === 0) return rows;
+        const gradeCols = Object.keys(rows[0]).filter(isGradeCol);
 
-        const order = [];
-        const groups = new Map();
-        table.rows.forEach(r => {
-            if (r._total) return;
-            const appn = String(r.appn ?? '').trim();
-            if (!appn) return;
-            if (!groups.has(appn)) { groups.set(appn, { appngroup: r.appngroup, sums: {} }); order.push(appn); }
-            const g = groups.get(appn);
-            gradeCols.forEach(gc => { const v = num(r[gc]); if (!isNaN(v)) g.sums[gc] = (g.sums[gc] || 0) + v; });
+        // 1. Suppress the weapon-specific-training rows whose every grade cell is zero.
+        let work = rows.filter(r => {
+            if (!String(r[NAME_COL] ?? '').toLowerCase().includes('weapon specific training')) return true;
+            return !gradeCols.every(gc => num(r[gc]) === 0);
         });
-        if (order.length === 0) return table;
 
-        const totals = [];
-        const grand = {};
-        order.forEach(appn => {
-            const g = groups.get(appn);
-            const row = { [nameCol]: `${appn} Total`, appn, appngroup: g.appngroup, _total: 'appn' };
-            gradeCols.forEach(gc => { row[gc] = round2(g.sums[gc] || 0); grand[gc] = (grand[gc] || 0) + (g.sums[gc] || 0); });
-            totals.push(row);
-        });
-        if (order.length > 1) {
-            const row = { [nameCol]: 'TOTAL APPN COST SUMMARY', _total: 'grand' };
-            gradeCols.forEach(gc => { row[gc] = round2(grand[gc] || 0); });
-            totals.push(row);
+        // 2. Order by ShowOrder (the migrated proc does not return rows pre-sorted).
+        work = work.slice().sort((a, b) => (Number(a.showorder) || 0) - (Number(b.showorder) || 0));
+
+        if (gradeCols.length === 0) return work;
+
+        const maxShow = work.reduce((m, r) => Math.max(m, Number(r.showorder) || 0), 0);
+        const sumRow = (label, predicate, order, kind) => {
+            const row = { [NAME_COL]: label, showorder: order, _total: true, [kind]: true };
+            gradeCols.forEach(gc => { row[gc] = round2(work.filter(predicate).reduce((s, r) => s + num(r[gc]), 0)); });
+            return row;
+        };
+
+        const extras = [];
+        // 3. Weapon System Manpower subtotals (Active-military "A*" pay plans only).
+        if (summary === 'Weapon System Manpower' && /^A/i.test(payPlan)) {
+            extras.push(sumRow('WEAPON SYSTEM MANPOWER Total', r => String(r.appn ?? '') !== 'Federal OM', maxShow + 1, '_subtotal'));
+            if (work.some(r => String(r.appn ?? '') === 'Federal OM'))
+                extras.push(sumRow('FEDERAL OM Total', r => String(r.appn ?? '') === 'Federal OM', maxShow + 2, '_subtotal'));
         }
-        return { ...table, rows: [...table.rows, ...totals] };
+        // 4. Grand Total (every summary except Ancillary), over the detail rows only.
+        if (summary !== 'Ancillary')
+            extras.push(sumRow('Total', r => !String(r[NAME_COL] ?? '').toLowerCase().endsWith('total'), maxShow + 3, '_grand'));
+
+        return [...work, ...extras];
     }
 
-    function renderTable(table, isCce) {
-        if (!table || !table.rows || table.rows.length === 0) return '<div class="alert alert-light border mb-3">No data returned for this grid.</div>';
-        const headers = orderHeaders(Object.keys(table.rows.find(r => !r._total) ?? table.rows[0]));
-        const head = headers.map(h => `<th>${h}</th>`).join('');
-        const body = table.rows.map(row => {
-            const totalKind = row._total; // 'appn' | 'grand' | undefined
+    function renderTable(rows, isCce) {
+        if (!rows || rows.length === 0) return '<div class="alert alert-light border mb-3">No data returned for this grid.</div>';
+        const dataRows = rows.filter(r => !r._total);
+        const headers = orderHeaders(Object.keys(dataRows[0] ?? rows[0]));
+        const gradeCols = headers.filter(isGradeCol);
+
+        // CCE parity: legacy highlights the ENTIRE grade column (and shows the note) when a value
+        // equals the salary-limit sentinel (cceMaxPayFootnote), not per-cell on > limit.
+        const cceCols = (isCce && cceSalaryLimit > 0)
+            ? gradeCols.filter(gc => dataRows.some(r => num(r[gc]) === cceSalaryLimit))
+            : [];
+
+        const head = headers.map(h => `<th${isGradeCol(h) ? ' class="text-end"' : ''}>${h}</th>`).join('');
+        const body = rows.map(row => {
+            const isTotal = !!row._total, isGrand = !!row._grand;
             const rowText = headers.map(h => String(row[h] ?? '')).join(' ').toUpperCase();
-            const isWeapon = rowText.includes('WEAPON SYSTEM');
+            const isWeapon = !isTotal && rowText.includes('WEAPON SYSTEM');
             const cells = headers.map(h => {
                 const val = row[h];
+                const grade = isGradeCol(h);
                 let bg = null, fg = '';
-                if (totalKind) {
-                    bg = totalKind === 'grand' ? '#343a40' : '#dee2e6';
-                    fg = totalKind === 'grand' ? 'color:#fff;' : '';
+                if (isTotal) {
+                    bg = isGrand ? '#343a40' : '#dee2e6';
+                    fg = isGrand ? 'color:#fff;' : '';
                 } else {
                     bg = appropColor(val);
                     if (!bg && isWeapon) bg = WEAPON_COLOR;
-                    if (!bg && isCce && isNumeric(val) && cceSalaryLimit > 0 && num(val) > cceSalaryLimit) bg = SALARY_LIMIT_COLOR;
                     if (bg) fg = 'color:#fff;';
+                    else if (cceCols.includes(h)) bg = SALARY_LIMIT_COLOR; // yellow, dark text
                 }
                 const style = bg ? ` style="background-color:${bg};${fg}"` : '';
-                return `<td${style}>${val ?? ''}</td>`;
+                const text = grade && isNumeric(val) ? fmtMoney(val) : (val ?? '');
+                return `<td${grade ? ' class="text-end"' : ''}${style}>${text}</td>`;
             }).join('');
-            return `<tr${totalKind ? ' class="fw-bold"' : ''}>${cells}</tr>`;
+            return `<tr${isTotal ? ' class="fw-bold"' : ''}>${cells}</tr>`;
         }).join('');
+
+        // Show the CCE over-limit highlight note only when a column actually hit the sentinel.
+        const note = el('cceHighlightNote');
+        if (note) note.classList.toggle('d-none', cceCols.length === 0);
+
         return `<div class="table-responsive mb-3"><table class="table table-sm table-bordered align-middle mb-0">`
             + `<thead class="table-dark"><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
     }
-
-    const prettyName = (name, i) => (!name || /^Table\d+$/i.test(name))
-        ? (i === 0 ? 'Cost Detail' : `Grid ${i + 1}`)
-        : name.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, c => c.toUpperCase());
 
     function buildChart(table, payPlan, summary) {
         const chartEl = el('amcosLiteChart');
@@ -553,17 +570,20 @@
             const payload = await response.json();
             const tables = payload.tables ?? [];
             const isCce = costsFilter.payPlan === 'CCE';
-            if (tables.length === 0) {
+            // Legacy binds a single cost grid; the migrated payload carries just the 'costs' set,
+            // so render that one (not every intermediate result set) with no per-grid heading.
+            const costTable = tables.find(t => t.name === 'costs') ?? tables[0];
+            if (!costTable || !costTable.rows || costTable.rows.length === 0) {
                 results.innerHTML = '<div class="alert alert-light border">No data returned.</div>';
             } else {
-                // Append combined totals-by-APPN rows to the bottom of each cost grid.
-                const withTotals = tables.map(appendAppnTotals);
-                results.innerHTML = withTotals.map((t, i) => `<h6 class="mt-3">${prettyName(t.name, i)}</h6>` + renderTable(t, isCce)).join('');
-                buildChart(withTotals[0], costsFilter.payPlan, costsFilter.costSummaryName);
+                const rows = shapeCostTable(costTable.rows, costsFilter.costSummaryName, costsFilter.payPlan);
+                results.innerHTML = renderTable(rows, isCce);
+                buildChart({ rows: costTable.rows }, costsFilter.payPlan, costsFilter.costSummaryName);
                 renderLegend();
             }
             status.className = 'alert alert-success';
-            status.textContent = `Loaded ${tables.length} grid(s) from AMCOS.Logic.Lite.`;
+            status.textContent = costTable && costTable.rows && costTable.rows.length
+                ? 'Cost data loaded.' : 'No data returned.';
         } catch (error) {
             status.className = 'alert alert-danger';
             status.textContent = error.message;

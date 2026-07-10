@@ -62,6 +62,14 @@ admin capability (kept).
 ## TIER 2 — GENUINE behavior/capability regressions (user-visible, not bugs)
 
 ### AMCOS Lite (output/presentation was thinned)
+_Batch 3a status (on-screen output): ✅ currency+right-align, hidden internal columns, ShowOrder
+sort, single-grid render, WSM/Federal-OM subtotals + grand Total, weapon zero-row suppression, CCE
+column-highlight on the sentinel. ➖ grade-header relabeling — already done at the DB layer
+(grades arrive as E1…E9 / MIN·AVG·MAX / GS1…GS15). ⏸ Appropriation-Group summary grid — DEFERRED:
+the migrated `getcosts.appngroup` is a functional grouping (Military Pay/Benefits/Training), not the
+legacy ARMY/DoD/FEDERAL/PA/OM appropriation-type key `GetAppropriationGroupColor`/`GetAppropriationGroupTable`
+require, so it cannot be rebuilt faithfully without a data/proc decision on that classification.
+⬜ inflation table (3b), Excel export (3c), filter validation + optgroups + ButtonClick logging (3d)._
 - REMOVED: **Appropriation-Group summary grid** (replaced by generic per-APPN total rows, different grouping key). — `appendAppnTotals` vs `GetAppropriationGroupTable`.
 - REMOVED: **Inflation-rate header table** (percent, column count varies by family) — absent entirely.
 - REMOVED: **Excel/Download export** (formatted xlsx: filter block, summary, inflation table, CCE notes, classification banner) — no export button/endpoint.
