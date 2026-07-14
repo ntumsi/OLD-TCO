@@ -8,8 +8,8 @@ namespace AMCOS.Web.Core.Pages.App.Data;
 
 // Local Cost Compare dashboard (replaces the QuickSight "cost-compare" embed).
 // Compares total cost by grade level between TWO AMCOS versions for a chosen pay plan.
-// Data from data.costs via LocalDashboards.
-[Authorize]
+// Data from data.costs via LocalDashboards. Admin-only (was an Administration dashboard).
+[Authorize(Roles = "Admin")]
 public class CostCompareModel : PageModel
 {
     public List<int> Versions { get; private set; } = new();
