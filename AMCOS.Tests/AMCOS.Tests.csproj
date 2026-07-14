@@ -24,6 +24,13 @@
     <Compile Include="ConfigurationMigrationTests.cs" />
     <Compile Include="TestMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <!-- Tier 1: pure-logic tests (no database) written against the .NET Core app.
+         NOTE: SecurityHelper/ExportHelper/KeyCloakHelper are <Compile Remove>d from
+         AMCOS.Logic (legacy, superseded), so they are not testable from here. -->
+    <Compile Include="Helpers\AdminHelperTest.cs" />
+    <Compile Include="Logic\UserAdministrationLogicTest.cs" />
+    <Compile Include="Attributes\EmailAddressOrNullTest.cs" />
+    <Compile Include="Attributes\ValidationAttributesTest.cs" />
   </ItemGroup>
 
   <ItemGroup>
