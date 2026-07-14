@@ -2,7 +2,7 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Security.Claims;
-using Aspose.Cells;
+using ClosedXML.Excel;
 using AMCOS.Data.Entities;
 using AMCOS.Logic;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +16,10 @@ namespace AMCOS.Web.Core.Pages.App.Project;
 public class ReportModel : PageModel
 {
     private readonly IConfiguration _configuration;
-    private readonly IWebHostEnvironment _environment;
 
-    public ReportModel(IConfiguration configuration, IWebHostEnvironment environment)
+    public ReportModel(IConfiguration configuration)
     {
         _configuration = configuration;
-        _environment = environment;
     }
 
     [BindProperty(SupportsGet = true)]
@@ -58,19 +56,15 @@ public class ReportModel : PageModel
             return RedirectToPage(new { projectId });
         }
 
-        ApplyAsposeLicense(_environment);
-
-        var workbook = new Workbook();
-        workbook.Worksheets.Clear();
-        var sheet = workbook.Worksheets[workbook.Worksheets.Add()];
-        sheet.Name = "AMCOS Report";
+        using var workbook = new XLWorkbook();
+        var sheet = workbook.Worksheets.Add("AMCOS Report");
 
         BuildExportSheet(sheet);
 
-        sheet.AutoFitColumns();
+        sheet.Columns().AdjustToContents();
 
         using var stream = new MemoryStream();
-        workbook.Save(stream, SaveFormat.Xlsx);
+        workbook.SaveAs(stream);
         stream.Position = 0;
         return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"AMCOSReportData_{DateTime.UtcNow:yyyyMMdd-HHmmss}.xlsx");
     }
@@ -153,25 +147,6 @@ public class ReportModel : PageModel
         catch (Exception ex)
         {
             LoadError = ex.Message;
-        }
-    }
-
-    // Applies the Aspose.Cells license if present and valid. An expired/mismatched license
-    // (e.g. the bundled .lic predates the Aspose DLL build) must NOT abort the export — Aspose
-    // simply runs in evaluation mode, which still produces a usable workbook.
-    internal static void ApplyAsposeLicense(IWebHostEnvironment environment)
-    {
-        try
-        {
-            var licensePath = Path.Combine(environment.ContentRootPath, "Licenses", "Aspose.Cells.lic");
-            if (System.IO.File.Exists(licensePath))
-            {
-                new License().SetLicense(licensePath);
-            }
-        }
-        catch
-        {
-            // Fall back to Aspose evaluation mode rather than failing the export.
         }
     }
 
@@ -265,7 +240,10 @@ public class ReportModel : PageModel
 
     // ── Excel export ────────────────────────────────────────────────────────────
 
-    private void BuildExportSheet(Worksheet ws)
+    // Aspose built-in Number = 7 (currency) → ClosedXML format string.
+    private const string CurrencyFormat = "$#,##0.00;($#,##0.00)";
+
+    private void BuildExportSheet(IXLWorksheet ws)
     {
         var row = 0;
 
@@ -313,59 +291,50 @@ public class ReportModel : PageModel
         WriteBanner(ws, row + 3, "UNCLASSIFIED//FOR OFFICIAL USE ONLY");
     }
 
-    private static void WriteBanner(Worksheet ws, int row, string text)
+    private static void WriteBanner(IXLWorksheet ws, int row, string text)
     {
-        var cell = ws.Cells[row, 0];
-        cell.PutValue(text);
-        var style = cell.GetStyle();
-        style.Font.IsBold = true;
-        style.HorizontalAlignment = TextAlignmentType.Center;
-        cell.SetStyle(style);
-        ws.Cells.Merge(row, 0, 1, 10);
+        var cell = Cell0(ws, row, 0);
+        cell.Value = text;
+        cell.Style.Font.Bold = true;
+        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+        Range0(ws, row, 0, 1, 10).Merge();
     }
 
-    private static int WriteSectionTitle(Worksheet ws, int row, string title)
+    private static int WriteSectionTitle(IXLWorksheet ws, int row, string title)
     {
-        var cell = ws.Cells[row, 0];
-        cell.PutValue(title);
-        var style = cell.GetStyle();
-        style.Font.IsBold = true;
-        style.Font.Size = 14;
-        cell.SetStyle(style);
+        var cell = Cell0(ws, row, 0);
+        cell.Value = title;
+        cell.Style.Font.Bold = true;
+        cell.Style.Font.FontSize = 14;
         return row + 1;
     }
 
-    private static int WriteKeyValue(Worksheet ws, int row, string key, string? value)
+    private static int WriteKeyValue(IXLWorksheet ws, int row, string key, string? value)
     {
-        var keyCell = ws.Cells[row, 0];
-        keyCell.PutValue(key);
-        var keyStyle = keyCell.GetStyle();
-        keyStyle.Font.IsBold = true;
-        keyStyle.Font.Color = Color.White;
-        keyStyle.ForegroundColor = Color.Navy;
-        keyStyle.Pattern = BackgroundType.Solid;
-        keyCell.SetStyle(keyStyle);
-        ws.Cells[row, 1].PutValue(value ?? "");
+        var keyCell = Cell0(ws, row, 0);
+        keyCell.Value = key;
+        keyCell.Style.Font.Bold = true;
+        keyCell.Style.Font.FontColor = XLColor.White;
+        keyCell.Style.Fill.BackgroundColor = XLColor.Navy;
+        Cell0(ws, row, 1).Value = value ?? "";
         return row + 1;
     }
 
-    private static int WriteNote(Worksheet ws, int row, string text)
+    private static int WriteNote(IXLWorksheet ws, int row, string text)
     {
-        var cell = ws.Cells[row, 0];
-        cell.PutValue(text);
-        var style = cell.GetStyle();
-        style.IsTextWrapped = true;
-        cell.SetStyle(style);
-        ws.Cells.Merge(row, 0, 1, 10);
+        var cell = Cell0(ws, row, 0);
+        cell.Value = text;
+        cell.Style.Alignment.WrapText = true;
+        Range0(ws, row, 0, 1, 10).Merge();
         return row + 1;
     }
 
-    private static int WriteTableBlock(Worksheet ws, int row, string title, DataTable? table)
+    private static int WriteTableBlock(IXLWorksheet ws, int row, string title, DataTable? table)
     {
         row = WriteSectionTitle(ws, row, title);
         if (table is null || table.Columns.Count == 0)
         {
-            ws.Cells[row, 0].PutValue("No data available.");
+            Cell0(ws, row, 0).Value = "No data available.";
             return row + 2;
         }
 
@@ -384,23 +353,21 @@ public class ReportModel : PageModel
             for (var c = 0; c < visible.Count; c++)
             {
                 var value = dataRow[visible[c]];
-                var cell = ws.Cells[row, c];
-                cell.PutValue(value == DBNull.Value ? "" : value.ToString());
-                var style = cell.GetStyle();
-                ApplyThinBorders(style);
-                cell.SetStyle(style);
+                var cell = Cell0(ws, row, c);
+                cell.Value = value == DBNull.Value ? "" : value.ToString() ?? "";
+                ApplyThinBorders(cell);
             }
             row++;
         }
         return row + 1;
     }
 
-    private int WriteCostBlock(Worksheet ws, int row, string title, DataTable table, List<string> yearColumns)
+    private int WriteCostBlock(IXLWorksheet ws, int row, string title, DataTable table, List<string> yearColumns)
     {
         row = WriteSectionTitle(ws, row, title);
         if (table.Columns.Count == 0)
         {
-            ws.Cells[row, 0].PutValue("No data available.");
+            Cell0(ws, row, 0).Value = "No data available.";
             return row + 2;
         }
 
@@ -425,15 +392,12 @@ public class ReportModel : PageModel
             if (kind == CostReportBuilder.KindBanner)
             {
                 var label = table.Columns.Contains("Cost Element") ? dataRow["Cost Element"]?.ToString() : "";
-                var bcell = ws.Cells[row, 0];
-                bcell.PutValue(label);
-                var bstyle = bcell.GetStyle();
-                bstyle.Font.IsBold = true;
-                bstyle.Font.Color = Color.White;
-                bstyle.ForegroundColor = Color.Black;
-                bstyle.Pattern = BackgroundType.Solid;
-                bcell.SetStyle(bstyle);
-                ws.Cells.Merge(row, 0, 1, visible.Count);
+                var bcell = Cell0(ws, row, 0);
+                bcell.Value = label ?? "";
+                bcell.Style.Font.Bold = true;
+                bcell.Style.Font.FontColor = XLColor.White;
+                bcell.Style.Fill.BackgroundColor = XLColor.Black;
+                Range0(ws, row, 0, 1, visible.Count).Merge();
                 row++;
                 continue;
             }
@@ -447,77 +411,75 @@ public class ReportModel : PageModel
             {
                 var col = visible[c];
                 var value = dataRow[col];
-                var cell = ws.Cells[row, c];
+                var cell = Cell0(ws, row, c);
                 var isYear = yearSet.Contains(col.ColumnName);
 
                 if (isYear && decimal.TryParse(value?.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var num))
                 {
-                    cell.PutValue((double)num);
+                    cell.Value = (double)num;
                 }
                 else
                 {
-                    cell.PutValue(value == DBNull.Value ? "" : value?.ToString());
+                    cell.Value = value == DBNull.Value ? "" : value?.ToString() ?? "";
                 }
 
-                var style = cell.GetStyle();
-                if (isYear) style.Number = 7; // $#,##0.00;($#,##0.00)
-                ApplyThinBorders(style);
+                if (isYear) cell.Style.NumberFormat.Format = CurrencyFormat; // $#,##0.00;($#,##0.00)
+                ApplyThinBorders(cell);
 
                 // Total/subtotal rows: color only the Cost Element column and those to its right;
                 // the columns to the left are left unfilled (legacy report.aspx.vb).
                 if (kindColor is { } kc && c >= costElementIndex)
                 {
-                    style.ForegroundColor = ColorTranslator.FromHtml(kc.Bg);
-                    style.Pattern = BackgroundType.Solid;
-                    style.Font.IsBold = true;
-                    if (kc.White) style.Font.Color = Color.White;
+                    cell.Style.Fill.BackgroundColor = XLColor.FromHtml(kc.Bg);
+                    cell.Style.Font.Bold = true;
+                    if (kc.White) cell.Style.Font.FontColor = XLColor.White;
                 }
                 else if (kindColor is null && col.ColumnName == "APPN" && value != DBNull.Value)
                 {
                     var apColor = appropriation.GetAppropriationColor(value?.ToString() ?? "");
                     if (apColor != Color.White)
                     {
-                        style.ForegroundColor = apColor;
-                        style.Pattern = BackgroundType.Solid;
-                        style.Font.Color = Color.White;
+                        cell.Style.Fill.BackgroundColor = XLColor.FromColor(apColor);
+                        cell.Style.Font.FontColor = XLColor.White;
                     }
                 }
                 else if (isYear && overLimit)
                 {
-                    style.ForegroundColor = Color.Yellow;
-                    style.Pattern = BackgroundType.Solid;
+                    cell.Style.Fill.BackgroundColor = XLColor.Yellow;
                 }
-
-                cell.SetStyle(style);
             }
             row++;
         }
         return row + 1;
     }
 
-    private static void WriteHeaderCell(Worksheet ws, int row, int col, string text, bool black = false)
+    private static void WriteHeaderCell(IXLWorksheet ws, int row, int col, string text, bool black = false)
     {
-        var cell = ws.Cells[row, col];
-        cell.PutValue(text);
-        var style = cell.GetStyle();
-        style.Font.IsBold = true;
-        style.Font.Color = Color.White;
-        style.ForegroundColor = black ? Color.Black : Color.Navy; // legacy cost header is black
-        style.Pattern = BackgroundType.Solid;
-        ApplyThinBorders(style);
-        cell.SetStyle(style);
+        var cell = Cell0(ws, row, col);
+        cell.Value = text;
+        cell.Style.Font.Bold = true;
+        cell.Style.Font.FontColor = XLColor.White;
+        cell.Style.Fill.BackgroundColor = black ? XLColor.Black : XLColor.Navy; // legacy cost header is black
+        ApplyThinBorders(cell);
     }
 
     // Thin box border on all four sides (legacy report.aspx.vb export cell styling).
-    private static void ApplyThinBorders(Style style)
+    private static void ApplyThinBorders(IXLCell cell)
     {
-        style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
-        style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
-        style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
-        style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
-        style.Borders[BorderType.TopBorder].Color = Color.Black;
-        style.Borders[BorderType.BottomBorder].Color = Color.Black;
-        style.Borders[BorderType.LeftBorder].Color = Color.Black;
-        style.Borders[BorderType.RightBorder].Color = Color.Black;
+        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+        cell.Style.Border.TopBorderColor = XLColor.Black;
+        cell.Style.Border.BottomBorderColor = XLColor.Black;
+        cell.Style.Border.LeftBorderColor = XLColor.Black;
+        cell.Style.Border.RightBorderColor = XLColor.Black;
     }
+
+    // ---- ClosedXML addressing helpers (0-based in, 1-based ClosedXML out) -------
+
+    private static IXLCell Cell0(IXLWorksheet ws, int row, int col) => ws.Cell(row + 1, col + 1);
+
+    private static IXLRange Range0(IXLWorksheet ws, int firstRow, int firstCol, int totalRows, int totalCols)
+        => ws.Range(firstRow + 1, firstCol + 1, firstRow + totalRows, firstCol + totalCols);
 }

@@ -18,6 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\AMCOS.Data\AMCOS.Data.csproj" />
     <ProjectReference Include="..\AMCOS.Logic\AMCOS.Logic.csproj" />
+    <!-- For exercising the ClosedXML export helpers (CivPcsExportHelper / LiteExportHelper). -->
+    <ProjectReference Include="..\AMCOS.Web.Core\AMCOS.Web.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +37,7 @@
          no database is reachable. Require the migrations + demo seed. -->
     <Compile Include="Integration\DatabaseIntegrationTests.cs" />
     <Compile Include="Integration\LocalDashboardsTests.cs" />
+    <Compile Include="ExcelExport\ExcelExportTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

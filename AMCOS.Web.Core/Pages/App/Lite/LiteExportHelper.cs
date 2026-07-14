@@ -1,10 +1,8 @@
 using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Aspose.Cells;
+using ClosedXML.Excel;
 using AMCOS.Web.Core.Models;
-using AMCOS.Web.Core.Pages.App.Project;
 
 namespace AMCOS.Web.Core.Pages.App.Lite;
 
@@ -13,54 +11,50 @@ namespace AMCOS.Web.Core.Pages.App.Lite;
 /// banner, page title, inflation-rate header, filter selections, and the cost detail grid — shaped
 /// to match the on-screen grid (amcos-lite.js shapeCostTable / renderTable): internal columns hidden,
 /// rows ordered by ShowOrder, WSM/Federal-OM subtotals + grand Total, currency formatting, and the
-/// CCE over-limit column highlight.
+/// CCE over-limit column highlight. Uses ClosedXML (MIT) rather than Aspose.Cells.
 /// </summary>
 public static class LiteExportHelper
 {
     private const string NameCol = "Cost Element Name";
+    private const string PercentFormat = "0.00%";
+    private const string CurrencyFormat = "$#,##0.00;($#,##0.00)";
     private static readonly string[] PreferredCols = { "appn", "Cost Element Category", "Cost Element Name" };
     private static readonly string[] HiddenCols = { "showorder", "appngroup", "description" };
 
     public static byte[] Build(LiteCostRequest req, DataTable costs, DataTable inflation,
-        decimal cceMaxPayFootnote, int defaultYear, IWebHostEnvironment environment)
+        decimal cceMaxPayFootnote, int defaultYear)
     {
-        ReportModel.ApplyAsposeLicense(environment);
-
-        var workbook = new Workbook();
-        workbook.Worksheets.Clear();
-        var ws = workbook.Worksheets[workbook.Worksheets.Add()];
-        ws.Name = "AMCOS Lite";
+        using var workbook = new XLWorkbook();
+        var ws = workbook.Worksheets.Add("AMCOS Lite");
 
         var row = 0;
         WriteBanner(ws, row, "UNCLASSIFIED//FOR OFFICIAL USE ONLY");
         row += 2;
 
-        var title = ws.Cells[row, 0];
-        title.PutValue("AMCOS Lite");
-        var titleStyle = title.GetStyle();
-        titleStyle.Font.IsBold = true;
-        titleStyle.Font.Size = 16;
-        title.SetStyle(titleStyle);
+        var title = Cell0(ws, row, 0);
+        title.Value = "AMCOS Lite";
+        title.Style.Font.Bold = true;
+        title.Style.Font.FontSize = 16;
         row += 2;
 
         row = WriteInflation(ws, row, inflation);
         row = WriteFilters(ws, row, req, defaultYear);
         WriteCostDetail(ws, row, costs, req, cceMaxPayFootnote);
 
-        ws.AutoFitColumns();
+        ws.Columns().AdjustToContents();
 
         using var stream = new MemoryStream();
-        workbook.Save(stream, SaveFormat.Xlsx);
+        workbook.SaveAs(stream);
         return stream.ToArray();
     }
 
     // ── inflation-rate header ─────────────────────────────────────────────────
-    private static int WriteInflation(Worksheet ws, int row, DataTable inflation)
+    private static int WriteInflation(IXLWorksheet ws, int row, DataTable inflation)
     {
         row = WriteSectionTitle(ws, row, "Inflation Rates");
         if (inflation == null || inflation.Columns.Count == 0 || inflation.Rows.Count == 0)
         {
-            ws.Cells[row, 0].PutValue("No data available.");
+            Cell0(ws, row, 0).Value = "No data available.";
             return row + 2;
         }
         for (var c = 0; c < inflation.Columns.Count; c++)
@@ -69,26 +63,24 @@ public static class LiteExportHelper
         var data = inflation.Rows[0];
         for (var c = 0; c < inflation.Columns.Count; c++)
         {
-            var cell = ws.Cells[row, c];
+            var cell = Cell0(ws, row, c);
             var value = data[c];
             // First column is the row label ('Inflation Rate'); the rest are fractional rates → percent.
             if (c > 0 && decimal.TryParse(value?.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var rate))
             {
-                cell.PutValue((double)rate);
-                var s = cell.GetStyle();
-                s.Number = 10; // 0.00%
-                cell.SetStyle(s);
+                cell.Value = (double)rate;
+                cell.Style.NumberFormat.Format = PercentFormat;
             }
             else
             {
-                cell.PutValue(value == DBNull.Value ? "" : value?.ToString());
+                cell.Value = value == DBNull.Value ? "" : value?.ToString() ?? "";
             }
         }
         return row + 2;
     }
 
     // ── filter selections ─────────────────────────────────────────────────────
-    private static int WriteFilters(Worksheet ws, int row, LiteCostRequest req, int defaultYear)
+    private static int WriteFilters(IXLWorksheet ws, int row, LiteCostRequest req, int defaultYear)
     {
         row = WriteSectionTitle(ws, row, "Filter Selections");
         row = WriteKeyValue(ws, row, "Pay Plan", req.PayPlan);
@@ -108,12 +100,12 @@ public static class LiteExportHelper
     }
 
     // ── cost detail grid ──────────────────────────────────────────────────────
-    private static void WriteCostDetail(Worksheet ws, int row, DataTable costs, LiteCostRequest req, decimal cceMaxPay)
+    private static void WriteCostDetail(IXLWorksheet ws, int row, DataTable costs, LiteCostRequest req, decimal cceMaxPay)
     {
         row = WriteSectionTitle(ws, row, "Cost Detail");
         if (costs == null || costs.Columns.Count == 0 || costs.Rows.Count == 0)
         {
-            ws.Cells[row, 0].PutValue("No data available.");
+            Cell0(ws, row, 0).Value = "No data available.";
             return;
         }
 
@@ -142,33 +134,29 @@ public static class LiteExportHelper
                 var h = headers[c];
                 var grade = IsGradeCol(h);
                 var value = r.GetValueOrDefault(h);
-                var cell = ws.Cells[row, c];
+                var cell = Cell0(ws, row, c);
 
                 if (grade && value != null && value != DBNull.Value
                     && decimal.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var money))
                 {
-                    cell.PutValue((double)money);
+                    cell.Value = (double)money;
                 }
                 else
                 {
-                    cell.PutValue(value == null || value == DBNull.Value ? "" : value.ToString());
+                    cell.Value = value == null || value == DBNull.Value ? "" : value.ToString();
                 }
 
-                var style = cell.GetStyle();
-                if (grade) style.Number = 7; // $#,##0.00;($#,##0.00)
+                if (grade) cell.Style.NumberFormat.Format = CurrencyFormat;
                 if (total)
                 {
-                    style.ForegroundColor = grand ? ColorTranslator.FromHtml("#343a40") : ColorTranslator.FromHtml("#DEDFDE");
-                    style.Pattern = BackgroundType.Solid;
-                    style.Font.IsBold = true;
-                    if (grand) style.Font.Color = Color.White;
+                    cell.Style.Fill.BackgroundColor = grand ? XLColor.FromHtml("#343a40") : XLColor.FromHtml("#DEDFDE");
+                    cell.Style.Font.Bold = true;
+                    if (grand) cell.Style.Font.FontColor = XLColor.White;
                 }
                 else if (cceCols.Contains(h))
                 {
-                    style.ForegroundColor = Color.Yellow;
-                    style.Pattern = BackgroundType.Solid;
+                    cell.Style.Fill.BackgroundColor = XLColor.Yellow;
                 }
-                cell.SetStyle(style);
             }
             row++;
         }
@@ -212,6 +200,11 @@ public static class LiteExportHelper
     }
 
     // ── helpers ───────────────────────────────────────────────────────────────
+    private static IXLCell Cell0(IXLWorksheet ws, int row, int col) => ws.Cell(row + 1, col + 1);
+
+    private static IXLRange Range0(IXLWorksheet ws, int firstRow, int firstCol, int totalRows, int totalCols)
+        => ws.Range(firstRow + 1, firstCol + 1, firstRow + totalRows, firstCol + totalCols);
+
     private static bool IsTotal(Dictionary<string, object?> r) => r.ContainsKey("_total");
 
     private static List<Dictionary<string, object?>> ToDicts(DataTable table)
@@ -255,55 +248,44 @@ public static class LiteExportHelper
         };
     }
 
-    // ── styled-cell writers (match Report.cshtml.cs) ──────────────────────────
-    private static void WriteBanner(Worksheet ws, int row, string text)
+    // ── styled-cell writers ───────────────────────────────────────────────────
+    private static void WriteBanner(IXLWorksheet ws, int row, string text)
     {
-        var cell = ws.Cells[row, 0];
-        cell.PutValue(text);
-        var style = cell.GetStyle();
-        style.Font.IsBold = true;
-        style.Font.Color = Color.White;
-        style.ForegroundColor = Color.Green;
-        style.Pattern = BackgroundType.Solid;
-        style.HorizontalAlignment = TextAlignmentType.Center;
-        cell.SetStyle(style);
-        ws.Cells.Merge(row, 0, 1, 10);
+        var cell = Cell0(ws, row, 0);
+        cell.Value = text;
+        cell.Style.Font.Bold = true;
+        cell.Style.Font.FontColor = XLColor.White;
+        cell.Style.Fill.BackgroundColor = XLColor.Green;
+        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+        Range0(ws, row, 0, 1, 10).Merge();
     }
 
-    private static int WriteSectionTitle(Worksheet ws, int row, string title)
+    private static int WriteSectionTitle(IXLWorksheet ws, int row, string title)
     {
-        var cell = ws.Cells[row, 0];
-        cell.PutValue(title);
-        var style = cell.GetStyle();
-        style.Font.IsBold = true;
-        style.Font.Size = 14;
-        cell.SetStyle(style);
+        var cell = Cell0(ws, row, 0);
+        cell.Value = title;
+        cell.Style.Font.Bold = true;
+        cell.Style.Font.FontSize = 14;
         return row + 1;
     }
 
-    private static int WriteKeyValue(Worksheet ws, int row, string key, string? value)
+    private static int WriteKeyValue(IXLWorksheet ws, int row, string key, string? value)
     {
-        var keyCell = ws.Cells[row, 0];
-        keyCell.PutValue(key);
-        var keyStyle = keyCell.GetStyle();
-        keyStyle.Font.IsBold = true;
-        keyStyle.Font.Color = Color.White;
-        keyStyle.ForegroundColor = Color.Navy;
-        keyStyle.Pattern = BackgroundType.Solid;
-        keyCell.SetStyle(keyStyle);
-        ws.Cells[row, 1].PutValue(value ?? "");
+        var keyCell = Cell0(ws, row, 0);
+        keyCell.Value = key;
+        keyCell.Style.Font.Bold = true;
+        keyCell.Style.Font.FontColor = XLColor.White;
+        keyCell.Style.Fill.BackgroundColor = XLColor.Navy;
+        Cell0(ws, row, 1).Value = value ?? "";
         return row + 1;
     }
 
-    private static void WriteHeaderCell(Worksheet ws, int row, int col, string text)
+    private static void WriteHeaderCell(IXLWorksheet ws, int row, int col, string text)
     {
-        var cell = ws.Cells[row, col];
-        cell.PutValue(text);
-        var style = cell.GetStyle();
-        style.Font.IsBold = true;
-        style.Font.Color = Color.White;
-        style.ForegroundColor = Color.Navy;
-        style.Pattern = BackgroundType.Solid;
-        cell.SetStyle(style);
+        var cell = Cell0(ws, row, col);
+        cell.Value = text;
+        cell.Style.Font.Bold = true;
+        cell.Style.Font.FontColor = XLColor.White;
+        cell.Style.Fill.BackgroundColor = XLColor.Navy;
     }
 }

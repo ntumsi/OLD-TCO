@@ -201,7 +201,7 @@ public class IndexModel : PageModel
                 request.InflationYear ?? DefaultYear.ToString(), amcosVersionId);
             var cceMaxPay = SingleValue.Get("CCE", "MaxPayFootnote", amcosVersionId);
 
-            var bytes = LiteExportHelper.Build(request, costs, inflation, cceMaxPay, DefaultYear, _environment);
+            var bytes = LiteExportHelper.Build(request, costs, inflation, cceMaxPay, DefaultYear);
             return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 $"AMCOSLiteData_{DateTime.UtcNow:yyyyMMdd-HHmmss}.xlsx");
         }

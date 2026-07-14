@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using System.Text;
-using Aspose.Cells;
+using ClosedXML.Excel;
 using AMCOS.Data.Entities;
 using AMCOS.Logic;
 using Microsoft.AspNetCore.Authorization;
@@ -14,12 +14,10 @@ namespace AMCOS.Web.Core.Pages.Admin;
 public class UsersModel : PageModel
 {
     private readonly IConfiguration _configuration;
-    private readonly IWebHostEnvironment _environment;
 
-    public UsersModel(IConfiguration configuration, IWebHostEnvironment environment)
+    public UsersModel(IConfiguration configuration)
     {
         _configuration = configuration;
-        _environment = environment;
     }
 
     // ── Filter bind-properties (GET + POST) ──────────────────────────────────
@@ -194,20 +192,8 @@ public class UsersModel : PageModel
         LoadOrganizations();
         RunSearch();
 
-        try
-        {
-            var licensePath = Path.Combine(_environment.ContentRootPath, "Licenses", "Aspose.Cells.lic");
-            if (System.IO.File.Exists(licensePath))
-            {
-                new License().SetLicense(licensePath);
-            }
-        }
-        catch { /* expired/mismatched Aspose license -> evaluation mode, still exports */ }
-
-        var workbook = new Workbook();
-        workbook.Worksheets.Clear();
-        workbook.Worksheets.Add("Users");
-        var sheet = workbook.Worksheets[0];
+        using var workbook = new XLWorkbook();
+        var sheet = workbook.Worksheets.Add("Users");
 
         // Header row
         string[] headers =
@@ -216,31 +202,31 @@ public class UsersModel : PageModel
             "Account Type", "Login Count", "Date Created", "Last Update", "Last Login", "Role"
         };
         for (var c = 0; c < headers.Length; c++)
-            sheet.Cells[0, c].PutValue(headers[c]);
+            Cell0(sheet, 0, c).Value = headers[c];
 
         // Data rows
         for (var r = 0; r < Users.Count; r++)
         {
             var u = Users[r];
-            sheet.Cells[r + 1, 0].PutValue(u.Name);
-            sheet.Cells[r + 1, 1].PutValue(u.Email);
-            sheet.Cells[r + 1, 2].PutValue(u.ArmyRank);
-            sheet.Cells[r + 1, 3].PutValue(u.Macom);
-            sheet.Cells[r + 1, 4].PutValue(u.CompanyName);
-            sheet.Cells[r + 1, 5].PutValue(u.OfficeName);
-            sheet.Cells[r + 1, 6].PutValue(u.Phone);
-            sheet.Cells[r + 1, 7].PutValue(u.AccountType);
-            sheet.Cells[r + 1, 8].PutValue(u.LoginCount);
-            sheet.Cells[r + 1, 9].PutValue(u.DateCreated?.ToString("g"));
-            sheet.Cells[r + 1, 10].PutValue(u.LastUpdate?.ToString("g"));
-            sheet.Cells[r + 1, 11].PutValue(u.LastLogin?.ToString("g"));
-            sheet.Cells[r + 1, 12].PutValue(u.Role);
+            SetCellValue(Cell0(sheet, r + 1, 0), u.Name);
+            SetCellValue(Cell0(sheet, r + 1, 1), u.Email);
+            SetCellValue(Cell0(sheet, r + 1, 2), u.ArmyRank);
+            SetCellValue(Cell0(sheet, r + 1, 3), u.Macom);
+            SetCellValue(Cell0(sheet, r + 1, 4), u.CompanyName);
+            SetCellValue(Cell0(sheet, r + 1, 5), u.OfficeName);
+            SetCellValue(Cell0(sheet, r + 1, 6), u.Phone);
+            SetCellValue(Cell0(sheet, r + 1, 7), u.AccountType);
+            SetCellValue(Cell0(sheet, r + 1, 8), u.LoginCount);
+            SetCellValue(Cell0(sheet, r + 1, 9), u.DateCreated?.ToString("g"));
+            SetCellValue(Cell0(sheet, r + 1, 10), u.LastUpdate?.ToString("g"));
+            SetCellValue(Cell0(sheet, r + 1, 11), u.LastLogin?.ToString("g"));
+            SetCellValue(Cell0(sheet, r + 1, 12), u.Role);
         }
 
-        sheet.AutoFitColumns();
+        sheet.Columns().AdjustToContents();
 
         using var stream = new MemoryStream();
-        workbook.Save(stream, SaveFormat.Xlsx);
+        workbook.SaveAs(stream);
         stream.Position = 0;
 
         return File(
@@ -250,6 +236,31 @@ public class UsersModel : PageModel
     }
 
     // ── Private helpers ───────────────────────────────────────────────────────
+
+    // ClosedXML addressing helpers (0-based in, 1-based ClosedXML out).
+    private static IXLCell Cell0(IXLWorksheet ws, int row, int col) => ws.Cell(row + 1, col + 1);
+
+    private static IXLRange Range0(IXLWorksheet ws, int firstRow, int firstCol, int totalRows, int totalCols)
+        => ws.Range(firstRow + 1, firstCol + 1, firstRow + totalRows, firstCol + totalCols);
+
+    private static void SetCellValue(IXLCell cell, object? value)
+    {
+        switch (value)
+        {
+            case null: break;
+            case string s: cell.Value = s; break;
+            case bool b: cell.Value = b; break;
+            case DateTime dt: cell.Value = dt; break;
+            case decimal dec: cell.Value = dec; break;
+            case double d: cell.Value = d; break;
+            case float f: cell.Value = f; break;
+            case int i: cell.Value = i; break;
+            case long l: cell.Value = l; break;
+            case short sh: cell.Value = sh; break;
+            case byte by: cell.Value = by; break;
+            default: cell.Value = value.ToString(); break;
+        }
+    }
 
     private void LoadOrganizations()
     {

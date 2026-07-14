@@ -1,89 +1,117 @@
-using System.Drawing;
 using System.Reflection;
 using AMCOS.Logic.Attributes;
-using Aspose.Cells;
+using ClosedXML.Excel;
 
 namespace AMCOS.Web.Core.Pages.App.CivilianPcs;
 
 /// <summary>
 /// Attribute-driven Excel exporter for the Civilian PCS calculator. Ported from the legacy
-/// AMCOS.Logic.Helpers.ExportHelper (which is excluded from the Core build because AMCOS.Logic has
-/// no Aspose reference). It walks the data object's <see cref="ForExport"/> / <see cref="ExportIf"/>
-/// attributes to build one worksheet per section, with label/value pairs and per-component tables —
-/// matching the legacy report instead of a flat totals dump.
+/// AMCOS.Logic.Helpers.ExportHelper. It walks the data object's <see cref="ForExport"/> /
+/// <see cref="ExportIf"/> attributes to build one worksheet per section, with label/value pairs
+/// and per-component tables — matching the legacy report instead of a flat totals dump.
+///
+/// Uses ClosedXML (MIT) rather than Aspose.Cells. Cell/range coordinates below are kept 0-based
+/// (matching the original layout logic); <see cref="Cell0"/> / <see cref="Range0"/> convert to
+/// ClosedXML's 1-based, inclusive addressing.
 /// </summary>
 public static class CivPcsExportHelper
 {
+    private const string AccountingFormat = "#,##0.00;(#,##0.00)";
+
     public static void ExportToExcel(Stream stream, object data, string title)
     {
         if (data == null)
             return;
 
-        // The bundled Aspose.Cells.lic predates the Aspose DLL build and SetLicense throws on it;
-        // an expired/missing license must not abort the export (Aspose falls back to evaluation mode).
-        try
-        {
-            if (System.IO.File.Exists("Licenses/Aspose.Cells.lic"))
-                new License().SetLicense("Licenses/Aspose.Cells.lic");
-        }
-        catch { /* evaluation mode */ }
-
-        var workbook = new Workbook();
+        using var workbook = new XLWorkbook();
 
         var sections = GetDataSetFromObject(data).ToList();
-        for (int x = 0; x < sections.Count(); x++)
+        for (int x = 0; x < sections.Count; x++)
         {
             var idx = 0;
-            if (x > 0)
-                workbook.Worksheets.Add();
-            var worksheet = workbook.Worksheets[x];
-            worksheet.Name = SanitizeSheetName(sections[x].Key);
+            var worksheet = workbook.Worksheets.Add(SanitizeSheetName(sections[x].Key));
+
             // Title row
-            worksheet.Cells[idx, 0].PutValue(title);
-            var styleFlag = GetStyleFlag();
-            worksheet.Cells.CreateRange(0, 0, 1, 4).ApplyStyle(CreateTitleStyle(workbook), styleFlag);
-            worksheet.Cells.Merge(0, 0, 1, 4);
+            Cell0(worksheet, idx, 0).Value = title;
+            ApplyTitleStyle(Range0(worksheet, 0, 0, 1, 4));
+            Range0(worksheet, 0, 0, 1, 4).Merge();
+
             // Section title
-            worksheet.Cells[++idx, 0].PutValue(sections[x].Key);
-            worksheet.Cells.CreateRange(idx, 0, 1, 1).ApplyStyle(CreateSectionHeaderStyle(workbook), styleFlag);
+            Cell0(worksheet, ++idx, 0).Value = sections[x].Key;
+            ApplySectionHeaderStyle(Range0(worksheet, idx, 0, 1, 1));
+
             var values = sections[x].Value.Values.ToList();
             idx++;
             var startRow = idx + 1;
-            for (int y = 0; y < values.Count(); y++)
+            for (int y = 0; y < values.Count; y++)
             {
-                worksheet.Cells[++idx, 0].PutValue(values[y].Key);
-                AddValueToCell(worksheet.Cells[idx, 1], values[y].Value);
-                worksheet.Cells.CreateRange(idx, 0, 1, 2).ApplyStyle(CreateLabelValueStyle(workbook), styleFlag);
+                Cell0(worksheet, ++idx, 0).Value = values[y].Key;
+                AddValueToCell(Cell0(worksheet, idx, 1), values[y].Value);
+                ApplyLabelValueStyle(Range0(worksheet, idx, 0, 1, 2));
             }
-            worksheet.Cells.CreateRange(startRow, 0, ++idx - startRow, 2).SetOutlineBorders(CellBorderType.Double, Color.DarkGray);
+            var labelBlock = Range0(worksheet, startRow, 0, ++idx - startRow, 2);
+            labelBlock.Style.Border.OutsideBorder = XLBorderStyleValues.Double;
+            labelBlock.Style.Border.OutsideBorderColor = XLColor.DarkGray;
 
             var tables = sections[x].Value.Tables.ToList();
-            for (int y = 0; y < tables.Count(); y++)
+            for (int y = 0; y < tables.Count; y++)
             {
-                worksheet.Cells[++idx, 0].PutValue(tables[y].Key);
+                Cell0(worksheet, ++idx, 0).Value = tables[y].Key;
                 var columns = tables[y].Value.Columns.ToList();
-                for (int colIdx = 0; colIdx < columns.Count(); colIdx++)
-                {
-                    worksheet.Cells[idx, colIdx + 1].PutValue(columns[colIdx]);
-                }
-                worksheet.Cells.CreateRange(idx, 0, 1, columns.Count() + 1).ApplyStyle(CreateHeaderStyle(workbook), styleFlag);
-                worksheet.Cells.CreateRange(idx + 1, 0, tables[y].Value.Rows.Count(), columns.Count() + 1).ApplyStyle(CreateRowHeaderStyle(workbook), styleFlag);
+                for (int colIdx = 0; colIdx < columns.Count; colIdx++)
+                    Cell0(worksheet, idx, colIdx + 1).Value = columns[colIdx];
+                ApplyHeaderStyle(Range0(worksheet, idx, 0, 1, columns.Count + 1));
+                ApplyRowHeaderStyle(Range0(worksheet, idx + 1, 0, tables[y].Value.Rows.Count, columns.Count + 1));
                 foreach (var row in tables[y].Value.Rows)
                 {
-                    worksheet.Cells[++idx, 0].PutValue(row.Key);
-                    for (int c = 0; c < columns.Count(); c++)
-                    {
-                        var value = row.Value[columns[c]];
-                        AddValueToCell(worksheet.Cells[idx, c + 1], value);
-                    }
+                    Cell0(worksheet, ++idx, 0).Value = row.Key;
+                    for (int c = 0; c < columns.Count; c++)
+                        AddValueToCell(Cell0(worksheet, idx, c + 1), row.Value[columns[c]]);
                 }
                 idx++;
             }
-            worksheet.AutoFitColumns();
+            worksheet.Columns().AdjustToContents();
         }
 
-        workbook.Save(stream, SaveFormat.Xlsx);
+        // ClosedXML (unlike Aspose) refuses to save a workbook with no worksheets.
+        if (!workbook.Worksheets.Any())
+            workbook.Worksheets.Add("Export");
+
+        workbook.SaveAs(stream);
         stream.Position = 0;
+    }
+
+    // ---- ClosedXML addressing helpers (0-based in, 1-based ClosedXML out) -------
+
+    private static IXLCell Cell0(IXLWorksheet ws, int row, int col) => ws.Cell(row + 1, col + 1);
+
+    private static IXLRange Range0(IXLWorksheet ws, int firstRow, int firstCol, int totalRows, int totalCols)
+        => ws.Range(firstRow + 1, firstCol + 1, firstRow + totalRows, firstCol + totalCols);
+
+    private static void AddValueToCell(IXLCell cell, object value)
+    {
+        SetCellValue(cell, value);
+        if (value is decimal)
+            cell.Style.NumberFormat.Format = AccountingFormat;
+    }
+
+    private static void SetCellValue(IXLCell cell, object value)
+    {
+        switch (value)
+        {
+            case null: break;
+            case string s: cell.Value = s; break;
+            case bool b: cell.Value = b; break;
+            case DateTime dt: cell.Value = dt; break;
+            case decimal dec: cell.Value = dec; break;
+            case double d: cell.Value = d; break;
+            case float f: cell.Value = f; break;
+            case int i: cell.Value = i; break;
+            case long l: cell.Value = l; break;
+            case short sh: cell.Value = sh; break;
+            case byte by: cell.Value = by; break;
+            default: cell.Value = value.ToString(); break;
+        }
     }
 
     private static string SanitizeSheetName(string name)
@@ -94,16 +122,69 @@ public static class CivPcsExportHelper
         return name.Length > 31 ? name[..31] : name;
     }
 
-    private static void AddValueToCell(Cell cell, object value)
+    // ---- Styles (applied directly to a ClosedXML range) ------------------------
+
+    private static void SetThinBorders(IXLRange range)
     {
-        cell.PutValue(value);
-        if (value?.GetType() == typeof(decimal))
-        {
-            var style = cell.GetStyle();
-            style.Number = 39;
-            cell.SetStyle(style);
-        }
+        range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+        range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
     }
+
+    private static void ApplyHeaderStyle(IXLRange range)
+    {
+        SetThinBorders(range);
+        range.Style.Font.Bold = true;
+        range.Style.Font.FontSize = 12;
+        range.Style.Font.FontColor = XLColor.White;
+        range.Style.Fill.BackgroundColor = XLColor.Black;
+        range.Style.Alignment.ShrinkToFit = true;
+        range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+    }
+
+    private static void ApplySectionHeaderStyle(IXLRange range)
+    {
+        range.Style.Font.Bold = true;
+        range.Style.Font.FontSize = 14;
+        range.Style.Font.FontColor = XLColor.Black;
+        range.Style.Fill.BackgroundColor = XLColor.White;
+        range.Style.Alignment.ShrinkToFit = true;
+        range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+    }
+
+    private static void ApplyRowHeaderStyle(IXLRange range)
+    {
+        SetThinBorders(range);
+        range.Style.Font.Bold = false;
+        range.Style.Font.FontSize = 12;
+        range.Style.Font.FontColor = XLColor.Black;
+        range.Style.Fill.BackgroundColor = XLColor.LightGray;
+        range.Style.Alignment.ShrinkToFit = true;
+        range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+    }
+
+    private static void ApplyLabelValueStyle(IXLRange range)
+    {
+        range.Style.Border.OutsideBorderColor = XLColor.DarkGray;
+        range.Style.Font.Bold = false;
+        range.Style.Font.FontSize = 12;
+        range.Style.Font.FontColor = XLColor.Black;
+        range.Style.Fill.BackgroundColor = XLColor.LightGray;
+        range.Style.Alignment.ShrinkToFit = true;
+        range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+    }
+
+    private static void ApplyTitleStyle(IXLRange range)
+    {
+        SetThinBorders(range);
+        range.Style.Font.Bold = true;
+        range.Style.Font.FontSize = 16;
+        range.Style.Font.FontColor = XLColor.White;
+        range.Style.Fill.BackgroundColor = XLColor.DarkGreen;
+        range.Style.Alignment.ShrinkToFit = true;
+        range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+    }
+
+    // ---- Attribute-driven data extraction (unchanged) --------------------------
 
     private static Dictionary<string, Section> GetDataSetFromObject(object data)
     {
@@ -163,98 +244,6 @@ public static class CivPcsExportHelper
             }
         }
     }
-
-    private static Style CreateHeaderStyle(Workbook workbook)
-    {
-        var style = workbook.CreateStyle();
-        SetThinBorders(style);
-        style.Number = 0;
-        style.Font.IsBold = true;
-        style.Font.Size = 12;
-        style.Font.Color = Color.White;
-        style.ForegroundColor = Color.Black;
-        style.Pattern = BackgroundType.Solid;
-        style.ShrinkToFit = true;
-        style.HorizontalAlignment = TextAlignmentType.Center;
-        return style;
-    }
-
-    private static Style CreateSectionHeaderStyle(Workbook workbook)
-    {
-        var style = workbook.CreateStyle();
-        style.Number = 0;
-        style.Font.IsBold = true;
-        style.Font.Size = 14;
-        style.Font.Color = Color.Black;
-        style.ForegroundColor = Color.White;
-        style.Pattern = BackgroundType.Solid;
-        style.ShrinkToFit = true;
-        style.HorizontalAlignment = TextAlignmentType.Left;
-        return style;
-    }
-
-    private static Style CreateRowHeaderStyle(Workbook workbook)
-    {
-        var style = workbook.CreateStyle();
-        SetThinBorders(style);
-        style.Number = 0;
-        style.Font.IsBold = false;
-        style.Font.Size = 12;
-        style.Font.Color = Color.Black;
-        style.ForegroundColor = Color.LightGray;
-        style.Pattern = BackgroundType.Solid;
-        style.ShrinkToFit = true;
-        style.HorizontalAlignment = TextAlignmentType.Left;
-        return style;
-    }
-
-    private static Style CreateLabelValueStyle(Workbook workbook)
-    {
-        var style = workbook.CreateStyle();
-        style.Borders.SetColor(Color.DarkGray);
-        style.Number = 0;
-        style.Font.IsBold = false;
-        style.Font.Size = 12;
-        style.Font.Color = Color.Black;
-        style.ForegroundColor = Color.LightGray;
-        style.Pattern = BackgroundType.Solid;
-        style.ShrinkToFit = true;
-        style.HorizontalAlignment = TextAlignmentType.Left;
-        return style;
-    }
-
-    private static Style CreateTitleStyle(Workbook workbook)
-    {
-        var style = workbook.CreateStyle();
-        SetThinBorders(style);
-        style.Number = 0;
-        style.Font.IsBold = true;
-        style.Font.Size = 16;
-        style.Font.Color = Color.White;
-        style.ForegroundColor = Color.DarkGreen;
-        style.Pattern = BackgroundType.Solid;
-        style.ShrinkToFit = true;
-        style.HorizontalAlignment = TextAlignmentType.Left;
-        return style;
-    }
-
-    private static void SetThinBorders(Style style)
-    {
-        style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
-        style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
-        style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
-        style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
-    }
-
-    private static StyleFlag GetStyleFlag() => new()
-    {
-        Borders = true,
-        FontBold = true,
-        FontColor = true,
-        FontSize = true,
-        CellShading = true,
-        HorizontalAlignment = true
-    };
 
     private class Section
     {
