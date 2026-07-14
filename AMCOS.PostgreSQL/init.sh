@@ -99,6 +99,10 @@ for f in \
     "$SCRIPT_DIR/migrations/000_schemas.sql" \
     "$SCRIPT_DIR/migrations/001_lookup_tables.sql" \
     "$SCRIPT_DIR/migrations/002_data_tables.sql" \
+    "$SCRIPT_DIR/migrations/002b_dataload_tables.sql" \
+    "$SCRIPT_DIR/migrations/002c_xwalk_tables.sql" \
+    "$SCRIPT_DIR/migrations/002d_staging_tables.sql" \
+    "$SCRIPT_DIR/migrations/002e_payschedule_raw_tables.sql" \
     "$SCRIPT_DIR/migrations/003_webuser_tables.sql" \
     "$SCRIPT_DIR/migrations/004_web_tables.sql" \
     "$SCRIPT_DIR/migrations/005_warehouse_tables.sql" \
@@ -121,7 +125,8 @@ for f in \
     "$SCRIPT_DIR/migrations/007_stored_procedures.sql" \
     "$SCRIPT_DIR/migrations/008b_payschedules_view.sql" \
     "$SCRIPT_DIR/migrations/008_views.sql" \
-    "$SCRIPT_DIR/migrations/008c_knowninventory_view.sql"
+    "$SCRIPT_DIR/migrations/008c_knowninventory_view.sql" \
+    "$SCRIPT_DIR/migrations/008d_input_views.sql"
 do
     run_sql "$f"
 done

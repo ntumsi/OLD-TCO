@@ -2091,7 +2091,10 @@ BEGIN
     FROM gs_subgroup a
         INNER JOIN gradelevel b
             ON a.gs_ses_payplan = b.gs_ses_payplan
-           AND a.gs_ses_gradelevel = b.gs_ses_gradelevel
+           -- a.gs_ses_gradelevel is smallint (from data.costs via uniquecosts); b comes
+           -- from xwalk.ppxwalkgradelevel which casts gs_ses_gradelevel to varchar(2).
+           -- Cast back to smallint for a numeric equality match (grades are numeric here).
+           AND a.gs_ses_gradelevel = b.gs_ses_gradelevel::smallint
            AND a.topayplan = b.topayplan;
 
     --## Step 3, add in the location equivalent
