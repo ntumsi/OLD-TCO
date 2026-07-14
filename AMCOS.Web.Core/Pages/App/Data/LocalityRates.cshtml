@@ -1,0 +1,140 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Data.LocalityRatesModel
+@{
+    ViewData["Title"] = "GS Locality Rates by ZIP Code";
+}
+
+<h4>GS Locality Rates by ZIP Code</h4>
+<p class="text-muted">Enter a ZIP code to find its GS locality pay area and rate, compared against all localities.</p>
+
+@if (Model.LoadError != null)
+{
+    <div class="alert alert-info">@Model.LoadError</div>
+}
+else
+{
+    <form class="row row-cols-lg-auto g-2 align-items-end mb-3" id="filters" onsubmit="return false;">
+        <div class="col">
+            <label class="form-label mb-0" for="version">AMCOS Version</label>
+            <select class="form-select" id="version">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.SelectedVersion)">@v</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="zip">ZIP Code</label>
+            <input class="form-control" id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="e.g. 20301" />
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" id="lookupBtn" type="button">Look up</button>
+        </div>
+    </form>
+
+    <div id="result" class="mb-3"></div>
+    <div id="status" class="text-muted small mb-2"></div>
+    <div id="localityChart" style="min-height: 420px;"></div>
+
+    <div class="table-responsive mt-3">
+        <table class="table table-sm table-striped" id="localityTable">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+    <script>
+        (function () {
+            const pct = d3.format(',.2f');
+            const versionSel = document.getElementById('version');
+            const zipInput = document.getElementById('zip');
+            const statusEl = document.getElementById('status');
+            const resultEl = document.getElementById('result');
+            const HIGHLIGHT = '#d9534f', BASE = '#6c8ebf';
+
+            let chart = c3.generate({
+                bindto: '#localityChart',
+                data: {
+                    x: 'x', columns: [['x']], type: 'bar',
+                    color: function (color, d) {
+                        return (matchedNames.has(categoryName(d))) ? HIGHLIGHT : BASE;
+                    }
+                },
+                axis: {
+                    rotated: true,
+                    x: { type: 'category' },
+                    y: { label: { text: 'Locality Rate (%)', position: 'outer-middle' }, tick: { format: pct } }
+                },
+                legend: { show: false },
+                tooltip: { format: { value: function (v) { return pct(v) + '%'; } } }
+            });
+
+            let names = [];
+            let matchedNames = new Set();
+            function categoryName(d) { return (d && typeof d.index === 'number') ? names[d.index] : d; }
+
+            async function lookup() {
+                const version = versionSel.value;
+                const zip = (zipInput.value || '').trim();
+                statusEl.textContent = 'Loading…';
+                resultEl.innerHTML = '';
+                try {
+                    const res = await fetch(`?handler=Data&zip=${encodeURIComponent(zip)}&version=${encodeURIComponent(version)}`,
+                        { headers: { Accept: 'application/json' } });
+                    if (!res.ok) throw new Error('Request failed (' + res.status + ')');
+                    render(await res.json(), zip);
+                } catch (err) {
+                    statusEl.textContent = 'Could not load locality data: ' + err.message;
+                }
+            }
+
+            function render(data, zip) {
+                const all = data.all || [];
+                const matches = data.matches || [];
+                matchedNames = new Set(all.filter(a => a.matched).map(a => a.name));
+
+                // Result summary for the entered ZIP.
+                if (zip) {
+                    if (matches.length) {
+                        resultEl.innerHTML = matches.map(m =>
+                            `<div class="alert alert-success mb-1"><strong>${zip}</strong> &rarr; ${m.name} <span class="badge bg-secondary">${m.code}</span> &mdash; <strong>${pct(m.rate)}%</strong></div>`).join('');
+                    } else {
+                        resultEl.innerHTML = `<div class="alert alert-warning mb-1">No GS locality found for ZIP <strong>${zip}</strong>${all.length ? '.' : ' (locality data is not loaded yet).'}</div>`;
+                    }
+                }
+
+                if (!all.length) {
+                    chart.unload();
+                    statusEl.textContent = 'No locality rate data is loaded for this version yet.';
+                    document.querySelector('#localityTable thead').innerHTML = '';
+                    document.querySelector('#localityTable tbody').innerHTML = '';
+                    return;
+                }
+                statusEl.textContent = '';
+
+                names = all.map(a => a.name);
+                chart.load({
+                    columns: [['x'].concat(names), ['Rate'].concat(all.map(a => a.rate))],
+                    unload: true
+                });
+
+                const thead = '<tr><th>Locality</th><th class="text-end">Rate (%)</th></tr>';
+                const tbody = all.map(a =>
+                    `<tr class="${a.matched ? 'table-danger' : ''}"><td>${a.name}</td><td class="text-end">${pct(a.rate)}</td></tr>`).join('');
+                document.querySelector('#localityTable thead').innerHTML = thead;
+                document.querySelector('#localityTable tbody').innerHTML = tbody;
+            }
+
+            document.getElementById('lookupBtn').addEventListener('click', lookup);
+            zipInput.addEventListener('keydown', e => { if (e.key === 'Enter') lookup(); });
+            versionSel.addEventListener('change', lookup);
+            // Initial load shows the all-localities comparison (no ZIP filter yet).
+            lookup();
+        })();
+    </script>
+}
