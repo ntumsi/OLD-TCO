@@ -5,7 +5,7 @@
 }
 
 <h4>Inventory</h4>
-<p class="text-muted">Inventory head-count by grade level and category group, for the selected pay plan and AMCOS version.</p>
+<p class="text-muted">Inventory head-count by grade level, compared between two AMCOS versions for the selected pay plan.</p>
 
 @if (Model.LoadError != null)
 {
@@ -14,15 +14,6 @@
 else
 {
     <form class="row row-cols-lg-auto g-2 align-items-end mb-3" id="filters">
-        <div class="col">
-            <label class="form-label mb-0" for="version">AMCOS Version</label>
-            <select class="form-select" id="version">
-                @foreach (var v in Model.Versions)
-                {
-                    <option value="@v" selected="@(v == Model.SelectedVersion)">@v</option>
-                }
-            </select>
-        </div>
         <div class="col">
             <label class="form-label mb-0" for="payPlan">Pay Plan</label>
             <select class="form-select" id="payPlan">
@@ -33,6 +24,24 @@ else
                 @foreach (var p in Model.PayPlans)
                 {
                     <option value="@p" selected="@(p == Model.SelectedPayPlan)">@p</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="versionA">Version A</label>
+            <select class="form-select" id="versionA">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.VersionA)">@v</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="versionB">Version B</label>
+            <select class="form-select" id="versionB">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.VersionB)">@v</option>
                 }
             </select>
         </div>
@@ -56,13 +65,14 @@ else
     <script>
         (function () {
             const count = d3.format(',');
-            const versionSel = document.getElementById('version');
             const payPlanSel = document.getElementById('payPlan');
+            const versionASel = document.getElementById('versionA');
+            const versionBSel = document.getElementById('versionB');
             const statusEl = document.getElementById('status');
 
             let chart = c3.generate({
                 bindto: '#invChart',
-                data: { x: 'x', columns: [['x']], type: 'bar', groups: [[]] },
+                data: { x: 'x', columns: [['x']], type: 'bar' },
                 axis: {
                     x: { type: 'category', label: { text: 'Grade Level', position: 'outer-center' } },
                     y: { label: { text: 'Inventory (count)', position: 'outer-middle' }, tick: { format: count } }
@@ -71,13 +81,18 @@ else
                 tooltip: { format: { value: function (v) { return count(v); } } }
             });
 
+            function clearTable() {
+                document.querySelector('#invTable thead').innerHTML = '';
+                document.querySelector('#invTable tbody').innerHTML = '';
+            }
+
             async function load() {
-                const version = versionSel.value;
                 const payPlan = payPlanSel.value;
-                if (!payPlan) { statusEl.textContent = 'No inventory data is loaded for this version yet.'; chart.unload(); clearTable(); return; }
+                const va = versionASel.value, vb = versionBSel.value;
+                if (!payPlan) { statusEl.textContent = 'No inventory data is loaded for these versions yet.'; chart.unload(); clearTable(); return; }
                 statusEl.textContent = 'Loading…';
                 try {
-                    const res = await fetch(`?handler=Data&payPlan=${encodeURIComponent(payPlan)}&version=${encodeURIComponent(version)}`,
+                    const res = await fetch(`?handler=Data&payPlan=${encodeURIComponent(payPlan)}&versionA=${encodeURIComponent(va)}&versionB=${encodeURIComponent(vb)}`,
                         { headers: { Accept: 'application/json' } });
                     if (!res.ok) throw new Error('Request failed (' + res.status + ')');
                     render(await res.json());
@@ -86,43 +101,36 @@ else
                 }
             }
 
-            function clearTable() {
-                document.querySelector('#invTable thead').innerHTML = '';
-                document.querySelector('#invTable tbody').innerHTML = '';
-            }
-
             function render(data) {
                 const grades = data.grades || [];
-                const series = data.series || [];
-                if (!grades.length || !series.length) {
+                const a = data.a || [], b = data.b || [];
+                const labelA = 'v' + data.versionA, labelB = 'v' + data.versionB;
+                if (!grades.length) {
                     chart.unload();
                     statusEl.textContent = 'No inventory for this selection.';
                     clearTable();
                     return;
                 }
-                statusEl.textContent = '';
+                statusEl.textContent = data.versionA === data.versionB ? 'Version A and B are the same — pick two different versions to compare.' : '';
 
-                const columns = [['x'].concat(grades.map(String))];
-                series.forEach(s => columns.push([s.name].concat(s.values)));
-                // Stack the category groups so each bar is total inventory for the grade.
-                chart.load({ columns: columns, unload: true });
-                chart.groups([series.map(s => s.name)]);
+                chart.load({
+                    columns: [['x'].concat(grades.map(String)), [labelA].concat(a), [labelB].concat(b)],
+                    unload: true
+                });
 
-                const thead = '<tr><th>Grade</th>' + series.map(s => '<th class="text-end">' + s.name + '</th>').join('') + '<th class="text-end">Total</th></tr>';
+                const thead = `<tr><th>Grade</th><th class="text-end">${labelA}</th><th class="text-end">${labelB}</th><th class="text-end">&Delta; (B&minus;A)</th></tr>`;
                 const tbody = grades.map((g, i) => {
-                    const total = series.reduce((sum, s) => sum + (s.values[i] || 0), 0);
-                    return '<tr><td>' + g + '</td>' +
-                        series.map(s => '<td class="text-end">' + count(s.values[i] || 0) + '</td>').join('') +
-                        '<td class="text-end fw-bold">' + count(total) + '</td></tr>';
+                    const delta = (b[i] || 0) - (a[i] || 0);
+                    const cls = delta > 0 ? 'text-success' : (delta < 0 ? 'text-danger' : '');
+                    return `<tr><td>${g}</td><td class="text-end">${count(a[i] || 0)}</td><td class="text-end">${count(b[i] || 0)}</td><td class="text-end ${cls}">${count(delta)}</td></tr>`;
                 }).join('');
                 document.querySelector('#invTable thead').innerHTML = thead;
                 document.querySelector('#invTable tbody').innerHTML = tbody;
             }
 
-            versionSel.addEventListener('change', function () {
-                window.location = `?version=${encodeURIComponent(versionSel.value)}`;
-            });
             payPlanSel.addEventListener('change', load);
+            versionASel.addEventListener('change', load);
+            versionBSel.addEventListener('change', load);
             load();
         })();
     </script>

@@ -23,6 +23,14 @@ namespace AMCOS.Logic
                 new object[] { amcosVersionId });
         }
 
+        // Pay plans that have cost data in ANY version — the filter for the two-version
+        // comparison (a plan may exist in one of the two chosen versions but not the other).
+        public static DataTable GetAllCostPayPlans()
+        {
+            return DataAccessUtility.GetDataTableByStaticSql(
+                @"SELECT DISTINCT payplan FROM data.costs ORDER BY payplan");
+        }
+
         // AMCOS versions that have cost data, newest first (used to default the filter).
         public static DataTable GetCostVersions()
         {
@@ -49,6 +57,21 @@ namespace AMCOS.Logic
                 new object[] { payPlan, amcosVersionId });
         }
 
+        // Total cost amount by grade level for one pay plan / version — the per-version
+        // series for the Cost Compare version-vs-version chart (summed across categories).
+        public static DataTable GetCostTotalByGrade(string payPlan, int amcosVersionId)
+        {
+            return DataAccessUtility.GetDataTableByStaticSql(
+                @"SELECT gradelevel, SUM(amount) AS amount
+                  FROM data.costs
+                  WHERE payplan = @payplan
+                    AND amcosversionid = @version
+                  GROUP BY gradelevel
+                  ORDER BY gradelevel",
+                new[] { "@payplan", "@version" },
+                new object[] { payPlan, amcosVersionId });
+        }
+
         // ---- Inventory ----------------------------------------------------------
 
         // All defined AMCOS versions (newest first). Used where a dashboard must offer a
@@ -59,6 +82,13 @@ namespace AMCOS.Logic
                 @"SELECT amcosversionid, description
                   FROM lookup.amcosversion
                   ORDER BY amcosversionid DESC");
+        }
+
+        // Pay plans with inventory in ANY version (filter for the two-version comparison).
+        public static DataTable GetAllInventoryPayPlans()
+        {
+            return DataAccessUtility.GetDataTableByStaticSql(
+                @"SELECT DISTINCT payplan FROM data.inventory ORDER BY payplan");
         }
 
         public static DataTable GetInventoryPayPlans(int amcosVersionId)
@@ -85,6 +115,21 @@ namespace AMCOS.Logic
                   WHERE payplan = @payplan
                     AND amcosversionid = @version
                   GROUP BY gradelevel, COALESCE(NULLIF(categorygroupcode, ''), 'Other')
+                  ORDER BY gradelevel",
+                new[] { "@payplan", "@version" },
+                new object[] { payPlan, amcosVersionId });
+        }
+
+        // Total inventory head-count by grade level for one pay plan / version — the
+        // per-version series for the Inventory version-vs-version chart.
+        public static DataTable GetInventoryTotalByGrade(string payPlan, int amcosVersionId)
+        {
+            return DataAccessUtility.GetDataTableByStaticSql(
+                @"SELECT gradelevel, SUM(inventory) AS inventory
+                  FROM data.inventory
+                  WHERE payplan = @payplan
+                    AND amcosversionid = @version
+                  GROUP BY gradelevel
                   ORDER BY gradelevel",
                 new[] { "@payplan", "@version" },
                 new object[] { payPlan, amcosVersionId });

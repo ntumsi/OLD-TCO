@@ -7,29 +7,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace AMCOS.Web.Core.Pages.App.Data;
 
 // Local Inventory dashboard (replaces the QuickSight "inventory" embed).
-// Stacked bar of inventory head-count by grade level, split by category group, for a
-// chosen pay plan + AMCOS version. Source data.inventory (empty until inventory ETL
-// runs, in which case the page shows an empty state). Grade level is a string here
-// (data.inventory.gradelevel is varchar and can be non-numeric).
+// Compares total inventory head-count by grade level between TWO AMCOS versions for a
+// chosen pay plan. Source data.inventory (empty until inventory ETL -> empty state).
+// Grade level is a string (data.inventory.gradelevel is varchar / can be non-numeric).
 [Authorize]
 public class InventoryDashboardModel : PageModel
 {
     public List<int> Versions { get; private set; } = new();
-    public int SelectedVersion { get; private set; }
+    public int VersionA { get; private set; }
+    public int VersionB { get; private set; }
     public List<string> PayPlans { get; private set; } = new();
     public string? SelectedPayPlan { get; private set; }
     public string? LoadError { get; private set; }
 
-    public void OnGet(int? version, string? payPlan)
+    public void OnGet(int? versionA, int? versionB, string? payPlan)
     {
         try
         {
-            // Versions come from lookup.amcosversion so the selector is populated even
-            // when data.inventory has no rows yet.
             Versions = ReadInts(LocalDashboards.GetAmcosVersions(), "amcosversionid");
-            SelectedVersion = version ?? Versions.FirstOrDefault();
+            VersionA = versionA ?? Versions.ElementAtOrDefault(0);
+            VersionB = versionB ?? (Versions.Count > 1 ? Versions[1] : VersionA);
 
-            PayPlans = ReadStrings(LocalDashboards.GetInventoryPayPlans(SelectedVersion), "payplan");
+            PayPlans = ReadStrings(LocalDashboards.GetAllInventoryPayPlans(), "payplan");
             SelectedPayPlan = !string.IsNullOrEmpty(payPlan) && PayPlans.Contains(payPlan)
                 ? payPlan
                 : PayPlans.FirstOrDefault();
@@ -40,43 +39,41 @@ public class InventoryDashboardModel : PageModel
         }
     }
 
-    // JSON for the chart: { grades:[...strings], series:[{ name, values:[...] }] }.
-    public IActionResult OnGetData(string payPlan, int version)
+    // JSON: { grades:[...strings], versionA, versionB, a:[...], b:[...] }.
+    public IActionResult OnGetData(string payPlan, int versionA, int versionB)
     {
         try
         {
-            var table = LocalDashboards.GetInventoryByGrade(payPlan ?? string.Empty, version);
+            var a = SumByGrade(LocalDashboards.GetInventoryTotalByGrade(payPlan ?? string.Empty, versionA));
+            var b = SumByGrade(LocalDashboards.GetInventoryTotalByGrade(payPlan ?? string.Empty, versionB));
 
-            var grades = new List<string>();
-            var groups = new List<string>();
-            var cells = new Dictionary<(string, string), long>();
+            var grades = a.Keys.Union(b.Keys).OrderBy(g => g, StringComparer.OrdinalIgnoreCase).ToList();
 
-            foreach (DataRow row in table.Rows)
+            return new JsonResult(new
             {
-                var grade = row["gradelevel"]?.ToString() ?? "";
-                var group = row["categorygroupcode"]?.ToString() ?? "Other";
-                var count = row["inventory"] == DBNull.Value ? 0L : Convert.ToInt64(row["inventory"]);
-
-                if (!grades.Contains(grade)) grades.Add(grade);
-                if (!groups.Contains(group)) groups.Add(group);
-                cells[(grade, group)] = count;
-            }
-
-            grades.Sort(StringComparer.OrdinalIgnoreCase);
-            groups.Sort(StringComparer.OrdinalIgnoreCase);
-
-            var series = groups.Select(group => new
-            {
-                name = group,
-                values = grades.Select(grade => cells.TryGetValue((grade, group), out var v) ? v : 0L).ToList()
+                grades,
+                versionA,
+                versionB,
+                a = grades.Select(g => a.TryGetValue(g, out var v) ? v : 0L).ToList(),
+                b = grades.Select(g => b.TryGetValue(g, out var v) ? v : 0L).ToList()
             });
-
-            return new JsonResult(new { grades, series });
         }
         catch (Exception ex)
         {
             return new ObjectResult(new { error = ex.Message }) { StatusCode = 500 };
         }
+    }
+
+    private static Dictionary<string, long> SumByGrade(DataTable table)
+    {
+        var map = new Dictionary<string, long>();
+        foreach (DataRow row in table.Rows)
+        {
+            var grade = row["gradelevel"]?.ToString() ?? "";
+            var value = row["inventory"] == DBNull.Value ? 0L : Convert.ToInt64(row["inventory"]);
+            map[grade] = value;
+        }
+        return map;
     }
 
     private static List<int> ReadInts(DataTable table, string column)

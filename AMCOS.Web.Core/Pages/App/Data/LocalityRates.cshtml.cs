@@ -7,23 +7,25 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace AMCOS.Web.Core.Pages.App.Data;
 
 // Local GS Locality Rates by ZIP dashboard (replaces the QuickSight "locality-rates"
-// embed). Enter a ZIP -> resolve its GS locality pay area(s) and rate, shown against a
-// comparison bar of all locality rates. Source: lookup.fips_zip + xwalk.localitypayareatofips
-// + lookup.localitypayarea + "PaySchedule".localitypay via LocalDashboards. Locality data is
-// empty until the pay-schedule/xwalk ETL runs, in which case lookups return an empty state.
+// embed). Enter a ZIP -> resolve its GS locality pay area(s) and compare the rate
+// between TWO AMCOS versions, shown against a comparison bar of all locality rates.
+// Source: lookup.fips_zip + xwalk.localitypayareatofips + lookup.localitypayarea +
+// "PaySchedule".localitypay via LocalDashboards. Locality data is empty until ETL.
 [Authorize]
 public class LocalityRatesModel : PageModel
 {
     public List<int> Versions { get; private set; } = new();
-    public int SelectedVersion { get; private set; }
+    public int VersionA { get; private set; }
+    public int VersionB { get; private set; }
     public string? LoadError { get; private set; }
 
-    public void OnGet(int? version)
+    public void OnGet(int? versionA, int? versionB)
     {
         try
         {
             Versions = ReadInts(LocalDashboards.GetAmcosVersions(), "amcosversionid");
-            SelectedVersion = version ?? Versions.FirstOrDefault();
+            VersionA = versionA ?? Versions.ElementAtOrDefault(0);
+            VersionB = versionB ?? (Versions.Count > 1 ? Versions[1] : VersionA);
         }
         catch (Exception ex)
         {
@@ -31,43 +33,37 @@ public class LocalityRatesModel : PageModel
         }
     }
 
-    // JSON: { zip, matches:[{code,name,rate}], all:[{name,rate}] }.
-    public IActionResult OnGetData(string zip, int version)
+    // JSON: { zip, versionA, versionB, matched:[names],
+    //         localities:[{ name, a, b, matched }] } — a/b are the rate in each version.
+    public IActionResult OnGetData(string zip, int versionA, int versionB)
     {
         try
         {
             zip = (zip ?? string.Empty).Trim();
 
-            var matches = new List<object>();
-            var matchedNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var matched = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             if (zip.Length > 0)
             {
-                foreach (DataRow row in LocalDashboards.GetLocalityRateByZip(zip, version).Rows)
-                {
-                    var name = row["localityname"]?.ToString() ?? "";
-                    matchedNames.Add(name);
-                    matches.Add(new
-                    {
-                        code = row["localitycode"]?.ToString(),
-                        name,
-                        rate = ToDecimal(row["localityrate"])
-                    });
-                }
+                foreach (var name in ZipLocalityNames(zip, versionA)) matched.Add(name);
+                foreach (var name in ZipLocalityNames(zip, versionB)) matched.Add(name);
             }
 
-            var all = new List<object>();
-            foreach (DataRow row in LocalDashboards.GetAllLocalityRates(version).Rows)
+            var a = RatesByLocality(LocalDashboards.GetAllLocalityRates(versionA));
+            var b = RatesByLocality(LocalDashboards.GetAllLocalityRates(versionB));
+
+            var names = a.Keys.Union(b.Keys)
+                .OrderByDescending(n => a.TryGetValue(n, out var v) ? v : (b.TryGetValue(n, out var v2) ? v2 : 0m))
+                .ToList();
+
+            var localities = names.Select(n => new
             {
-                var name = row["localityname"]?.ToString() ?? "";
-                all.Add(new
-                {
-                    name,
-                    rate = ToDecimal(row["localityrate"]),
-                    matched = matchedNames.Contains(name)
-                });
-            }
+                name = n,
+                a = a.TryGetValue(n, out var va) ? va : 0m,
+                b = b.TryGetValue(n, out var vb) ? vb : 0m,
+                matched = matched.Contains(n)
+            });
 
-            return new JsonResult(new { zip, matches, all });
+            return new JsonResult(new { zip, versionA, versionB, matched = matched.ToList(), localities });
         }
         catch (Exception ex)
         {
@@ -75,8 +71,23 @@ public class LocalityRatesModel : PageModel
         }
     }
 
-    private static decimal ToDecimal(object value) =>
-        value == DBNull.Value || value == null ? 0m : Convert.ToDecimal(value);
+    private static IEnumerable<string> ZipLocalityNames(string zip, int version)
+    {
+        foreach (DataRow row in LocalDashboards.GetLocalityRateByZip(zip, version).Rows)
+            yield return row["localityname"]?.ToString() ?? "";
+    }
+
+    private static Dictionary<string, decimal> RatesByLocality(DataTable table)
+    {
+        var map = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
+        foreach (DataRow row in table.Rows)
+        {
+            var name = row["localityname"]?.ToString() ?? "";
+            var rate = row["localityrate"] == DBNull.Value ? 0m : Convert.ToDecimal(row["localityrate"]);
+            map[name] = rate;
+        }
+        return map;
+    }
 
     private static List<int> ReadInts(DataTable table, string column)
     {

@@ -5,7 +5,7 @@
 }
 
 <h4>Cost Compare</h4>
-<p class="text-muted">Total cost by grade level and cost-element category, for the selected pay plan and AMCOS version.</p>
+<p class="text-muted">Total cost by grade level, compared between two AMCOS versions for the selected pay plan.</p>
 
 @if (Model.LoadError != null)
 {
@@ -15,20 +15,29 @@ else
 {
     <form class="row row-cols-lg-auto g-2 align-items-end mb-3" id="filters">
         <div class="col">
-            <label class="form-label mb-0" for="version">AMCOS Version</label>
-            <select class="form-select" id="version">
-                @foreach (var v in Model.Versions)
-                {
-                    <option value="@v" selected="@(v == Model.SelectedVersion)">@v</option>
-                }
-            </select>
-        </div>
-        <div class="col">
             <label class="form-label mb-0" for="payPlan">Pay Plan</label>
             <select class="form-select" id="payPlan">
                 @foreach (var p in Model.PayPlans)
                 {
                     <option value="@p" selected="@(p == Model.SelectedPayPlan)">@p</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="versionA">Version A</label>
+            <select class="form-select" id="versionA">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.VersionA)">@v</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="versionB">Version B</label>
+            <select class="form-select" id="versionB">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.VersionB)">@v</option>
                 }
             </select>
         </div>
@@ -52,8 +61,9 @@ else
     <script>
         (function () {
             const money = d3.format('$,.0f');
-            const versionSel = document.getElementById('version');
             const payPlanSel = document.getElementById('payPlan');
+            const versionASel = document.getElementById('versionA');
+            const versionBSel = document.getElementById('versionB');
             const statusEl = document.getElementById('status');
 
             let chart = c3.generate({
@@ -68,16 +78,15 @@ else
             });
 
             async function load() {
-                const version = versionSel.value;
                 const payPlan = payPlanSel.value;
-                if (!payPlan) { statusEl.textContent = 'No pay plans with cost data for this version.'; return; }
+                const va = versionASel.value, vb = versionBSel.value;
+                if (!payPlan) { statusEl.textContent = 'No pay plans with cost data.'; return; }
                 statusEl.textContent = 'Loading…';
                 try {
-                    const res = await fetch(`?handler=Data&payPlan=${encodeURIComponent(payPlan)}&version=${encodeURIComponent(version)}`,
+                    const res = await fetch(`?handler=Data&payPlan=${encodeURIComponent(payPlan)}&versionA=${encodeURIComponent(va)}&versionB=${encodeURIComponent(vb)}`,
                         { headers: { Accept: 'application/json' } });
                     if (!res.ok) throw new Error('Request failed (' + res.status + ')');
-                    const data = await res.json();
-                    render(data);
+                    render(await res.json());
                 } catch (err) {
                     statusEl.textContent = 'Could not load cost data: ' + err.message;
                 }
@@ -85,36 +94,35 @@ else
 
             function render(data) {
                 const grades = data.grades || [];
-                const series = data.series || [];
-                if (!grades.length || !series.length) {
+                const a = data.a || [], b = data.b || [];
+                const labelA = 'v' + data.versionA, labelB = 'v' + data.versionB;
+                if (!grades.length) {
                     chart.unload();
                     statusEl.textContent = 'No cost data for this selection.';
                     document.querySelector('#costTable thead').innerHTML = '';
                     document.querySelector('#costTable tbody').innerHTML = '';
                     return;
                 }
-                statusEl.textContent = '';
+                statusEl.textContent = data.versionA === data.versionB ? 'Version A and B are the same — pick two different versions to compare.' : '';
 
-                const columns = [['x'].concat(grades.map(String))];
-                series.forEach(s => columns.push([s.name].concat(s.values)));
-                chart.load({ columns: columns, unload: true });
+                chart.load({
+                    columns: [['x'].concat(grades.map(String)), [labelA].concat(a), [labelB].concat(b)],
+                    unload: true
+                });
 
-                // Table: rows = grade, columns = categories.
-                const thead = '<tr><th>Grade</th>' + series.map(s => '<th class="text-end">' + s.name + '</th>').join('') + '</tr>';
-                const tbody = grades.map((g, i) =>
-                    '<tr><td>' + g + '</td>' +
-                    series.map(s => '<td class="text-end">' + money(s.values[i] || 0) + '</td>').join('') +
-                    '</tr>').join('');
+                const thead = `<tr><th>Grade</th><th class="text-end">${labelA}</th><th class="text-end">${labelB}</th><th class="text-end">&Delta; (B&minus;A)</th></tr>`;
+                const tbody = grades.map((g, i) => {
+                    const delta = (b[i] || 0) - (a[i] || 0);
+                    const cls = delta > 0 ? 'text-success' : (delta < 0 ? 'text-danger' : '');
+                    return `<tr><td>${g}</td><td class="text-end">${money(a[i] || 0)}</td><td class="text-end">${money(b[i] || 0)}</td><td class="text-end ${cls}">${money(delta)}</td></tr>`;
+                }).join('');
                 document.querySelector('#costTable thead').innerHTML = thead;
                 document.querySelector('#costTable tbody').innerHTML = tbody;
             }
 
-            // Changing the version refreshes the pay-plan list server-side (only plans with
-            // data for that version); reload the page so the dropdown reflects it.
-            versionSel.addEventListener('change', function () {
-                window.location = `?version=${encodeURIComponent(versionSel.value)}`;
-            });
             payPlanSel.addEventListener('change', load);
+            versionASel.addEventListener('change', load);
+            versionBSel.addEventListener('change', load);
             load();
         })();
     </script>

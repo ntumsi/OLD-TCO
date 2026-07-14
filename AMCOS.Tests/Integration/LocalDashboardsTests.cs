@@ -56,6 +56,39 @@ namespace AMCOS.Tests.Integration
         }
 
         [TestMethod]
+        public void AllCostPayPlans_NotEmpty()
+        {
+            Assert.IsTrue(LocalDashboards.GetAllCostPayPlans().Rows.Count > 0, "No pay plans with cost data.");
+        }
+
+        [TestMethod]
+        public void CostTotalByGrade_ReturnsPerVersionTotals()
+        {
+            var payPlan = LocalDashboards.GetAllCostPayPlans().Rows[0]["payplan"].ToString();
+            var table = LocalDashboards.GetCostTotalByGrade(payPlan!, _version);
+            Assert.IsTrue(table.Rows.Count > 0, "No per-grade cost totals for a seeded pay plan.");
+            CollectionAssert.AreEquivalent(new[] { "gradelevel", "amount" }, GetColumnNames(table));
+        }
+
+        [TestMethod]
+        public void CostData_SupportsTwoVersionComparison()
+        {
+            // The version selector needs >= 2 versions with cost data for a real compare
+            // (seed 009 derives a prior version from the current one).
+            var versions = LocalDashboards.GetCostVersions();
+            if (versions.Rows.Count < 2)
+                Assert.Inconclusive("Only one cost version present; run seed 009_version_compare_demo.sql.");
+
+            var vA = Convert.ToInt32(versions.Rows[0]["amcosversionid"]);
+            var vB = Convert.ToInt32(versions.Rows[1]["amcosversionid"]);
+            Assert.AreNotEqual(vA, vB);
+
+            var payPlan = LocalDashboards.GetAllCostPayPlans().Rows[0]["payplan"].ToString();
+            Assert.IsTrue(LocalDashboards.GetCostTotalByGrade(payPlan!, vA).Rows.Count > 0, "Version A has no data.");
+            Assert.IsTrue(LocalDashboards.GetCostTotalByGrade(payPlan!, vB).Rows.Count > 0, "Version B has no data.");
+        }
+
+        [TestMethod]
         public void InventoryByGrade_ExecutesAndHasExpectedShape()
         {
             // data.inventory is empty until ETL; the query must still run and project the

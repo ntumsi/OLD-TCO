@@ -5,7 +5,7 @@
 }
 
 <h4>GS Locality Rates by ZIP Code</h4>
-<p class="text-muted">Enter a ZIP code to find its GS locality pay area and rate, compared against all localities.</p>
+<p class="text-muted">Enter a ZIP code to find its GS locality pay area and compare its rate between two AMCOS versions.</p>
 
 @if (Model.LoadError != null)
 {
@@ -15,11 +15,20 @@ else
 {
     <form class="row row-cols-lg-auto g-2 align-items-end mb-3" id="filters" onsubmit="return false;">
         <div class="col">
-            <label class="form-label mb-0" for="version">AMCOS Version</label>
-            <select class="form-select" id="version">
+            <label class="form-label mb-0" for="versionA">Version A</label>
+            <select class="form-select" id="versionA">
                 @foreach (var v in Model.Versions)
                 {
-                    <option value="@v" selected="@(v == Model.SelectedVersion)">@v</option>
+                    <option value="@v" selected="@(v == Model.VersionA)">@v</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="versionB">Version B</label>
+            <select class="form-select" id="versionB">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.VersionB)">@v</option>
                 }
             </select>
         </div>
@@ -34,7 +43,7 @@ else
 
     <div id="result" class="mb-3"></div>
     <div id="status" class="text-muted small mb-2"></div>
-    <div id="localityChart" style="min-height: 420px;"></div>
+    <div id="localityChart" style="min-height: 460px;"></div>
 
     <div class="table-responsive mt-3">
         <table class="table table-sm table-striped" id="localityTable">
@@ -51,40 +60,30 @@ else
     <script>
         (function () {
             const pct = d3.format(',.2f');
-            const versionSel = document.getElementById('version');
+            const versionASel = document.getElementById('versionA');
+            const versionBSel = document.getElementById('versionB');
             const zipInput = document.getElementById('zip');
             const statusEl = document.getElementById('status');
             const resultEl = document.getElementById('result');
-            const HIGHLIGHT = '#d9534f', BASE = '#6c8ebf';
 
             let chart = c3.generate({
                 bindto: '#localityChart',
-                data: {
-                    x: 'x', columns: [['x']], type: 'bar',
-                    color: function (color, d) {
-                        return (matchedNames.has(categoryName(d))) ? HIGHLIGHT : BASE;
-                    }
-                },
+                data: { x: 'x', columns: [['x']], type: 'bar' },
                 axis: {
                     rotated: true,
                     x: { type: 'category' },
                     y: { label: { text: 'Locality Rate (%)', position: 'outer-middle' }, tick: { format: pct } }
                 },
-                legend: { show: false },
                 tooltip: { format: { value: function (v) { return pct(v) + '%'; } } }
             });
 
-            let names = [];
-            let matchedNames = new Set();
-            function categoryName(d) { return (d && typeof d.index === 'number') ? names[d.index] : d; }
-
             async function lookup() {
-                const version = versionSel.value;
+                const va = versionASel.value, vb = versionBSel.value;
                 const zip = (zipInput.value || '').trim();
                 statusEl.textContent = 'Loading…';
                 resultEl.innerHTML = '';
                 try {
-                    const res = await fetch(`?handler=Data&zip=${encodeURIComponent(zip)}&version=${encodeURIComponent(version)}`,
+                    const res = await fetch(`?handler=Data&zip=${encodeURIComponent(zip)}&versionA=${encodeURIComponent(va)}&versionB=${encodeURIComponent(vb)}`,
                         { headers: { Accept: 'application/json' } });
                     if (!res.ok) throw new Error('Request failed (' + res.status + ')');
                     render(await res.json(), zip);
@@ -94,46 +93,52 @@ else
             }
 
             function render(data, zip) {
-                const all = data.all || [];
-                const matches = data.matches || [];
-                matchedNames = new Set(all.filter(a => a.matched).map(a => a.name));
+                const localities = data.localities || [];
+                const matchedNames = new Set((data.matched || []));
+                const labelA = 'v' + data.versionA, labelB = 'v' + data.versionB;
 
-                // Result summary for the entered ZIP.
                 if (zip) {
-                    if (matches.length) {
-                        resultEl.innerHTML = matches.map(m =>
-                            `<div class="alert alert-success mb-1"><strong>${zip}</strong> &rarr; ${m.name} <span class="badge bg-secondary">${m.code}</span> &mdash; <strong>${pct(m.rate)}%</strong></div>`).join('');
+                    const hits = localities.filter(l => matchedNames.has(l.name));
+                    if (hits.length) {
+                        resultEl.innerHTML = hits.map(m => {
+                            const d = (m.b - m.a);
+                            const cls = d > 0 ? 'text-success' : (d < 0 ? 'text-danger' : '');
+                            return `<div class="alert alert-success mb-1"><strong>${zip}</strong> &rarr; ${m.name} &mdash; ${labelA}: <strong>${pct(m.a)}%</strong>, ${labelB}: <strong>${pct(m.b)}%</strong> <span class="${cls}">(&Delta; ${pct(d)})</span></div>`;
+                        }).join('');
                     } else {
-                        resultEl.innerHTML = `<div class="alert alert-warning mb-1">No GS locality found for ZIP <strong>${zip}</strong>${all.length ? '.' : ' (locality data is not loaded yet).'}</div>`;
+                        resultEl.innerHTML = `<div class="alert alert-warning mb-1">No GS locality found for ZIP <strong>${zip}</strong>${localities.length ? '.' : ' (locality data is not loaded yet).'}</div>`;
                     }
                 }
 
-                if (!all.length) {
+                if (!localities.length) {
                     chart.unload();
-                    statusEl.textContent = 'No locality rate data is loaded for this version yet.';
+                    statusEl.textContent = 'No locality rate data is loaded for these versions yet.';
                     document.querySelector('#localityTable thead').innerHTML = '';
                     document.querySelector('#localityTable tbody').innerHTML = '';
                     return;
                 }
-                statusEl.textContent = '';
+                statusEl.textContent = data.versionA === data.versionB ? 'Version A and B are the same — pick two different versions to compare.' : '';
 
-                names = all.map(a => a.name);
+                const names = localities.map(l => l.name);
                 chart.load({
-                    columns: [['x'].concat(names), ['Rate'].concat(all.map(a => a.rate))],
+                    columns: [['x'].concat(names), [labelA].concat(localities.map(l => l.a)), [labelB].concat(localities.map(l => l.b))],
                     unload: true
                 });
 
-                const thead = '<tr><th>Locality</th><th class="text-end">Rate (%)</th></tr>';
-                const tbody = all.map(a =>
-                    `<tr class="${a.matched ? 'table-danger' : ''}"><td>${a.name}</td><td class="text-end">${pct(a.rate)}</td></tr>`).join('');
+                const thead = `<tr><th>Locality</th><th class="text-end">${labelA}</th><th class="text-end">${labelB}</th><th class="text-end">&Delta; (B&minus;A)</th></tr>`;
+                const tbody = localities.map(l => {
+                    const d = (l.b - l.a);
+                    const cls = d > 0 ? 'text-success' : (d < 0 ? 'text-danger' : '');
+                    return `<tr class="${l.matched ? 'table-warning' : ''}"><td>${l.name}</td><td class="text-end">${pct(l.a)}</td><td class="text-end">${pct(l.b)}</td><td class="text-end ${cls}">${pct(d)}</td></tr>`;
+                }).join('');
                 document.querySelector('#localityTable thead').innerHTML = thead;
                 document.querySelector('#localityTable tbody').innerHTML = tbody;
             }
 
             document.getElementById('lookupBtn').addEventListener('click', lookup);
             zipInput.addEventListener('keydown', e => { if (e.key === 'Enter') lookup(); });
-            versionSel.addEventListener('change', lookup);
-            // Initial load shows the all-localities comparison (no ZIP filter yet).
+            versionASel.addEventListener('change', lookup);
+            versionBSel.addEventListener('change', lookup);
             lookup();
         })();
     </script>

@@ -7,25 +7,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace AMCOS.Web.Core.Pages.App.Data;
 
 // Local Cost Compare dashboard (replaces the QuickSight "cost-compare" embed).
-// Grouped bar of total cost amount by grade level, split by cost-element category,
-// for a chosen pay plan + AMCOS version. Data from data.costs via LocalDashboards.
+// Compares total cost by grade level between TWO AMCOS versions for a chosen pay plan.
+// Data from data.costs via LocalDashboards.
 [Authorize]
 public class CostCompareModel : PageModel
 {
     public List<int> Versions { get; private set; } = new();
-    public int SelectedVersion { get; private set; }
+    public int VersionA { get; private set; }
+    public int VersionB { get; private set; }
     public List<string> PayPlans { get; private set; } = new();
     public string? SelectedPayPlan { get; private set; }
     public string? LoadError { get; private set; }
 
-    public void OnGet(int? version, string? payPlan)
+    public void OnGet(int? versionA, int? versionB, string? payPlan)
     {
         try
         {
-            Versions = ReadInts(LocalDashboards.GetCostVersions(), "amcosversionid");
-            SelectedVersion = version ?? Versions.FirstOrDefault();
+            // Both defined versions, so either can be picked even if only one has data.
+            Versions = ReadInts(LocalDashboards.GetAmcosVersions(), "amcosversionid");
+            VersionA = versionA ?? Versions.ElementAtOrDefault(0);
+            VersionB = versionB ?? (Versions.Count > 1 ? Versions[1] : VersionA);
 
-            PayPlans = ReadStrings(LocalDashboards.GetCostPayPlans(SelectedVersion), "payplan");
+            PayPlans = ReadStrings(LocalDashboards.GetAllCostPayPlans(), "payplan");
             SelectedPayPlan = !string.IsNullOrEmpty(payPlan) && PayPlans.Contains(payPlan)
                 ? payPlan
                 : PayPlans.FirstOrDefault();
@@ -36,45 +39,43 @@ public class CostCompareModel : PageModel
         }
     }
 
-    // JSON for the chart: { grades:[...], series:[{ name, values:[...] }] }.
-    // Missing (grade, category) combinations are filled with 0 so every series aligns
-    // to the same grade axis.
-    public IActionResult OnGetData(string payPlan, int version)
+    // JSON: { grades:[...], versionA, versionB, a:[...], b:[...] } aligned to the union
+    // of grade levels present in either version.
+    public IActionResult OnGetData(string payPlan, int versionA, int versionB)
     {
         try
         {
-            var table = LocalDashboards.GetCostCompare(payPlan ?? string.Empty, version);
+            var a = SumByGrade(LocalDashboards.GetCostTotalByGrade(payPlan ?? string.Empty, versionA), "amount");
+            var b = SumByGrade(LocalDashboards.GetCostTotalByGrade(payPlan ?? string.Empty, versionB), "amount");
 
-            var grades = new List<int>();
-            var categories = new List<string>();
-            var cells = new Dictionary<(int, string), decimal>();
+            var grades = a.Keys.Union(b.Keys).OrderBy(g => g).ToList();
 
-            foreach (DataRow row in table.Rows)
+            return new JsonResult(new
             {
-                var grade = Convert.ToInt32(row["gradelevel"]);
-                var category = row["costelementcategory"]?.ToString() ?? "Other";
-                var amount = row["amount"] == DBNull.Value ? 0m : Convert.ToDecimal(row["amount"]);
-
-                if (!grades.Contains(grade)) grades.Add(grade);
-                if (!categories.Contains(category)) categories.Add(category);
-                cells[(grade, category)] = amount;
-            }
-
-            grades.Sort();
-            categories.Sort(StringComparer.OrdinalIgnoreCase);
-
-            var series = categories.Select(category => new
-            {
-                name = category,
-                values = grades.Select(grade => cells.TryGetValue((grade, category), out var v) ? v : 0m).ToList()
+                grades,
+                versionA,
+                versionB,
+                a = grades.Select(g => a.TryGetValue(g, out var v) ? v : 0m).ToList(),
+                b = grades.Select(g => b.TryGetValue(g, out var v) ? v : 0m).ToList()
             });
-
-            return new JsonResult(new { grades, series });
         }
         catch (Exception ex)
         {
             return new ObjectResult(new { error = ex.Message }) { StatusCode = 500 };
         }
+    }
+
+    private static Dictionary<int, decimal> SumByGrade(DataTable table, string valueColumn)
+    {
+        var map = new Dictionary<int, decimal>();
+        foreach (DataRow row in table.Rows)
+        {
+            if (row["gradelevel"] == DBNull.Value) continue;
+            var grade = Convert.ToInt32(row["gradelevel"]);
+            var value = row[valueColumn] == DBNull.Value ? 0m : Convert.ToDecimal(row[valueColumn]);
+            map[grade] = value;
+        }
+        return map;
     }
 
     private static List<int> ReadInts(DataTable table, string column)
