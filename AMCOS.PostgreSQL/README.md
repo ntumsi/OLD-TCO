@@ -40,6 +40,47 @@ Run the migrations in numeric order:
 \i migrations/008_views.sql
 ```
 
+In practice the migration + seed list is applied by **`init.sh`** (which enumerates
+every file in the correct order, including the `002b`–`002e` input tables and the
+`005*`/`006*`/`008*` crunch-engine + view files that are not shown in the abbreviated
+list above):
+
+```bash
+./init.sh                 # apply all migrations + seed to localhost/amcos
+./init.sh --fresh         # drop & recreate the database first (destructive)
+./init.sh --no-seed       # migrations only
+```
+
+## Docker (`docker compose up`) and re-applying on an existing database
+
+`docker-compose.yml` runs a one-shot `amcos-db-init` service that calls `init.sh`
+against the `amcos-db` container. It is **guarded** — it only runs when the schema
+is empty:
+
+```
+SELECT count(*) FROM pg_tables WHERE schemaname IN ('lookup','data','webuser','web','warehouse')
+```
+
+So on a **fresh volume** everything (all migrations, including newly added files) is
+applied automatically. But on an **already-initialised `amcos_db_data` volume** the
+guard sees existing tables and **skips init entirely** — newly added migration files
+and changed procedures/views will *not* be picked up. To apply them, either:
+
+- **Reset the volume:** `docker compose down -v && docker compose up` (clean re-init), or
+- **Apply the changed files manually**, e.g. the input tables/views added for the
+  crunch engine:
+  ```bash
+  docker compose exec amcos-db bash -c '
+    for f in 002b_dataload_tables 002c_xwalk_tables 002d_staging_tables \
+             002e_payschedule_raw_tables 008d_input_views; do
+      psql -U postgres -d amcos -f /amcos-sql/migrations/$f.sql
+    done'
+  ```
+
+Manual re-apply is safe: table migrations use `CREATE TABLE IF NOT EXISTS`, views use
+`CREATE OR REPLACE VIEW`, and procedures use `CREATE OR REPLACE PROCEDURE`, so
+re-running them against a populated database is idempotent.
+
 ## Follow-up work
 
 This bundle focuses on the requested tables and `web` stored procedures. Remaining SQL Server functions, views, and non-web stored procedures should be migrated next, then validated against a PostgreSQL instance with representative AMCOS seed data.
