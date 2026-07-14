@@ -31,6 +31,9 @@
     <Compile Include="Logic\UserAdministrationLogicTest.cs" />
     <Compile Include="Attributes\EmailAddressOrNullTest.cs" />
     <Compile Include="Attributes\ValidationAttributesTest.cs" />
+    <!-- Tier 2: DB-integration tests. [TestCategory("Integration")]; Inconclusive when
+         no database is reachable. Require the migrations + demo seed. -->
+    <Compile Include="Integration\DatabaseIntegrationTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
