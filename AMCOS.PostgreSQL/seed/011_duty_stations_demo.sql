@@ -11,6 +11,8 @@
 -- geography SRID 4326 (lon lat), matching the existing rows so ST_Distance returns metres.
 -- Real duty station data comes from the ETL.
 
+DELETE FROM web.civlocationperdiem
+WHERE sourcesystemcode IN ('31905', '28310', '73503', '22202', '21005', '35898');
 DELETE FROM crunch.gsaperdiem
 WHERE zipcode IN ('31905', '28310', '73503', '22202', '21005', '35898');
 DELETE FROM warehouse.location
@@ -37,3 +39,19 @@ VALUES
     ('22202', 2025, 258, 86, '2024-10-01'::timestamp, 202501),
     ('21005', 2025, 120, 74, '2024-10-01'::timestamp, 202501),
     ('35898', 2025, 115, 72, '2024-10-01'::timestamp, 202501);
+
+-- web.civlocationperdiem is the per-diem lookup the PCS calc reads via
+-- GetCivLocationPerDiemById; if a selected origin/destination is absent here,
+-- ProcessJsonInput early-returns and the distance never auto-calculates. Populate it
+-- for the new stations from the just-inserted location rows (so the identity-generated
+-- locationid matches) joined to their per-diem, mirroring the existing 1001/1002 rows.
+INSERT INTO web.civlocationperdiem
+    (locationid, sourcesystemcode, locationtype, displayname, maxlodgingrate, mierate, amcosversionid)
+SELECT wl.locationid, wl.sourcesystemcode, wl.locationtype, wl.displayname,
+       dg.maximumlodgingrate, dg.maximummealsandincidentalsrate, wl.amcosversionid
+FROM warehouse.location wl
+JOIN crunch.gsaperdiem dg
+  ON dg.zipcode = wl.sourcesystemcode
+ AND dg.amcosversionid = wl.amcosversionid
+WHERE wl.locationtype = 'zip'
+  AND wl.sourcesystemcode IN ('31905', '28310', '73503', '22202', '21005', '35898');

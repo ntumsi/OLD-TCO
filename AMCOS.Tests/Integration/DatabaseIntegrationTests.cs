@@ -115,6 +115,26 @@ namespace AMCOS.Tests.Integration
         }
 
         [TestMethod]
+        public void CivPcs_AutoDistanceCanCompute()
+        {
+            // Distance auto-calculates only when BOTH selected stations resolve per-diem in
+            // web.civlocationperdiem (else ProcessJsonInput early-returns) AND both have
+            // geography coordinates. Assert a real mileage is computable between two selectable
+            // stations end-to-end (guards the picker/per-diem seed staying in sync).
+            var miles = DataAccessUtility.GetScalarByStaticSql(
+                @"SELECT round((ST_Distance(a.coordinates, b.coordinates) / 1609.34)::numeric)
+                  FROM warehouse.location a
+                  JOIN web.civlocationperdiem pa ON pa.locationid = a.locationid AND pa.amcosversionid = 202501
+                  JOIN warehouse.location b ON b.locationtype = 'zip' AND b.locationid <> a.locationid
+                  JOIN web.civlocationperdiem pb ON pb.locationid = b.locationid AND pb.amcosversionid = 202501
+                  WHERE a.displayname LIKE 'Fort Moore%'
+                    AND a.coordinates IS NOT NULL AND b.coordinates IS NOT NULL
+                  LIMIT 1");
+            Assert.IsTrue(miles != null && miles != DBNull.Value && Convert.ToInt64(miles) > 0,
+                "No computable mileage between selectable duty stations — per-diem/coordinate seed out of sync.");
+        }
+
+        [TestMethod]
         public void CrunchGetSingleValue_ExecutesWithExpectedSignature()
         {
             // Contract test for the ported read function crunch.getsinglevalue(varchar,
