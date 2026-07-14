@@ -91,12 +91,26 @@ namespace AMCOS.Tests.Integration
         [TestMethod]
         public void InventoryByGrade_ExecutesAndHasExpectedShape()
         {
-            // data.inventory is empty until ETL; the query must still run and project the
-            // expected columns (catches schema/type drift such as the gradelevel varchar).
+            // The query must run and project the expected columns for any pay plan (catches
+            // schema/type drift such as the gradelevel varchar), even one with no inventory.
             var table = LocalDashboards.GetInventoryByGrade("AO", _version);
             CollectionAssert.AreEquivalent(
                 new[] { "gradelevel", "categorygroupcode", "inventory" },
                 GetColumnNames(table));
+        }
+
+        [TestMethod]
+        public void InventoryDemo_IsSeededForComparison()
+        {
+            // Demo inventory (seed 010) surfaces through data.inventory for at least one
+            // pay plan; and the seeded prior version differs, so the comparison has a delta.
+            var payPlans = LocalDashboards.GetAllInventoryPayPlans();
+            if (payPlans.Rows.Count == 0)
+                Assert.Inconclusive("No inventory seeded; run seed 010_inventory_demo.sql.");
+
+            var payPlan = payPlans.Rows[0]["payplan"].ToString();
+            Assert.IsTrue(LocalDashboards.GetInventoryTotalByGrade(payPlan!, _version).Rows.Count > 0,
+                "Inventory pay plan has no rows for the current version.");
         }
 
         [TestMethod]
