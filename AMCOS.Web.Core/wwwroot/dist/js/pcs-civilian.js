@@ -270,9 +270,13 @@ var CivPCS = (function () {
             create: false,
             maxItems: 1,
             selectOnTab: true,
+            // optgroup value must match the option's OptionGroup, which is the raw
+            // locationtype from Postgres ('zip' / 'civilian overseas', lower-case). The
+            // label is what's displayed. A casing mismatch here makes the optgroup_columns
+            // plugin drop every location, leaving the dropdowns empty.
             optgroups: [
-                { $order: 1, value: "Zip", label: "Zip" },
-                { $order: 2, value: "Civilian Overseas", label: "Civilian Overseas" }
+                { $order: 1, value: "zip", label: "Zip" },
+                { $order: 2, value: "civilian overseas", label: "Civilian Overseas" }
             ],
             valueField: "Value",
             optgroupValueField: "value",
