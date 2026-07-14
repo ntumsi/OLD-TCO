@@ -65,6 +65,12 @@ else
     <script>
         (function () {
             const count = d3.format(',');
+            const signedPct = d3.format('+,.1f');
+            // Percentage change from A to B. Undefined when A is 0 (shown as an em dash).
+            function pctChange(a, b) {
+                if (a === 0) return (b === 0) ? '0.0%' : '—';
+                return signedPct((b - a) / a * 100) + '%';
+            }
             const payPlanSel = document.getElementById('payPlan');
             const versionASel = document.getElementById('versionA');
             const versionBSel = document.getElementById('versionB');
@@ -118,11 +124,11 @@ else
                     unload: true
                 });
 
-                const thead = `<tr><th>Grade</th><th class="text-end">${labelA}</th><th class="text-end">${labelB}</th><th class="text-end">&Delta; (B&minus;A)</th></tr>`;
+                const thead = `<tr><th>Grade</th><th class="text-end">${labelA}</th><th class="text-end">${labelB}</th><th class="text-end">&Delta; (B&minus;A)</th><th class="text-end">% Change</th></tr>`;
                 const tbody = grades.map((g, i) => {
-                    const delta = (b[i] || 0) - (a[i] || 0);
+                    const va = a[i] || 0, vb = b[i] || 0, delta = vb - va;
                     const cls = delta > 0 ? 'text-success' : (delta < 0 ? 'text-danger' : '');
-                    return `<tr><td>${g}</td><td class="text-end">${count(a[i] || 0)}</td><td class="text-end">${count(b[i] || 0)}</td><td class="text-end ${cls}">${count(delta)}</td></tr>`;
+                    return `<tr><td>${g}</td><td class="text-end">${count(va)}</td><td class="text-end">${count(vb)}</td><td class="text-end ${cls}">${count(delta)}</td><td class="text-end ${cls}">${pctChange(va, vb)}</td></tr>`;
                 }).join('');
                 document.querySelector('#invTable thead').innerHTML = thead;
                 document.querySelector('#invTable tbody').innerHTML = tbody;
