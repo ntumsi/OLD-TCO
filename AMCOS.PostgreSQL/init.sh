@@ -144,7 +144,8 @@ if [[ "$RUN_SEED" == true ]]; then
         "$SCRIPT_DIR/seed/007_full_coverage.sql" \
         "$SCRIPT_DIR/seed/008_officer_warrant_costs.sql" \
         "$SCRIPT_DIR/seed/009_version_compare_demo.sql" \
-        "$SCRIPT_DIR/seed/010_inventory_demo.sql"
+        "$SCRIPT_DIR/seed/010_inventory_demo.sql" \
+        "$SCRIPT_DIR/seed/011_duty_stations_demo.sql"
     do
         run_sql "$f"
     done

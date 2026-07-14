@@ -103,6 +103,18 @@ namespace AMCOS.Tests.Integration
         }
 
         [TestMethod]
+        public void CivPcs_DutyStationsAreSelectable()
+        {
+            // The Civilian PCS origination/destination picker
+            // (web.GetCivPCSLocationsByQuery) must surface several zip-type duty stations
+            // with coordinates + per-diem. Seed 011 adds installations beyond the two base
+            // rows; assert a 'Fort' search returns more than one.
+            var count = Convert.ToInt64(DataAccessUtility.GetScalarByStaticSql(
+                "SELECT count(*) FROM web.getcivpcslocationsbyquery(202501, 'Fort', NULL)"));
+            Assert.IsTrue(count > 1, $"Expected multiple 'Fort' duty stations, got {count}.");
+        }
+
+        [TestMethod]
         public void CrunchGetSingleValue_ExecutesWithExpectedSignature()
         {
             // Contract test for the ported read function crunch.getsinglevalue(varchar,
