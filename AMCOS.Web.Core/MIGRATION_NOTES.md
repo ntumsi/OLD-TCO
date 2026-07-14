@@ -1,5 +1,7 @@
 # AMCOS WebForms to ASP.NET Core 8 migration notes
 
+> **Status (2026-07-09):** the follow-up items below were the state *at the start* of the migration. Most are now complete — the Xwalk, Civilian PCS, and all Admin pages are fully implemented (not placeholders), the AJAX endpoints were re-pointed, and the Report formatting was rebuilt. See `MIGRATION_PARITY_AUDIT.md` and `PROJECT_MANAGER_GAPS.md` for the authoritative, verified state; the per-item notes below have been annotated with ✅/⚠️ to match.
+
 ## Page and service mapping
 
 | Legacy asset | New ASP.NET Core 8 asset | Notes |
@@ -39,13 +41,13 @@
 
 ## Manual follow-up items
 
-1. Re-point legacy JavaScript AJAX calls from `LiteService.asmx/LogChoices` and `ProjectService.asmx/LogAddUnit` to `/api/lite/LogChoices` and `/api/project/LogAddUnit`.
-2. Port the remaining client-side behavior from `amcos-lite.js` and `project-manager.js` if exact UX parity is required.
-3. Recreate the full WebForms report formatting logic from `report.aspx.vb` if subtotal rows, CCE salary-limit highlighting, expandable discounted views, and multi-grid parity are required.
-4. Complete the Xwalk, Civilian PCS, and Admin modules beyond the placeholder pages added here.
-5. Review production OpenID Connect metadata, callback URLs, cookie hardening, and distributed cache implementation before go-live.
-6. Align `AMCOS.Data.AppConfiguration` on a final Core connection string key. The new `appsettings.json` includes `AmcosPostgres` for current shared-library compatibility alongside `AmcosEF` and `AmcosAdo`.
-7. Review Web.config-only settings not yet surfaced in `appsettings.json` (QuickSight dashboard IDs, email settings, feature flags, banner settings, and internal tester values).
+1. ✅ **Done.** Legacy JavaScript AJAX calls re-pointed to `/api/lite/LogChoices` and `/api/project/LogAddUnit`.
+2. ✅ **Done.** `amcos-lite.js` and `project-manager.js` were repurposed as the native cascade engines and wired into the Lite and Project Details pages (see `PROJECT_MANAGER_GAPS.md` GAP 1/2).
+3. ✅ **Done.** Report formatting rebuilt — subtotal rows, CCE salary-limit highlighting, expandable discounted views, per-appropriation colouring (`Pages/Shared/_CostReportTable.cshtml`). Final visual fidelity still needs real `crunch.*` cost data.
+4. ✅ **Done.** Xwalk, Civilian PCS, and all Admin pages are fully implemented (no longer placeholders). Xwalk/Admin dashboards are real QuickSight embeds gated on AWS config.
+5. ⚠️ **Partly done / pre-go-live.** OIDC fail-fast checks, HSTS/HTTPS redirect, and a server-side auth-ticket store are in place; still to do before a multi-node deploy: swap the in-memory `IDistributedCache` for Redis and review production callback URLs/cookie hardening.
+6. ✅ **Done.** The app resolves the connection string in the order `AmcosPostgres` → `AmcosEF` → `AmcosAdo` (`Program.cs`); `AmcosPostgres` is the primary key.
+7. ⚠️ **Open.** Web.config-only settings (QuickSight dashboard IDs, email/SMTP, feature flags, banner settings, internal-tester values) still need to be supplied in the target environment's config.
 
 ## Known compatibility choices
 

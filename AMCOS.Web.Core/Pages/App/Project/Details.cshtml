@@ -323,6 +323,7 @@
 
                 <div class="d-flex gap-2 mb-4">
                     <button type="button" class="btn btn-primary" id="btnUpdateInventory">Update</button>
+                    <button type="button" class="btn btn-outline-danger" id="btnDeleteCheckedInventory">Delete Checked</button>
                     <div id="updateInventoryStatus" class="small align-self-center"></div>
                 </div>
 
@@ -508,7 +509,8 @@
 <script id="pageData" type="application/json">
 {
     "projectId": @Model.ProjectId,
-    "projectStartYear": @Model.CurrentProject!.YearStart,
+    "projectName": @Json.Serialize(Model.CurrentProject!.ProjectName),
+    "projectStartYear": @Model.CurrentProject.YearStart,
     "projectDuration": @Model.CurrentProject.YearDuration,
     "amcosVersionId": @Model.AmcosVersionId
 }
@@ -592,7 +594,7 @@
             hdr.insertAdjacentHTML('beforeend', `<th class="text-center">${year}</th>`);
             inp.insertAdjacentHTML('beforeend',
                 `<td><input type="number" class="form-control form-control-sm inv-insert-cell"
-                            data-year="${y}" min="0" max="99999" value="0"
+                            data-year="${y}" min="0" max="99999" value="1"
                             style="width:72px" /></td>`);
         }
     })();
@@ -639,16 +641,36 @@
         } catch { /* manual entry still works if the lookup is unavailable */ }
     })();
 
+    // Load the installations list for the "Choose a new location" relocation option (parity with
+    // legacy loadUnitLocationList → /api/locations/installations). The option value carries the
+    // installation id ("{id}.installation"); the Add-Unit submit posts that id as the unit location.
+    (async () => {
+        try {
+            const res = await fetch('/api/locations/installations', { headers: { Accept: 'application/json' } });
+            if (!res.ok) return;
+            const installations = await res.json();
+            locationChangeList.innerHTML = '<option value="">-- Select an installation --</option>' +
+                installations.map(i => `<option value="${esc(i.value)}">${esc(i.text)}</option>`).join('');
+        } catch { /* relocation option unavailable if the lookup fails */ }
+    })();
+
     document.querySelectorAll('input[name="unitLocation"]').forEach(r => {
         r.addEventListener('change', () => {
             locationChangeList.classList.toggle('d-none', r.value !== 'Change' || !r.checked);
         });
     });
 
+    // The OTOE / Last-MTOE extend choice is only relevant when the project is Synced to the SACS
+    // years AND the project runs longer than the unit's available SACS years (legacy
+    // project-manager.js displayExtendsYears). Show/hide accordingly — do NOT invert on Sync.
+    function updateSacsExtendVisibility() {
+        const isSync = document.getElementById('fySync').checked;
+        const unitYears = Number(unitPersonnelData[0]?.numUnitYears ?? 0);
+        const showExtend = isSync && Number(PAGE.projectDuration) > unitYears;
+        mtoeSyncExtend.classList.toggle('d-none', !showExtend);
+    }
     document.querySelectorAll('input[name="projectInventoryYear"]').forEach(r => {
-        r.addEventListener('change', () => {
-            mtoeSyncExtend.classList.toggle('d-none', document.getElementById('fySync').checked);
-        });
+        r.addEventListener('change', updateSacsExtendVisibility);
     });
 
     async function lookupUnit() {
@@ -674,7 +696,6 @@
 
             // Personnel table
             const payPlans = [...new Set(data.map(r => r.payPlan))].sort();
-            const locations = [...new Set(data.map(r => r.location))].sort();
 
             let tbl = `<table class="table table-sm table-bordered table-striped">
                 <thead class="table-dark"><tr><th>Pay Plan</th><th>Location</th><th>Inventory</th></tr></thead><tbody>`;
@@ -697,12 +718,9 @@
             });
             payPlanExclusionSec.classList.remove('d-none');
 
-            // Location change list
-            locationChangeList.innerHTML = '<option value="">-- All Locations --</option>';
-            locations.forEach(loc => {
-                locationChangeList.insertAdjacentHTML('beforeend',
-                    `<option value="${esc(loc)}">${esc(loc)}</option>`);
-            });
+            // Contractor Cost Estimate Overhead is keyed to whether the unit carries the CCE pay
+            // plan (legacy adjustUnitOverheadOption), NOT to whether it is an MTOE unit.
+            contractorOverheadSec.classList.toggle('d-none', !payPlans.includes('CCE'));
 
             // MTOE fiscal years
             if (isMtoeUnit) {
@@ -713,7 +731,8 @@
                         `<option value="${esc(y.value)}">${esc(y.text)}</option>`);
                 });
                 fiscalYearsSec.classList.remove('d-none');
-                contractorOverheadSec.classList.remove('d-none');
+                // Set the OTOE / Last-MTOE extend panel to its correct initial state.
+                updateSacsExtendVisibility();
             }
 
             projectActionSec.classList.remove('d-none');
@@ -739,11 +758,21 @@
         const excluded = [...document.querySelectorAll('.pp-exclude:checked')]
             .map(cb => cb.value).join(',');
 
-        // Unit location
-        const locRadio = document.querySelector('input[name="unitLocation"]:checked');
-        let unitLocation = locRadio?.value ?? 'Unchanged';
-        if (unitLocation === 'Change') {
-            unitLocation = locationChangeList.value || 'Change';
+        // Unit location — the backend (web.projectaddunit → getunitpersonnel) expects the literal
+        // 'unchanged', 'national', or a numeric installation id; never a display string.
+        const locChoice = document.querySelector('input[name="unitLocation"]:checked')?.value ?? 'Unchanged';
+        let unitLocation;
+        if (locChoice === 'Change') {
+            const installationId = (locationChangeList.value || '').split('.')[0];
+            if (!installationId) {
+                setStatus(addUnitStatus, 'Please choose a new installation for the unit.', 'warning');
+                return;
+            }
+            unitLocation = installationId;
+        } else if (locChoice === 'National Average') {
+            unitLocation = 'national';
+        } else {
+            unitLocation = 'unchanged';
         }
 
         // MTOE options
@@ -921,23 +950,9 @@
         const rows = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')];
         if (rows.length === 0) return;
 
-        // Collect delete-checked rows first
-        const deleteRows = rows.filter(r =>
-            r.querySelector('.skill-delete-chk')?.checked);
-
-        if (deleteRows.length > 0) {
-            if (!confirm(`Delete ${deleteRows.length} checked row(s)?`)) return;
-            for (const row of deleteRows) {
-                const skillId = parseInt(row.dataset.skillId, 10);
-                await postJson('DeleteSkill', { skillId });
-                row.remove();
-            }
-            updateInvStatus.textContent = 'Deleted selected rows.';
-        }
-
-        // Collect remaining rows
-        const remaining = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')];
-        const payload = remaining.map(row => {
+        // Update saves inventory ONLY — it does not delete checked rows (legacy Update ignored the
+        // delete checkboxes; use the dedicated "Delete Checked" button to remove rows).
+        const payload = rows.map(row => {
             const skillId = parseInt(row.dataset.skillId, 10);
             const cells = [...row.querySelectorAll('.inv-year-cell')];
             // Fill to projectDuration, defaulting to 0
@@ -951,6 +966,31 @@
         try {
             await postJson('BulkUpdateInventory', { rows: payload });
             updateInvStatus.textContent = 'Inventory saved.';
+            updateInvStatus.className = 'small text-success align-self-center';
+        } catch (err) {
+            updateInvStatus.textContent = `Error: ${esc(err.message)}`;
+            updateInvStatus.className = 'small text-danger align-self-center';
+        }
+    });
+
+    // Dedicated Delete button — removes only the rows whose delete checkbox is ticked (legacy
+    // InventoryGridView "Delete" command). Update no longer performs deletes.
+    document.getElementById('btnDeleteCheckedInventory').addEventListener('click', async () => {
+        const deleteRows = [...inventoryGridWrap.querySelectorAll('tr[data-skill-id]')]
+            .filter(r => r.querySelector('.skill-delete-chk')?.checked);
+        if (deleteRows.length === 0) {
+            updateInvStatus.textContent = 'No rows are checked for delete.';
+            updateInvStatus.className = 'small text-warning align-self-center';
+            return;
+        }
+        if (!confirm(`Delete ${deleteRows.length} checked row(s)?`)) return;
+        try {
+            for (const row of deleteRows) {
+                const skillId = parseInt(row.dataset.skillId, 10);
+                await postJson('DeleteSkill', { skillId });
+                row.remove();
+            }
+            updateInvStatus.textContent = 'Deleted selected rows.';
             updateInvStatus.className = 'small text-success align-self-center';
         } catch (err) {
             updateInvStatus.textContent = `Error: ${esc(err.message)}`;
@@ -1028,9 +1068,16 @@
         sel.innerHTML  = '';
         copy.innerHTML = '';
 
+        const mainName = (PAGE.projectName ?? '').trim().toLowerCase();
         cats.forEach(cat => {
-            sel.insertAdjacentHTML('beforeend',
-                `<option value="${cat.categoryId}" data-name="${esc(cat.categoryName)}">${esc(cat.categoryName)}</option>`);
+            // The main/default category (named after the project) cannot be renamed or removed
+            // (legacy sourced this dropdown from PMGetCategories, which excludes it), so keep it
+            // out of the rename/delete list — but it stays available for Copy and the tabs.
+            const isMain = (cat.categoryName ?? '').trim().toLowerCase() === mainName;
+            if (!isMain) {
+                sel.insertAdjacentHTML('beforeend',
+                    `<option value="${cat.categoryId}" data-name="${esc(cat.categoryName)}">${esc(cat.categoryName)}</option>`);
+            }
             // Copy dropdown: only show others (not active)
             if (cat.categoryId !== activeCategoryId) {
                 copy.insertAdjacentHTML('beforeend',
@@ -1038,7 +1085,7 @@
             }
         });
 
-        document.getElementById('renameDeleteSection').classList.toggle('d-none', cats.length === 0);
+        document.getElementById('renameDeleteSection').classList.toggle('d-none', sel.options.length === 0);
     }
 
     document.getElementById('btnCreateSubproject').addEventListener('click', async () => {

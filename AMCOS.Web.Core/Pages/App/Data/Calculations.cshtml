@@ -131,6 +131,22 @@
     });
 
     element.addEventListener('change', loadDetails);
+
+    // Auto-select the first option down the cascade so a record shows on load (legacy parity).
+    (async () => {
+        if (payPlan.options.length < 2) return;
+        payPlan.selectedIndex = 1;
+        await load('Appns', { payPlan: payPlan.value }, appn, 'Select APPN');
+        if (appn.options.length < 2) return;
+        appn.selectedIndex = 1;
+        await load('Categories', { payPlan: payPlan.value, appn: appn.value }, category, 'Select category');
+        if (category.options.length < 2) return;
+        category.selectedIndex = 1;
+        await load('Elements', { payPlan: payPlan.value, appn: appn.value, category: category.value }, element, 'Select element');
+        if (element.options.length < 2) return;
+        element.selectedIndex = 1;
+        await loadDetails();
+    })();
 })();
 </script>
 }

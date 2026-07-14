@@ -1,6 +1,7 @@
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.Security.Claims;
 using Aspose.Cells;
 using AMCOS.Data.Entities;
 using AMCOS.Logic;
@@ -32,6 +33,9 @@ public class ReportModel : PageModel
     public DataTable? InflationFactors { get; private set; }
     public DataTable? DiscountTable { get; private set; }
     public DataTable? InventoryTable { get; private set; }
+
+    /// <summary>Selected OMB discount-rate heading (legacy showed the rate as a label, not a grid row).</summary>
+    public string? DiscountRateHeading { get; private set; }
 
     /// <summary>Shaped cost report (undiscounted + discounted summaries, sub-totals, labels).</summary>
     public CostReportBuilder.Result? Cost { get; private set; }
@@ -83,6 +87,21 @@ public class ReportModel : PageModel
             var amcosVersionId = GetIntSetting("AmcosVersionId", 202501);
             var projectLogic = new AMCOS.Logic.Project();
             ProjectDetails = projectLogic.GetProject(ProjectId.Value);
+
+            // Owner check (parity with the legacy report query's `WHERE PMProject.UserID = @uid`):
+            // only the project's owner (or an admin) may view its report — prevents reading another
+            // user's report by guessing the projectId.
+            var currentUser = (User.Identity as ClaimsIdentity) is { IsAuthenticated: true } id
+                ? UserAdministration.GetCurrentUser(id) : null;
+            if (ProjectDetails == null ||
+                (!User.IsInRole("Admin") &&
+                 !string.Equals(ProjectDetails.UserId, currentUser?.UserId, StringComparison.OrdinalIgnoreCase)))
+            {
+                ProjectDetails = null;
+                LoadError = "This report is not available.";
+                return;
+            }
+
             CceSalaryLimit = SingleValue.Get("CCE", "MaxPayFootnote", amcosVersionId);
             ReportSelections = DataAccessUtility.GetDataTableByStaticSql(
                 // PostgreSQL folds unquoted identifiers to lowercase; the migrated tables are
@@ -115,6 +134,20 @@ public class ReportModel : PageModel
             rawCost = projectLogic.UpdateLocationDisplay(rawCost.Copy());
 
             DiscountTable = BuildDiscountTable(ProjectDetails!, projectLogic.GetDiscountFactors(amcosVersionId));
+
+            // Legacy showed the OMB discount rate as a heading ("Discount Rates Based on N Years
+            // Securities"), not as a grid row. Lift the rate row out into the heading and drop it
+            // from the grid so only the Present Value Factor row remains (matches legacy).
+            var rateRow = DiscountTable.Rows.Cast<DataRow>()
+                .FirstOrDefault(r => (r[0]?.ToString() ?? "").StartsWith("OMB Discount Rate", StringComparison.OrdinalIgnoreCase));
+            if (rateRow != null)
+            {
+                var rateText = DiscountTable.Columns.Count > 1 ? rateRow[1]?.ToString() : null;
+                DiscountRateHeading = decimal.TryParse(rateText, NumberStyles.Any, CultureInfo.InvariantCulture, out var rv)
+                    ? $"{rateRow[0]}: {rv:0.##}%"
+                    : rateRow[0]?.ToString();
+                DiscountTable.Rows.Remove(rateRow);
+            }
             Cost = CostReportBuilder.Build(rawCost, BuildPvfByYear(DiscountTable));
         }
         catch (Exception ex)
@@ -236,9 +269,6 @@ public class ReportModel : PageModel
     {
         var row = 0;
 
-        WriteBanner(ws, row, "UNCLASSIFIED");
-        row += 2;
-
         // Report properties
         row = WriteSectionTitle(ws, row, "Report Properties");
         row = WriteKeyValue(ws, row, "Project Creator", ProjectDetails!.ProjectCreator);
@@ -270,9 +300,17 @@ public class ReportModel : PageModel
             if (Cost.HasSpecialPay)
                 row = WriteNote(ws, row, "**NOTE - Cost values are not inflated for the \"Average Cost of Special Pays\".");
             if (Cost.CceOverSalaryLimit)
-                row = WriteNote(ws, row, $"NOTE: Highlighted field(s) indicate a value based on a CCE salary greater than {CceSalaryLimit:C0} per year.");
-            WriteNote(ws, row, "The costing reports are produced both with and without the discount rate the analyst inputs to the cost estimate.");
+                row = WriteNote(ws, row, $"NOTE: The highlighted field(s) indicate a value based on CCE salary greater than {CceSalaryLimit:C0} per year.  The Contractor APPN Total sums the displayed CCE values but may be greater if your report includes highlighted cells.");
+            row = WriteNote(ws, row, "The costing reports are produced both with and without the discount rate the analyst inputs to the cost estimate.");
+
+            // Regulatory explanatory notes (legacy report.aspx.vb export).
+            row = WriteNote(ws, row, "NOTE: The current Joint Inflation Calculator (JIC) found on the OASA (FM&C) website is the source for the fourteen (14) inflation factors built into Project Manager (PM).");
+            row = WriteNote(ws, row, "Discount rates are prepared annually by the Office of Management and Budget (OMB). OMB Circular A-94 and Department of Defense Instruction (DoDI) 7041.3 require the use of a discount rate based on the Treasury Department cost of borrowing funds, and reflect the expected cost of borrowing for 3, 5, 7, 10, 20, and 30 years securities.");
+            row = WriteNote(ws, row, "NOTE: For analysts costing overseas positions, consider adding Civilian \"Discount Groceries (OCONUS Only)\" costs, if required: for the AMCOS base year, add Discount Groceries (OCONUS Only) costs found on the Full Cost of Manpower (FCoM) web site http://fcom.cape.osd.mil/. For future year \"Default Summary\" cost element projections, multiply the Discount Groceries Factor by the \"Civilian DoD OMA\" inflation factor for the desired year; for future year \"Discounted Default Summary\" projections, additionally apply the Present Value Factor (PVF).");
         }
+
+        // Classification banner at the bottom, plain/unfilled (legacy CommonModule.AddClassification).
+        WriteBanner(ws, row + 3, "UNCLASSIFIED//FOR OFFICIAL USE ONLY");
     }
 
     private static void WriteBanner(Worksheet ws, int row, string text)
@@ -281,12 +319,9 @@ public class ReportModel : PageModel
         cell.PutValue(text);
         var style = cell.GetStyle();
         style.Font.IsBold = true;
-        style.Font.Color = Color.White;
-        style.ForegroundColor = Color.Green;
-        style.Pattern = BackgroundType.Solid;
         style.HorizontalAlignment = TextAlignmentType.Center;
         cell.SetStyle(style);
-        ws.Cells.Merge(row, 0, 1, 8);
+        ws.Cells.Merge(row, 0, 1, 10);
     }
 
     private static int WriteSectionTitle(Worksheet ws, int row, string title)
@@ -349,7 +384,11 @@ public class ReportModel : PageModel
             for (var c = 0; c < visible.Count; c++)
             {
                 var value = dataRow[visible[c]];
-                ws.Cells[row, c].PutValue(value == DBNull.Value ? "" : value.ToString());
+                var cell = ws.Cells[row, c];
+                cell.PutValue(value == DBNull.Value ? "" : value.ToString());
+                var style = cell.GetStyle();
+                ApplyThinBorders(style);
+                cell.SetStyle(style);
             }
             row++;
         }
@@ -370,17 +409,35 @@ public class ReportModel : PageModel
         var visible = table.Columns.Cast<DataColumn>()
             .Where(c => !CostReportBuilder.HiddenColumns.Contains(c.ColumnName))
             .ToList();
-        var costElementIndex = visible.FindIndex(c => c.ColumnName == "Cost Element");
+        var costElementIndex = Math.Max(0, visible.FindIndex(c => c.ColumnName == "Cost Element"));
 
         for (var c = 0; c < visible.Count; c++)
         {
-            WriteHeaderCell(ws, row, c, visible[c].ColumnName);
+            WriteHeaderCell(ws, row, c, visible[c].ColumnName, black: true);
         }
         row++;
 
         foreach (DataRow dataRow in table.Rows)
         {
             var kind = dataRow.Table.Columns.Contains("RowKind") ? dataRow["RowKind"]?.ToString() : null;
+
+            // Full-width black "BEGINNING OF SUB-PROJECT:" divider banner (legacy report.aspx.vb).
+            if (kind == CostReportBuilder.KindBanner)
+            {
+                var label = table.Columns.Contains("Cost Element") ? dataRow["Cost Element"]?.ToString() : "";
+                var bcell = ws.Cells[row, 0];
+                bcell.PutValue(label);
+                var bstyle = bcell.GetStyle();
+                bstyle.Font.IsBold = true;
+                bstyle.Font.Color = Color.White;
+                bstyle.ForegroundColor = Color.Black;
+                bstyle.Pattern = BackgroundType.Solid;
+                bcell.SetStyle(bstyle);
+                ws.Cells.Merge(row, 0, 1, visible.Count);
+                row++;
+                continue;
+            }
+
             var kindColor = CostReportBuilder.RowKindColor(kind);
             var overLimit = dataRow.Table.Columns.Contains("ExceedsSalaryLimit")
                 && (dataRow["ExceedsSalaryLimit"]?.ToString() == "1"
@@ -404,15 +461,18 @@ public class ReportModel : PageModel
 
                 var style = cell.GetStyle();
                 if (isYear) style.Number = 7; // $#,##0.00;($#,##0.00)
+                ApplyThinBorders(style);
 
-                if (kindColor is { } kc)
+                // Total/subtotal rows: color only the Cost Element column and those to its right;
+                // the columns to the left are left unfilled (legacy report.aspx.vb).
+                if (kindColor is { } kc && c >= costElementIndex)
                 {
                     style.ForegroundColor = ColorTranslator.FromHtml(kc.Bg);
                     style.Pattern = BackgroundType.Solid;
                     style.Font.IsBold = true;
                     if (kc.White) style.Font.Color = Color.White;
                 }
-                else if (col.ColumnName == "APPN" && value != DBNull.Value)
+                else if (kindColor is null && col.ColumnName == "APPN" && value != DBNull.Value)
                 {
                     var apColor = appropriation.GetAppropriationColor(value?.ToString() ?? "");
                     if (apColor != Color.White)
@@ -435,15 +495,29 @@ public class ReportModel : PageModel
         return row + 1;
     }
 
-    private static void WriteHeaderCell(Worksheet ws, int row, int col, string text)
+    private static void WriteHeaderCell(Worksheet ws, int row, int col, string text, bool black = false)
     {
         var cell = ws.Cells[row, col];
         cell.PutValue(text);
         var style = cell.GetStyle();
         style.Font.IsBold = true;
         style.Font.Color = Color.White;
-        style.ForegroundColor = Color.Navy;
+        style.ForegroundColor = black ? Color.Black : Color.Navy; // legacy cost header is black
         style.Pattern = BackgroundType.Solid;
+        ApplyThinBorders(style);
         cell.SetStyle(style);
+    }
+
+    // Thin box border on all four sides (legacy report.aspx.vb export cell styling).
+    private static void ApplyThinBorders(Style style)
+    {
+        style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+        style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+        style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+        style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+        style.Borders[BorderType.TopBorder].Color = Color.Black;
+        style.Borders[BorderType.BottomBorder].Color = Color.Black;
+        style.Borders[BorderType.LeftBorder].Color = Color.Black;
+        style.Borders[BorderType.RightBorder].Color = Color.Black;
     }
 }

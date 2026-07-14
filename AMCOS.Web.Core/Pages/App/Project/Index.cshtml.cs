@@ -21,6 +21,12 @@ public class IndexModel : PageModel
     public List<PMProject> Projects { get; private set; } = new();
     public string? LoadError { get; private set; }
 
+    [BindProperty(SupportsGet = true)]
+    public string? Sort { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Dir { get; set; }
+
     [TempData]
     public string? StatusMessage { get; set; }
 
@@ -132,12 +138,37 @@ public class IndexModel : PageModel
             }
 
             Projects = new AMCOS.Logic.Project().GetAllProjectsForUserId(currentUser.UserId);
+            Projects = SortProjects(Projects);
         }
         catch (Exception ex)
         {
             LoadError = ex.Message;
         }
     }
+
+    // In-memory sort backing the clickable list headers (legacy default.aspx AllowSorting).
+    private List<PMProject> SortProjects(List<PMProject> projects)
+    {
+        var desc = string.Equals(Dir, "desc", StringComparison.OrdinalIgnoreCase);
+        Func<PMProject, object?> key = (Sort ?? "").ToLowerInvariant() switch
+        {
+            "description" => p => p.Description,
+            "startyear" => p => p.YearStart,
+            "duration" => p => p.YearDuration,
+            "updated" => p => p.LastUpdate,
+            "created" => p => p.CreateDate,
+            "name" => p => p.ProjectName,
+            _ => null!
+        };
+        if (key is null) return projects; // default: keep the source order
+        var ordered = desc ? projects.OrderByDescending(key) : projects.OrderBy(key);
+        return ordered.ToList();
+    }
+
+    // Returns the opposite direction for a header link (toggles asc/desc for the active column).
+    public string NextDir(string column) =>
+        string.Equals(Sort, column, StringComparison.OrdinalIgnoreCase) && !string.Equals(Dir, "desc", StringComparison.OrdinalIgnoreCase)
+            ? "desc" : "asc";
 
     private AMCOSUser? ResolveCurrentUser()
     {

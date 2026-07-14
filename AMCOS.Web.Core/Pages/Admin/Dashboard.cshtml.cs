@@ -48,7 +48,13 @@ public class DashboardModel : PageModel
 
         try
         {
-            EmbedUrl = new AMCOS.Logic.QuickSight(awsAccountId, awsRegionCode).EmbedDashboard(dashboardId);
+            // EmbedDashboard returns the literal "Error" on AWS failure (never throws); guard the
+            // sentinel / any non-URL so we show the error alert instead of a broken iframe src.
+            var url = new AMCOS.Logic.QuickSight(awsAccountId, awsRegionCode).EmbedDashboard(dashboardId);
+            if (string.IsNullOrWhiteSpace(url) || !url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                ErrorMessage = "Could not load the dashboard. Please try again later.";
+            else
+                EmbedUrl = url;
         }
         catch (Exception ex)
         {

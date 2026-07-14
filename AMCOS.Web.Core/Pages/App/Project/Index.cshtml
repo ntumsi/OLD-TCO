@@ -75,10 +75,20 @@
                     <table class="table table-striped align-middle">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Start Year</th>
-                                <th>Updated</th>
+                                @{
+                                    string SortHeader(string label, string col)
+                                    {
+                                        var active = string.Equals(Model.Sort, col, StringComparison.OrdinalIgnoreCase);
+                                        var caret = active ? (string.Equals(Model.Dir, "desc", StringComparison.OrdinalIgnoreCase) ? " ▼" : " ▲") : "";
+                                        return $"<a href=\"?sort={col}&dir={Model.NextDir(col)}\" class=\"text-decoration-none text-reset\">{label}{caret}</a>";
+                                    }
+                                }
+                                <th>@Html.Raw(SortHeader("Name", "name"))</th>
+                                <th>@Html.Raw(SortHeader("Description", "description"))</th>
+                                <th>@Html.Raw(SortHeader("Start Year", "startyear"))</th>
+                                <th>@Html.Raw(SortHeader("Duration", "duration"))</th>
+                                <th>@Html.Raw(SortHeader("Updated", "updated"))</th>
+                                <th>@Html.Raw(SortHeader("Created", "created"))</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
@@ -86,7 +96,7 @@
                         @if (Model.Projects.Count == 0)
                         {
                             <tr>
-                                <td colspan="5" class="text-center text-muted">No projects available for the current user.</td>
+                                <td colspan="7" class="text-center text-muted">No projects available for the current user.</td>
                             </tr>
                         }
                         else
@@ -99,7 +109,9 @@
                                     </td>
                                     <td>@project.Description</td>
                                     <td>@project.YearStart</td>
-                                    <td>@project.LastUpdate.ToString("g")</td>
+                                    <td>@project.YearDuration</td>
+                                    <td>@project.LastUpdate.ToString("MM/dd/yyyy")</td>
+                                    <td>@project.CreateDate.ToString("MM/dd/yyyy")</td>
                                     <td class="text-end text-nowrap">
                                         <a class="btn btn-sm btn-primary" asp-page="/App/Project/Details" asp-route-projectId="@project.ProjectId">Open</a>
                                         <a class="btn btn-sm btn-outline-secondary" asp-page="/App/Project/Report" asp-route-projectId="@project.ProjectId">Report</a>

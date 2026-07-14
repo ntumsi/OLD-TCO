@@ -17,15 +17,26 @@ public class AccountController : Controller
 
     [HttpPost("logout")]
     [ValidateAntiForgeryToken]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        // After the OIDC end-session round-trip (which clears the local cookie and ends the
-        // Keycloak SSO session via id_token_hint), land on the login endpoint. /account/login is
-        // anonymous and issues a fresh OIDC challenge, so the user reliably ends on the Keycloak
-        // login page. Redirecting to "/" instead relied on the home page's [Authorize] re-challenge,
-        // which is indirect and did not consistently surface the login page.
-        var properties = new AuthenticationProperties { RedirectUri = "/account/login" };
-        return SignOut(properties, CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+        // The OIDC end-session round-trip needs the id_token as id_token_hint. On a normal logout the
+        // ticket (stored server-side) still holds it, so we can end the Keycloak SSO session and land
+        // back on the login page.
+        //
+        // On an IDLE-TIMEOUT forced logout the ticket has already expired, so there is no id_token to
+        // hint with. Sending an end-session request WITHOUT id_token_hint makes Keycloak prompt / not
+        // honor the post-logout redirect, which strands the user and prevents them logging back in.
+        // In that case just clear the local cookie and go straight to the login page (a fresh OIDC
+        // challenge), which reliably surfaces the Keycloak login.
+        var idToken = await HttpContext.GetTokenAsync("id_token");
+        if (!string.IsNullOrWhiteSpace(idToken))
+        {
+            var properties = new AuthenticationProperties { RedirectUri = "/account/login" };
+            return SignOut(properties, CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+        }
+
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return Redirect("/account/login");
     }
 
     [HttpPost("keepalive")]

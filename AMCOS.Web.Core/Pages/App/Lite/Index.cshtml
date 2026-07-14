@@ -115,6 +115,9 @@
                         <button type="button" id="showCostsButton" class="btn btn-warning w-100 fw-bold">
                             Refresh Cost Table
                         </button>
+                        <button type="button" id="exportButton" class="btn btn-outline-success w-100 mt-2 d-none">
+                            Download Excel
+                        </button>
                         <div class="form-text">
                             You <strong>must</strong> click <em>Refresh Cost Table</em> to retrieve the selected data.
                         </div>
@@ -138,6 +141,15 @@
                     where the Special Scale applies. If you can find exactly what you are looking for with respect to
                     the occupation, grade level, and location in the table below, then it is covered by the Special
                     Scale and this table should be used. If not, use the GS pay plan to find the correct data.
+                </div>
+
+                <div id="inflationRatesHeader" class="fw-semibold small mt-2 d-none">Inflation Rates</div>
+                <div id="inflationRatesTable" class="table-responsive mb-3 d-none"></div>
+
+                <div id="cceHighlightNote" class="alert alert-warning small d-none">
+                    NOTE: The highlighted field(s) indicate a value based on CCE salary greater than
+                    @Model.CceMaxPayFootnote.ToString("C2") per year. The Contractor APPN Total sums the
+                    displayed CCE values but may be greater if your report includes highlighted cells.
                 </div>
 
                 <div id="amcosLiteChart" class="mb-3"></div>

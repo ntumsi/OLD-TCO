@@ -18,7 +18,7 @@ public class VisualizationModel : PageModel
 
     private static readonly Dictionary<string, (string ConfigKey, string Title)> Dashboards = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["inventory"]      = ("QuickSight:VisualizationDashboardId", "Inventory"),
+        ["inventory"]      = ("QuickSight:InventoryDashboardId", "Inventory"),
         ["pay-schedule"]   = ("QuickSight:PayScheduleDashboardId",   "Pay Schedule"),
         ["locality-rates"] = ("QuickSight:LocalityRateDashboardId",  "GS Locality Rates by ZIP Code"),
     };
@@ -44,7 +44,14 @@ public class VisualizationModel : PageModel
 
         try
         {
-            EmbedUrl = new AMCOS.Logic.QuickSight(awsAccountId, awsRegionCode).EmbedDashboard(dashboardId);
+            // QuickSight.EmbedDashboard swallows AWS failures and returns the literal "Error"
+            // (never throws), so guard the sentinel / any non-URL rather than binding it as the
+            // iframe src (which would request a broken relative "Error" path).
+            var url = new AMCOS.Logic.QuickSight(awsAccountId, awsRegionCode).EmbedDashboard(dashboardId);
+            if (string.IsNullOrWhiteSpace(url) || !url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                ErrorMessage = $"Could not load the {info.Title} visualization. Please try again later.";
+            else
+                EmbedUrl = url;
         }
         catch (Exception ex)
         {

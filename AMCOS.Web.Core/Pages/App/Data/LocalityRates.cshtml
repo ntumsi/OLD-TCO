@@ -1,0 +1,151 @@
+@page
+@model AMCOS.Web.Core.Pages.App.Data.LocalityRatesModel
+@{
+    ViewData["Title"] = "GS Locality Rates by ZIP Code";
+}
+
+<h4>GS Locality Rates by ZIP Code</h4>
+<p class="text-muted">Enter a ZIP code to find its GS locality pay area and compare its rate between two AMCOS versions.</p>
+
+@if (Model.LoadError != null)
+{
+    <div class="alert alert-info">@Model.LoadError</div>
+}
+else
+{
+    <form class="row row-cols-lg-auto g-2 align-items-end mb-3" id="filters" onsubmit="return false;">
+        <div class="col">
+            <label class="form-label mb-0" for="versionA">Version A</label>
+            <select class="form-select" id="versionA">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.VersionA)">@v</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="versionB">Version B</label>
+            <select class="form-select" id="versionB">
+                @foreach (var v in Model.Versions)
+                {
+                    <option value="@v" selected="@(v == Model.VersionB)">@v</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-0" for="zip">ZIP Code</label>
+            <input class="form-control" id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="e.g. 20301" />
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" id="lookupBtn" type="button">Look up</button>
+        </div>
+    </form>
+
+    <div id="result" class="mb-3"></div>
+    <div id="status" class="text-muted small mb-2"></div>
+    <div id="localityChart" style="min-height: 460px;"></div>
+
+    <div class="table-responsive mt-3">
+        <table class="table table-sm table-striped" id="localityTable">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+    <script>
+        (function () {
+            const pct = d3.format(',.2f');
+            const signedPct = d3.format('+,.1f');
+            // Relative change in the locality rate from A to B. Undefined when A is 0.
+            function pctChange(a, b) {
+                if (a === 0) return (b === 0) ? '0.0%' : '—';
+                return signedPct((b - a) / a * 100) + '%';
+            }
+            const versionASel = document.getElementById('versionA');
+            const versionBSel = document.getElementById('versionB');
+            const zipInput = document.getElementById('zip');
+            const statusEl = document.getElementById('status');
+            const resultEl = document.getElementById('result');
+
+            let chart = c3.generate({
+                bindto: '#localityChart',
+                data: { x: 'x', columns: [['x']], type: 'bar' },
+                axis: {
+                    rotated: true,
+                    x: { type: 'category' },
+                    y: { label: { text: 'Locality Rate (%)', position: 'outer-middle' }, tick: { format: pct } }
+                },
+                tooltip: { format: { value: function (v) { return pct(v) + '%'; } } }
+            });
+
+            async function lookup() {
+                const va = versionASel.value, vb = versionBSel.value;
+                const zip = (zipInput.value || '').trim();
+                statusEl.textContent = 'Loading…';
+                resultEl.innerHTML = '';
+                try {
+                    const res = await fetch(`?handler=Data&zip=${encodeURIComponent(zip)}&versionA=${encodeURIComponent(va)}&versionB=${encodeURIComponent(vb)}`,
+                        { headers: { Accept: 'application/json' } });
+                    if (!res.ok) throw new Error('Request failed (' + res.status + ')');
+                    render(await res.json(), zip);
+                } catch (err) {
+                    statusEl.textContent = 'Could not load locality data: ' + err.message;
+                }
+            }
+
+            function render(data, zip) {
+                const localities = data.localities || [];
+                const matchedNames = new Set((data.matched || []));
+                const labelA = 'v' + data.versionA, labelB = 'v' + data.versionB;
+
+                if (zip) {
+                    const hits = localities.filter(l => matchedNames.has(l.name));
+                    if (hits.length) {
+                        resultEl.innerHTML = hits.map(m => {
+                            const d = (m.b - m.a);
+                            const cls = d > 0 ? 'text-success' : (d < 0 ? 'text-danger' : '');
+                            return `<div class="alert alert-success mb-1"><strong>${zip}</strong> &rarr; ${m.name} &mdash; ${labelA}: <strong>${pct(m.a)}%</strong>, ${labelB}: <strong>${pct(m.b)}%</strong> <span class="${cls}">(&Delta; ${pct(d)}, ${pctChange(m.a, m.b)})</span></div>`;
+                        }).join('');
+                    } else {
+                        resultEl.innerHTML = `<div class="alert alert-warning mb-1">No GS locality found for ZIP <strong>${zip}</strong>${localities.length ? '.' : ' (locality data is not loaded yet).'}</div>`;
+                    }
+                }
+
+                if (!localities.length) {
+                    chart.unload();
+                    statusEl.textContent = 'No locality rate data is loaded for these versions yet.';
+                    document.querySelector('#localityTable thead').innerHTML = '';
+                    document.querySelector('#localityTable tbody').innerHTML = '';
+                    return;
+                }
+                statusEl.textContent = data.versionA === data.versionB ? 'Version A and B are the same — pick two different versions to compare.' : '';
+
+                const names = localities.map(l => l.name);
+                chart.load({
+                    columns: [['x'].concat(names), [labelA].concat(localities.map(l => l.a)), [labelB].concat(localities.map(l => l.b))],
+                    unload: true
+                });
+
+                const thead = `<tr><th>Locality</th><th class="text-end">${labelA}</th><th class="text-end">${labelB}</th><th class="text-end">&Delta; (B&minus;A)</th><th class="text-end">% Change</th></tr>`;
+                const tbody = localities.map(l => {
+                    const d = (l.b - l.a);
+                    const cls = d > 0 ? 'text-success' : (d < 0 ? 'text-danger' : '');
+                    return `<tr class="${l.matched ? 'table-warning' : ''}"><td>${l.name}</td><td class="text-end">${pct(l.a)}</td><td class="text-end">${pct(l.b)}</td><td class="text-end ${cls}">${pct(d)}</td><td class="text-end ${cls}">${pctChange(l.a, l.b)}</td></tr>`;
+                }).join('');
+                document.querySelector('#localityTable thead').innerHTML = thead;
+                document.querySelector('#localityTable tbody').innerHTML = tbody;
+            }
+
+            document.getElementById('lookupBtn').addEventListener('click', lookup);
+            zipInput.addEventListener('keydown', e => { if (e.key === 'Enter') lookup(); });
+            versionASel.addEventListener('change', lookup);
+            versionBSel.addEventListener('change', lookup);
+            lookup();
+        })();
+    </script>
+}

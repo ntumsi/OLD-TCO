@@ -66,6 +66,24 @@ public class UsersModel : PageModel
     [BindProperty(SupportsGet = true)]
     public DateTime? DeniedTo { get; set; }
 
+    [BindProperty(SupportsGet = true)]
+    public DateTime? LastUpdatedFrom { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? LastUpdatedTo { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? LoginFrom { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public DateTime? LoginTo { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Sort { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Dir { get; set; }
+
     // ── Page-state properties ────────────────────────────────────────────────
 
     public List<UserRow> Users { get; private set; } = new();
@@ -75,6 +93,9 @@ public class UsersModel : PageModel
     public string? StatusMessage { get; set; }
 
     public string? LoadError { get; private set; }
+
+    /// <summary>Legacy record-count label ("Approved Count = N" / "Denied Count = N" / "N user records found").</summary>
+    public string ResultCountLabel { get; private set; } = "";
 
     /// <summary>UserId of the currently authenticated AMCOS user — used to disable self-role-toggle.</summary>
     public string? CurrentUserId { get; private set; }
@@ -104,7 +125,40 @@ public class UsersModel : PageModel
         CurrentUserId = ResolveCurrentUser()?.UserId;
         LoadOrganizations();
         RunSearch();
+        ResultCountLabel = BuildResultCountLabel();
     }
+
+    // Legacy userlist.aspx.vb:207-276 — when the ONLY active filter is the DASA-CE Approved date
+    // range the count reads "Approved Count = N"; only the Denied range → "Denied Count = N";
+    // otherwise a plain record count.
+    private string BuildResultCountLabel()
+    {
+        var n = Users.Count;
+        var anyText = !string.IsNullOrWhiteSpace(FirstName) || !string.IsNullOrWhiteSpace(LastName)
+            || !string.IsNullOrWhiteSpace(ArmyRank) || !string.IsNullOrWhiteSpace(Macom)
+            || !string.IsNullOrWhiteSpace(OfficeName) || !string.IsNullOrWhiteSpace(CompanyName);
+        var created = CreatedFrom.HasValue || CreatedTo.HasValue;
+        var lastLogin = LastLoginFrom.HasValue || LastLoginTo.HasValue;
+        var approved = ApprovedFrom.HasValue || ApprovedTo.HasValue;
+        var denied = DeniedFrom.HasValue || DeniedTo.HasValue;
+
+        if (approved && !denied && !anyText && !created && !lastLogin) return $"Approved Count = {n}";
+        if (denied && !approved && !anyText && !created && !lastLogin) return $"Denied Count = {n}";
+        return $"{n} user records found";
+    }
+
+    // Formats a US phone as (XXX) XXX-XXXX (legacy udfFormatPhoneNo); leaves non-10-digit values as-is.
+    private static string? FormatPhone(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return raw;
+        var digits = new string(raw.Where(char.IsDigit).ToArray());
+        return digits.Length == 10 ? $"({digits[..3]}) {digits[3..6]}-{digits[6..]}" : raw;
+    }
+
+    // Opposite sort direction for a header link (toggles asc/desc on the active column).
+    public string NextDir(string column) =>
+        string.Equals(Sort, column, StringComparison.OrdinalIgnoreCase) && !string.Equals(Dir, "desc", StringComparison.OrdinalIgnoreCase)
+            ? "desc" : "asc";
 
     /// <summary>Toggles the UserRole between "Admin" and "User" for the given userId.</summary>
     public IActionResult OnPostToggleRole(string userId)
@@ -284,15 +338,35 @@ public class UsersModel : PageModel
                 }
             }
             AddDateRange("u.datecreated", CreatedFrom, CreatedTo, "created");
+            AddDateRange("u.lastupdate", LastUpdatedFrom, LastUpdatedTo, "lastupdated");
             AddDateRange("u.lastlogin", LastLoginFrom, LastLoginTo, "lastlogin");
+            // Login-History filters the joined event rows (legacy userlist "Login History" range).
+            AddDateRange("h.logindatetime", LoginFrom, LoginTo, "loginhist");
             AddDateRange("u.lastapproveddate", ApprovedFrom, ApprovedTo, "approved");
             AddDateRange("u.lastdenieddate", DeniedFrom, DeniedTo, "denied");
 
             sql.Append(
                 " GROUP BY u.userid, name, u.email, u.armyrank, u.macom, u.companyname," +
                 " u.officename, u.comphone, u.armyaccounttype, u.datecreated, u.lastupdate," +
-                " u.lastlogin, u.userrole" +
-                " ORDER BY name");
+                " u.lastlogin, u.userrole");
+            // Whitelisted sort backing the clickable column headers (legacy AllowSorting).
+            var sortColumn = (Sort ?? "").ToLowerInvariant() switch
+            {
+                "email" => "u.email",
+                "rank" => "u.armyrank",
+                "organization" => "u.macom",
+                "office" => "u.officename",
+                "company" => "u.companyname",
+                "accounttype" => "u.armyaccounttype",
+                "logins" => "logincount",
+                "lastlogin" => "u.lastlogin",
+                "created" => "u.datecreated",
+                "updated" => "u.lastupdate",
+                "role" => "u.userrole",
+                _ => "name"
+            };
+            var sortDir = string.Equals(Dir, "desc", StringComparison.OrdinalIgnoreCase) ? "DESC" : "ASC";
+            sql.Append($" ORDER BY {sortColumn} {sortDir} NULLS LAST");
 
             using var conn = OpenConnection();
             using var cmd = new NpgsqlCommand(sql.ToString(), conn);
@@ -310,7 +384,7 @@ public class UsersModel : PageModel
                     Macom:       reader.IsDBNull(4)  ? null : reader.GetString(4),
                     CompanyName: reader.IsDBNull(5)  ? null : reader.GetString(5),
                     OfficeName:  reader.IsDBNull(6)  ? null : reader.GetString(6),
-                    Phone:       reader.IsDBNull(7)  ? null : reader.GetString(7),
+                    Phone:       reader.IsDBNull(7)  ? null : FormatPhone(reader.GetString(7)),
                     AccountType: reader.IsDBNull(8)  ? null : reader.GetString(8),
                     DateCreated: reader.IsDBNull(9)  ? null : (DateTime?)reader.GetDateTime(9),
                     LastUpdate:  reader.IsDBNull(10) ? null : (DateTime?)reader.GetDateTime(10),

@@ -1,5 +1,18 @@
 "use strict";
 
+// Send the ASP.NET Core anti-forgery token on every state-changing AJAX request so the
+// PageModel's default antiforgery validation passes (the page renders the hidden
+// __RequestVerificationToken input via @Html.AntiForgeryToken()). Mirrors the header used
+// by the Project Details page and the shared keep-alive in site.js.
+$.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+        if (/^(POST|PUT|DELETE)$/i.test(settings.type)) {
+            var token = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (token) xhr.setRequestHeader("RequestVerificationToken", token.value);
+        }
+    }
+});
+
 // ── Utility functions ────────────────────────────────────────────────────────
 
 function FormatAsNumber(val) {
@@ -257,9 +270,13 @@ var CivPCS = (function () {
             create: false,
             maxItems: 1,
             selectOnTab: true,
+            // optgroup value must match the option's OptionGroup, which is the raw
+            // locationtype from Postgres ('zip' / 'civilian overseas', lower-case). The
+            // label is what's displayed. A casing mismatch here makes the optgroup_columns
+            // plugin drop every location, leaving the dropdowns empty.
             optgroups: [
-                { $order: 1, value: "Zip", label: "Zip" },
-                { $order: 2, value: "Civilian Overseas", label: "Civilian Overseas" }
+                { $order: 1, value: "zip", label: "Zip" },
+                { $order: 2, value: "civilian overseas", label: "Civilian Overseas" }
             ],
             valueField: "Value",
             optgroupValueField: "value",
@@ -408,6 +425,9 @@ var CivPCS = (function () {
         $("#HouseHuntingTotalCell").text("$" + GetFormattedNumber(res.HouseHuntingTotal, 2));
         $("#HouseHuntingTotal").val(res.HouseHuntingTotal);
         $("#SelfPerDiemRate").text(parseFloat(res.SelfPerDiemRate) * 100);
+        // House-Hunting "Spouse per diem is X%" label (legacy rendered this server-side; the
+        // migrated client-driven page must update it from the response, like SelfPerDiemRate).
+        $("#SpousePerDiemRate").text(parseFloat(res.SpousePerDiemRate) * 100);
         // Transportation
         $("#POVMileage").val(GetFormattedNumber(res.POVMileage, 0));
         $("#TransportationDependents").val(res.TransportationDependents);

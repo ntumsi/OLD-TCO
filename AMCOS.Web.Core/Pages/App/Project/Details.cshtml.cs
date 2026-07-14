@@ -268,7 +268,7 @@ public class DetailsModel : PageModel
                             subId,
                             req.Uic.Trim().ToUpper(),
                             req.ExcludedPayPlans ?? string.Empty,
-                            req.UnitLocation ?? "Unchanged",
+                            req.UnitLocation ?? "unchanged",
                             req.MtoeInventoryYear ?? string.Empty,
                             req.ProjectExtendsSacsYears ?? "Last MTOE",
                             req.ContractorOverheadPercent,
@@ -280,7 +280,7 @@ public class DetailsModel : PageModel
                         ProjectId,
                         req.Uic.Trim().ToUpper(),
                         req.ExcludedPayPlans ?? string.Empty,
-                        req.UnitLocation ?? "Unchanged",
+                        req.UnitLocation ?? "unchanged",
                         req.MtoeInventoryYear ?? string.Empty,
                         req.ProjectExtendsSacsYears ?? "Last MTOE",
                         req.ContractorOverheadPercent,
@@ -292,7 +292,7 @@ public class DetailsModel : PageModel
                         req.CategoryId,
                         req.Uic.Trim().ToUpper(),
                         req.ExcludedPayPlans ?? string.Empty,
-                        req.UnitLocation ?? "Unchanged",
+                        req.UnitLocation ?? "unchanged",
                         req.MtoeInventoryYear ?? string.Empty,
                         req.ProjectExtendsSacsYears ?? "Last MTOE",
                         req.ContractorOverheadPercent,
@@ -443,6 +443,16 @@ public class DetailsModel : PageModel
     {
         try
         {
+            // Parity guard (legacy details.aspx.vb): the main/default category (the one named after
+            // the project) must never be deleted — GetMainCategoryId keys off it, so removing it
+            // breaks Add-Unit Replace/append-to-main.
+            var projectName = new AMCOS.Logic.Project().GetProject(ProjectId)?.ProjectName?.Trim();
+            var targetName = new ProjectRequirement().GetRequirements(ProjectId)
+                .FirstOrDefault(c => c.CategoryId == req.CategoryId)?.CategoryName?.Trim();
+            if (!string.IsNullOrEmpty(projectName)
+                && string.Equals(projectName, targetName, StringComparison.OrdinalIgnoreCase))
+                return new JsonResult(new { success = false, message = "The main category cannot be removed." });
+
             new AMCOS.Logic.Project().DeleteSubProject(req.CategoryId);
             return new JsonResult(new { success = true });
         }
@@ -462,6 +472,13 @@ public class DetailsModel : PageModel
                 return new JsonResult(new { success = false, message = "New name is required." });
 
             var proj = new AMCOS.Logic.Project();
+
+            // Parity guard (legacy details.aspx.vb:419): the main/default category (named after the
+            // project) cannot be renamed — the rename is keyed by name, so compare OldName to it.
+            var projectName = proj.GetProject(ProjectId)?.ProjectName?.Trim();
+            if (!string.IsNullOrEmpty(projectName)
+                && string.Equals(req.OldName?.Trim(), projectName, StringComparison.OrdinalIgnoreCase))
+                return new JsonResult(new { success = false, message = "The main category cannot be renamed." });
 
             if (proj.SubprojectNameExists(ProjectId, req.NewName.Trim()))
                 return new JsonResult(new { success = false, message = "A category with that name already exists." });
@@ -489,8 +506,10 @@ public class DetailsModel : PageModel
                        AppConfiguration.GetConnectionString()))
             {
                 conn.Open();
+                // Unquoted so it resolves to the PG-folded lowercase name (web.projectcategorycount);
+                // double-quoting forces an exact-case match that does not exist and throws at runtime.
                 using var cmd = new Npgsql.NpgsqlCommand(
-                    "SELECT web.\"ProjectCategoryCount\"(@ProjectId, @FromCategoryId, @ToCategoryId)",
+                    "SELECT web.projectcategorycount(@ProjectId, @FromCategoryId, @ToCategoryId)",
                     conn);
                 cmd.Parameters.AddWithValue("@ProjectId", ProjectId);
                 cmd.Parameters.AddWithValue("@FromCategoryId", req.FromCategoryId);

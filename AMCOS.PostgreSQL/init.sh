@@ -99,14 +99,34 @@ for f in \
     "$SCRIPT_DIR/migrations/000_schemas.sql" \
     "$SCRIPT_DIR/migrations/001_lookup_tables.sql" \
     "$SCRIPT_DIR/migrations/002_data_tables.sql" \
+    "$SCRIPT_DIR/migrations/002b_dataload_tables.sql" \
+    "$SCRIPT_DIR/migrations/002c_xwalk_tables.sql" \
+    "$SCRIPT_DIR/migrations/002d_staging_tables.sql" \
+    "$SCRIPT_DIR/migrations/002e_payschedule_raw_tables.sql" \
     "$SCRIPT_DIR/migrations/003_webuser_tables.sql" \
     "$SCRIPT_DIR/migrations/004_web_tables.sql" \
     "$SCRIPT_DIR/migrations/005_warehouse_tables.sql" \
     "$SCRIPT_DIR/migrations/005b_costengine_tables.sql" \
+    "$SCRIPT_DIR/migrations/005c_crunch_intermediate_tables.sql" \
+    "$SCRIPT_DIR/migrations/005d_payschedule_processed_tables.sql" \
+    "$SCRIPT_DIR/migrations/005e_crunch_temp_tables.sql" \
+    "$SCRIPT_DIR/migrations/005f_analysis_crunchtime.sql" \
     "$SCRIPT_DIR/migrations/006_functions.sql" \
     "$SCRIPT_DIR/migrations/006b_costengine_functions.sql" \
+    "$SCRIPT_DIR/migrations/006c_crunch_helper_functions.sql" \
+    "$SCRIPT_DIR/migrations/006g_crunch_phase3_helpers.sql" \
+    "$SCRIPT_DIR/migrations/006d_crunch_cost_procs_phase1.sql" \
+    "$SCRIPT_DIR/migrations/006e_crunch_procs_phase2.sql" \
+    "$SCRIPT_DIR/migrations/006f_crunch_payschedule_procs.sql" \
+    "$SCRIPT_DIR/migrations/006h_crunch_cost_procs_phase3.sql" \
+    "$SCRIPT_DIR/migrations/006i_crunch_costoftraining.sql" \
+    "$SCRIPT_DIR/migrations/006j_warehouse_populate_procs.sql" \
+    "$SCRIPT_DIR/migrations/006k_crunchall.sql" \
     "$SCRIPT_DIR/migrations/007_stored_procedures.sql" \
-    "$SCRIPT_DIR/migrations/008_views.sql"
+    "$SCRIPT_DIR/migrations/008b_payschedules_view.sql" \
+    "$SCRIPT_DIR/migrations/008_views.sql" \
+    "$SCRIPT_DIR/migrations/008c_knowninventory_view.sql" \
+    "$SCRIPT_DIR/migrations/008d_input_views.sql"
 do
     run_sql "$f"
 done
@@ -120,7 +140,12 @@ if [[ "$RUN_SEED" == true ]]; then
         "$SCRIPT_DIR/seed/003_warehouse_and_web.sql" \
         "$SCRIPT_DIR/seed/004_demo_users_and_project.sql" \
         "$SCRIPT_DIR/seed/005_amcos_lite_coverage.sql" \
-        "$SCRIPT_DIR/seed/006_costfact_grades.sql"
+        "$SCRIPT_DIR/seed/006_costfact_grades.sql" \
+        "$SCRIPT_DIR/seed/007_full_coverage.sql" \
+        "$SCRIPT_DIR/seed/008_officer_warrant_costs.sql" \
+        "$SCRIPT_DIR/seed/009_version_compare_demo.sql" \
+        "$SCRIPT_DIR/seed/010_inventory_demo.sql" \
+        "$SCRIPT_DIR/seed/011_duty_stations_demo.sql"
     do
         run_sql "$f"
     done

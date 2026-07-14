@@ -8,16 +8,21 @@
     var hidden = new HashSet<string>(CostReportBuilder.HiddenColumns);
 
     // Appropriation palette for data-row APPN cells (AMCOS.Logic Appropriation.GetAppropriationColor).
+    // Must match legacy report.aspx.vb (on-screen) and AMCOS.Logic Appropriation.GetAppropriationColor
+    // (export) exactly. Army CivPay/MPA/OMA all share the "Sum Army" color; NG and RES variants share
+    // their group color; the CCE-colored cell's APPN value is "Contractor" (not the literal "CCE").
     var appropColors = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
-        ["ARMY CIVPAY"] = "#1F8802", ["CIV ARMY CIVPAY"] = "#1F8802",
+        ["ARMY CIVPAY"] = "#5D7430", ["CIV ARMY CIVPAY"] = "#5D7430", ["ARMY CivPay"] = "#5D7430",
         ["MPA"] = "#5D7430", ["MPA NON-PAY"] = "#5D7430",
-        ["OMA"] = "#6A9303", ["OMA_1"] = "#6A9303",
+        ["OMA"] = "#5D7430", ["OMA_1"] = "#5D7430",
         ["FEDERAL OM"] = "#00008B", ["FEDERAL OMA"] = "#00008B",
         ["DOD OMA"] = "#7030A0", ["OMDW"] = "#7030A0",
-        ["NGPA"] = "#74B803", ["NG PA"] = "#74B803", ["OMNG"] = "#8BA103", ["OMNG_1"] = "#8BA103",
-        ["RPA"] = "#5C9303", ["RES PA"] = "#5C9303", ["OMAR"] = "#6E8003", ["OMAR_1"] = "#6E8003",
-        ["CCE"] = "#006D8B"
+        ["NG OM"] = "#8BA103", ["NG OM_1"] = "#8BA103", ["NGPA"] = "#8BA103", ["NG PA"] = "#8BA103",
+        ["OMNG"] = "#8BA103", ["OMNG_1"] = "#8BA103",
+        ["RES OM"] = "#6E8003", ["RES OM_1"] = "#6E8003", ["RPA"] = "#6E8003", ["RES PA"] = "#6E8003",
+        ["OMAR"] = "#6E8003", ["OMAR_1"] = "#6E8003",
+        ["Contractor"] = "#006D8B"
     };
 
     string Currency(object v) =>
@@ -33,6 +38,8 @@
 else
 {
     var visible = Model.Columns.Cast<System.Data.DataColumn>().Where(c => !hidden.Contains(c.ColumnName)).ToList();
+    // Legacy blanks the columns LEFT of the Cost Element column on total/subtotal rows (no fill).
+    var costElementIndex = Math.Max(0, visible.FindIndex(c => c.ColumnName == "Cost Element"));
     <div class="table-responsive">
         <table class="table table-sm table-bordered align-middle cost-report-table">
             <thead class="table-dark">
@@ -53,22 +60,38 @@ else
                     @foreach (System.Data.DataRow row in Model.Rows)
                     {
                         var kind = Model.Columns.Contains("RowKind") ? row["RowKind"]?.ToString() : null;
+
+                        // Full-width black "BEGINNING OF SUB-PROJECT:" divider banner.
+                        if (kind == CostReportBuilder.KindBanner)
+                        {
+                            var label = Model.Columns.Contains("Cost Element") ? row["Cost Element"]?.ToString() : "";
+                            <tr><td colspan="@visible.Count" class="fw-bold" style="background:#000;color:#fff;font-size:larger;">@label</td></tr>
+                            continue;
+                        }
+
                         var kindColor = CostReportBuilder.RowKindColor(kind);
                         var overLimit = Model.Columns.Contains("ExceedsSalaryLimit")
                             && (row["ExceedsSalaryLimit"]?.ToString() == "1"
                                 || string.Equals(row["ExceedsSalaryLimit"]?.ToString(), "true", StringComparison.OrdinalIgnoreCase));
                         var isTotal = kindColor is not null;
                         <tr class="@(isTotal ? "fw-semibold" : "")">
+                            @{ var colIndex = -1; }
                             @foreach (var column in visible)
                             {
+                                colIndex++;
                                 var val = row[column];
                                 var isYear = yearSet.Contains(column.ColumnName);
                                 string? bg = null;
                                 string fg = "";
                                 if (kindColor is { } kc)
                                 {
-                                    bg = kc.Bg;
-                                    if (kc.White) fg = "color:#fff;";
+                                    // Only the Cost Element column and those to its right get the kind
+                                    // color; columns to the left are blanked (legacy report.aspx.vb).
+                                    if (colIndex >= costElementIndex)
+                                    {
+                                        bg = kc.Bg;
+                                        if (kc.White) fg = "color:#fff;";
+                                    }
                                 }
                                 else if (column.ColumnName == "APPN" && val != System.DBNull.Value
                                          && appropColors.TryGetValue(val.ToString()!.Trim(), out var ac))

@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace AMCOS.Web.Core.Pages.App.CivilianPcs;
 
 [Authorize]
-[IgnoreAntiforgeryToken]
 public class IndexModel : PageModel
 {
     private static readonly JsonSerializerOptions JsonOpts = new() { PropertyNamingPolicy = null };

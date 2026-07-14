@@ -36,9 +36,15 @@ public class LiteApiController : ControllerBase
 
     private void LogChoicesInternal(AmcosLiteRequest request)
     {
+        // Legacy AmcosLiteLogging modes: "FilterValue" logs each filter change, "ButtonClick" logs
+        // each Refresh (ShowCosts) press, "Both" logs both, "None" logs nothing. A refresh sends
+        // PageElement = "ShowCostsButton" (legacy LogSelections("ShowCosts", "ShowCostsButton", …)).
         var loggingMode = _configuration["AmcosLiteLogging"] ?? "None";
-        if (!string.Equals(loggingMode, "Both", StringComparison.OrdinalIgnoreCase)
-            && !string.Equals(loggingMode, "FilterValue", StringComparison.OrdinalIgnoreCase))
+        var isButtonClick = string.Equals(request.PageElement, "ShowCostsButton", StringComparison.OrdinalIgnoreCase);
+        var allowed = string.Equals(loggingMode, "Both", StringComparison.OrdinalIgnoreCase)
+            || (isButtonClick && string.Equals(loggingMode, "ButtonClick", StringComparison.OrdinalIgnoreCase))
+            || (!isButtonClick && string.Equals(loggingMode, "FilterValue", StringComparison.OrdinalIgnoreCase));
+        if (!allowed)
         {
             return;
         }
@@ -63,7 +69,7 @@ public class LiteApiController : ControllerBase
 
         try
         {
-            new Lite().LogSelections("Filter", request.PageElement ?? string.Empty, model);
+            new Lite().LogSelections(isButtonClick ? "ShowCosts" : "Filter", request.PageElement ?? string.Empty, model);
         }
         catch
         {

@@ -391,13 +391,19 @@ CREATE TABLE crunch.payscheduleminmax (
 );
 
 -- Source: AMCOS.AMCOS2020_MAR/crunch/Tables/Costs_1ActiveDay.sql  (web.pmcostsbypayplanreservecomponents)
+-- NOTE: categorygroupcode + crunchtime are part of the legacy schema (and its PK)
+-- and are written/rolled-up by crunch.crunch1activeday; an earlier port dropped
+-- them. Restored here so the 1-active-day group/pay-plan average tiers work.
 CREATE TABLE crunch.costs_1activeday (
     payplan varchar(3) NOT NULL,
+    categorygroupcode char(2) NOT NULL,
     categorysubgroupcode varchar(4) NOT NULL,
     weaponsystemid integer NOT NULL,
     gradetype varchar(3) NOT NULL,
     gradelevel smallint NOT NULL,
     costelementid integer NOT NULL,
     amount numeric(16, 2) NOT NULL,
-    amcosversionid integer NOT NULL
+    crunchtime timestamp NULL,
+    amcosversionid integer NOT NULL,
+    CONSTRAINT pk_costs_1activeday PRIMARY KEY (payplan, categorygroupcode, categorysubgroupcode, weaponsystemid, gradetype, gradelevel, costelementid, amcosversionid)
 );

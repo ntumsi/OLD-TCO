@@ -126,6 +126,8 @@ function onRankChange() {
     const isCtr = rank.endsWith('CTR');
     document.getElementById('rankOtherGroup').style.display = isOther ? '' : 'none';
     document.getElementById('companyNameGroup').style.display = isCtr ? '' : 'none';
+    // Company Name is required for contractor accounts (mirrors the server-side check).
+    document.getElementById('CompanyName').required = isCtr;
 }
 // Sync on load in case of validation failure re-render
 document.addEventListener('DOMContentLoaded', onRankChange);
