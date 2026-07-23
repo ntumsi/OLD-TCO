@@ -465,7 +465,7 @@ Partial Class ProjectDetails
         End If
 
         Try
-            DataAccessUtility.ExecuteStoredProc("web.PMCopyProjectCategory", {"@FromCategoryId", "@ToCategoryId"}, {SqlDbType.Int, SqlDbType.Int}, {CType(PMCategoryList.SelectedValue, Integer), CategoryId})
+            DataAccessUtility.ExecuteStoredProc("web.PMCopyProjectCategory", {"@FromCategoryId", "@ToCategoryId"}, {NpgsqlTypes.NpgsqlDbType.Integer, NpgsqlTypes.NpgsqlDbType.Integer}, {CType(PMCategoryList.SelectedValue, Integer), CategoryId})
         Catch ex As Exception
             lbCopyCatMsg.Text = "Sorry, can't copy the project this time.  If the problem persists, please contact the system administrator"
             DataAccessUtility.GetScalarByStaticSql("insert into web.ApplicationErrorLog (ErrorTime, UserId, ErrorPage, ErrorDetail) values (getdate(), @uid, 'Lite/default.aspx.vb', @errDetail)", {"@uid", "@errDetail"}, {currentUser.UserId, sql})

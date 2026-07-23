@@ -110,12 +110,12 @@ Partial Class ProjectReport
         gvDiscountRates.DataBind()
 
         ' Inventory
-        Dim dtInv As DataTable = DataAccessUtility.ExecuteStoredProcDataSet("web.PMProjectInventory", {"@ProjectId"}, {SqlDbType.Int}, {ProjectId}).Tables(0)
+        Dim dtInv As DataTable = DataAccessUtility.ExecuteStoredProcDataSet("web.PMProjectInventory", {"@ProjectId"}, {NpgsqlTypes.NpgsqlDbType.Integer}, {ProjectId}).Tables(0)
         Dim sortOrder As String = "PMCategoryName, [UIC], PayPlan, CategoryGroupCode, CategorySubgroupCode, Grade"
         gvProjectInventory.DataSource = New DataView(dtInv, "", sortOrder, DataViewRowState.CurrentRows)
         gvProjectInventory.DataBind()
 
-        Dim projectManagerReportDataSet As DataSet = DataAccessUtility.ExecuteStoredProcDataSet("web.PMReport", {"@ProjectId", "@AmcosVersionId"}, {SqlDbType.Int, SqlDbType.Int}, {ProjectId, amcosVersionId})
+        Dim projectManagerReportDataSet As DataSet = DataAccessUtility.ExecuteStoredProcDataSet("web.PMReport", {"@ProjectId", "@AmcosVersionId"}, {NpgsqlTypes.NpgsqlDbType.Integer, NpgsqlTypes.NpgsqlDbType.Integer}, {ProjectId, amcosVersionId})
 
         Dim dtD As DataTable = projectManagerReportDataSet.Tables(0).Copy
         dtD = project.UpdateLocationDisplay(dtD)
