@@ -448,12 +448,21 @@ namespace AMCOS.Data
                 entity.SetSchema(schema);
 
                 if (tableName == null) continue;
+#if NET48
+                // EF Core 3.1: GetColumnName() (no StoreObjectIdentifier overload — added in EF Core 5).
+                foreach (var prop in entity.GetProperties())
+                {
+                    var configured = prop.GetColumnName() ?? prop.Name;
+                    prop.SetColumnName(configured.ToLower());
+                }
+#else
                 var storeObject = StoreObjectIdentifier.Table(tableName, schema);
                 foreach (var prop in entity.GetProperties())
                 {
                     var configured = prop.GetColumnName(storeObject) ?? prop.Name;
                     prop.SetColumnName(configured.ToLower());
                 }
+#endif
             }
 
             base.OnModelCreating(modelBuilder);
