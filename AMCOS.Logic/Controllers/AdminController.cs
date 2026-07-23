@@ -19,48 +19,48 @@ namespace AMCOS.Logic.Controllers
         readonly string _awsAccountId = ConfigurationManager.AppSettings["AwsAccountId"];
 
 
+        // Admin visualizations, now rendered as local (non-QuickSight) C3 charts. Each action
+        // scaffolds the chart shell; populate Categories/Series (or the table) with a real query
+        // to render data. Renders via Views/Shared/Visualization.vbhtml -> _LocalVisualization.
+
         public ActionResult AmcosLiteUsage()
         {
-            string dashboardId = ConfigurationManager.AppSettings["AmcosLiteUsageDashboardId"];
-            QuickSight quickSight = new QuickSight(_awsAccountId, _awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "AMCOS Lite Usage", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "AMCOS Lite Usage")
+                .AsChart("line", "Date", "Sessions");
+            // TODO: model.Categories = dates; model.Series.Add(new VisualizationSeries("Sessions", counts));
+            return View("Visualization", model);
         }
         public ActionResult AmcosUserLogins()
         {
-            string dashboardId = ConfigurationManager.AppSettings["AmcosUserLoginsDashboardId"];
-            QuickSight quickSight = new QuickSight(_awsAccountId, _awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "AMCOS User Logins", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "AMCOS User Logins")
+                .AsChart("line", "Date", "Logins");
+            return View("Visualization", model);
         }
         public ActionResult AmcosUserApprovals()
         {
-            string dashboardId = ConfigurationManager.AppSettings["AmcosUserApprovalsDashboardId"];
-            QuickSight quickSight = new QuickSight(_awsAccountId, _awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "AMCOS User Approvals", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "AMCOS User Approvals")
+                .AsChart("bar", "Date", "Approvals");
+            return View("Visualization", model);
         }
         public ActionResult CurrentActiveAmcosUsers()
         {
-            string dashboardId = ConfigurationManager.AppSettings["CurrentActiveAmcosUsersDashboardId"];
-            QuickSight quickSight = new QuickSight(_awsAccountId, _awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "Current Active AMCOS Users", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "Current Active AMCOS Users")
+                .AsChart("bar", "Account Type", "Users");
+            return View("Visualization", model);
         }
         public ActionResult CostCompareNew()
         {
-            string dashboardId = ConfigurationManager.AppSettings["CostCompareDashboardId"];
-            QuickSight quickSight = new QuickSight(_awsAccountId, _awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "Cost Compare", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "Cost Compare")
+                .AsChart("bar", "Grade", "Cost ($)");
+            model.ValueFormat = "$,.0f";
+            return View("Visualization", model);
         }
 
         public ActionResult HelpSpotData()
         {
-            string dashboardId = ConfigurationManager.AppSettings["HelpSpotDashboardId"];
-            QuickSight quickSight = new QuickSight(_awsAccountId, _awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "HelpSpot Data", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "HelpSpot Data")
+                .AsChart("bar", "Category", "Count");
+            return View("Visualization", model);
         }
         public FileResult GetHelpSpotFile(int id, string table = "helpspot_flat")
         {

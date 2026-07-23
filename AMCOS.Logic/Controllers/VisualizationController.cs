@@ -1,45 +1,50 @@
-﻿using AMCOS.Logic.ViewModels;
-using System.Configuration;
+using AMCOS.Logic.ViewModels;
 using System.Web.Mvc;
 
 namespace AMCOS.Logic.Controllers
 {
+    // Local (non-QuickSight) visualizations. Each action scaffolds the chart shell — title,
+    // chart type and axis labels — and leaves Categories/Series empty. Populate them (from a
+    // query or the DataVisualization helper) to render real data; until then the view shows an
+    // empty state. Rendering: Views/Shared/Visualization.vbhtml -> _LocalVisualization.vbhtml +
+    // dist/js/local-visualization.js.
     [Route("Visualization/{action}")]
     public class VisualizationController : BaseController
     {
-        readonly string awsAccountId = ConfigurationManager.AppSettings["AwsAccountId"];
         public ActionResult LocalityRateByZipCode()
         {
-            string dashboardId = ConfigurationManager.AppSettings["GSLocalityRatesByZipCodeDashboardId"];
-            string awsRegionCode = "us-gov-west-1";
-            QuickSight quickSight = new QuickSight(awsAccountId, awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url,"GS Locality Rates by ZIP Code", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "GS Locality Rates by ZIP Code")
+                .AsChart("bar", "Locality", "Rate (%)");
+            model.Description = "GS locality pay rate by area.";
+            model.ValueFormat = ",.2f";
+            // TODO: populate, e.g.
+            //   model.Categories = localityNames;
+            //   model.Series.Add(new VisualizationSeries("Rate", rates));
+            return View("Visualization", model);
         }
+
         public ActionResult PaySchedule()
         {
-            string dashboardId = ConfigurationManager.AppSettings["PayScheduleDashboardId"];
-            string awsRegionCode = "us-gov-west-1";
-            QuickSight quickSight = new QuickSight(awsAccountId, awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "Pay Schedule", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "Pay Schedule")
+                .AsChart("line", "Grade / Step", "Pay ($)");
+            model.ValueFormat = "$,.0f";
+            return View("Visualization", model);
         }
+
         public ActionResult Inventory()
         {
-            string dashboardId = ConfigurationManager.AppSettings["InventoryDashboardId"];
-            string awsRegionCode = "us-gov-west-1";
-            QuickSight quickSight = new QuickSight(awsAccountId, awsRegionCode);
-            string url = quickSight.EmbedDashboard(dashboardId);
-            return View("Visualization", new VisualizationViewModel(CurrentUser, url, "Inventory", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "Inventory")
+                .AsChart("bar", "Grade", "Inventory (count)");
+            model.Stacked = true;
+            model.ValueFormat = ",.0f";
+            return View("Visualization", model);
         }
+
         public ActionResult Xwalk()
         {
-            return View("UnderConstruction", new DefaultViewModel(CurrentUser));
-            //string dashboardId = ConfigurationManager.AppSettings["XwalkDashboardId"];
-            //string awsRegionCode = "us-gov-west-1";
-            //QuickSight quickSight = new QuickSight(awsAccountId, awsRegionCode);
-            //string url = quickSight.EmbedDashboard(dashboardId);
-            //return View("Visualization", new VisualizationViewModel(CurrentUser, url, "Xwalk", "_QuickSight"));
+            var model = new VisualizationViewModel(CurrentUser, "Xwalk")
+                .AsChart("bar", "Category", "Count");
+            return View("Visualization", model);
         }
     }
 }

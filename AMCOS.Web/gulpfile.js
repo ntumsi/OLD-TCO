@@ -130,6 +130,9 @@ function copyAmcosCommonJS() {
 function copyQuicksightJS() {
     return src(['src/js/quicksight.js', 'node_modules/amazon-quicksight-embedding-sdk/dist/quicksight-embedding-js-sdk.min.js']).pipe(dest('dist/js'));
 }
+function copyLocalVisualizationJS() {
+    return src('src/js/local-visualization.js').pipe(dest('dist/js'));
+}
 exports.default = series(
     clean,
     copyImages,
@@ -150,8 +153,9 @@ exports.default = series(
     copyProjectManagerJS,
     copyPCSCommonJS,
     minimizeObjectInflationYear,
-    minimizeObjectPayPlan, 
-    copyQuicksightJS
+    minimizeObjectPayPlan,
+    copyQuicksightJS,
+    copyLocalVisualizationJS
 );
 
 exports.copyAmcosLiteJs = series(

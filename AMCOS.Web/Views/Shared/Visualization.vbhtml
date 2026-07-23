@@ -4,4 +4,6 @@
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
-@Html.Partial("_QuickSight", Model)
+@* Model.View selects the partial: "_LocalVisualization" (default local C3 chart) or the
+   legacy "_QuickSight" embed. *@
+@Html.Partial(Model.View, Model)
