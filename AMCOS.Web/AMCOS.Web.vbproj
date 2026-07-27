@@ -774,4 +774,15 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <!-- AMCOS.Logic (SDK-style, multi-targeted) is referenced for its net48 output. Some of its
+       transitive package assets (e.g. System.ComponentModel.Annotations,
+       Microsoft.Extensions.Configuration.Binder) are not propagated into this packages.config
+       app's bin by the project reference, which caused runtime FileNotFoundExceptions. Copy the
+       full net48 dependency closure into bin so every referenced assembly is present. -->
+  <Target Name="CopyLogicNet48Dependencies" AfterTargets="Build">
+    <ItemGroup>
+      <LogicNet48Assemblies Include="$(ProjectDir)..\AMCOS.Logic\bin\$(Configuration)\net48\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LogicNet48Assemblies)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition="Exists('$(ProjectDir)..\AMCOS.Logic\bin\$(Configuration)\net48')" />
+  </Target>
 </Project>

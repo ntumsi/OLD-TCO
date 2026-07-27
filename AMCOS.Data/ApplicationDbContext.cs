@@ -439,6 +439,24 @@ namespace AMCOS.Data
             modelBuilder.Entity<QuickSightEnvironment>().ToTable("QuickSightEnvironment", "web");
             modelBuilder.Entity<QuickSightEnvironment>().HasKey(e => e.AwsAccountId);
 
+#if NET48
+            // EF Core 3.1 (net48) predates the [PrimaryKey] attribute (EF Core 7+); the entity
+            // classes declare composite keys with it via the Compatibility shim. Apply those keys
+            // through fluent HasKey so the entities aren't treated as keyless. Skip any entity that
+            // already has a key configured above. No-op on net8.0, where EF Core 8 honors the attribute.
+            var shimKeyed = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<Type, string[]>>();
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                var clrType = entity.ClrType;
+                if (clrType == null || entity.FindPrimaryKey() != null) continue;
+                var pk = (PrimaryKeyAttribute)Attribute.GetCustomAttribute(clrType, typeof(PrimaryKeyAttribute));
+                if (pk != null)
+                    shimKeyed.Add(new System.Collections.Generic.KeyValuePair<Type, string[]>(clrType, pk.PropertyNames));
+            }
+            foreach (var kv in shimKeyed)
+                modelBuilder.Entity(kv.Key).HasKey(kv.Value);
+#endif
+
             // PostgreSQL folds unquoted identifiers to lowercase; normalize all EF mappings to match.
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
