@@ -314,3 +314,60 @@ The following items are tracked and require follow-up before or after go-live. (
 - **Post-launch — test coverage:** ETL tests cover only 2 of ~50 loader modules (transform-only). The .NET `AMCOS.Tests` project currently compiles just `ConfigurationMigrationTests` + `TestMethods` (one real assertion); the ~20 substantive legacy test files on disk are excluded from the build and reference the SQL-Server unit-test framework — they need migration before they run.
 
 See `AMCOS.Web.Core/MIGRATION_NOTES.md` for the full WebForms → ASP.NET Core migration notes.
+
+---
+
+## Running the legacy classic app (`AMCOS.Web`) in VS Code
+
+`AMCOS.Web` is the classic **.NET Framework 4.8** app (VB WebForms + ASP.NET MVC 5). VS Code is only the editor here — you build and run it from the **PowerShell terminal**, because the `dotnet` CLI **cannot** build WebForms (it needs the Visual Studio web workload's `Microsoft.WebApplication.targets`). The shared libraries `AMCOS.Data` and `AMCOS.Logic` multi-target `net8.0;net48`, so the same code backs both this app and the Core app.
+
+> In `Development`, the app uses **mock authentication** (`Environment=Development` in `AMCOS.Web/Web.config` → `KeyCloakHelper` signs you in from the `InternalTester_*` keys via `/dev-login`), so **Keycloak is not required at runtime** — only PostgreSQL needs to be up.
+
+### Classic-app prerequisites
+
+- **Visual Studio 2022** installed (Community is fine) — provides MSBuild + the ASP.NET/web workload and IIS Express. VS Code itself does not build WebForms.
+- **PostgreSQL** running on `:5432` with the `amcos` database seeded (see [Quick start](#quick-start--local-development-on-windows), steps 2–3). Keycloak is *not* needed for Development.
+
+### 1. Restore NuGet packages (`packages.config`)
+
+The classic app uses `packages.config`, so restore with `nuget.exe` (not `dotnet restore`):
+
+```powershell
+cd D:\OLD-TCO
+nuget restore AMCOS.Web\packages.config -SolutionDirectory .
+```
+
+### 2. Build with VS2022 MSBuild
+
+The plain `MSBuild`/`dotnet` commands won't work; use the full path (or open **Developer PowerShell for VS 2022**, which puts `MSBuild` on `PATH`):
+
+```powershell
+& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" `
+  "AMCOS.Web\AMCOS.Web.vbproj" /p:Configuration=Debug /p:Platform=AnyCPU /m
+```
+
+This builds the chain `AMCOS.Data → AMCOS.Logic → AMCOS.Web` (net48). A post-build target copies AMCOS.Logic's full net48 dependency closure into `AMCOS.Web\bin`.
+
+> Tip: to type `MSBuild` directly this session, alias it —
+> `Set-Alias MSBuild "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe"`
+
+### 3. Run with IIS Express
+
+The code reads Postgres from the `AMCOS_POSTGRES_CONNECTION` environment variable (the `Web.config` `connectionStrings` still point at the retired SQL Server and are unused for data access):
+
+```powershell
+$env:AMCOS_POSTGRES_CONNECTION = "Host=localhost;Database=amcos;Username=postgres;Password=postgr3s"
+& "C:\Program Files\IIS Express\iisexpress.exe" /path:"D:\OLD-TCO\AMCOS.Web" /port:5080
+```
+
+Then browse to <http://localhost:5080/> — you'll be routed through `/dev-login` (signed in as the mock `InternalTester_*` user) and land on `/home`.
+
+### Troubleshooting the classic app
+
+| Symptom | Fix |
+| --- | --- |
+| `MSBuild : The term 'MSBuild' is not recognized` | Use the full path above, or open **Developer PowerShell for VS 2022**. |
+| `dotnet build` fails on `AMCOS.Web.vbproj` | Expected — WebForms needs VS MSBuild, not the CLI. Build the net8 side (`AMCOS.Web.Core`) with `dotnet` instead. |
+| HTTP 500 on every URL (empty body) | An OWIN-startup or assembly-binding failure (these bypass `Application_Error`). Confirm packages were restored and the build copied `AMCOS.Web\bin` fully. |
+| `The controller for path '/…' was not found` | MVC dropped the controllers because `AMCOS.Logic` failed to load a dependency — re-restore and rebuild so `bin` matches the `Web.config` binding redirects. |
+| Sign-in 500 / session error | `AMCOS_POSTGRES_CONNECTION` unset or Postgres not running; session state is in-process, so only the DB must be reachable. |
