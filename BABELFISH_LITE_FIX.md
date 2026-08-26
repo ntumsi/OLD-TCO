@@ -369,78 +369,69 @@ WHERE r.ConversionType=@InflationConversion AND r.Year=@InflationYear AND r.Appr
 
 ---
 
-## 9. After the fix: Lite hangs / shows no data / no error
+## 9. After the fix: Lite hangs / shows no data / no error  →  it's SLOW, not broken
 
-Once `@ConversionType` is resolved, the **inflation header** works but the **main cost grid** can come back empty (and the page may appear to hang) with **no error**. This is a *different* object and a *different* Babelfish limitation.
+**Confirmed by testing:** `EXEC web.GetAmcosLiteCosts …` returns correct data but takes **~2 minutes** on Babelfish. So the proc is **not** mistranslated — it is **too slow**, and a timeout layer between the browser and the database drops the request before it finishes. The dropped-connection exception is swallowed → **empty grid, no visible error, apparent "hang."**
 
-### Why
+### What is actually timing out (2-min query vs. shorter limits)
 
-The main grid is bound to `Tables(0)` of `web.GetAmcosLiteCosts` (`AMCOS.Logic/Lite.cs` → `DataAccessUtility.ExecuteStoredProcDataSet("web.GetAmcosLiteCosts", …)`). Inside that proc, the grid rows are produced **only** by:
+| Layer | Default limit | Notes |
+|---|---|---|
+| **AWS ALB idle timeout** | **60 s** | If an Application Load Balancer fronts the app, it cuts the connection at 60 s. **Most common cause in AWS.** |
+| **ADO `CommandTimeout`** (SqlClient → Babelfish) | **30 s** | Original app uses the default unless raised. |
+| IIS / browser | varies | Secondary. |
 
-```
-web.GetAmcosLiteCosts
-   └── EXEC web.spCrossTabGrades …           -- a NESTED stored procedure
-           └── EXEC(@sqlSelect + @sqlCase + @sqlEnd)   -- DYNAMIC SQL builds the result set
-```
+`~120 s query` > `60 s ALB` (or `30 s ADO`) ⇒ connection killed ⇒ empty grid, no error.
 
-Three things stack up against Babelfish here:
+> Note: this repo's *ported* Npgsql path (`AMCOS.Logic/DataAccessUtility.cs:44`) already sets `CommandTimeout = 900`; that only helps the native-PG (5432) path, not a SqlClient→Babelfish original app, and it does nothing about a 60 s ALB.
 
-1. **Result set from dynamic SQL in a *nested* proc.** SQL Server bubbles every result set (including from `EXEC(@sql)` inside a called proc) up to the client. Babelfish's TDS layer does **not** reliably surface result sets produced by dynamic SQL executed inside a *called* procedure — so `Tables(0)` arrives **empty or missing**, and an error raised in that dynamic batch can be **swallowed** (→ "no data, no error").
-2. **`SET NOCOUNT ON` is commented out** (`--SET NOCOUNT ON;`, line ~30 of `GetAmcosLiteCosts`). The many `INSERT`/`UPDATE` into `#AmcosLite` each emit a rowcount; through ADO/Babelfish those can be consumed as an empty `Tables(0)`, shifting the real data to a later table the grid never reads.
-3. **Single-quoted column aliases in the dynamic SQL.** `spCrossTabGrades` builds `… END) AS ''' + @KeyValue + ''''` → `SUM(CASE …) AS 'GS-05'`. Single-quoted *identifiers* are legal-ish in T-SQL but are string literals in PostgreSQL; depending on Babelfish's parser this either errors (swallowed, per #1) or misnames columns.
+### Track A — unblock now (band-aid)
 
-### Confirm it first (2 minutes, through the Babelfish TDS 1433 endpoint)
+Raise **both** relevant limits so the 2-min run can complete while you tune it:
 
-```sql
--- Use the same arguments the failing screen sends. @Debug=1 makes spCrossTabGrades PRINT its dynamic SQL.
-EXEC web.GetAmcosLiteCosts
-     @PayPlan = 'GS', @CostSummaryName = 'Default',
-     @InflationConversion = 'ThenToThen', @InflationYear = '2025',
-     @AmcosVersionId = 202501, @Debug = 1;
-```
+- ADO: set `CommandTimeout` ≥ 180 on the command that runs `web.GetAmcosLiteCosts`.
+- ALB: EC2 → Load Balancers → your ALB → **Attributes → Idle timeout** → 180 s (or higher).
 
-- **Grid rows appear in SSMS but not in the app** → it's the nested-result-set / NOCOUNT propagation problem (fixes below).
-- **SSMS also returns nothing / errors** → run the printed dynamic SQL by itself; likely the single-quoted alias or a temp-table/collation issue.
-- **SSMS hangs** → performance (cursor + dynamic SQL + `#AmcosLite` build); see fix 4.
+A 2-minute Lite screen isn't acceptable UX, so treat Track A as temporary.
 
-### Fixes (apply in order; retest after each)
+### Track B — make it fast (the real fix)
 
-**Fix 1 — `SET NOCOUNT ON` (one line, do this first).** Uncomment it at the top of `web.GetAmcosLiteCosts`, and confirm it's present in `web.spCrossTabGrades` (it is). Often resolves "empty `Tables(0)`" by itself.
+Babelfish runs on the PostgreSQL engine; a proc that was fast on SQL Server is usually slow because the **PG planner lacks statistics/indexes** on the migrated tables and falls back to sequential scans + nested loops.
+
+**1. Update statistics first — cheapest, biggest win.** Right after a bulk migration the tables often have no stats. On the **native PG (5432) endpoint**:
 
 ```sql
--- web.GetAmcosLiteCosts, right after BEGIN:
-SET NOCOUNT ON;     -- was: --SET NOCOUNT ON;
+ANALYZE VERBOSE;                       -- whole database, or target the hot tables:
+-- ANALYZE lookup.jicinflationrates; ANALYZE <cost/inventory tables feeding #AmcosLite>;
 ```
 
-**Fix 2 — return the grid from the *top-level* proc, not a nested dynamic `EXEC`.** Make `spCrossTabGrades` write its rows into a **global temp table** inside the dynamic SQL, then have `GetAmcosLiteCosts` return them with a plain top-level `SELECT` (which Babelfish delivers to the client reliably):
+Re-time the proc after this alone — it frequently drops from minutes to seconds.
+
+**2. Find where the 2 minutes goes.** In SSMS (Babelfish TDS endpoint):
 
 ```sql
--- In spCrossTabGrades: change the final line from
---     EXEC (@sqlSelect + @sqlCase + @sqlEnd);
--- to materialize into a global temp table instead of streaming a result set:
-IF OBJECT_ID('tempdb..##CrossTabGrades') IS NOT NULL DROP TABLE ##CrossTabGrades;
-SET @sqlEnd = N' INTO ##CrossTabGrades FROM ' + @From + N' GROUP BY ' + @GroupBy + N' ORDER BY ' + @OrderBy;
-EXEC (@sqlSelect + @sqlCase + @sqlEnd);   -- SELECT … INTO ##CrossTabGrades
-
--- In GetAmcosLiteCosts, replace  EXEC web.spCrossTabGrades …  with the same call, then:
-SELECT * FROM ##CrossTabGrades;           -- top-level SELECT => reaches the client
-DROP TABLE ##CrossTabGrades;
+SET STATISTICS TIME ON;
+EXEC web.GetAmcosLiteCosts @PayPlan='GS', @CostSummaryName='Default',
+     @InflationConversion='ThenToThen', @InflationYear='2025', @AmcosVersionId=202501, @Debug=1;
 ```
 
-(Equivalent alternative: inline `spCrossTabGrades`'s dynamic-SQL builder directly into `GetAmcosLiteCosts` so the result-producing `EXEC(@sql)` runs in the proc the app calls directly, rather than one level down.)
+Read the per-statement elapsed times to see whether the cost is in **building `#AmcosLite`** (the INSERT/UPDATE joins) or in **`spCrossTabGrades`** (the cursor + dynamic pivot). Then, on the native PG endpoint, `EXPLAIN (ANALYZE, BUFFERS)` the dominant statement to see the bad plan (look for `Seq Scan` on big tables, huge `Nested Loop` row counts).
 
-**Fix 3 — double-quote the dynamic column aliases.** In `spCrossTabGrades`, change the alias emission from single quotes to `QUOTENAME` (double quotes), so it's a valid identifier under Babelfish/PG:
+**3. Add the indexes the plan is missing.** Typically on the join/filter keys of the tables feeding `#AmcosLite` — e.g. `AmcosVersionId`, `PayPlan`, `CategoryGroupCode`/`CategorySubgroupCode`, `ConversionType`+`Year`+`Appropriation` on `lookup.JicInflationRates`, `WeaponSystemId` + version range on `lookup.WeaponSystem`. Create them through whichever endpoint owns the tables (native PG `CREATE INDEX`).
+
+**4. Index the temp table.** `#AmcosLite` is built then joined/updated/pivoted repeatedly with no index → repeated scans. After it's populated, add a covering index before `spCrossTabGrades`:
 
 ```sql
--- from:  ... END) AS ''' + @KeyValue + ''''
--- to:    ... END) AS ' + QUOTENAME(@KeyValue)
+CREATE INDEX IX_AmcosLite ON #AmcosLite (Grade, GradeLevel, appnGroup, APPN, CostElementName);
 ```
 
-**Fix 4 — if it genuinely hangs (SSMS too).** The cursor + row-by-row dynamic string build plus the `#AmcosLite` construction can be slow on Babelfish. Replace the cursor in `spCrossTabGrades` with a set-based build of `@sqlCase` (e.g. `STRING_AGG` if your Babelfish version supports it, or a `SELECT @sqlCase = @sqlCase + …` accumulation over `#PivotConfiguration`), and set a sane `CommandTimeout` on the .NET call so a slow run surfaces instead of appearing to hang.
+**5. `SET NOCOUNT ON`.** Uncomment `--SET NOCOUNT ON;` at the top of `GetAmcosLiteCosts` — removes the per-INSERT/UPDATE rowcount chatter (minor perf + cleaner ADO result handling).
 
-### App-only option (mirrors §4B)
+**6. Only if `spCrossTabGrades` dominates:** replace its row-by-row **cursor** that builds `@sqlCase` with a set-based accumulation (`SELECT @sqlCase = @sqlCase + … FROM #PivotConfiguration ORDER BY PivotSort`, or `STRING_AGG` if your Babelfish version supports it). The cursor is over one row per grade (~10–15), so this is usually *not* the bottleneck — confirm with step 2 before spending time here.
 
-If you'd rather not touch the procs, the cross-tab can be reproduced in `Lite.Costs` (build the `SUM(CASE …)` grid in a single top-level statement the client executes directly). It's more code than §4B because `GetAmcosLiteCosts` also does the `#AmcosLite` assembly and the two chart selects — so **the proc-side Fix 1 (+ Fix 2 if needed) is the smaller, lower-risk change** for this one. Recommend starting there.
+### Bottom line
+
+The `@ConversionType` fix was correct; this is a **separate performance issue**. Do **Track B step 1 (`ANALYZE`) first** — it's a one-liner and most often the whole fix. Use Track A only to keep testing while you tune. If, after `ANALYZE` + indexes, the proc runs in a few seconds, the grid will populate normally with no app change.
 
 ---
 
