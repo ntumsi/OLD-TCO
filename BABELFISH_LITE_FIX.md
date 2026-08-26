@@ -369,6 +369,81 @@ WHERE r.ConversionType=@InflationConversion AND r.Year=@InflationYear AND r.Appr
 
 ---
 
+## 9. After the fix: Lite hangs / shows no data / no error
+
+Once `@ConversionType` is resolved, the **inflation header** works but the **main cost grid** can come back empty (and the page may appear to hang) with **no error**. This is a *different* object and a *different* Babelfish limitation.
+
+### Why
+
+The main grid is bound to `Tables(0)` of `web.GetAmcosLiteCosts` (`AMCOS.Logic/Lite.cs` → `DataAccessUtility.ExecuteStoredProcDataSet("web.GetAmcosLiteCosts", …)`). Inside that proc, the grid rows are produced **only** by:
+
+```
+web.GetAmcosLiteCosts
+   └── EXEC web.spCrossTabGrades …           -- a NESTED stored procedure
+           └── EXEC(@sqlSelect + @sqlCase + @sqlEnd)   -- DYNAMIC SQL builds the result set
+```
+
+Three things stack up against Babelfish here:
+
+1. **Result set from dynamic SQL in a *nested* proc.** SQL Server bubbles every result set (including from `EXEC(@sql)` inside a called proc) up to the client. Babelfish's TDS layer does **not** reliably surface result sets produced by dynamic SQL executed inside a *called* procedure — so `Tables(0)` arrives **empty or missing**, and an error raised in that dynamic batch can be **swallowed** (→ "no data, no error").
+2. **`SET NOCOUNT ON` is commented out** (`--SET NOCOUNT ON;`, line ~30 of `GetAmcosLiteCosts`). The many `INSERT`/`UPDATE` into `#AmcosLite` each emit a rowcount; through ADO/Babelfish those can be consumed as an empty `Tables(0)`, shifting the real data to a later table the grid never reads.
+3. **Single-quoted column aliases in the dynamic SQL.** `spCrossTabGrades` builds `… END) AS ''' + @KeyValue + ''''` → `SUM(CASE …) AS 'GS-05'`. Single-quoted *identifiers* are legal-ish in T-SQL but are string literals in PostgreSQL; depending on Babelfish's parser this either errors (swallowed, per #1) or misnames columns.
+
+### Confirm it first (2 minutes, through the Babelfish TDS 1433 endpoint)
+
+```sql
+-- Use the same arguments the failing screen sends. @Debug=1 makes spCrossTabGrades PRINT its dynamic SQL.
+EXEC web.GetAmcosLiteCosts
+     @PayPlan = 'GS', @CostSummaryName = 'Default',
+     @InflationConversion = 'ThenToThen', @InflationYear = '2025',
+     @AmcosVersionId = 202501, @Debug = 1;
+```
+
+- **Grid rows appear in SSMS but not in the app** → it's the nested-result-set / NOCOUNT propagation problem (fixes below).
+- **SSMS also returns nothing / errors** → run the printed dynamic SQL by itself; likely the single-quoted alias or a temp-table/collation issue.
+- **SSMS hangs** → performance (cursor + dynamic SQL + `#AmcosLite` build); see fix 4.
+
+### Fixes (apply in order; retest after each)
+
+**Fix 1 — `SET NOCOUNT ON` (one line, do this first).** Uncomment it at the top of `web.GetAmcosLiteCosts`, and confirm it's present in `web.spCrossTabGrades` (it is). Often resolves "empty `Tables(0)`" by itself.
+
+```sql
+-- web.GetAmcosLiteCosts, right after BEGIN:
+SET NOCOUNT ON;     -- was: --SET NOCOUNT ON;
+```
+
+**Fix 2 — return the grid from the *top-level* proc, not a nested dynamic `EXEC`.** Make `spCrossTabGrades` write its rows into a **global temp table** inside the dynamic SQL, then have `GetAmcosLiteCosts` return them with a plain top-level `SELECT` (which Babelfish delivers to the client reliably):
+
+```sql
+-- In spCrossTabGrades: change the final line from
+--     EXEC (@sqlSelect + @sqlCase + @sqlEnd);
+-- to materialize into a global temp table instead of streaming a result set:
+IF OBJECT_ID('tempdb..##CrossTabGrades') IS NOT NULL DROP TABLE ##CrossTabGrades;
+SET @sqlEnd = N' INTO ##CrossTabGrades FROM ' + @From + N' GROUP BY ' + @GroupBy + N' ORDER BY ' + @OrderBy;
+EXEC (@sqlSelect + @sqlCase + @sqlEnd);   -- SELECT … INTO ##CrossTabGrades
+
+-- In GetAmcosLiteCosts, replace  EXEC web.spCrossTabGrades …  with the same call, then:
+SELECT * FROM ##CrossTabGrades;           -- top-level SELECT => reaches the client
+DROP TABLE ##CrossTabGrades;
+```
+
+(Equivalent alternative: inline `spCrossTabGrades`'s dynamic-SQL builder directly into `GetAmcosLiteCosts` so the result-producing `EXEC(@sql)` runs in the proc the app calls directly, rather than one level down.)
+
+**Fix 3 — double-quote the dynamic column aliases.** In `spCrossTabGrades`, change the alias emission from single quotes to `QUOTENAME` (double quotes), so it's a valid identifier under Babelfish/PG:
+
+```sql
+-- from:  ... END) AS ''' + @KeyValue + ''''
+-- to:    ... END) AS ' + QUOTENAME(@KeyValue)
+```
+
+**Fix 4 — if it genuinely hangs (SSMS too).** The cursor + row-by-row dynamic string build plus the `#AmcosLite` construction can be slow on Babelfish. Replace the cursor in `spCrossTabGrades` with a set-based build of `@sqlCase` (e.g. `STRING_AGG` if your Babelfish version supports it, or a `SELECT @sqlCase = @sqlCase + …` accumulation over `#PivotConfiguration`), and set a sane `CommandTimeout` on the .NET call so a slow run surfaces instead of appearing to hang.
+
+### App-only option (mirrors §4B)
+
+If you'd rather not touch the procs, the cross-tab can be reproduced in `Lite.Costs` (build the `SUM(CASE …)` grid in a single top-level statement the client executes directly). It's more code than §4B because `GetAmcosLiteCosts` also does the `#AmcosLite` assembly and the two chart selects — so **the proc-side Fix 1 (+ Fix 2 if needed) is the smaller, lower-risk change** for this one. Recommend starting there.
+
+---
+
 ## 8. TL;DR
 
 - The `@ConversionType does not exist` error = **`web.GetInflationRateHeader` never created on Babelfish because it uses `PIVOT`**; the runtime call to the missing function surfaces as a bogus parameter error.
