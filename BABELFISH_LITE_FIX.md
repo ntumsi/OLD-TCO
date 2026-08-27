@@ -7,6 +7,12 @@
 
 > Apply everything in this doc **through the Babelfish TDS endpoint (port 1433)** using SSMS or `sqlcmd` — **not** the native PostgreSQL (5432) port — so the objects register in the Babelfish T-SQL catalog and the unchanged app can call them. No VB/app changes are required.
 
+**Which codebase this targets (read first).**
+This fix targets the **older / original AMCOS application** (SQL Server T-SQL objects + SqlClient VB, running on Babelfish) — **not** the migrated project on the dev machine (the .NET 8 / Npgsql / native-PostgreSQL port).
+
+- **§1–§9 apply directly to the older app.** They fix its original SQL Server objects (`AMCOS.AMCOS2020_MAR/web/…`) and its original VB (`default.aspx.vb`).
+- **§10–§11 are a *port*, not a switch.** The native PL/pgSQL functions and the Npgsql data-access helper referenced there live in **this migration repo** and are shown so you can **copy/deploy them into the older app's Aurora + codebase** — the older app does **not** already contain them. File paths like `AMCOS.PostgreSQL/migrations/…` and `AMCOS.Logic/DataAccessUtility.cs` are **sources on this dev machine**, not files that exist in the older app.
+
 ---
 
 ## 0. Target version (AWS Aurora / Babelfish)
@@ -14,7 +20,7 @@
 Running on AWS, **one major behind the latest**. Babelfish is pinned to the Aurora PostgreSQL major version:
 
 | Aurora PostgreSQL major | Babelfish version | Status |
-|---|---|---|
+| --- | --- | --- |
 | PG 17 | Babelfish 5.x | latest |
 | **PG 16** | **Babelfish 4.x** | **← target ("before the latest")** |
 | PG 15 | Babelfish 3.x | prior |
@@ -61,7 +67,7 @@ SELECT * FROM sys.objects WHERE name = 'GetInflationRateHeader';   -- 0 rows  =>
 ## 2. Babelfish compatibility cheat-sheet (what actually breaks)
 
 | Construct | Babelfish | Action |
-|---|---|---|
+| --- | --- | --- |
 | `PIVOT` / `UNPIVOT` operator | ❌ Not supported | **Rewrite** as `SUM(CASE WHEN … THEN … END)` conditional aggregation |
 | Multi-statement TVF `RETURNS @t TABLE … BEGIN … RETURN` | ✅ Supported | No rewrite needed — **verify** |
 | Inline TVF `RETURNS TABLE AS RETURN (…)` | ✅ Supported | Preferred target for the PIVOT rewrite |
@@ -80,7 +86,7 @@ Net: **the only thing on the Lite runtime path that Babelfish rejects is the `PI
 Objects the Lite screen actually calls (from `default.aspx.vb`, `LiteService.asmx.vb`, `AmcosLiteController.vb`):
 
 | Object | Type | Babelfish issue | Verdict |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `web.GetInflationRateHeader` | MSTVF **+ PIVOT** | `PIVOT` unsupported → **fails to create** | **FIX REQUIRED** — §4 |
 | `web.GetAmcosLiteCosts` | Stored proc | "PIVOT" is only a **comment**; pivots via `EXEC web.spCrossTabGrades` | Verify only |
 | `web.spCrossTabGrades` | Stored proc (dynamic) | Uses `SUM(CASE…)` + cursor + dynamic `EXEC` — no `PIVOT` operator | Verify only |
@@ -235,6 +241,7 @@ Use this **instead of §4** if you don't want to deploy DDL to Babelfish. `web.G
 **Why it's equivalent:** the derived table produces exactly the columns the function returned (via `SUM(CASE …)` = the old `PIVOT`), grouped by `Year`; the parameters are bound identically, so each pay plan's `SELECT` subset returns the same rows.
 
 **Notes / caveats:**
+
 - Requires a rebuild + redeploy of `AMCOS.Web` (it's a code change). §4 needs no app rebuild.
 - Fixes only this screen. If any **other** app (or a future feature) ever calls `web.GetInflationRateHeader`, it will still fail — §4 is the durable fix for that case. (Audited today: no other caller exists.)
 - Keep an eye on `web.GetPMReportInflationRateHeader` (PM report screen) — it has the same PIVOT problem and is a separate caller/function; the §4 approach or an equivalent inline edit in its caller is needed there too.
@@ -343,7 +350,7 @@ WHERE r.ConversionType=@InflationConversion AND r.Year=@InflationYear AND r.Appr
 `PIVOT` also appears **outside** the Lite path. These power Cost Compare / crunch, not the Lite screen, but will hit the same wall on Babelfish. Convert with the same `SUM(CASE…)` technique when you get to them:
 
 | Object | Path | Construct |
-|---|---|---|
+| --- | --- | --- |
 | `analysis.CompareCosts` | Cost Compare | `PIVOT` |
 | `analysis.MAD` | Cost Compare (median abs deviation) | `PIVOT` |
 | `analysis.CompareInventory` | Cost Compare | `PIVOT` (comment/dynamic — verify) |
@@ -358,9 +365,11 @@ WHERE r.ConversionType=@InflationConversion AND r.Year=@InflationYear AND r.Appr
 ## 7. How to apply on the testing machine
 
 1. Connect to the **Babelfish TDS endpoint** (`<aurora-endpoint>,1433`) with **SSMS** or `sqlcmd` — use SQL Server auth, the Babelfish logical database the app connects to.
-   ```
+
+   ```text
    sqlcmd -S <babelfish-endpoint>,1433 -U <user> -P <pwd> -d <logical_db> -i GetInflationRateHeader.babelfish.sql
    ```
+
 2. Run the confirm query in §1 → then the §4 script → then the §4 verify.
 3. Ensure the `web` schema is in scope for the logical database (Babelfish maps T-SQL db → PG db+schema). If objects "can't be found," check the database mapping / `search_path` for that logical DB.
 4. Smoke-test the MSTVFs in §5, then load AMCOS Lite and confirm the inflation header renders.
@@ -376,7 +385,7 @@ WHERE r.ConversionType=@InflationConversion AND r.Year=@InflationYear AND r.Appr
 ### What is actually timing out (2-min query vs. shorter limits)
 
 | Layer | Default limit | Notes |
-|---|---|---|
+| --- | --- | --- |
 | **AWS ALB idle timeout** | **60 s** | If an Application Load Balancer fronts the app, it cuts the connection at 60 s. **Most common cause in AWS.** |
 | **ADO `CommandTimeout`** (SqlClient → Babelfish) | **30 s** | Original app uses the default unless raised. |
 | IIS / browser | varies | Secondary. |
@@ -432,6 +441,232 @@ CREATE INDEX IX_AmcosLite ON #AmcosLite (Grade, GradeLevel, appnGroup, APPN, Cos
 ### Bottom line
 
 The `@ConversionType` fix was correct; this is a **separate performance issue**. Do **Track B step 1 (`ANALYZE`) first** — it's a one-liner and most often the whole fix. Use Track A only to keep testing while you tune. If, after `ANALYZE` + indexes, the proc runs in a few seconds, the grid will populate normally with no app change.
+
+---
+
+## 10. Performance strategy — the right long-term fix (native PostgreSQL, not Babelfish tuning)
+
+**Confirmed:** the proc is correct but slow under Babelfish. Before investing in §9 Track B tuning, know the ceiling: **Babelfish is a migration *bridge*, not a high-performance destination.** It translates T-SQL→PostgreSQL per statement at runtime and cannot optimize procedural / cursor / dynamic-SQL code — which is exactly what the Lite cost crunch (`GetAmcosLiteCosts` → `spCrossTabGrades`) is. Tuning it under Babelfish raises the floor but never reaches native-PG performance, and it's work you throw away when Babelfish is retired (AWS's intended end state: move hot paths to native PG, then decommission Babelfish).
+
+### A native replacement already exists in the migration repo (to port over)
+
+The **migration project on the dev machine** (not the older app) contains a complete native-PostgreSQL port of this path. Use it as the source to deploy into the older app's Aurora + add to its codebase — the older app does not have these yet:
+
+| Piece | Location | Notes |
+| --- | --- | --- |
+| `web.getamcoslitecosts(...)` | `AMCOS.PostgreSQL/migrations/007_stored_procedures.sql:3222` | native PL/pgSQL function |
+| `web.spcrosstabgrades(...)` | `007_stored_procedures.sql:69` | **set-based**; uses `format(… %I …)` (proper identifier quoting) + `to_jsonb` — structurally avoids the cursor / single-quote-alias / nested-`EXEC` issues Babelfish struggles with |
+| `DataAccessUtility.ExecuteStoredProcDataSet` | `AMCOS.Logic/DataAccessUtility.cs:28` | already calls these over **Npgsql** (native PG 5432, `CommandTimeout=900`) and re-expands the `(result_set_name, row_data jsonb)` shape back into the same multi-grid `DataSet` the app binds |
+
+So the fast path is not something to design from scratch — the native functions and the Npgsql helper already exist here to lift into the older app; they return the same multi-grid shape its UI expects.
+
+### Options, ranked
+
+**A. Route the hot paths to native PG via Npgsql (recommended — strangler pattern).**
+Keep Babelfish (TDS 1433) for the bulk of the app, but point the **perf-critical calls** (Lite cost grid first; later the crunch / Cost-Compare procs) at the **native PG endpoint (5432)** through the existing Npgsql `DataAccessUtility` + the native `web.*` functions. Same Aurora cluster, two connection strings, chosen per call. Biggest win for the least new work because the native functions and data-access layer already exist.
+
+**B. Cut over to the Core app (strategic end state).**
+`AMCOS.Web.Core` (.NET 8, Npgsql, native PG) already computes Lite natively. This is the destination Babelfish was bridging to; migrating screens here retires both the T-SQL procs and Babelfish over time.
+
+**C. Keep tuning under Babelfish (only if you can't route to native yet).**
+The §9 Track B steps (ANALYZE, indexes, temp-table index, de-cursor). A ceiling, not parity — use as a stopgap, not the plan.
+
+### Recommended path for AMCOS Lite specifically
+
+1. Point `Lite.Costs` / the Lite cost-grid call at the **native `web.getamcoslitecosts` over Npgsql (5432)** — the `DataAccessUtility` overload already does exactly this and returns the multi-grid `DataSet` the WebForms grid binds. This removes Babelfish from the hottest path entirely.
+2. On the native side, ensure `ANALYZE` has run and the join/filter-key indexes exist (§9 Track B 1 & 3) — native PG + indexes + stats is where the real speed comes from.
+3. Leave the rest of the classic app on Babelfish for now; migrate additional heavy procs (crunch, `analysis.CompareCosts`/`MAD`) to native functions as needed.
+4. Endgame: as paths move to native PG, Babelfish traffic trends to zero and you decommission the 1433 endpoint — the standard AWS Babelfish exit.
+
+**Bottom line:** don't optimize the T-SQL proc under Babelfish as the long-term answer — **route the hot Lite call to the native PL/pgSQL function via Npgsql** (already present), keep Babelfish only for the parts that are fast enough, and let the Core app be the destination. That maintains good performance instead of paying the translation tax on every crunch.
+
+---
+
+## 11. Bypassing Babelfish for the Lite cost path — the code
+
+Route just the hot cost-grid call to the **native PostgreSQL endpoint (5432) via Npgsql**, calling the native `web.getamcoslitecosts` PL/pgSQL function, while the rest of the app stays on Babelfish. Same Aurora cluster, second connection string.
+
+### Prerequisites
+
+1. **Deploy the native functions to the PG side.** The native PL/pgSQL versions live in the repo but must be applied to the Aurora **PostgreSQL** database (not through Babelfish). Via `psql` on the 5432 endpoint, run at least:
+   - `AMCOS.PostgreSQL/migrations/006b_costengine_functions.sql` (inflation/cost helpers)
+   - `AMCOS.PostgreSQL/migrations/007_stored_procedures.sql` (`web.getamcoslitecosts`, `web.spcrosstabgrades`)
+   They create `web.*` functions that return `(result_set_name text, row_data jsonb)`.
+2. **NuGet packages** (net48 classic app): `Npgsql` (4.1.x, already referenced) and `System.Text.Json`.
+3. **A native-PG connection string** (see below). The native functions must exist in the **PG database/schema** you point at (the DB Babelfish maps to, or wherever step 1 deployed them).
+
+### Connection string (native PG endpoint, port 5432 — not Babelfish 1433)
+
+Add a second connection string alongside the existing Babelfish/`AmcosAdo` one. Aurora exposes PostgreSQL on 5432 on the same cluster endpoint Babelfish uses for 1433:
+
+```xml
+<!-- Web.config <connectionStrings> -->
+<add name="AmcosPostgres"
+     connectionString="Host=YOUR-CLUSTER-ENDPOINT;Port=5432;Database=YOUR_PG_DB;Username=YOUR_USER;Password=YOUR_PWD;SSL Mode=Require;Trust Server Certificate=true;Timeout=15;Command Timeout=180"
+     providerName="Npgsql" />
+```
+
+> `Database` = the PostgreSQL database that holds the `web.*` functions (in single-db Babelfish this is the mapped DB, e.g. `babelfish_db`; confirm with `\l` in `psql`). `Command Timeout=180` gives the crunch room while you tune indexes/stats.
+
+### Drop-in native data-access helper (self-contained)
+
+Add this class to the classic app (or reference `AMCOS.Logic.DataAccessUtility`, which already contains equivalent logic). It executes `SELECT * FROM web.getamcoslitecosts(...)` over Npgsql and re-expands the `(result_set_name, row_data jsonb)` shape into one `DataTable` per grid — so callers get the same multi-grid `DataSet` the WebForms grid binds.
+
+```csharp
+using Npgsql;
+using NpgsqlTypes;
+using System;
+using System.Data;
+using System.Linq;
+using System.Text.Json;
+
+public static class NativePg
+{
+    // Reads the native-PG connection string (NOT the Babelfish/AmcosAdo one).
+    private static string ConnString =>
+        System.Configuration.ConfigurationManager.ConnectionStrings["AmcosPostgres"].ConnectionString;
+
+    // Calls a native web.* function that returns (result_set_name text, row_data jsonb)
+    // and returns the expanded multi-grid DataSet.
+    public static DataSet ExecuteFunctionDataSet(
+        string functionName, string[] parameterNames, NpgsqlDbType[] parameterTypes, object[] parameterValues)
+    {
+        var argList = string.Join(", ", parameterNames.Select(p => "@" + p.TrimStart('@')));
+        var sql = $"SELECT * FROM {functionName}({argList})";
+
+        using (var connection = new NpgsqlConnection(ConnString))
+        {
+            connection.Open();
+            using (var command = new NpgsqlCommand(sql, connection))
+            {
+                command.CommandType = CommandType.Text;
+                command.CommandTimeout = 180; // seconds; tune with indexes/ANALYZE (see 9 & 10)
+                for (int i = 0; i < parameterNames.Length; i++)
+                    command.Parameters.Add(parameterNames[i].TrimStart('@'), parameterTypes[i]).Value =
+                        parameterValues[i] ?? DBNull.Value;
+
+                var raw = new DataSet();
+                new NpgsqlDataAdapter { SelectCommand = command }.Fill(raw);
+                return IsJsonbResultShape(raw) ? ExpandJsonbResultSets(raw.Tables[0]) : raw;
+            }
+        }
+    }
+
+    private static bool IsJsonbResultShape(DataSet ds) =>
+        ds.Tables.Count == 1
+        && ds.Tables[0].Columns.Count == 2
+        && ds.Tables[0].Columns.Contains("result_set_name")
+        && ds.Tables[0].Columns.Contains("row_data");
+
+    private static DataSet ExpandJsonbResultSets(DataTable raw)
+    {
+        var ds = new DataSet();
+        foreach (DataRow row in raw.Rows)
+        {
+            var name = row["result_set_name"] == DBNull.Value ? "Result" : row["result_set_name"].ToString();
+            var json = row["row_data"] == DBNull.Value ? null : row["row_data"].ToString();
+            if (string.IsNullOrEmpty(json)) continue;
+
+            using (var doc = JsonDocument.Parse(json))
+            {
+                var root = doc.RootElement;
+                if (root.ValueKind != JsonValueKind.Object) continue;
+
+                // (b) single nested payload: { costs:[...], appropriationsummary:[...] }
+                bool nested = root.EnumerateObject().Any(p => p.Value.ValueKind == JsonValueKind.Array);
+                if (nested)
+                {
+                    foreach (var prop in root.EnumerateObject())
+                    {
+                        if (prop.Value.ValueKind != JsonValueKind.Array) continue;
+                        var t = ds.Tables.Contains(prop.Name) ? ds.Tables[prop.Name] : ds.Tables.Add(prop.Name);
+                        foreach (var el in prop.Value.EnumerateArray()) AppendRow(t, el);
+                    }
+                }
+                else // (a) one row per data row: { col: val, ... }
+                {
+                    var t = ds.Tables.Contains(name) ? ds.Tables[name] : ds.Tables.Add(name);
+                    AppendRow(t, root);
+                }
+            }
+        }
+        if (ds.Tables.Count == 0) ds.Tables.Add("Result");
+        return ds;
+    }
+
+    private static void AppendRow(DataTable table, JsonElement obj)
+    {
+        if (obj.ValueKind != JsonValueKind.Object) return;
+        var newRow = table.NewRow();
+        foreach (var prop in obj.EnumerateObject())
+        {
+            if (!table.Columns.Contains(prop.Name)) table.Columns.Add(prop.Name, typeof(object));
+            newRow[prop.Name] = ToClr(prop.Value);
+        }
+        table.Rows.Add(newRow);
+    }
+
+    private static object ToClr(JsonElement e)
+    {
+        switch (e.ValueKind)
+        {
+            case JsonValueKind.Null:
+            case JsonValueKind.Undefined: return DBNull.Value;
+            case JsonValueKind.Number:    return e.TryGetDecimal(out var d) ? d : (object)e.GetDouble();
+            case JsonValueKind.True:
+            case JsonValueKind.False:     return e.GetBoolean();
+            case JsonValueKind.String:    return e.GetString();
+            default:                      return e.GetRawText(); // nested object/array -> raw JSON
+        }
+    }
+}
+```
+
+### Call-site swap (in the Lite cost-grid load)
+
+Replace the Babelfish/SqlClient `web.GetAmcosLiteCosts` call with the native call. The parameter list matches the native function's signature (`p_payplan, p_costsummaryname, … p_amcosversionid`); Npgsql binds by position via the `@name` placeholders:
+
+```csharp
+// BEFORE (SqlClient -> Babelfish): SqlCommand("web.GetAmcosLiteCosts", conn){ CommandType = StoredProcedure } ... adapter.Fill(ds);
+
+// AFTER (Npgsql -> native PG, bypassing Babelfish):
+string[] names = { "@PayPlan", "@CostSummaryName", "@CategoryGroupCode", "@CategorySubgroupCode",
+                   "@CareerProgramNumber", "@LocationId", "@STRL", "@DependentStatus",
+                   "@NumberOfDependents", "@InflationConversion", "@InflationYear", "@AmcosVersionId" };
+NpgsqlDbType[] types = { NpgsqlDbType.Varchar, NpgsqlDbType.Varchar, NpgsqlDbType.Varchar, NpgsqlDbType.Varchar,
+                         NpgsqlDbType.Varchar, NpgsqlDbType.Integer, NpgsqlDbType.Varchar, NpgsqlDbType.Varchar,
+                         NpgsqlDbType.Integer, NpgsqlDbType.Varchar, NpgsqlDbType.Varchar, NpgsqlDbType.Integer };
+object[] values = { PayPlan, CostSummaryName, CategoryGroupCode, CategorySubgroupCode,
+                    CareerProgramNumber, LocationId, ScienceTechnologyReinventionLaboratory, DependentStatus,
+                    NumberOfDependents, InflationConversionType, InflationYear, AmcosVersionId };
+
+DataSet ds = NativePg.ExecuteFunctionDataSet("web.getamcoslitecosts", names, types, values);
+
+CostsGridView.DataSource = ds.Tables[0];   // main cost grid (same shape as before)
+CostsGridView.DataBind();
+```
+
+> The native function defaults `p_includevisualizationdata` to true and `p_debug` to false; omit them (they have DEFAULTs) or append them to the arrays if you need to toggle them.
+
+### Same technique for the inflation header (optional — replaces §4/§4B)
+
+`web.getinflationrateheader` also exists natively (`006b_costengine_functions.sql`). To run the header on native PG too, call it the same way instead of the §4B inline SQL:
+
+```csharp
+string[] n = { "@ConversionType", "@Year", "@AmcosVersionId" };
+NpgsqlDbType[] t = { NpgsqlDbType.Varchar, NpgsqlDbType.Varchar, NpgsqlDbType.Integer };
+object[] v = { ConversionType, Year, AmcosVersionId };
+DataSet header = NativePg.ExecuteFunctionDataSet("web.getinflationrateheader", n, t, v);
+InflationRatesGridView.DataSource = header.Tables[0];
+InflationRatesGridView.DataBind();
+```
+
+### Notes
+
+- **Two connection strings coexist:** `AmcosAdo` (SqlClient → Babelfish 1433) for the un-migrated parts, `AmcosPostgres` (Npgsql → native PG 5432) for the hot native functions. Choose per call.
+- **Performance still needs stats/indexes** (10 §Track B): native PG is faster *and* optimizable — run `ANALYZE` and add the join-key indexes on the PG side.
+- **This is the strangler pattern in miniature:** each call you move to `NativePg.ExecuteFunctionDataSet` is one less thing paying the Babelfish translation tax. Move the crunch / Cost-Compare heavies next, then retire Babelfish.
+- `AMCOS.Logic/DataAccessUtility.cs` already contains this exact helper — if the app references `AMCOS.Logic`, call `DataAccessUtility.ExecuteStoredProcDataSet("web.GetAmcosLiteCosts", …)` instead of copying `NativePg`.
 
 ---
 
